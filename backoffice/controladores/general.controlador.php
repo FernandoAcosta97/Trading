@@ -16,7 +16,7 @@ class ControladorGeneral{
 	
 	static public function ctrPatrocinador(){
 
-		return "academy-of-life";
+		return "admin-trading";
 
 	}
 }

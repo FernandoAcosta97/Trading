@@ -15,6 +15,28 @@ if($usuario["enlace_afiliado"] != $patrocinador){
 
 }
 
+/*=============================================
+TOTAL USUARIOS
+=============================================*/
+$totalUsuarios=0;
+$totalUsuarios = ControladorUsuarios::ctrTotalUsuarios();
+
+/*=============================================
+TOTAL USUARIOS OPERANDO
+=============================================*/
+$totalUsuariosOperando=0;
+$totalUsuariosOperando = ControladorUsuarios::ctrTotalUsuariosXfiltro("operando","1");
+
+/*=============================================
+TOTAL USUARIOS SIN OPERAR
+=============================================*/
+$totalUsuariosSinOperar=0;
+$totalUsuariosSinOperar = ControladorUsuarios::ctrTotalUsuariosXfiltro("operando","0");
+
+/*=============================================
+TOTAL COMISIONES
+=============================================*/
+
 $totalComisiones = 0;
 
 foreach ($pagos as $key => $value) {
@@ -36,7 +58,7 @@ foreach ($pagos as $key => $value) {
 CANTIDAD DE PERSONAS EN LA RED
 =============================================*/
 
-if($usuario["suscripcion"] != 0){
+if($usuario["estado"] != 0){
 
 	$red = ControladorMultinivel::ctrMostrarRed("usuarios", "red_uninivel", "patrocinador_red",	$usuario["enlace_afiliado"]);
 
@@ -65,6 +87,62 @@ if($usuario["suscripcion"] != 0){
 ?>
 
 <div class="row">
+
+    <?php if($usuario["perfil"]=="admin"){ ?>
+		
+
+	<div class="col-12 col-sm-6 col-lg-3">
+
+		<!-- small box -->
+		<div class="small-box bg-info">
+			<div class="inner">
+				<h3><?php echo number_format($totalUsuarios[0], 0, ",", "."); ?></h3>
+
+				<p>Usuarios</p>
+			</div>
+			<div class="icon">
+				<i class="fas fa-users"></i>
+			</div>
+			<a href="ingresos-uninivel" class="small-box-footer">Más información <i class="fas fa-arrow-circle-right"></i></a>
+		</div>
+	</div>
+	<!-- ./col -->
+
+	<div class="col-12 col-sm-6 col-lg-3">
+
+		<!-- small box -->
+		<div class="small-box bg-success">
+			<div class="inner">
+				<h3><?php echo number_format($totalUsuariosOperando[0], 0, ",", "."); ?></h3>
+
+				<p>Operando</p>
+			</div>
+			<div class="icon">
+				<i class="fas fa-users"></i>
+			</div>
+			<a href="ingresos-uninivel" class="small-box-footer">Más información <i class="fas fa-arrow-circle-right"></i></a>
+		</div>
+	</div>
+	<!-- ./col -->
+
+	<div class="col-12 col-sm-6 col-lg-3">
+
+		<!-- small box -->
+		<div class="small-box bg-danger">
+			<div class="inner">
+				<h3><?php echo number_format($totalUsuariosSinOperar[0], 0, ",", "."); ?></h3>
+
+				<p>Sin Operar</p>
+			</div>
+			<div class="icon">
+				<i class="fas fa-users"></i>
+			</div>
+			<a href="ingresos-uninivel" class="small-box-footer">Más información <i class="fas fa-arrow-circle-right"></i></a>
+		</div>
+	</div>
+	<!-- ./col -->
+	<?php } ?>
+
 
 	<div class="col-12 col-sm-6 col-lg-3">
 
@@ -121,7 +199,7 @@ if($usuario["suscripcion"] != 0){
 			<div class="inner">
 
 
-				<?php if ($usuario["suscripcion"] != 0): ?>
+				<?php if ($usuario["estado"] != 0): ?>
 
 				<h3>Activo</h3>
 

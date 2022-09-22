@@ -1,6 +1,6 @@
 <?php 
 
-if($usuario["suscripcion"] == 0){
+if($usuario["estado"] == 0){
 
 
   echo '<script>

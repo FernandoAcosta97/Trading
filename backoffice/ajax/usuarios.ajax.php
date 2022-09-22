@@ -24,6 +24,48 @@ class AjaxUsuarios{
 	}
 
 	/*=============================================
+	ACTIVAR USUARIO
+	=============================================*/	
+
+	public $activarUsuario;
+	public $activarId;
+
+
+	public function ajaxActivarUsuario(){
+
+		$tabla = "usuarios";
+
+		$item = "estado";
+		$valor = $this->activarUsuario;
+
+		$id = $this->activarId;
+
+		$respuesta = ModeloUsuarios::mdlActualizarUsuario($tabla, $id, $item, $valor);
+
+	}
+
+	/*=============================================
+	OPERAR USUARIO
+	=============================================*/	
+
+	public $operarUsuario;
+	public $operarId;
+
+
+	public function ajaxOperarUsuario(){
+
+		$tabla = "usuarios";
+
+		$item = "operando";
+		$valor = $this->operarUsuario;
+
+		$id = $this->operarId;
+
+		$respuesta = ModeloUsuarios::mdlActualizarUsuario($tabla, $id, $item, $valor);
+
+	}
+
+	/*=============================================
 	Suscripción con Paypal
 	=============================================*/	
 	public $suscripcion;
@@ -43,7 +85,7 @@ class AjaxUsuarios{
 	}
 
 	/*=============================================
-	Cancelar Suscrpción
+	Cancelar Suscripción
 	=============================================*/	
 	public $idUsuario;
 
@@ -52,6 +94,39 @@ class AjaxUsuarios{
 		$valor = $this->idUsuario;
 
 		$respuesta = ControladorUsuarios::ctrCancelarSuscripcion($valor);
+
+		echo $respuesta;
+
+	}
+
+	/*=============================================
+	EDITAR USUARIO
+	=============================================*/	
+
+	public $idUsuarioEditar;
+
+	public function ajaxEditarUsuario(){
+
+		$item = "id_usuario";
+		$valor = $this->idUsuarioEditar;
+
+		$respuesta = ControladorUsuarios::ctrMostrarUsuarios($item, $valor);
+
+		echo json_encode($respuesta);
+
+	}
+
+	/*=============================================
+    Eliminar Usuario
+    =============================================*/	
+
+	public $idUsuarioEliminar;
+
+	public function ajaxEliminarUsuario(){
+
+		$valor = $this->idUsuarioEliminar;
+
+		$respuesta = ControladorUsuarios::ctrEliminarUsuario($valor);
 
 		echo $respuesta;
 
@@ -68,6 +143,33 @@ if(isset($_POST["validarEmail"])){
 	$valEmail = new AjaxUsuarios();
 	$valEmail -> validarEmail = $_POST["validarEmail"];
 	$valEmail -> ajaxValidarEmail();
+
+}
+
+/*=============================================
+ACTIVAR USUARIO
+=============================================*/	
+
+if(isset($_POST["activarUsuario"])){
+
+	$activarUsuario = new AjaxUsuarios();
+	$activarUsuario -> activarUsuario = $_POST["activarUsuario"];
+	$activarUsuario -> activarId = $_POST["activarId"];
+	$activarUsuario -> ajaxActivarUsuario();
+
+}
+
+
+/*=============================================
+OPERAR USUARIO
+=============================================*/	
+
+if(isset($_POST["operarUsuario"])){
+
+	$operarUsuario = new AjaxUsuarios();
+	$operarUsuario -> operarUsuario = $_POST["operarUsuario"];
+	$operarUsuario -> operarId = $_POST["operarId"];
+	$operarUsuario -> ajaxOperarUsuario();
 
 }
 
@@ -93,6 +195,29 @@ if(isset($_POST["idUsuario"])){
 	$cancelarSuscripcion = new AjaxUsuarios();
 	$cancelarSuscripcion -> idUsuario = $_POST["idUsuario"];
 	$cancelarSuscripcion -> ajaxCancelarSuscripcion();
+
+}
+
+/*=============================================
+EDITAR USUARIO
+=============================================*/
+if(isset($_POST["idUsuarioEditar"])){
+
+	$editar = new AjaxUsuarios();
+	$editar -> idUsuarioEditar = $_POST["idUsuarioEditar"];
+	$editar -> ajaxEditarUsuario();
+
+}
+
+/*=============================================
+Eliminar Usuario
+=============================================*/	
+
+if(isset($_POST["idUsuarioEliminar"])){
+
+	$eliminarUsuario = new AjaxUsuarios();
+	$eliminarUsuario -> idUsuarioEliminar = $_POST["idUsuarioEliminar"];
+	$eliminarUsuario -> ajaxEliminarUsuario();
 
 }
 

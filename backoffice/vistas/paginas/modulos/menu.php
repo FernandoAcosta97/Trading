@@ -74,7 +74,7 @@
       Botón Redes Multinivel
       ======================================-->
 
-      <?php if ($usuario["suscripcion"] != 0): ?>
+      <?php if ($usuario["estado"] != 0): ?>
 
         <li class="nav-item has-treeview">
           <a href="#" class="nav-link">

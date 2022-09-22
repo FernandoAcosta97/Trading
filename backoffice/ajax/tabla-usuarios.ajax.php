@@ -47,14 +47,25 @@ class TablaUsuarios{
 				SUSCRIPCIÓN
 				=============================================*/	
 
-				if($value["suscripcion"] == 0){
+				if($value["estado"] == 0){
 
-					$suscripcion = "<button type='button' class='btn btn-danger btn-sm'>Desactivada</button>";
+					$estado = "<button type='button' class='btn btn-danger btn-sm btnActivar' idUsuario='".$value["id_usuario"]."' estadoUsuario='1'>Desactivado</button>";
 
 				}else{
 
-					$suscripcion = "<button type='button' class='btn btn-success btn-sm'>Activada</button>";
+					$estado = "<button type='button' class='btn btn-success btn-sm btnActivar' idUsuario='".$value["id_usuario"]."' estadoUsuario='0'>Activado</button>";
 				}
+
+				if($value["operando"] == 0){
+
+					$operando = "<button type='button' class='btn btn-danger btn-sm btnOperar' idUsuario='".$value["id_usuario"]."' estadoUsuario='1'>No</button>";
+
+				}else{
+
+					$operando = "<button type='button' class='btn btn-success btn-sm btnOperar' idUsuario='".$value["id_usuario"]."' estadoUsuario='0'>Si</button>";
+				}
+
+				$acciones = "<div class='btn-group'><button class='btn btn-warning btn-xs btnEditarUsuario' idUsuario='".$value["id_usuario"]."' data-toggle='modal' data-target='#modalEditarUsuario'><i class='fa fa-pen' style='color:white'></i></button><button type='button' class='btn btn-primary btn-xs btnSoporte' idUsuario='".$value["id_usuario"]."'><i class='fa fa-envelope'></i></button></div>";
 				
 				$datosJson .= '[
 
@@ -63,11 +74,11 @@ class TablaUsuarios{
 				       "'.$value["nombre"].'",
 				       "'.$value["email"].'",
 				       "'.$value["pais"].'",
-				       "'.$suscripcion.'",
-				       "'.$value["id_suscripcion"].'",
-				       "'.$value["ciclo_pago"].'",
+				       "'.$estado.'",
+				       "'.$operando.'",
 				       "'.$ruta.$value["enlace_afiliado"].'",
 				       "'.$value["patrocinador"].'",
+					   "'.$acciones.'",
 				       "'.$value["paypal"].'",
 					   "'.$value["fecha"].'",
 					   "'.$value["vencimiento"].'"

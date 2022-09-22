@@ -59,8 +59,26 @@ $usuarios = ControladorUsuarios::ctrMostrarusuarios($item, $valor);
       </div>
 
       <div class="card-body">
+
+      <div class="form-group">
+
+      <label for="operandoFiltro" class="control-label">FILTRO</label>
+
+       <div>
+
+       <select class="form-control" id="operandoFiltro" onchange="operandoFiltroTabla()" style="width: 30%">
+       
+       </style>>
+         <option value="">TODOS</option>
+         <option value="Si">OPERANDO</option>
+         <option value="No">SIN OPERAR</option>
+       </select>
+
+       </div>
+
+     </div>
         
-        <table class="table table-striped table-bordered dt-responsive tablaUsuarios" width="100%">
+        <table id="tablaUsuarios" class="table table-striped table-bordered dt-responsive tablaUsuarios" width="100%">
 
           <thead>
             <tr>
@@ -70,10 +88,10 @@ $usuarios = ControladorUsuarios::ctrMostrarusuarios($item, $valor);
               <th>Email</th>
               <th>País</th>
               <th>Estado</th>
-              <th>ID Suscripción</th>
-              <th>Ciclo de pago</th>
+              <th>Operando</th>
               <th>Enlace Afiliado</th>
               <th>Patrocinador</th>
+              <th>Acciones</th>
               <th>Email de PayPal</th>
               <th>Última actualización</th>
               <th>Fecha de vencimiento</th>
@@ -120,4 +138,127 @@ $usuarios = ControladorUsuarios::ctrMostrarusuarios($item, $valor);
   </section>
   <!-- /.content -->
 
+</div>
+
+
+
+<!--=====================================
+EDITAR USUARIO
+======================================-->
+
+<!-- The Modal -->
+<div class="modal" id="modalEditarUsuario">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+    	<form method="post">
+
+	      <!-- Modal Header -->
+	      <div class="modal-header">
+	        <h4 class="modal-title">Editar usuario</h4>
+	        <button type="button" class="close" data-dismiss="modal">&times;</button>
+	      </div>
+
+	      <!-- Modal body -->
+	      <div class="modal-body">
+
+	      	<input type="hidden" id="editarUsuario" name="editarUsuario">
+
+              <!-- ENTRADA PARA EL NOMBRE -->
+              <div class="form-group">
+
+                <label for="editarNombre" class="control-label">Nombre completo</label>
+
+                <div>
+  
+                  <input type="text" class="form-control" id="editarNombre" name="editarNombre" required>
+
+                </div>
+
+              </div>
+
+              <div class="form-group">
+
+                  <label for="editarEmail" class="control-label">Correo electrónico</label>
+
+                <div>
+  
+                  <input type="email" class="form-control" id="editarEmail" name="editarEmail" required>
+
+                </div>
+
+              </div>
+
+              <div class="form-group">
+
+                  <label for="editarMovil" class="control-label">Teléfono Móvil</label>
+
+                <div class="input-group"> 
+  
+                      <div class="input-group-prepend">
+                        <span class="p-2 bg-info rounded-left dialCode"></span>
+                          </div>
+
+                        <input type="text" name="editarMovil" class="form-control" id="editarMovil" data-inputmask="'mask':'(999) 999-9999'" data-mask>
+
+                </div>
+
+              </div>
+
+              <div class="form-group">
+
+                <label for="editarPerfil" class="control-label">Perfil</label>
+
+                <div>
+                  <select class="form-control" id="editarPerfil" name="editarPerfil" readonly>
+    
+                      <!-- <option value="">Seleccione un pefil</option> -->
+                      <option value="usuario">Usuario</option>
+                      <!-- <option value="especial">Especial</option> -->
+
+                  </select>
+
+                </div>
+
+              </div>
+	        
+			<div class="form-group">
+				
+				<input type="password" class="form-control" placeholder="Nueva contraseña" name="editarPassword">
+
+        <input type="hidden" id="passwordActual" name="passwordActual">
+
+			</div>
+
+	      </div>
+
+	      <!-- Modal footer -->
+	      <div class="modal-footer d-flex justify-content-between">
+
+	      	<div>
+	        	
+	        	<button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+
+	        </div>
+
+        	<div>
+	        	
+	        	<button type="submit" class="btn btn-primary">Enviar</button>
+
+	        </div>
+
+	      </div>
+
+		<?php
+
+			$editarUsuario = new ControladorUsuarios();
+			$editarUsuario -> ctrEditarUsuario();
+
+		?>
+
+
+      </form>
+
+    </div>
+  </div>
 </div>

@@ -64,13 +64,29 @@ $listaUsuarios = ControladorUsuarios::ctrMostrarUsuarios(null,null);
 							
 							<?php foreach ($listaUsuarios as $key => $value): ?>
 
-								<?php if ($key != 0): ?>
+								<?php
+									
+									if ($key != 0): 
+								
+										if(isset($_GET["id"]) && $value["id_usuario"]==$_GET["id"]){
+												?>
+
+                                    <option selected value="<?php echo $value["id_usuario"]?>">
+										<?php echo $value["nombre"]; ?>
+									</option>
+
+									<?php
+												
+										}else{
+									?>
 
 									<option value="<?php echo $value["id_usuario"]?>">
 										<?php echo $value["nombre"]; ?>
 									</option>
 									
-								<?php endif ?>
+								<?php
+										}
+								 endif ?>
 								
 							<?php endforeach ?>
 

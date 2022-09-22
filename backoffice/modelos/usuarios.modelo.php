@@ -10,13 +10,12 @@ class ModeloUsuarios{
 
 	static public function mdlRegistroUsuario($tabla, $datos){
 
-		$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(perfil, nombre, email, password, suscripcion, verificacion, email_encriptado, patrocinador) VALUES (:perfil, :nombre, :email, :password, :suscripcion, :verificacion, :email_encriptado, :patrocinador)");
+		$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(perfil, nombre, email, password, verificacion, email_encriptado, patrocinador) VALUES (:perfil, :nombre, :email, :password, :verificacion, :email_encriptado, :patrocinador)");
 
 		$stmt->bindParam(":perfil", $datos["perfil"], PDO::PARAM_STR);
 		$stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
 		$stmt->bindParam(":email", $datos["email"], PDO::PARAM_STR);
 		$stmt->bindParam(":password", $datos["password"], PDO::PARAM_STR);
-		$stmt->bindParam(":suscripcion", $datos["perfil"], PDO::PARAM_STR);
 		$stmt->bindParam(":verificacion", $datos["verificacion"], PDO::PARAM_STR);
 		$stmt->bindParam(":email_encriptado", $datos["email_encriptado"], PDO::PARAM_STR);
 		$stmt->bindParam(":patrocinador", $datos["patrocinador"], PDO::PARAM_STR);
@@ -68,6 +67,35 @@ class ModeloUsuarios{
 	}
 
 	/*=============================================
+	Total Usuarios
+	=============================================*/
+
+	static public function mdlTotalUsuarios($tabla){
+
+		$stmt = Conexion::conectar()->prepare("SELECT COUNT(*) FROM $tabla WHERE perfil!='admin'");
+		$stmt -> execute();
+		return $stmt -> fetch();
+
+		$stmt-> close();
+		$stmt = null;
+
+	}
+
+	/*=============================================
+	MOSTRAR USUARIOS X FILTRO O ACTIVIDAD ----- FUNCIONAL FERNANDO
+	=============================================*/
+	static public function mdlTotalUsuariosXfiltro($tabla, $item, $valor){
+
+		$stmt = Conexion::conectar()->prepare("SELECT count(*) as total FROM $tabla WHERE $item = trim(:$item) AND perfil!='admin'");
+		$stmt -> bindParam(":".$item, $valor, PDO::PARAM_STR);
+		$stmt -> execute();
+		return $stmt -> fetch();
+
+		$stmt->close();
+		$stmt = null;
+	}
+
+	/*=============================================
 	Actualizar usuario
 	=============================================*/
 
@@ -93,6 +121,85 @@ class ModeloUsuarios{
 		$stmt = null;
 		
 	}
+
+	/*=============================================
+	Editar usuario
+	=============================================*/
+
+	static public function mdlEditarUsuario($tabla, $datos){
+
+		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET nombre = :nombre, email = :email, telefono_movil = :telefono, password = :password, perfil = :perfil WHERE id_usuario = :id_usuario");
+
+		$stmt -> bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
+		$stmt -> bindParam(":password", $datos["password"], PDO::PARAM_STR);
+		$stmt -> bindParam(":telefono", $datos["telefono"], PDO::PARAM_STR);
+		$stmt -> bindParam(":perfil", $datos["perfil"], PDO::PARAM_STR);
+		$stmt -> bindParam(":email", $datos["email"], PDO::PARAM_STR);
+		$stmt -> bindParam(":id_usuario", $datos["id_usuario"], PDO::PARAM_STR);
+
+		if($stmt -> execute()){
+
+			return "ok";
+
+		}else{
+
+			return print_r(Conexion::conectar()->errorInfo());
+
+		}
+
+		$stmt-> close();
+
+		$stmt = null;
+		
+	}
+
+	/*=============================================
+	Eliminar usuario
+	=============================================*/
+
+	static public function mdlEliminarUsuario($tabla, $id){
+
+		$stmt = Conexion::conectar()->prepare("DELETE FROM $tabla WHERE id_usuario = :id_usuario");
+
+		$stmt -> bindParam(":id_usuario", $id, PDO::PARAM_INT);
+
+		if($stmt -> execute()){
+
+			return "ok";
+
+		}else{
+
+			return print_r(Conexion::conectar()->errorInfo());
+
+		}
+
+		$stmt-> close();
+
+		$stmt = null;
+		
+	}
+
+	static public function mdlRegistroReferido($tabla, $datos){
+
+		$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(patrocinador, referido) VALUES (:patrocinador, :referido)");
+
+		$stmt->bindParam(":patrocinador", $datos["patrocinador"], PDO::PARAM_INT);
+		$stmt->bindParam(":referido", $datos["referido"], PDO::PARAM_INT);
+
+		if($stmt->execute()){
+
+			return "ok";
+
+		}else{
+
+			return print_r(Conexion::conectar()->errorInfo());
+		}
+
+		$stmt->close();
+		$stmt = null;
+
+	}
+
 
 	/*=============================================
 	Iniciar Suscripción

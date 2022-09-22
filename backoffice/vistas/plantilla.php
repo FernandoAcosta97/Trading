@@ -3,7 +3,6 @@
 session_start();
 
 $ruta = ControladorGeneral::ctrRuta();
-$valorSuscripcion = ControladorGeneral::ctrValorSuscripcion();
 $patrocinador = ControladorGeneral::ctrPatrocinador();
 
 if(!isset($_SESSION["validarSesion"])){
@@ -243,8 +242,6 @@ include "paginas/modulos/footer.php";
  ?>
 
 </div>
-
-<input type="hidden" value="<?php echo $valorSuscripcion; ?>" id="valorSuscripcion">
 
 <script src="vistas/js/inicio.js"></script>
 <script src="vistas/js/usuarios.js"></script>

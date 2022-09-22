@@ -12,7 +12,7 @@ $ruta = ControladorRuta::ctrRuta();
 
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<title>Academy of life</title>
+	<title>Inversiones Trading</title>
 
 	<base href="vistas/">
 
@@ -122,7 +122,7 @@ if(isset($_GET["pagina"])){
      
     if(is_array($validarEnlace)){
 		
- 	if($validarEnlace["enlace_afiliado"] == $_GET["pagina"] && $validarEnlace["suscripcion"] == 1){
+ 	if($validarEnlace["enlace_afiliado"] == $_GET["pagina"] && $validarEnlace["estado"] == 1){
 
  		setcookie("patrocinador", $validarEnlace["enlace_afiliado"], time() + 604800, "/" );
 

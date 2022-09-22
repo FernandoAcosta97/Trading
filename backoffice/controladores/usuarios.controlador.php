@@ -29,14 +29,22 @@ Class ControladorUsuarios{
 							   "nombre" => $_POST["registroNombre"],
 							   "email" => $_POST["registroEmail"],
 							   "password" => $encriptar,
-							   "suscripcion" => 0,
+							   "estado" => 1,
 							   "verificacion" => 0,
 							   "email_encriptado" => $encriptarEmail,
 							   "patrocinador" => $_POST["patrocinador"]); 
 
+				$respuesta_usuario = ModeloUsuarios::mdlMostrarUsuarios($tabla,"enlace_afiliado",$_POST["patrocinador"]);
+
+				$datos2 = array("patrocinador" => $respuesta_usuario["id_usuario"], "referido" => 109486498);
+
+
 				$respuesta = ModeloUsuarios::mdlRegistroUsuario($tabla, $datos);
 
-				if($respuesta == "ok"){
+				$respuesta2 = ModeloUsuarios::mdlRegistroReferido("referidos", $datos2);
+				
+
+				if($respuesta == "ok" && $respuesta2 == "ok"){
 
 					/*=============================================
 					Verificación Correo Electrónico
@@ -201,6 +209,34 @@ Class ControladorUsuarios{
 
 	}
 
+	/*=============================================
+	Total Usuarios
+	=============================================*/
+
+	static public function ctrTotalUsuarios(){
+	
+		$tabla = "usuarios";
+
+		$respuesta = ModeloUsuarios::mdlTotalUsuarios($tabla);
+
+		return $respuesta;
+
+	}
+
+	/*=============================================
+	MOSTRAR USUARIOS X FILTRO O ACTIVIDAD ----- FUNCIONAL FERNANDO
+	=============================================*/
+
+	static public function ctrTotalUsuariosXfiltro($item, $valor){
+	
+		$tabla = "usuarios";
+
+		$respuesta = ModeloUsuarios::mdlTotalUsuariosXfiltro($tabla, $item, $valor);
+
+		return $respuesta;
+
+	}
+
 
 	/*=============================================
 	Actualizar Usuario
@@ -211,6 +247,124 @@ Class ControladorUsuarios{
 		$tabla = "usuarios";
 
 		$respuesta = ModeloUsuarios::mdlActualizarUsuario($tabla, $id, $item, $valor);
+
+		return $respuesta;
+
+	}
+
+
+	/*=============================================
+	EDITAR USUARIO
+	=============================================*/
+
+	static public function ctrEditarUsuario(){
+
+		if(isset($_POST["editarUsuario"])){
+
+			if(preg_match('/^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["editarNombre"]) &&
+			preg_match('/^[^0-9][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[@][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,4}$/', $_POST["editarEmail"])){
+
+				$tabla = "usuarios";
+
+				if($_POST["editarPassword"] != ""){
+
+					if(preg_match('/^[a-zA-Z0-9]+$/', $_POST["editarPassword"])){
+
+						$encriptar = crypt($_POST["editarPassword"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
+
+					}else{
+
+						echo'<script>
+
+								swal({
+									  type: "error",
+									  title: "¡La contraseña no puede ir vacía o llevar caracteres especiales!",
+									  showConfirmButton: true,
+									  confirmButtonText: "Cerrar"
+									  }).then(function(result){
+										if (result.value) {
+
+										window.location = "usuarios";
+
+										}
+									})
+
+						  	</script>';
+
+					}
+
+				}else{
+
+					$encriptar = $_POST["passwordActual"];
+
+				}
+
+				$datos = array("nombre" => $_POST["editarNombre"],
+							   "email" => $_POST["editarEmail"],
+							   "password" => $encriptar,
+							   "telefono" => $_POST["editarMovil"],
+							   "perfil" => $_POST["editarPerfil"],
+							   "id_usuario" => $_POST["editarUsuario"]);
+
+				$respuesta = ModeloUsuarios::mdlEditarUsuario($tabla, $datos);
+
+				if($respuesta == "ok"){
+
+					echo'<script>
+
+					swal({
+						  type: "success",
+						  title: "El usuario ha sido editado correctamente",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+									if (result.value) {
+
+									window.location = "usuarios";
+
+									}
+								})
+
+					</script>';
+
+				}
+
+
+			}else{
+
+				echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "¡El nombre no puede ir vacío o llevar caracteres especiales!",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+							if (result.value) {
+
+							window.location = "usuarios";
+
+							}
+						})
+
+			  	</script>';
+
+			}
+
+		}
+
+	}
+
+
+	/*=============================================
+	Eliminar Usuario
+	=============================================*/
+
+	static public function ctrEliminarUsuario($id){
+
+		$tabla = "usuarios";
+
+		$respuesta = ModeloUsuarios::mdlEliminarUsuario($tabla, $id);
 
 		return $respuesta;
 
@@ -243,7 +397,7 @@ Class ControladorUsuarios{
 							swal({
 									type:"error",
 								  	title: "¡ERROR!",
-								  	text: "¡El correo electrónico aún no ha sido verificado, por favor revise la bandeja de entrada o la carpeta SPAM de su correo electrónico para verificar la cuenta, o contáctese con nuestro soporte a info@academyoflife.com!",
+								  	text: "¡El correo electrónico aún no ha sido verificado, por favor revise la bandeja de entrada o la carpeta SPAM de su correo electrónico para verificar la cuenta, o contáctese con nuestro soporte admin@trading.com!",
 								  	showConfirmButton: true,
 									confirmButtonText: "Cerrar"
 								  
@@ -258,7 +412,29 @@ Class ControladorUsuarios{
 
 						return;
 
-			 		}else{
+			 		}else if($respuesta["estado"] == 0){
+
+						echo'<script>
+
+						   swal({
+								   type:"warning",
+									 title: "¡Advertencia!",
+									 text: "¡Su cuenta se encuentra desactivada, contáctese con nuestro soporte admin@trading.com!",
+									 showConfirmButton: true,
+								   confirmButtonText: "Cerrar"
+								 
+						   }).then(function(result){
+
+								   if(result.value){   
+									   history.back();
+									 } 
+						   });
+
+					   </script>';
+
+					   return;
+
+					}else{
 
 			 			$_SESSION["validarSesion"] = "ok";
 			 			$_SESSION["id"] = $respuesta["id_usuario"];
@@ -790,7 +966,7 @@ Class ControladorUsuarios{
 		$tabla = "usuarios";
 
 		$datos = array(	"id_usuario" => $valor,
-						"suscripcion" => 0,
+						"estado" => 0,
 						"ciclo_pago" => null,
 						"firma" => null,
 						"fecha_contrato" => null);

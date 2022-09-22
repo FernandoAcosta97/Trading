@@ -65,7 +65,7 @@
 
 						<?php else: ?>
 
-							<input type="hidden" value="academy-of-life" name="patrocinador">
+							<input type="hidden" value="admin-trading" name="patrocinador">
 
 						<?php endif ?>			
 

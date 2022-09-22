@@ -95,6 +95,7 @@ $(".suscribirse").click(function(){
 
 	$(".alert").remove();
 
+	var documento = $("#inputDoc").val();
 	var nombre = $("#inputName").val();
 	var email = $("#inputEmail").val();
 	var patrocinador = $("#inputPatrocinador").val();
@@ -114,7 +115,8 @@ $(".suscribirse").click(function(){
 	/*=============================================
 	VALIDAR
 	=============================================*/
-	if( nombre == "" ||
+	if( documento == "" ||
+		nombre == "" ||
 		email == "" ||
 		patrocinador == "" ||
 		enlace_afiliado == "" ||
@@ -233,6 +235,216 @@ $(".tablaUsuarios").DataTable({
    }
 
 });
+
+function operandoFiltroTabla() {
+    $('#tablaUsuarios').DataTable().draw();
+}
+
+$(document).ready(function () {
+    $.fn.dataTable.ext.search.push(
+        function (settings, data, dataIndex) { //'data' contiene los datos de la fila
+            //En la columna 6 estamos mostrando el dato operando
+            let operando = data[6] || 0;
+            if (!operandoFiltro(operando)) {
+                return false;
+            }
+            return true;
+        }
+    );
+});
+
+function operandoFiltro(operando) {
+    let seleccionado = $('#operandoFiltro').val();
+    //Si la opción seleccionada es 'TODOS', devolvemos 'true' para que pinte la fila
+    if (seleccionado === "") {
+        return true;
+    }
+    //La fila sólo se va a pintar si el valor de la columna coincide con el del filtro seleccionado
+    return operando === seleccionado;
+}
+
+
+/*=============================================
+ACTIVAR USUARIO
+=============================================*/
+$(".tablaUsuarios tbody").on("click","button.btnActivar",function(){
+
+	var idUsuario = $(this).attr("idUsuario");
+	var estadoUsuario = $(this).attr("estadoUsuario");
+
+	var datos = new FormData();
+ 	datos.append("activarId", idUsuario);
+    datos.append("activarUsuario", estadoUsuario);
+
+  	$.ajax({
+
+	  url:"ajax/usuarios.ajax.php",
+	  method: "POST",
+	  data: datos,
+	  cache: false,
+    contentType: false,
+    processData: false,
+    success: function(respuesta){
+
+      }
+
+  	})
+
+  	if(estadoUsuario == 0){
+
+  		$(this).removeClass('btn-success');
+  		$(this).addClass('btn-danger');
+  		$(this).html('Desactivado');
+  		$(this).attr('estadoUsuario',1);
+
+  	}else{
+
+  		$(this).addClass('btn-success');
+  		$(this).removeClass('btn-danger');
+  		$(this).html('Activado');
+  		$(this).attr('estadoUsuario',0);
+
+  	}
+
+})
+
+
+/*=============================================
+OPERAR USUARIO
+=============================================*/
+$(".tablaUsuarios tbody").on("click","button.btnOperar",function(){
+
+	var idUsuario = $(this).attr("idUsuario");
+	var estadoUsuario = $(this).attr("estadoUsuario");
+
+	var datos = new FormData();
+ 	datos.append("operarId", idUsuario);
+    datos.append("operarUsuario", estadoUsuario);
+
+  	$.ajax({
+
+	  url:"ajax/usuarios.ajax.php",
+	  method: "POST",
+	  data: datos,
+	  cache: false,
+    contentType: false,
+    processData: false,
+    success: function(respuesta){
+
+      }
+
+  	})
+
+  	if(estadoUsuario == 0){
+
+  		$(this).removeClass('btn-success');
+  		$(this).addClass('btn-danger');
+  		$(this).html('No');
+  		$(this).attr('estadoUsuario',1);
+
+  	}else{
+
+  		$(this).addClass('btn-success');
+  		$(this).removeClass('btn-danger');
+  		$(this).html('Si');
+  		$(this).attr('estadoUsuario',0);
+
+  	}
+
+})
+
+/*=============================================
+EDITAR USUARIO
+=============================================*/
+$(".tablaUsuarios tbody").on("click","button.btnEditarUsuario", function(){
+
+	var idUsuario = $(this).attr("idUsuario");
+	
+	var datos = new FormData();
+	datos.append("idUsuarioEditar", idUsuario);
+
+	$.ajax({
+
+		url:"ajax/usuarios.ajax.php",
+		method: "POST",
+		data: datos,
+		cache: false,
+		contentType: false,
+		processData: false,
+		dataType: "json",
+		success: function(respuesta){
+			
+			$("#editarUsuario").val(respuesta["id_usuario"]);
+			$("#editarNombre").val(respuesta["nombre"]);
+			$("#editarEmail").val(respuesta["email"]);
+			$("#editarPerfil").val(respuesta["perfil"]);
+			$("#editarMovil").val(respuesta["telefono_movil"]);
+			$("#passwordActual").val(respuesta["password"]);
+
+		}
+
+	});
+
+})
+
+
+
+$(".tablaUsuarios tbody").on("click","button.btnEliminarUsuario",function(){
+
+    var idUsuario=$(this).attr("idUsuario");
+    var datos = new FormData();
+    datos.append("idUsuarioEliminar",idUsuario);
+
+    swal({
+    title: '¿Está seguro de borrar el usuario?',
+    text: "¡Si no lo está puede cancelar la acción!",
+    type: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    cancelButtonText: 'Cancelar',
+    confirmButtonText: 'Si, borrar usuario!'
+   }).then((result)=>{
+
+    if(result.value){
+
+		$.ajax({
+
+			url:"ajax/usuarios.ajax.php",
+			method: "POST",
+			data: datos,
+			cache: false,
+			contentType: false,
+			processData: false,
+			success:function(respuesta){
+				
+				if(respuesta == "ok"){
+
+					swal({
+						type:"success",
+						  title: "¡OK!",
+						  text: "¡El usuario se ha eliminado correctamente!",
+						  showConfirmButton: true,
+						confirmButtonText: "Cerrar"
+					  
+					}).then(function(result){
+
+							if(result.value){   
+								window.location = "usuarios";
+							  } 
+					});
+									
+				}
+
+			}
+
+		})
+
+    }
+
+   })
+
+})
 
 /*=============================================
 COPIAR EN EL CLIPBOARD
@@ -368,6 +580,15 @@ $(".cancelarSuscripcion").click(function(){
 
 	})
 
+
+})
+
+$(".tablaUsuarios tbody").on("click","button.btnSoporte",function(){
+
+    var idUsuario=$(this).attr("idUsuario");
+
+	window.location = "index.php?pagina=soporte&id="+idUsuario;
+   
 
 })
 

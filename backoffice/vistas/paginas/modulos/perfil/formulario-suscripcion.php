@@ -1,4 +1,4 @@
-<?php if ($usuario["suscripcion"] == 0): ?>
+<?php if ($usuario["estado"] == 0): ?>
 	
 <div class="col-12 col-md-8">
 	
@@ -21,6 +21,18 @@
 			<br>
 
 			<p class="card-text">Al activar su cuenta ingresa en nuestro programa de afiliados, el cual podrá generar ingresos extras de forma consecutiva gracias a la red multinivel que puede hacer con nosotros, más información ingrese a la página <a href="plan-compensacion">Plan de compensanción.</a></p>
+
+			<div class="form-group">
+
+             <label for="inputDoc" class="control-label">Numero documento</label>
+
+              <div>
+	
+	               <input type="number" class="form-control" id="inputDoc" required>
+
+              </div>
+
+            </div>
 
 			<div class="form-group">
 
@@ -341,6 +353,9 @@
 
   if($usuario){
   $cuenta_bancaria=ControladorCuentas::CtrMostrarCuentas("titular",$usuario["id_usuario"]);
+  if(!$cuenta_bancaria){
+	$cuenta_bancaria["numero"]="Cuenta no registrada";
+  }
   }
 ?>
 
@@ -445,14 +460,13 @@ if(isset($_GET["subscription_id"])){
 			EXPIRED. La suscripción ha caducado.
 			=============================================*/
 
-			$estado = "ACTIVE";
+			$estado = "1";
 			$fec="2022-09-08";
 
-			if($estado == "ACTIVE"){
+			if($estado == "1"){
 
 				$paypal = "email@paypal.com";
-				$suscripcion = 1;
-				$id_suscripcion = $_GET["subscription_id"];
+				$estado = 1;
 				$ciclo_pago = 1;
            
 				$fechaInicial = substr($fec,0,-10);
@@ -473,7 +487,7 @@ if(isset($_GET["subscription_id"])){
 
 				}else{
 
-					if($validarPatrocinador["suscripcion"] == 1){
+					if($validarPatrocinador["estado"] == 1){
 
 						$confimarPatrocinador = $validarPatrocinador["enlace_afiliado"];
 
@@ -485,8 +499,7 @@ if(isset($_GET["subscription_id"])){
 				}
 
 				$datos = array("id_usuario" => $usuario["id_usuario"],
-								"suscripcion" => $suscripcion,
-								"id_suscripcion" => $id_suscripcion,
+								"estado" => $estado,
 								"ciclo_pago" => $ciclo_pago,
 								"vencimiento" => $vencimiento,
 								"enlace_afiliado" => $enlace_afiliado,
@@ -518,7 +531,6 @@ if(isset($_GET["subscription_id"])){
 
 		  			$datosUninivel = array("usuario_red" => $usuario["id_usuario"],
 		  								   "patrocinador_red" => $confimarPatrocinador,
-		  								   "periodo_comision"  => $valorSuscripcion*$porcentaje,
 		  								   "periodo_venta" => $valorSuscripcion);
 
 		  			$registroUninivel = ControladorMultinivel::ctrRegistroUninivel($datosUninivel);
