@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 22-09-2022 a las 19:24:16
+-- Tiempo de generación: 12-10-2022 a las 18:34:22
 -- Versión del servidor: 10.4.20-MariaDB
 -- Versión de PHP: 8.0.9
 
@@ -49,24 +49,48 @@ INSERT INTO `categorias` (`id_categoria`, `nombre_categoria`, `ruta_categoria`, 
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `comprobantes`
+--
+
+CREATE TABLE `comprobantes` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `codigo` text NOT NULL,
+  `foto` text NOT NULL,
+  `fecha` date NOT NULL,
+  `estado` int(11) NOT NULL,
+  `valor` double NOT NULL,
+  `doc_usuario` int(11) NOT NULL,
+  `campaña` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `comprobantes`
+--
+
+INSERT INTO `comprobantes` (`id`, `codigo`, `foto`, `fecha`, `estado`, `valor`, `doc_usuario`, `campaña`) VALUES
+(3, 'POS-23FG', '', '2022-10-12', 0, 8000000, 123, 1);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `cuentas_bancarias`
 --
 
 CREATE TABLE `cuentas_bancarias` (
   `numero` bigint(20) NOT NULL,
-  `titular` int(11) NOT NULL,
+  `titular` bigint(20) NOT NULL,
   `entidad` text NOT NULL,
   `estado` int(11) NOT NULL,
-  `tipo` text NOT NULL
+  `tipo` text NOT NULL,
+  `fecha` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `cuentas_bancarias`
 --
 
-INSERT INTO `cuentas_bancarias` (`numero`, `titular`, `entidad`, `estado`, `tipo`) VALUES
-(1668964164, 109486500, 'DAVIVIENDA', 1, 'AHORROS'),
-(2364876546945168468, 109486497, 'DAVIVIENDA', 1, 'AHORROS');
+INSERT INTO `cuentas_bancarias` (`numero`, `titular`, `entidad`, `estado`, `tipo`, `fecha`) VALUES
+(99887876767, 123, 'Davivienda', 1, 'ahorros', '2022-10-12 14:58:57');
 
 -- --------------------------------------------------------
 
@@ -83,13 +107,6 @@ CREATE TABLE `pagos_binaria` (
   `periodo_venta` float NOT NULL,
   `fecha_pago` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Volcado de datos para la tabla `pagos_binaria`
---
-
-INSERT INTO `pagos_binaria` (`id_pago`, `id_pago_paypal`, `usuario_pago`, `periodo`, `periodo_comision`, `periodo_venta`, `fecha_pago`) VALUES
-(6546516, 'I-9885416', 109486497, '1', 10, 100, '2022-09-10 02:35:53');
 
 -- --------------------------------------------------------
 
@@ -141,17 +158,6 @@ CREATE TABLE `red_binaria` (
   `fecha_binaria` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Volcado de datos para la tabla `red_binaria`
---
-
-INSERT INTO `red_binaria` (`id_binaria`, `usuario_red`, `orden_binaria`, `derrame_binaria`, `posicion_binaria`, `patrocinador_red`, `periodo_comision`, `periodo_venta`, `fecha_binaria`) VALUES
-(1, 109486495, 1, 0, NULL, NULL, 0, 0, '2022-09-17 00:39:23'),
-(31, 109486497, 2, 1, 'A', 'academy-of-life', 4, 20, '2022-09-10 02:27:08'),
-(32, 109486498, 3, 2, 'A', 'sova-109486497', 0, 0, '2022-09-10 02:17:57'),
-(33, 109486499, 4, 2, 'B', 'sova-109486497', 0, 0, '2022-09-10 02:25:57'),
-(34, 109486500, 5, 3, 'A', 'sova-109486497', 0, 0, '2022-09-10 16:43:52');
-
 -- --------------------------------------------------------
 
 --
@@ -169,13 +175,6 @@ CREATE TABLE `red_matriz` (
   `periodo_venta` float NOT NULL,
   `fecha_matriz` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Volcado de datos para la tabla `red_matriz`
---
-
-INSERT INTO `red_matriz` (`id_matriz`, `usuario_red`, `orden_matriz`, `derrame_matriz`, `posicion_matriz`, `patrocinador_red`, `periodo_comision`, `periodo_venta`, `fecha_matriz`) VALUES
-(1, 109486495, 1, 0, NULL, NULL, 0, 0, '2022-09-09 00:04:32');
 
 -- --------------------------------------------------------
 
@@ -197,7 +196,12 @@ CREATE TABLE `red_uninivel` (
 --
 
 INSERT INTO `red_uninivel` (`id_uninivel`, `usuario_red`, `patrocinador_red`, `periodo_comision`, `periodo_venta`, `fecha_uninivel`) VALUES
-(1, 109486495, 'academy-of-life', 0, 0, '2022-09-10 00:53:40');
+(6, 7, 'admin-trading', 0, 10, '2022-10-06 23:25:31'),
+(7, 14, 'admin-trading', 0, 10, '2022-10-12 00:29:05'),
+(8, 15, 'prueba-14', 0, 10, '2022-10-12 00:32:00'),
+(9, 16, 'prueba-14', 0, 10, '2022-10-12 15:48:18'),
+(10, 16, 'prueba-14', 0, 10, '2022-10-12 16:14:32'),
+(11, 17, 'prueba-14', 0, 10, '2022-10-12 16:19:40');
 
 -- --------------------------------------------------------
 
@@ -208,15 +212,9 @@ INSERT INTO `red_uninivel` (`id_uninivel`, `usuario_red`, `patrocinador_red`, `p
 CREATE TABLE `referidos` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `patrocinador` int(11) NOT NULL,
-  `referido` int(11) NOT NULL
+  `referido` int(11) NOT NULL,
+  `fecha` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Volcado de datos para la tabla `referidos`
---
-
-INSERT INTO `referidos` (`id`, `patrocinador`, `referido`) VALUES
-(5, 109486495, 109486498);
 
 -- --------------------------------------------------------
 
@@ -236,24 +234,6 @@ CREATE TABLE `soporte` (
   `fecha_soporte` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Volcado de datos para la tabla `soporte`
---
-
-INSERT INTO `soporte` (`id_soporte`, `remitente`, `receptor`, `asunto`, `mensaje`, `adjuntos`, `tipo`, `papelera`, `fecha_soporte`) VALUES
-(2, 109486495, 109486498, 'prueba', '<p>ajjajajjaa</p>', '[]', 'enviado', NULL, '2022-09-16 20:25:14'),
-(3, 109486495, 109486499, 'Error en su número de cuenta', '<p>blalbalblaba</p>', '[]', 'enviado', NULL, '2022-09-16 20:27:05'),
-(4, 109486495, 109486498, 'hola', '<p>Binevendiso</p>', '[]', 'enviado', NULL, '2022-09-16 20:29:00'),
-(5, 109486495, 109486499, 'hola', '<p>Binevendiso</p>', '[]', 'enviado', NULL, '2022-09-16 20:29:00'),
-(6, 109486495, 109486500, 'hola', '<p>Binevendiso</p>', '[]', 'enviado', NULL, '2022-09-16 20:29:00'),
-(7, 109486495, 109486498, 'afjunto', '<p><strong>sdasdsd</strong></p>', '[\"vistas\\/img\\/tickets\\/109486495\\/976.png\",\"vistas\\/img\\/tickets\\/109486495\\/744.jpg\"]', 'enviado', NULL, '2022-09-16 20:33:27'),
-(8, 109486495, 109486498, 'RE:afjunto', '<p>lllll</p>', '[]', 'papelera', '[\"109486495\"]', '2022-09-16 20:34:54'),
-(9, 109486495, 109486500, 'hgjghj', '<p>ghjh</p>', '[\"vistas\\/img\\/tickets\\/109486495\\/899.pdf\"]', 'enviado', NULL, '2022-09-16 20:36:55'),
-(10, 109486495, 109486497, 'Bienvenida', '<p>dsfsdfdsfdf</p>', '[]', 'enviado', NULL, '2022-09-16 23:43:36'),
-(11, 109486495, 109486498, 'Bienvenida', '<p>dsfsdfdsfdf</p>', '[]', 'enviado', NULL, '2022-09-16 23:43:36'),
-(12, 109486495, 109486499, 'Bienvenida', '<p>dsfsdfdsfdf</p>', '[]', 'enviado', NULL, '2022-09-16 23:43:36'),
-(13, 109486495, 109486500, 'Bienvenida', '<p>dsfsdfdsfdf</p>', '[]', 'enviado', NULL, '2022-09-16 23:43:36');
-
 -- --------------------------------------------------------
 
 --
@@ -261,12 +241,13 @@ INSERT INTO `soporte` (`id_soporte`, `remitente`, `receptor`, `asunto`, `mensaje
 --
 
 CREATE TABLE `usuarios` (
-  `id_usuario` int(11) NOT NULL,
+  `id_usuario` bigint(20) UNSIGNED NOT NULL,
+  `doc_usuario` bigint(20) NOT NULL,
   `perfil` text NOT NULL,
   `nombre` text NOT NULL,
   `email` text NOT NULL,
   `password` text NOT NULL,
-  `estado` int(11) NOT NULL,
+  `estado` int(11) NOT NULL DEFAULT 1,
   `operando` int(11) NOT NULL DEFAULT 0,
   `ciclo_pago` int(11) DEFAULT NULL,
   `vencimiento` date DEFAULT NULL,
@@ -275,7 +256,6 @@ CREATE TABLE `usuarios` (
   `foto` text DEFAULT NULL,
   `enlace_afiliado` text DEFAULT NULL,
   `patrocinador` text DEFAULT NULL,
-  `paypal` text DEFAULT NULL,
   `pais` text DEFAULT NULL,
   `codigo_pais` text DEFAULT NULL,
   `telefono_movil` text DEFAULT NULL,
@@ -288,13 +268,13 @@ CREATE TABLE `usuarios` (
 -- Volcado de datos para la tabla `usuarios`
 --
 
-INSERT INTO `usuarios` (`id_usuario`, `perfil`, `nombre`, `email`, `password`, `estado`, `operando`, `ciclo_pago`, `vencimiento`, `verificacion`, `email_encriptado`, `foto`, `enlace_afiliado`, `patrocinador`, `paypal`, `pais`, `codigo_pais`, `telefono_movil`, `firma`, `fecha_contrato`, `fecha`) VALUES
-(109486495, 'admin', 'Administrador', 'admin@trading.com', '$2a$07$asxx54ahjppf45sd87a5auGZEtGHuyZwm.Ur.FJvWLCql3nmsMbXy', 1, 1, NULL, '2019-10-07', 1, NULL, 'vistas/img/usuarios/1/434.jpg', 'admin-trading', NULL, 'tutorialesatualcance-buyer@hotmail.com', NULL, NULL, '(573) 218-5749', NULL, NULL, '2019-09-27 19:13:02'),
-(109486497, 'usuario', 'Sova', 'sova@gmail.com', '$2a$07$asxx54ahjppf45sd87a5auGZEtGHuyZwm.Ur.FJvWLCql3nmsMbXy', 1, 1, 1, '1970-02-01', 1, '9f4bcddac3a93b0803f4e5a13b47b3d5', 'vistas/img/usuarios/109486497/273.jpg', 'sova-109486497', 'admin-trading', 'email@paypal.com', 'Colombia', 'CO', '+57 (165) 161-6516', '<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\"><svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" width=\"219\" height=\"53\"><path stroke-linejoin=\"round\" stroke-linecap=\"round\" stroke-width=\"1\" stroke=\"#333\" fill=\"none\" d=\"M 38 16 c -0.02 0.12 -0.24 5.02 -1 7 c -0.78 2.02 -2.48 4.64 -4 6 c -1.14 1.01 -3.35 1.88 -5 2 c -6.75 0.5 -14.79 0.27 -22 0 c -1.67 -0.06 -4.47 -0.15 -5 -1 c -0.73 -1.17 -0.49 -5.03 0 -7 c 0.41 -1.64 1.82 -3.65 3 -5 c 1.01 -1.15 2.63 -2.32 4 -3 c 1.13 -0.56 2.72 -1 4 -1 c 2.81 0 7 -0.25 9 1 c 2.52 1.58 5.15 5.75 7 9 c 5.07 8.93 10.52 24.02 14 28 c 0.9 1.02 5.08 -2.4 7 -4 c 1.86 -1.55 3.79 -3.79 5 -6 c 4.3 -7.84 9.72 -23.35 12 -25 c 1.1 -0.8 3.63 10.1 6 12 c 1.59 1.27 6.02 0.27 9 0 c 4.36 -0.4 9.19 -0.63 13 -2 c 4.03 -1.45 8.17 -4.39 12 -7 c 3.53 -2.41 7.11 -5.11 10 -8 c 1.94 -1.94 3.73 -4.67 5 -7 c 0.61 -1.12 1.35 -3.91 1 -4 c -0.49 -0.12 -4.68 1.72 -5 3 c -0.72 2.87 0.16 9.2 1 13 c 0.38 1.7 1.75 3.75 3 5 c 1.85 1.85 4.57 3.61 7 5 c 2.16 1.23 4.66 2.64 7 3 c 5.84 0.9 12.61 1 19 1 c 4.38 0 8.99 0.08 13 -1 c 7.88 -2.13 15.79 -6.5 24 -9 c 7.23 -2.2 15.24 -4 22 -5 c 1.53 -0.23 4.75 0.16 5 1 c 0.46 1.52 -0.75 6.49 -2 9 c -1.85 3.7 -4.81 8.42 -8 11 c -4.83 3.9 -12.33 7.9 -18 10 l -9 0\"/></svg>', '0000-00-00', '2022-09-10 01:07:17'),
-(109486498, 'usuario', 'Viper', 'viper@gmail.com', '$2a$07$asxx54ahjppf45sd87a5auGZEtGHuyZwm.Ur.FJvWLCql3nmsMbXy', 1, 0, 1, '1970-02-01', 1, 'ee37008efb0019ee0083fab4b32b9b47', NULL, 'viper-109486498', 'sova-109486497', 'email@paypal.com', 'Colombia', 'CO', '(454) 545-4545', '<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\"><svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" width=\"261\" height=\"81\"><path stroke-linejoin=\"round\" stroke-linecap=\"round\" stroke-width=\"1\" stroke=\"#333\" fill=\"none\" d=\"M 31 34 c -0.07 0.05 -2.98 1.8 -4 3 c -2.48 2.93 -6.74 8.72 -7 10 c -0.1 0.52 3.65 0.54 5 0 c 3.14 -1.26 7.48 -3.48 10 -6 c 4.02 -4.02 7.81 -9.73 11 -15 c 3.45 -5.7 10.46 -15.18 9 -18 c -1.68 -3.23 -18.26 -8.15 -22 -7 c -2.52 0.77 -3.16 9.97 -4 15 c -0.81 4.87 -2.08 11.13 -1 15 c 0.92 3.3 4.97 8.28 8 10 c 3.62 2.05 10 2.57 15 3 c 6.54 0.56 13.58 0.86 20 0 c 8.25 -1.1 17.18 -3 25 -6 c 11.84 -4.54 24.12 -10.93 35 -17 c 2.97 -1.66 7.25 -5.65 8 -7 c 0.25 -0.46 -2.17 -2.27 -3 -2 c -9.17 2.98 -24.13 10.05 -37 15 c -9.58 3.69 -18.42 7.41 -28 10 c -11.5 3.1 -22.97 4.96 -35 7 c -8.15 1.38 -15.9 2.31 -24 3 c -3.68 0.32 -11.2 -0.07 -11 0 c 0.42 0.14 15.23 2.17 23 4 c 32.93 7.75 62.93 16.08 96 24 c 7.15 1.71 13.86 2.95 21 4 c 4.35 0.64 13.33 1.15 13 1 c -1.27 -0.56 -32 -10.6 -47 -16 c -1.09 -0.39 -2.46 -1.2 -3 -2 c -0.61 -0.92 -1.34 -3.09 -1 -4 c 0.47 -1.25 2.53 -2.87 4 -4 c 2.81 -2.16 5.84 -4.28 9 -6 c 4.18 -2.28 8.6 -4.76 13 -6 c 5.91 -1.66 12.61 -2.79 19 -3 c 24.26 -0.79 64.64 -0.6 73 0 c 0.67 0.05 -1.63 4.19 -3 5 c -3.5 2.06 -9.79 3.01 -14 5 c -1.81 0.86 -4.36 2.72 -5 4 c -0.41 0.82 0.17 3.92 1 4 c 8.46 0.79 27.66 0.26 42 0 c 4.45 -0.08 8.93 -0.32 13 -1 l 5 -2\"/></svg>', '0000-00-00', '2022-09-10 02:13:14'),
-(109486499, 'usuario', 'Raze', 'raze@gmail.com', '$2a$07$asxx54ahjppf45sd87a5auGZEtGHuyZwm.Ur.FJvWLCql3nmsMbXy', 1, 0, 1, '1970-02-01', 1, '7ffbf5fe803f04746d6c4c1e47d3a60a', NULL, 'raze-109486499', 'sova-109486497', 'email@paypal.com', 'Costa Rica', 'CR', '+506 (464) 646-4646', '<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\"><svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" width=\"248\" height=\"56\"><path stroke-linejoin=\"round\" stroke-linecap=\"round\" stroke-width=\"1\" stroke=\"#333\" fill=\"none\" d=\"M 23 41 c 0.11 0.02 4 1 6 1 c 11.17 0 23.38 0.97 34 -1 c 11.84 -2.2 23.53 -8.26 36 -12 c 11.55 -3.47 22.97 -6.58 34 -9 c 2.2 -0.48 4.94 -0.52 7 0 c 2.9 0.72 7.79 2.07 9 4 c 1.47 2.36 1.7 9.03 1 12 c -0.41 1.74 -3.1 4.05 -5 5 c -4.84 2.42 -11.32 4.99 -17 6 c -8.85 1.57 -18.65 2.14 -28 2 c -12.36 -0.19 -25.01 -0.75 -37 -3 c -14.42 -2.7 -29.41 -7.16 -43 -12 c -5.59 -1.99 -12.11 -5.72 -16 -9 c -1.61 -1.36 -2.67 -4.84 -3 -7 c -0.26 -1.72 0.03 -4.71 1 -6 c 1.59 -2.12 5.19 -4.6 8 -6 c 3.55 -1.78 8 -3.26 12 -4 c 4.75 -0.88 10.31 -1.47 15 -1 c 4.84 0.48 10.06 2.31 15 4 c 6.86 2.35 13.32 4.88 20 8 c 24.12 11.26 46.31 23.35 70 34 c 6.06 2.73 12.62 4.69 19 6 c 6.44 1.32 13.19 1.79 20 2 c 14.9 0.47 29.3 0.51 44 0 c 4.72 -0.16 9.29 -1.57 14 -2 l 8 0\"/></svg>', '0000-00-00', '2022-09-10 02:21:02'),
-(109486500, 'usuario', 'Juan', 'juan@gmail.com', '$2a$07$asxx54ahjppf45sd87a5auGZEtGHuyZwm.Ur.FJvWLCql3nmsMbXy', 1, 0, 1, '1970-02-01', 1, '7038663cc684aa330956752c7e6fe7d4', NULL, 'juan-109486500', 'sova-109486497', 'email@paypal.com', 'Colombia', 'CO', '+57 (135) 464-6156', '<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\"><svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" width=\"228\" height=\"60\"><path stroke-linejoin=\"round\" stroke-linecap=\"round\" stroke-width=\"1\" stroke=\"#333\" fill=\"none\" d=\"M 42 10 c -0.16 0.02 -6.31 0.1 -9 1 c -4.93 1.64 -10.21 4.39 -15 7 c -2.49 1.36 -4.82 3.16 -7 5 c -2.15 1.82 -4.4 3.87 -6 6 c -1.26 1.69 -2.33 3.98 -3 6 c -0.61 1.83 -1 4.09 -1 6 c 0 1.91 -0.08 5.01 1 6 c 2.15 1.97 7.48 4.02 11 5 c 2.04 0.57 4.87 0.47 7 0 c 3.56 -0.79 7.77 -2.17 11 -4 c 4.14 -2.34 8.23 -5.7 12 -9 c 4.27 -3.73 8.8 -7.73 12 -12 c 2.53 -3.37 4.93 -8.03 6 -12 c 1.12 -4.15 2.2 -12.54 1 -14 c -0.89 -1.09 -7.62 1.22 -10 3 c -3.56 2.67 -7.26 7.74 -10 12 c -3.14 4.88 -5.52 10.46 -8 16 c -1.93 4.31 -4.23 8.96 -5 13 c -0.45 2.34 -0.32 6.58 1 8 c 2.2 2.36 8.24 5.15 12 6 c 2.81 0.64 7.11 0.07 10 -1 c 5.54 -2.05 11.5 -5.63 17 -9 c 4.92 -3.01 9.93 -6.28 14 -10 c 3.36 -3.07 6.61 -7.31 9 -11 c 1.06 -1.64 1.99 -6.19 2 -6 c 0.04 0.57 -1.24 13.44 -1 19 c 0.06 1.31 1.12 3.12 2 4 c 0.88 0.88 2.79 2 4 2 c 2.24 0 5.75 -0.78 8 -2 c 5.3 -2.87 11.35 -6.83 16 -11 c 4.75 -4.26 9.48 -9.94 13 -15 c 1.51 -2.18 2.81 -5.92 3 -8 c 0.08 -0.88 -1.58 -3.26 -2 -3 c -1.16 0.73 -4.84 5.25 -6 8 c -1.29 3.07 -1.61 7.33 -2 11 c -0.28 2.63 -0.55 5.97 0 8 c 0.29 1.07 2.01 2.91 3 3 c 1.93 0.18 5.99 -0.61 8 -2 c 5.87 -4.06 13.01 -10.39 18 -16 c 2.59 -2.92 4.41 -7.37 6 -11 c 0.65 -1.48 1 -5.11 1 -5 c 0.03 0.66 -1.17 23.78 0 30 c 0.25 1.31 4.48 2.62 6 2 c 10.34 -4.23 34.18 -18.73 38 -20 c 0.73 -0.24 -1.6 5.37 -2 8 c -0.25 1.59 -0.62 4.69 0 5 c 0.79 0.39 4.11 -1.12 6 -2 c 3.07 -1.43 6.01 -3.72 9 -5 l 5 -1\"/></svg>', '0000-00-00', '2022-09-10 16:37:04'),
-(109486518, 'usuario', 'pedro pablo', 'pedro@gmail.com', '$2a$07$asxx54ahjppf45sd87a5auGZEtGHuyZwm.Ur.FJvWLCql3nmsMbXy', 1, 0, NULL, NULL, 1, 'c3b7f393410fe6185ba5d966a213a38f', NULL, NULL, 'admin-trading', NULL, NULL, NULL, NULL, NULL, NULL, '2022-09-21 18:09:35');
+INSERT INTO `usuarios` (`id_usuario`, `doc_usuario`, `perfil`, `nombre`, `email`, `password`, `estado`, `operando`, `ciclo_pago`, `vencimiento`, `verificacion`, `email_encriptado`, `foto`, `enlace_afiliado`, `patrocinador`, `pais`, `codigo_pais`, `telefono_movil`, `firma`, `fecha_contrato`, `fecha`) VALUES
+(18, 0, 'usuario', 'julian', 'julian@gmail.com', '$2a$07$asxx54ahjppf45sd87a5auGZEtGHuyZwm.Ur.FJvWLCql3nmsMbXy', 1, 0, NULL, NULL, 1, '4efe518f863e162e8f00e7d823b40230', NULL, NULL, 'prueba-14', NULL, NULL, NULL, NULL, NULL, '2022-10-12 16:20:25'),
+(1, 1, 'admin', 'Administrador', 'admin@trading.com', '$2a$07$asxx54ahjppf45sd87a5auGZEtGHuyZwm.Ur.FJvWLCql3nmsMbXy', 1, 1, NULL, '2019-10-07', 1, NULL, 'vistas/img/usuarios/1/434.jpg', 'admin-trading', NULL, NULL, NULL, '(573) 218-5749', 'firma', NULL, '2019-09-27 19:13:02'),
+(17, 9, 'usuario', 'mateo', 'mateo@gmail.com', '$2a$07$asxx54ahjppf45sd87a5auGZEtGHuyZwm.Ur.FJvWLCql3nmsMbXy', 1, 0, NULL, NULL, 1, 'e64b49457900a3435c49e2e8ee79f603', NULL, 'mateo-17', 'prueba-14', 'Venezuela', ' Bolivarian Republic of', 'VE (234) 234-2342', '<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\"><svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" width=\"123\" height=\"4\"><path stroke-linejoin=\"round\" stroke-linecap=\"round\" stroke-width=\"1\" stroke=\"#333\" fill=\"none\" d=\"M 122 1 c -0.19 0.04 -7.31 1.94 -11 2 c -36.29 0.6 -110 0 -110 0\"/></svg>', '2022-10-12', '2022-10-12 16:14:59'),
+(16, 58, 'usuario', 'Juan', 'juan@gmail.com', '$2a$07$asxx54ahjppf45sd87a5auGZEtGHuyZwm.Ur.FJvWLCql3nmsMbXy', 1, 1, NULL, NULL, 1, '7038663cc684aa330956752c7e6fe7d4', NULL, 'juan-16', 'prueba-14', 'Peru', 'PE', '+51 (123) 123-1231', '<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\"><svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" width=\"272\" height=\"6\"><path stroke-linejoin=\"round\" stroke-linecap=\"round\" stroke-width=\"1\" stroke=\"#333\" fill=\"none\" d=\"M 1 5 c 4.34 0 164.44 0.63 248 0 c 5.77 -0.04 11.6 -1.02 17 -2 c 1.7 -0.31 5 -2 5 -2\"/></svg>', '2022-10-12', '2022-10-12 15:43:44'),
+(14, 123, 'usuario', 'prueba', 'prueba@gmail.com', '$2a$07$asxx54ahjppf45sd87a5auGZEtGHuyZwm.Ur.FJvWLCql3nmsMbXy', 1, 1, NULL, NULL, 1, 'c81b5136bcd10b4390108c979ed28ee6', NULL, 'prueba-14', 'admin-trading', 'Colombia', 'CO', '+57 (123) 123-1231', '<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\"><svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" width=\"280\" height=\"75\"><path stroke-linejoin=\"round\" stroke-linecap=\"round\" stroke-width=\"1\" stroke=\"#333\" fill=\"none\" d=\"M 52 25 c -0.12 0.07 -4.91 2.4 -7 4 c -3.49 2.67 -6.42 6.25 -10 9 c -5.16 3.97 -10.4 7.71 -16 11 c -5.8 3.41 -17.68 8.85 -18 9 c -0.09 0.04 3.24 -2.23 5 -3 c 3.52 -1.54 7.18 -2.83 11 -4 c 8.48 -2.59 16.57 -5.57 25 -7 c 11.08 -1.88 22.65 -2.54 34 -3 c 5 -0.2 10.09 0.18 15 1 c 7.06 1.18 14.64 2.88 21 5 c 2.12 0.71 4.32 2.5 6 4 c 1.17 1.04 2 2.6 3 4 c 0.72 1.01 1.65 1.96 2 3 c 0.58 1.75 1.17 4.31 1 6 c -0.12 1.25 -1.03 3.22 -2 4 c -1.94 1.56 -5.35 3.71 -8 4 c -8.6 0.93 -19.39 0.47 -29 0 c -4.03 -0.2 -8.24 -0.78 -12 -2 c -7.35 -2.38 -15.31 -5.25 -22 -9 c -6.64 -3.72 -14.08 -8.74 -19 -14 c -4.11 -4.39 -7.75 -11.49 -10 -17 c -1.14 -2.81 -1 -6.72 -1 -10 c 0 -2.96 0.26 -6.2 1 -9 c 0.88 -3.33 1.66 -9.53 4 -10 c 12.16 -2.43 43.15 -3.66 56 -2 c 2.67 0.35 4.35 6.54 6 10 c 1.65 3.47 2.83 7.17 4 11 c 3.97 12.96 6.87 25.62 11 38 c 1.17 3.5 2.98 7.43 5 10 c 1.3 1.66 3.98 3.62 6 4 c 4.19 0.8 10.02 0.36 15 0 c 4.37 -0.31 8.96 -0.63 13 -2 c 12.25 -4.17 24.71 -9.17 37 -15 c 27.26 -12.92 54.11 -28.4 79 -40 c 2.55 -1.19 6.66 -1.78 9 -1 l 12 8\"/></svg>', '2022-10-12', '2022-10-12 00:28:17'),
+(15, 321, 'usuario', 'pedro pablo', 'pedro@gmail.com', '$2a$07$asxx54ahjppf45sd87a5auGZEtGHuyZwm.Ur.FJvWLCql3nmsMbXy', 1, 1, NULL, NULL, 1, 'c3b7f393410fe6185ba5d966a213a38f', NULL, 'pedro-pablo-15', 'prueba-14', 'Chile', 'CL', '+56 (213) 123-1231', '<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\"><svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" width=\"165\" height=\"43\"><path stroke-linejoin=\"round\" stroke-linecap=\"round\" stroke-width=\"1\" stroke=\"#333\" fill=\"none\" d=\"M 3 1 c -0.03 0.12 -2.23 4.97 -2 7 c 0.36 3.26 1.88 8.61 4 11 c 2.52 2.83 7.81 5.15 12 7 c 7.07 3.12 14.48 6.15 22 8 c 12.73 3.13 25.82 5.24 39 7 c 6.99 0.93 13.95 1 21 1 c 4.04 0 8.53 -0.31 12 -1 c 1.04 -0.21 2.22 -1.22 3 -2 c 0.78 -0.78 2.33 -2.67 2 -3 c -0.55 -0.55 -6 -1.11 -6 -1 c 0 0.11 4.08 1.89 6 2 c 3.35 0.2 7.41 -0.31 11 -1 c 5.05 -0.97 10 -2.39 15 -4 c 4.48 -1.44 8.76 -3.07 13 -5 l 9 -5\"/></svg>', '2022-10-12', '2022-10-12 00:30:50');
 
 -- --------------------------------------------------------
 
@@ -349,6 +329,13 @@ ALTER TABLE `categorias`
   ADD PRIMARY KEY (`id_categoria`);
 
 --
+-- Indices de la tabla `comprobantes`
+--
+ALTER TABLE `comprobantes`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `id` (`id`);
+
+--
 -- Indices de la tabla `cuentas_bancarias`
 --
 ALTER TABLE `cuentas_bancarias`
@@ -398,9 +385,8 @@ ALTER TABLE `red_uninivel`
 -- Indices de la tabla `referidos`
 --
 ALTER TABLE `referidos`
-  ADD UNIQUE KEY `id` (`id`),
-  ADD KEY `patrocinador` (`patrocinador`),
-  ADD KEY `referido` (`referido`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `id` (`id`);
 
 --
 -- Indices de la tabla `soporte`
@@ -412,7 +398,8 @@ ALTER TABLE `soporte`
 -- Indices de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  ADD PRIMARY KEY (`id_usuario`);
+  ADD PRIMARY KEY (`doc_usuario`),
+  ADD UNIQUE KEY `id_usuario` (`id_usuario`);
 
 --
 -- Indices de la tabla `videos`
@@ -431,10 +418,16 @@ ALTER TABLE `categorias`
   MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT de la tabla `comprobantes`
+--
+ALTER TABLE `comprobantes`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT de la tabla `pagos_binaria`
 --
 ALTER TABLE `pagos_binaria`
-  MODIFY `id_pago` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6546517;
+  MODIFY `id_pago` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `pagos_matriz`
@@ -452,78 +445,43 @@ ALTER TABLE `pagos_uninivel`
 -- AUTO_INCREMENT de la tabla `red_binaria`
 --
 ALTER TABLE `red_binaria`
-  MODIFY `id_binaria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id_binaria` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `red_matriz`
 --
 ALTER TABLE `red_matriz`
-  MODIFY `id_matriz` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id_matriz` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `red_uninivel`
 --
 ALTER TABLE `red_uninivel`
-  MODIFY `id_uninivel` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_uninivel` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `referidos`
 --
 ALTER TABLE `referidos`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `soporte`
 --
 ALTER TABLE `soporte`
-  MODIFY `id_soporte` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id_soporte` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=109486519;
+  MODIFY `id_usuario` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de la tabla `videos`
 --
 ALTER TABLE `videos`
   MODIFY `id_video` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
-
---
--- Restricciones para tablas volcadas
---
-
---
--- Filtros para la tabla `cuentas_bancarias`
---
-ALTER TABLE `cuentas_bancarias`
-  ADD CONSTRAINT `cuentas_bancarias_ibfk_1` FOREIGN KEY (`titular`) REFERENCES `usuarios` (`id_usuario`) ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `red_binaria`
---
-ALTER TABLE `red_binaria`
-  ADD CONSTRAINT `red_binaria_ibfk_1` FOREIGN KEY (`usuario_red`) REFERENCES `usuarios` (`id_usuario`) ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `red_matriz`
---
-ALTER TABLE `red_matriz`
-  ADD CONSTRAINT `red_matriz_ibfk_1` FOREIGN KEY (`usuario_red`) REFERENCES `usuarios` (`id_usuario`) ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `red_uninivel`
---
-ALTER TABLE `red_uninivel`
-  ADD CONSTRAINT `red_uninivel_ibfk_1` FOREIGN KEY (`usuario_red`) REFERENCES `usuarios` (`id_usuario`) ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `referidos`
---
-ALTER TABLE `referidos`
-  ADD CONSTRAINT `referidos_ibfk_1` FOREIGN KEY (`patrocinador`) REFERENCES `usuarios` (`id_usuario`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `referidos_ibfk_2` FOREIGN KEY (`referido`) REFERENCES `usuarios` (`id_usuario`) ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
