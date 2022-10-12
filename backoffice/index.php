@@ -9,6 +9,9 @@ require_once "modelos/usuarios.modelo.php";
 require_once "controladores/cuentas.controlador.php";
 require_once "modelos/cuentas.modelo.php";
 
+require_once "controladores/comprobantes.controlador.php";
+require_once "modelos/comprobantes.modelo.php";
+
 require_once "controladores/academia.controlador.php";
 require_once "modelos/academia.modelo.php";
 

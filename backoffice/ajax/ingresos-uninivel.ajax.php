@@ -124,9 +124,9 @@ class TablaIngresos{
 			$datosJson	 .= '[
 						
 					"'.($key+2).'",
-					"'.$value["id_pago_paypal"].'",
+					"'.$value["id_usuario"].'",
 					"'.$usuario["nombre"].'",
-					"'.$usuario["paypal"].'",
+					"'.$usuario["doc_usuario"].'",
 					"'.$value["periodo"].'",
 					"$ '.number_format($periodo_comision, 2, ",", ".").'",
 					"$ '.number_format($periodo_venta, 2, ",", ".").'",

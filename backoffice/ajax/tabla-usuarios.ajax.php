@@ -14,14 +14,13 @@ class TablaUsuarios{
 		$valor = null;
 		$usuarios = ControladorUsuarios::ctrMostrarusuarios($item, $valor);
 
-		if(count($usuarios) == 0){
+		if(count($usuarios) < 2 ){
 
 			echo '{ "data":[]}';
 
 			return;
 
 		}
-
 
 		$datosJson = '{"data":[';
 
@@ -33,18 +32,18 @@ class TablaUsuarios{
 				FOTO USUARIOS
 				=============================================*/	
 
-				if($value["foto"] == ""){
+				// if($value["foto"] == ""){
 
-					$foto = "<img src='vistas/img/usuarios/default/default.png' class='img-fluid rounded-circle' width='30px'>";
+				// 	$foto = "<img src='vistas/img/usuarios/default/default.png' class='img-fluid rounded-circle' width='30px'>";
 
-				}else{
+				// }else{
 
-					$foto = "<img src='".$value["foto"]."' class='img-fluid rounded-circle' width='30px'>";
+				// 	$foto = "<img src='".$value["foto"]."' class='img-fluid rounded-circle' width='30px'>";
 
-				}
+				// }
 
 				/*=============================================
-				SUSCRIPCIÓN
+				ESTADO Y OPERANDO
 				=============================================*/	
 
 				if($value["estado"] == 0){
@@ -56,6 +55,8 @@ class TablaUsuarios{
 					$estado = "<button type='button' class='btn btn-success btn-sm btnActivar' idUsuario='".$value["id_usuario"]."' estadoUsuario='0'>Activado</button>";
 				}
 
+				if($value["firma"]!=NULL){
+
 				if($value["operando"] == 0){
 
 					$operando = "<button type='button' class='btn btn-danger btn-sm btnOperar' idUsuario='".$value["id_usuario"]."' estadoUsuario='1'>No</button>";
@@ -64,25 +65,26 @@ class TablaUsuarios{
 
 					$operando = "<button type='button' class='btn btn-success btn-sm btnOperar' idUsuario='".$value["id_usuario"]."' estadoUsuario='0'>Si</button>";
 				}
+			}else{
+				$operando = "<button type='button' disabled class='btn btn-danger btn-sm'>No</button>";
+			}
 
 				$acciones = "<div class='btn-group'><button class='btn btn-warning btn-xs btnEditarUsuario' idUsuario='".$value["id_usuario"]."' data-toggle='modal' data-target='#modalEditarUsuario'><i class='fa fa-pen' style='color:white'></i></button><button type='button' class='btn btn-primary btn-xs btnSoporte' idUsuario='".$value["id_usuario"]."'><i class='fa fa-envelope'></i></button></div>";
 				
 				$datosJson .= '[
 
-					   "'.$key.'",
-				       "'.$foto.'",
+					   "'.($key+1).'",
+					   "'.$value["doc_usuario"].'",
 				       "'.$value["nombre"].'",
 				       "'.$value["email"].'",
 				       "'.$value["pais"].'",
 				       "'.$estado.'",
 				       "'.$operando.'",
-				       "'.$ruta.$value["enlace_afiliado"].'",
-				       "'.$value["patrocinador"].'",
+					   "'.$value["patrocinador"].'",
+					   "'.$ruta.$value["enlace_afiliado"].'",   
 					   "'.$acciones.'",
-				       "'.$value["paypal"].'",
-					   "'.$value["fecha"].'",
-					   "'.$value["vencimiento"].'"
-
+					   "'.$value["telefono_movil"].'",
+					   "'.$value["fecha"].'"
 
 				],';
 

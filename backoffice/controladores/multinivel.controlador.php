@@ -18,6 +18,7 @@ class ControladorMultinivel{
 
 	}
 
+
 	/*=============================================
 	MOSTRAR RED CON INNER JOIN
 	=============================================*/
@@ -25,6 +26,19 @@ class ControladorMultinivel{
 	static public function ctrMostrarRed($tabla1, $tabla2, $item, $valor){
 
 		$respuesta = ModeloMultinivel::mdlMostrarRed($tabla1, $tabla2, $item, $valor);
+
+		return $respuesta;
+
+	}
+
+	
+	/*=============================================
+	MOSTRAR TOTAL OPERANDO RED CON INNER JOIN
+	=============================================*/
+
+	static public function ctrMostrarRedOperandoTotal($tabla1, $tabla2, $item, $valor, $item2, $valor2){
+
+		$respuesta = ModeloMultinivel::mdlMostrarRedOperandoTotal($tabla1, $tabla2, $item, $valor, $item2, $valor2);
 
 		return $respuesta;
 

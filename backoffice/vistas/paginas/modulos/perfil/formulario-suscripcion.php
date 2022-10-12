@@ -1,13 +1,15 @@
-<?php if ($usuario["estado"] == 0): ?>
-	
+<?php if ($usuario["firma"] == null): ?>
+	<input type="hidden" value="b_select" id="b_select">
+
+
 <div class="col-12 col-md-8">
-	
+
 	<div class="card card-primary card-outline">
-		
+
 		<div class="card-header">
-			
+
 			<h5 class="m-0 text-uppercase text-secondary">
-				
+
 				<strong>Comience a operar $</strong>
 
 			</h5>
@@ -15,9 +17,9 @@
 		</div>
 
 		<div class="card-body">
-			
+
 			<h6 class="card-title">¡Obtenga acceso a todos los beneficios de nuestra red multinivel!</h6>
-			
+
 			<br>
 
 			<p class="card-text">Al activar su cuenta ingresa en nuestro programa de afiliados, el cual podrá generar ingresos extras de forma consecutiva gracias a la red multinivel que puede hacer con nosotros, más información ingrese a la página <a href="plan-compensacion">Plan de compensanción.</a></p>
@@ -27,8 +29,10 @@
              <label for="inputDoc" class="control-label">Numero documento</label>
 
               <div>
-	
+
 	               <input type="number" class="form-control" id="inputDoc" required>
+
+				   <input type="hidden" class="form-control" id="inputId" value="<?php echo $usuario["id_usuario"] ?>">
 
               </div>
 
@@ -39,7 +43,7 @@
 				<label for="inputName" class="control-label">Nombre completo</label>
 
 				<div>
-					
+
 					<input type="text" class="form-control" id="inputName" value="<?php echo $usuario["nombre"] ?>" readonly>
 
 				</div>
@@ -51,7 +55,7 @@
 				<label for="inputEmail" class="control-label">Correo electrónico</label>
 
 				<div>
-					
+
 					<input type="text" class="form-control" id="inputEmail" value="<?php echo $usuario["email"] ?>" readonly>
 
 				</div>
@@ -63,7 +67,7 @@
 				<label for="inputPatrocinador" class="control-label">Patrocinador</label>
 
 				<div>
-					
+
 					<input type="text" class="form-control" id="inputPatrocinador" value="<?php echo $usuario["patrocinador"] ?>" readonly>
 
 				</div>
@@ -75,11 +79,11 @@
 				<label for="inputAfiliado" class="control-label">Enlace de afiliado</label>
 				<span>(Compartiendo este enlace podrá ganar comisiones, más información: <a href="plan-compensacion">Plan de compensanción</a>)</span>
 
-				<div class="input-group"> 
+				<div class="input-group">
 					<div class="input-group-prepend">
 						<span class="p-2 bg-info rounded-left">http://localhost/www/trading/</span>
 					</div>
-					<input type="text" class="form-control" id="inputAfiliado" value="<?php echo strtolower(str_replace(" ", "-", $usuario["nombre"]))."-".$usuario["id_usuario"] ?>" readonly>
+					<input type="text" class="form-control" id="inputAfiliado" value="<?php echo strtolower(str_replace(" ", "-", $usuario["nombre"])) . "-" . $usuario["id_usuario"] ?>" readonly>
 				</div>
 
 			</div>
@@ -90,21 +94,23 @@
 
 				<div>
 					<select class="form-control select2 py-4" id="inputPais">
-						
+
 						<option value="">Seleccione su país</option>
 
 					</select>
 
 				</div>
 
-			</div>
+			</div> 
+
+
 
 			<div class="form-group">
 
 				<label for="inputMovil" class="control-label">Teléfono Móvil</label>
 
-				<div class="input-group"> 
-					
+				<div class="input-group">
+
 					<div class="input-group-prepend">
 						<span class="p-2 bg-info rounded-left dialCode"></span>
 					</div>
@@ -120,7 +126,7 @@
 				<label for="tipoRed">Tipo de Red:</label>
 
 				<select class="form-control" id="tipoRed">
-					
+
 					<option value="">Seleccione tipo de red</option>
 					<option value="uninivel">Red UniNivel</option>
 					<option value="binaria">Red Binaria</option>
@@ -158,17 +164,17 @@
 			<div class="clearfix"></div>
 
 			<div id="terminos" class="collapse pb-4">
-				
+
 				<div class="card">
 
 					<div class="card-body">
 
-						Los suscritos a saber: ACADEMY OF LIFE, sociedad comercial debidamente constituida por documento privado de Julio 1 de 2018, registrado en Cámara de Comercio el 1 de Julio de 2018, en libro 9, bajo el número 18147, con domicilio principal en la ciudad de Medellín, país Colombia, identificada con número de NIT.900.661.621-4, representada legalmente por PEPITO PEREZ, mayor de edad, vecino de Medellín, identificado con cédula de ciudadanía número 8.161.865, quien adelante y para todos los efectos del presente contrato se denominará EL FABRICANTE, y Alexander Pierce, persona que acepta estos términos y condiciones, mayor de edad, actuando en nombre propio, quien en adelante y para todos los efectos del presente contrato se denominará EL DISTRIBUIDOR O VENDEDOR, hemos acordado celebrar el presente contrato de DISTRIBUCIÓN AL DETAL DE PRODUCTOS Y SERVICIOS, que se regirá por las siguientes partes y cláusulas: 
+						Los suscritos a saber: ACADEMY OF LIFE, sociedad comercial debidamente constituida por documento privado de Julio 1 de 2018, registrado en Cámara de Comercio el 1 de Julio de 2018, en libro 9, bajo el número 18147, con domicilio principal en la ciudad de Medellín, país Colombia, identificada con número de NIT.900.661.621-4, representada legalmente por PEPITO PEREZ, mayor de edad, vecino de Medellín, identificado con cédula de ciudadanía número 8.161.865, quien adelante y para todos los efectos del presente contrato se denominará EL FABRICANTE, y Alexander Pierce, persona que acepta estos términos y condiciones, mayor de edad, actuando en nombre propio, quien en adelante y para todos los efectos del presente contrato se denominará EL DISTRIBUIDOR O VENDEDOR, hemos acordado celebrar el presente contrato de DISTRIBUCIÓN AL DETAL DE PRODUCTOS Y SERVICIOS, que se regirá por las siguientes partes y cláusulas:
 
 					</div>
 
 					<div class="card-header">
-						
+
 						<a class="card-link" data-toggle="collapse" href="#collapse1">
 					 		DEFINICIONES Y ALCANCE DEL CONTRATO
 					 	</a>
@@ -176,14 +182,14 @@
 					</div>
 
 					<div id="collapse1" class="collapse show" data-parent="#accordion">
-						
-						<div class="card-body">						
+
+						<div class="card-body">
 
 							Para efectos de la interpretación del presente contrato de DISTRIBUCIÓN, los términos relevante usados en el mismo
 							están definidos en el documento de Términos y Condiciones el cual usted aceptó y estuvo de acuerdo al registrarse en
 							la página web www.academyoflife.com; los términos y palabras no definidas en el documento de Términos y
 							Condiciones serán interpretadas pos su significado legal y técnico conforme a lo preceptuado en las leyes de cada
-							país. 
+							país.
 
 						</div>
 
@@ -214,7 +220,7 @@
 				 	<div id="collapse3" class="collapse" data-parent="#accordion">
 				 		<div class="card-body">
 				 			Para el cumplimiento y adecuado desarrollo del presente contrato, EL DISTRIBUIDOR tendrá a su cargo las siguientes obligaciones so pena de la terminación automática del presente contrato y el cobro de los prejuicios por parte del FABRICANTE:
-				 			<ol>						
+				 			<ol>
 								<li>Promover la compra automática de los productos del FABRICANTE que se realiza a través de la oficina virtual de la página web www.academyoflife.com/backoffice</li>
 								<li>Realizar todos los trámites necesarios y suficientes tendientes a obtener y actualizar su cuenta de PayPal como vendedor.</li>
 								<li>Asumir las comisiones internas que cobra PayPal al manejar una cuenta de vendedor.</li>
@@ -231,7 +237,7 @@
 				 	<div id="collapse4" class="collapse" data-parent="#accordion">
 				 		<div class="card-body">
 				 			Para el cumplimiento y adecuado desarrollo del presente contrato, EL FABRICANTE tendrá a su cargo las siguientes obligaciones so pena de la terminación automática del presente contrato y el cobro de los prejuicios por parte del DISTRIBUIDOR O VENDEDOR:
-				 			<ol>						
+				 			<ol>
 								<li>Activar al DISTRIBUIDOR O VENDEDOR todos los productos al momento de su primer abono de compra y suscripción en la página web www.academyoflife.com/backoffice</li>
 								<li>Garantizar el uso de la oficina virtual BACKOFFICE en los términos y condiciones del presente contrato.</li>
 								<li>Capacitar al DISTRIBUIDOR O VENDEDOR en las características y especificaciones técnicas de los productos objeto de distribución, así como del sistema de distribución, ya sea por medio físico, digital o virtual.</li>
@@ -271,7 +277,7 @@
 				 	</div>
 				 	<div id="collapse7" class="collapse" data-parent="#accordion">
 				 		<div class="card-body">
-				 			El DISTRIBUIDOR O VENDEDOR reconoce expresamente los derechos de autor y la propiedad intelectual del FABRICANTE sobre los productos y servicios ofrecidos en la página web www.academyoflife.com y www.academyoflife.com/backoffice, el sistema de distribución, los diseños virtuales, las marcas, nombres y enseñas comerciales, material publicitario, y cualquier otra clase de propiedad intelectual que pertenece al FABRICANTE. 
+				 			El DISTRIBUIDOR O VENDEDOR reconoce expresamente los derechos de autor y la propiedad intelectual del FABRICANTE sobre los productos y servicios ofrecidos en la página web www.academyoflife.com y www.academyoflife.com/backoffice, el sistema de distribución, los diseños virtuales, las marcas, nombres y enseñas comerciales, material publicitario, y cualquier otra clase de propiedad intelectual que pertenece al FABRICANTE.
 				 		</div>
 				 	</div>
 
@@ -302,9 +308,9 @@
 							<li><b>INGRESO DIRECTO:</b> Es la venta que usted realiza a las personas para que se suscriban a Academy of Life</li>
 							<li><b>INGRESO POR DERRAME:</b> Este sucede cuando las personas que están en su línea descendiente venden la suscripción a Academy of Life</li>
 							<li><b>PATROCINADOR:</b> Es cuando una persona lo ingresa al sistema directamente, y en caso tal que no suceda así la empresa pasa a ser el patrocinador.</li>
-							<li><b>BALANCE GENERAL:</b> Es el total de ingresos económicos de las ventas que usted realiza como promotor de la empresa.</li> 
+							<li><b>BALANCE GENERAL:</b> Es el total de ingresos económicos de las ventas que usted realiza como promotor de la empresa.</li>
 							<li><b>COMISIÓN:</b> Es el dinero que usted podrá cobrar por lo acordado en el plan de compensación mensualmente.</li>
-							<li><b>DÉBITO AUTOMÁTICO:</b> Es el dinero que será debitado automáticamente de su cuenta de PayPal para continuar con la suscripción mensual.</li>							
+							<li><b>DÉBITO AUTOMÁTICO:</b> Es el dinero que será debitado automáticamente de su cuenta de PayPal para continuar con la suscripción mensual.</li>
 				 		</ul>
 
 				 		</div>
@@ -317,16 +323,16 @@
 				 	</div>
 
 				 	<div id="collapse10" class="collapse" data-parent="#accordion">
-				 		
+
 				 		<div class="card-body">
-				 			
-				 			Si el DISTRIBUIDOR O VENDEDOR está de acuerdo con todas las partes este contrato se firma el <?php echo date('d/m/Y');?>
+
+				 			Si el DISTRIBUIDOR O VENDEDOR está de acuerdo con todas las partes este contrato se firma el <?php echo date('d/m/Y'); ?>
 
 				 			<div id="signatureparent" class="mb-4">
 							  <div id="signature"></div>
 							</div>
 							<button type="button" class="repetirFirma btn btn-default btn-sm">Repetir firma</button>
-							
+
 				 		</div>
 
 				 	</div>
@@ -334,7 +340,7 @@
 				</div>
 
 			</div>
-		
+
 
 			<div class="form-group">
 				<div class="col-sm-offset-2">
@@ -345,18 +351,35 @@
 
 		</div>
 
-	</div>	
+	</div>
 
 </div>
 
-<?php else: 
+<?php else:
 
-  if($usuario){
-  $cuenta_bancaria=ControladorCuentas::CtrMostrarCuentas("titular",$usuario["id_usuario"]);
-  if(!$cuenta_bancaria){
-	$cuenta_bancaria["numero"]="Cuenta no registrada";
-  }
-  }
+    if ($usuario) {
+
+        $cuentas_bancarias = ControladorCuentas::CtrMostrarCuentas("titular", $usuario["doc_usuario"]);
+
+        $total_cuentas = count($cuentas_bancarias);
+        $cuenta_bancaria = "";
+
+        if ($total_cuentas > 1) {
+
+            foreach ($cuentas_bancarias as $key => $value) {
+                if ($value["estado"] == 1) {
+                    $cuenta_bancaria = $value["numero"];
+                    break;
+                }
+            }
+        } elseif ($cuentas_bancarias) {
+        $cuenta_bancaria = $cuentas_bancarias[0]["numero"];
+    }
+
+    if ($cuenta_bancaria == "") {
+        $cuenta_bancaria = "Cuenta no registrada";
+    }
+}
 ?>
 
 <div class="col-12 col-md-8">
@@ -375,32 +398,46 @@
 
 			<h6 class="pb-2">Comparte tu enlace de afiliado:</h6>
 
-			<div class="input-group"> 
+			<div class="input-group">
 				<div class="input-group-prepend">
 					<span class="p-2 bg-info rounded-left copiarLink" style="cursor:pointer">Copiar</span>
 				</div>
-				<input type="text" class="form-control" id="linkAfiliado" value="<?php echo $ruta.$usuario["enlace_afiliado"]; ?>" readonly>
+				<input type="text" class="form-control" id="linkAfiliado" value="<?php echo $ruta . $usuario["enlace_afiliado"]; ?>" readonly>
 			</div>
 
 			<?php
 
-			if($usuario["perfil"]!="admin"){
+if ($usuario["perfil"] != "admin") {
 
-			?>
+    ?>
 
 			<h6 class="pt-3 pb-2">Cuenta bancaria donde recibirá los pagos de comisiones:</h6>
 
-			<div class="input-group"> 
+			<div class="input-group">
 
 				<div class="input-group-prepend">
-					<span class="p-2 bg-primary rounded-left"><i class="fab fa-paypal"></i></span>
+					<span class="p-2 bg-primary rounded-left"><i class="fa fa-university"></i></span>
 				</div>
-				
-				<input type="text" class="form-control" id="correoPaypal" value="<?php echo $cuenta_bancaria["numero"]; ?>" readonly>
+
+				<input type="text" class="form-control" id="correoPaypal" value="<?php echo $cuenta_bancaria; ?>" readonly>
+
+				<?php if ($total_cuentas == 0 || $cuenta_bancaria == "") {?>
+
+				<div class="input-group-prepend">
+					<button class="btn btn-primary rounded-left" data-toggle="modal" data-target="#registrarCuenta"><i class="fa fa-plus"></i></button>
+				</div>
+
+				<?php } else {?>
+
+				<div class="input-group-prepend">
+					<button class="btn btn-primary rounded-left btnCuentas"><i class="fa fa-plus"></i></button>
+				</div>
+
+				<?php }?>
 
 			</div>
 
-			<?php } ?>
+			<?php }?>
 
 
 		</div>
@@ -409,137 +446,124 @@
 
 			<a href="<?php echo $ruta ?>backoffice/extensiones/TCPDF-master/examples/contrato.php?usuario=<?php echo $usuario["id_usuario"] ?>" class="btn btn-dark float-left" target="_blank">Descargar Contrato</a>
 
-			<!--<button class="btn btn-danger float-right cancelarSuscripcion" idUsuario="<?php echo $usuario["id_usuario"]?>" idSuscripcion="<?php echo $usuario["id_suscripcion"]?>">Cancelar suscripción</button>-->
+			<!--<button class="btn btn-danger float-right cancelarSuscripcion" idUsuario="<?php echo $usuario["id_usuario"] ?>" idSuscripcion="<?php echo $usuario["id_suscripcion"] ?>">Cancelar suscripción</button>-->
 
 		</div>
 
-	</div>					
+	</div>
 
 </div>
 
-<?php endif ?>
+<?php endif?>
 
 
-<?php 
+<?php
 
-if(isset($_GET["subscription_id"])){
+if (isset($_GET["id"])) {
 
-	/*=============================================
-	CREAR EL ACCESS TOKEN CON LA API DE PAYPAL
-	=============================================*/
-	
+    $err = false;
 
-   $err=false;
+    if ($err) {
 
-	if ($err) {
+        echo "cURL Error #:" . $err;
 
-		echo "cURL Error #:" . $err;
+    } else {
 
-	} else {
+        /*=============================================
+        VALIDAR EL ESTADO DE LA SUSCRIPCIÓN
+        =============================================*/
 
-		
-		
-		/*=============================================
-		VALIDAR EL ESTADO DE LA SUSCRIPCIÓN
-		=============================================*/
-			
+        if ($err) {
 
-		if ($err) {
-			
-			echo "cURL Error #:" . $err;
+            echo "cURL Error #:" . $err;
 
-		} else {
-		
-			
-			/*=============================================
-			APPROVAL_PENDING. La suscripción se crea, pero aún no ha sido aprobada por el comprador.
-			APPROVED. El comprador ha aprobado la suscripción.
-			ACTIVE. La suscripción está activa.
-			SUSPENDED. La suscripción está suspendida.
-			CANCELLED. Se cancela la suscripción.
-			EXPIRED. La suscripción ha caducado.
-			=============================================*/
+        } else {
 
-			$estado = "1";
-			$fec="2022-09-08";
+            /*=============================================
+            APPROVAL_PENDING. La suscripción se crea, pero aún no ha sido aprobada por el comprador.
+            APPROVED. El comprador ha aprobado la suscripción.
+            ACTIVE. La suscripción está activa.
+            SUSPENDED. La suscripción está suspendida.
+            CANCELLED. Se cancela la suscripción.
+            EXPIRED. La suscripción ha caducado.
+            =============================================*/
 
-			if($estado == "1"){
+            $contrato = "1";
+            $f = getdate();
+            $fec = $f["year"] . "-" . $f["mon"] . "-" . $f["wday"];
+            //$fec="2022-09-08";
 
-				$paypal = "email@paypal.com";
-				$estado = 1;
-				$ciclo_pago = 1;
-           
-				$fechaInicial = substr($fec,0,-10);
-				$fechaVencimiento = strtotime('+1 month', strtotime($fechaInicial) );
-				$vencimiento = date("Y-m-d", $fechaVencimiento);
+            if ($contrato == "1") {
 
-				$enlace_afiliado = $_COOKIE["enlace_afiliado"];
-				$pais = $_COOKIE["pais"];
-				$codigo_pais = $_COOKIE["codigo_pais"];
-				$telefono_movil = $_COOKIE["telefono_movil"];
-				$firma = $_COOKIE["firma"];
+                $doc_usuario = urldecode($_GET["id"]);
 
-				$validarPatrocinador = ControladorUsuarios::ctrMostrarUsuarios("enlace_afiliado", $_COOKIE["patrocinador"]);
+                $estado = 1;
 
-				if(!$validarPatrocinador){
+                // $doc_usuario = $_COOKIE["doc_usuario"];
+                $fechaInicial = substr($fec, 0, -10);
+                $enlace_afiliado = $_COOKIE["enlace_afiliado"];
+                $pais = $_COOKIE["pais"];
+                $codigo_pais = $_COOKIE["codigo_pais"];
+                $telefono_movil = $_COOKIE["telefono_movil"];
+                $firma = $_COOKIE["firma"];
 
-					$confimarPatrocinador = $patrocinador;
+                $validarPatrocinador = ControladorUsuarios::ctrMostrarUsuarios("enlace_afiliado", $_COOKIE["patrocinador"]);
 
-				}else{
+                if (!$validarPatrocinador) {
 
-					if($validarPatrocinador["estado"] == 1){
+                    $confimarPatrocinador = $patrocinador;
 
-						$confimarPatrocinador = $validarPatrocinador["enlace_afiliado"];
+                } else {
 
-					}else{
+                    if ($validarPatrocinador["firma"] != null) {
 
-						$confimarPatrocinador = $patrocinador;
+                        $confimarPatrocinador = $validarPatrocinador["enlace_afiliado"];
 
-					}
-				}
+                    } else {
 
-				$datos = array("id_usuario" => $usuario["id_usuario"],
-								"estado" => $estado,
-								"ciclo_pago" => $ciclo_pago,
-								"vencimiento" => $vencimiento,
-								"enlace_afiliado" => $enlace_afiliado,
-								"patrocinador" => $confimarPatrocinador,
-								"paypal" => $paypal,
-								"pais" => $pais,
-								"codigo_pais" => $codigo_pais,
-								"telefono_movil" => $telefono_movil,
-								"firma" => $firma,
-								"fecha_contrato" => $fechaInicial);
+                        $confimarPatrocinador = $patrocinador;
 
+                    }
+                }
+
+                $datos = array("doc_usuario" => $doc_usuario,
+                    "id_usuario" => $usuario["id_usuario"],
+                    "estado" => $estado,
+                    "enlace_afiliado" => $enlace_afiliado,
+                    "patrocinador" => $confimarPatrocinador,
+                    "pais" => $pais,
+                    "codigo_pais" => $codigo_pais,
+                    "telefono_movil" => $telefono_movil,
+                    "firma" => $firma,
+                    "fecha_contrato" => $fechaInicial);
+
+                /*=============================================
+                REGISTRO UNINIVEL
+                =============================================*/
 				
+                if ($_COOKIE["red"] == "uninivel") {
 
-				/*=============================================
-		  		REGISTRO UNINIVEL
-		  		=============================================*/
+                    // Validar comisión
+                    if ($patrocinador == $_COOKIE["patrocinador"]) {
 
-		  		if($_COOKIE["red"] == "uninivel"){
+                        $porcentaje = 1;
 
-		  			// Validar comisión
-		  			if($patrocinador == $_COOKIE["patrocinador"]){
+                    } else {
 
-		  				$porcentaje = 1;
+                        $porcentaje = 0.4;
+                    }
 
-		  			}else{
+                    $datosUninivel = array("usuario_red" => $usuario["id_usuario"],
+                        "patrocinador_red" => $confimarPatrocinador,
+                        "periodo_venta" => 10);
 
-		  				$porcentaje = 0.4;
-		  			}
+                    $registroUninivel = ControladorMultinivel::ctrRegistroUninivel($datosUninivel);
 
-		  			$datosUninivel = array("usuario_red" => $usuario["id_usuario"],
-		  								   "patrocinador_red" => $confimarPatrocinador,
-		  								   "periodo_venta" => $valorSuscripcion);
+                    $iniciarSuscripcion = ControladorUsuarios::ctrIniciarSuscripcion($datos);
 
-		  			$registroUninivel = ControladorMultinivel::ctrRegistroUninivel($datosUninivel);
+                    if ($iniciarSuscripcion == "ok" && $registroUninivel == "ok") {
 
-		  			$iniciarSuscripcion = ControladorUsuarios::ctrIniciarSuscripcion($datos);
-
-		  			if($iniciarSuscripcion == "ok" &&  $registroUninivel == "ok"){
-
-						echo'<script>
+                        echo '<script>
 
 								swal({
 										type:"success",
@@ -547,39 +571,38 @@ if(isset($_GET["subscription_id"])){
 									  	text: "¡Bienvenido a nuestro programa de afiliados, ahora puede comenzar a ganar dinero con nosotros, visite nuestro plan de compensación!",
 									  	showConfirmButton: true,
 										confirmButtonText: "Cerrar"
-									  
+
 								}).then(function(result){
 
-										if(result.value){   
-										    window.location = "'.$ruta.'backoffice/perfil";	
-										  } 
+										if(result.value){
+										    window.location = "' . $ruta . 'backoffice/perfil";
+										  }
 								});
 
 							</script>';
 
-						return;
-					  	
-					}
-	
+                        return;
 
-		  		}
+                    }
 
-		  		/*=============================================
-		  		REGISTRO RED BINARIA
-		  		=============================================*/
+                }
 
-		  		if($_COOKIE["red"] == "binaria"){
+                /*=============================================
+                REGISTRO RED BINARIA
+                =============================================*/
 
-		  			$datosBinaria = array("usuario_red" => $usuario["id_usuario"],
-		  						   "patrocinador_red" => $confimarPatrocinador);
+                if ($_COOKIE["red"] == "binaria") {
 
-		  			$registroBinaria = ControladorMultinivel::ctrRegistroBinaria($datosBinaria);
+                    $datosBinaria = array("usuario_red" => $usuario["id_usuario"],
+                        "patrocinador_red" => $confimarPatrocinador);
 
-		  			$iniciarSuscripcion = ControladorUsuarios::ctrIniciarSuscripcion($datos);
-		  					  		
-		  			if($iniciarSuscripcion == "ok" && $registroBinaria == "ok"){
+                    $registroBinaria = ControladorMultinivel::ctrRegistroBinaria($datosBinaria);
 
-						echo'<script>
+                    $iniciarSuscripcion = ControladorUsuarios::ctrIniciarSuscripcion($datos);
+
+                    if ($iniciarSuscripcion == "ok" && $registroBinaria == "ok") {
+
+                        echo '<script>
 
 								swal({
 										type:"success",
@@ -587,38 +610,38 @@ if(isset($_GET["subscription_id"])){
 									  	text: "¡Bienvenido a nuestro programa de afiliados, ahora puede comenzar a ganar dinero con nosotros, visite nuestro plan de compensación!",
 									  	showConfirmButton: true,
 										confirmButtonText: "Cerrar"
-									  
+
 								}).then(function(result){
 
-										if(result.value){   
-										    window.location = "'.$ruta.'backoffice/perfil";	
-										  } 
+										if(result.value){
+										    window.location = "' . $ruta . 'backoffice/perfil";
+										  }
 								});
 
 							</script>';
 
-						return;
-					  	
-					}
+                        return;
 
-				}
+                    }
 
-				/*=============================================
-		  		REGISTRO RED MATRIZ
-		  		=============================================*/
+                }
 
-		  		if($_COOKIE["red"] == "matriz"){
+                /*=============================================
+                REGISTRO RED MATRIZ
+                =============================================*/
 
-		  			$datosMatriz = array("usuario_red" => $usuario["id_usuario"],
-		  						   "patrocinador_red" => $confimarPatrocinador);
+                if ($_COOKIE["red"] == "matriz") {
 
-		  			$registroMatriz = ControladorMultinivel::ctrRegistroMatriz($datosMatriz);
+                    $datosMatriz = array("usuario_red" => $usuario["id_usuario"],
+                        "patrocinador_red" => $confimarPatrocinador);
 
-		  			$iniciarSuscripcion = ControladorUsuarios::ctrIniciarSuscripcion($datos);
-		  						  		
-		  			if($iniciarSuscripcion == "ok" && $registroMatriz == "ok"){
+                    $registroMatriz = ControladorMultinivel::ctrRegistroMatriz($datosMatriz);
 
-						echo'<script>
+                    $iniciarSuscripcion = ControladorUsuarios::ctrIniciarSuscripcion($datos);
+
+                    if ($iniciarSuscripcion == "ok" && $registroMatriz == "ok") {
+
+                        echo '<script>
 
 								swal({
 										type:"success",
@@ -626,48 +649,131 @@ if(isset($_GET["subscription_id"])){
 									  	text: "¡Bienvenido a nuestro programa de afiliados, ahora puede comenzar a ganar dinero con nosotros, visite nuestro plan de compensación!",
 									  	showConfirmButton: true,
 										confirmButtonText: "Cerrar"
-									  
+
 								}).then(function(result){
 
-										if(result.value){   
-										    window.location = "'.$ruta.'backoffice/perfil";	
-										  } 
+										if(result.value){
+										    window.location = "' . $ruta . 'backoffice/perfil";
+										  }
 								});
 
 							</script>';
 
-						return;
-					  	
-					}
+                        return;
 
-		  		}
-				
-			}else{
+                    }
 
-				echo'<script>
+                }
+
+            } else {
+
+                echo '<script>
 
 						swal({
 								type:"error",
 							  	title: "¡ERROR AL MOMENTO DE ACTIVAR LA SUSCRIPCION!",
-							  	text: "Ocurrió un error al momento de activar la suscripción, enviar un correo a info@academyoflife.com si han hecho algún desembolso de su dinero",
+							  	text: "Ocurrió un error al momento de activar la suscripción, enviar un correo a admin@trading.com si han hecho algún desembolso de su dinero",
 							  	showConfirmButton: true,
 								confirmButtonText: "Cerrar"
-							  
+
 						}).then(function(result){
 
-								if(result.value){   
-								    window.location = "'.$ruta.'backoffice/perfil";	
-								 } 
+								if(result.value){
+								    window.location = "' . $ruta . 'backoffice/perfil";
+								 }
 						});
 
 				</script>';
 
-			}
-		}
+            }
+        }
 
-	}
+    }
 
 }
 
+?>
 
- ?>
+
+
+<!--=====================================
+registar Cuenta
+======================================-->
+
+<!-- The Modal -->
+<div class="modal" id="registrarCuenta">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+    	<form method="post">
+
+	      <!-- Modal Header -->
+	      <div class="modal-header">
+	        <h4 class="modal-title">Registrar cuenta</h4>
+	        <button type="button" class="close" data-dismiss="modal">&times;</button>
+	      </div>
+
+	      <!-- Modal body -->
+	      <div class="modal-body">
+
+	      	<input type="hidden" name="idUsuarioCuentaRegistrar" value="<?php echo $usuario["doc_usuario"] ?>">
+
+			<div class="form-group">
+
+				<input type="number" class="form-control" placeholder="Número cuenta" name="registrarNumeroCuenta" required>
+
+			</div>
+
+			<div class="form-group">
+
+				<input type="text" class="form-control" placeholder="Entidad" name="registrarEntidadCuenta" required>
+
+			</div>
+
+			<div class="form-group">
+
+				<label for="tipoCuenta">Tipo de Cuenta:</label>
+
+				<select class="form-control" id="tipoCuenta" name="registrarTipoCuenta">
+
+					<option value="">Seleccione tipo de cuenta</option>
+					<option value="ahorros">Ahorros</option>
+					<option value="corriente">Corriente</option>
+					<option value="otro">Otro</option>
+
+				</select>
+
+			</div>
+
+	      </div>
+
+	      <!-- Modal footer -->
+	      <div class="modal-footer d-flex justify-content-between">
+
+	      	<div>
+
+	        	<button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+
+	        </div>
+
+        	<div>
+
+	        	<button type="submit" class="btn btn-primary">Enviar</button>
+
+	        </div>
+
+	      </div>
+
+		<?php
+
+$registrarCuenta = new ControladorUsuarios();
+$registrarCuenta->ctrRegistrarCuentaBancaria();
+
+?>
+
+
+      </form>
+
+    </div>
+  </div>
+</div>

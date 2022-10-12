@@ -34,17 +34,17 @@ Class ControladorUsuarios{
 							   "email_encriptado" => $encriptarEmail,
 							   "patrocinador" => $_POST["patrocinador"]); 
 
-				$respuesta_usuario = ModeloUsuarios::mdlMostrarUsuarios($tabla,"enlace_afiliado",$_POST["patrocinador"]);
+				//$respuesta_usuario = ModeloUsuarios::mdlMostrarUsuarios($tabla,"enlace_afiliado",$_POST["patrocinador"]);
 
-				$datos2 = array("patrocinador" => $respuesta_usuario["id_usuario"], "referido" => 109486498);
+				//$datos2 = array("patrocinador" => $respuesta_usuario["doc_usuario"], "referido" => 109486498);
 
 
 				$respuesta = ModeloUsuarios::mdlRegistroUsuario($tabla, $datos);
 
-				$respuesta2 = ModeloUsuarios::mdlRegistroReferido("referidos", $datos2);
+				//$respuesta2 = ModeloUsuarios::mdlRegistroReferido("referidos", $datos2);
 				
 
-				if($respuesta == "ok" && $respuesta2 == "ok"){
+				if($respuesta == "ok"){
 
 					/*=============================================
 					Verificación Correo Electrónico
@@ -977,6 +977,64 @@ Class ControladorUsuarios{
 		return $respuesta;
 
 	}
+
+	/*=============================================
+	registrar cuenta bancaria
+	=============================================*/
+
+	public function ctrRegistrarCuentaBancaria(){
+
+		$tabla = "cuentas_bancarias";
+
+		if(isset($_POST["idUsuarioCuentaRegistrar"])){
+
+			if(preg_match('/^[0-9]+$/', $_POST["registrarNumeroCuenta"]) &&
+			preg_match('/^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["registrarEntidadCuenta"]) ){
+
+				$datos = array(	"titular" => $_POST["idUsuarioCuentaRegistrar"],
+				"estado" => 1,
+				"tipo" => $_POST["registrarTipoCuenta"],
+				"entidad" => $_POST["registrarEntidadCuenta"],
+				"numero" => $_POST["registrarNumeroCuenta"]);
+
+				
+		$respuesta = ModeloUsuarios::mdlRegistrarCuentaBancaria($tabla, $datos);
+
+		if($respuesta == "ok"){
+			echo '<script>
+
+							swal({
+
+								type:"success",
+								title: "REGISTRO EXITOSO",
+								text: "¡SU CUENTA BANCARIA HA SIDO CREADA CORRECTAMENTE!",
+								showConfirmButton: true,
+								confirmButtonText: "Cerrar"
+
+							}).then(function(result){
+
+								if(result.value){
+
+									window.location = "perfil";
+
+								}
+
+
+							});	
+
+						</script>';
+		}
+
+				}
+			}
+
+
+
+	}
+
+
+	
+
 
 
 }

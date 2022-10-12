@@ -1,7 +1,7 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4" style="overflow-x:hidden">
   <!-- Brand Logo -->
   <a href="inicio" class="brand-link">
-  <img src="vistas/img/plantilla/icono.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+    <img src="vistas/img/plantilla/icono.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
     <span class="brand-text font-weight-light">Inversiones Trading</span>
   </a>
 
@@ -10,16 +10,16 @@
     <!-- Sidebar user panel (optional) -->
     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
       <div class="image">
-     
-      <?php if ($usuario["foto"] == ""): ?>
 
-         <img src="vistas/img/usuarios/default/default.png" class="img-circle elevation-2" alt="User Image">
+        <?php if ($usuario["foto"] == "") : ?>
 
-      <?php else: ?>
+          <img src="vistas/img/usuarios/default/default.png" class="img-circle elevation-2" alt="User Image">
 
-        <img src="<?php echo $usuario["foto"] ?>" class="img-circle elevation-2" alt="User Image">
-        
-      <?php endif ?>
+        <?php else : ?>
+
+          <img src="<?php echo $usuario["foto"] ?>" class="img-circle elevation-2" alt="User Image">
+
+        <?php endif ?>
 
       </div>
       <div class="info">
@@ -27,12 +27,12 @@
       </div>
     </div>
 
-   
+
     <nav class="mt-2">
 
       <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
-      <!--=====================================
+        <!--=====================================
       Botón Inicio
       ======================================-->
 
@@ -43,7 +43,7 @@
           </a>
         </li>
 
-      <!--=====================================
+        <!--=====================================
       Botón Mi Perfil
       ======================================-->
 
@@ -54,11 +54,11 @@
           </a>
         </li>
 
-      <!--=====================================
+        <!--=====================================
       Botón Usuarios
       ======================================-->
 
-        <?php if ($usuario["perfil"] == "admin"): ?>
+        <?php if ($usuario["perfil"] == "admin") : ?>
 
           <li class="nav-item">
             <a href="usuarios" class="nav-link">
@@ -66,83 +66,104 @@
               <p>Usuarios</p>
             </a>
           </li>
-          
+
         <?php endif ?>
 
+        <!--=====================================
+      Botón Cuentas
+      ======================================-->
+
+          <li class="nav-item">
+            <a href="cuentas-bancarias" class="nav-link">
+              <i class="nav-icon fa fa-university"></i>
+              <p>Cuentas</p>
+            </a>
+          </li>
 
       <!--=====================================
+      Botón Comprobantes
+      ======================================-->
+
+      <li class="nav-item">
+            <a href="comprobantes" class="nav-link">
+              <i class="nav-icon fa fa-file-invoice"></i>
+              <p>Comprobantes</p>
+            </a>
+          </li>
+
+        <!--=====================================
       Botón Redes Multinivel
       ======================================-->
 
-      <?php if ($usuario["estado"] != 0): ?>
+        <?php if ($usuario["firma"] != NULL) : ?>
 
-        <li class="nav-item has-treeview">
-          <a href="#" class="nav-link">
-            <i class="nav-icon fas fa-sitemap"></i>
-            <p>
-            Mi red
-              <i class="right fas fa-angle-left"></i>
-            </p>
-          </a>
-          <ul class="nav nav-treeview">
-            <li class="nav-item">
-              <a href="uninivel" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Red uninivel</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="binaria" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Red binaria</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="matriz" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Red matriz 4x4</p>
-              </a>
-            </li>
-          </ul>
-        </li>
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-sitemap"></i>
+              <p>
+                Mi red
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="uninivel" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Red uninivel</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="binaria" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Red binaria</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="matriz" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Red matriz 4x4</p>
+                </a>
+              </li>
+            </ul>
+          </li>
 
 
 
-       <!--=====================================
+          <!--=====================================
         Botón Ingresos
         ======================================-->
 
-         <li class="nav-item has-treeview">
-          <a href="#" class="nav-link">
-            <i class="nav-icon fas fa-money-check-alt"></i>
-            <p>
-            Ingresos
-              <i class="right fas fa-angle-left"></i>
-            </p>
-          </a>
-          <ul class="nav nav-treeview">
-            <li class="nav-item">
-              <a href="ingresos-uninivel" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Ingresos uninivel</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="ingresos-binaria" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Ingresos binaria</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="ingresos-matriz" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Ingresos matriz 4x4</p>
-              </a>
-            </li>
-          </ul>
-        </li>
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-money-check-alt"></i>
+              <p>
+                Ingresos
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="ingresos-uninivel" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Ingresos uninivel</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="ingresos-binaria" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Ingresos binaria</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="ingresos-matriz" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Ingresos matriz 4x4</p>
+                </a>
+              </li>
+            </ul>
+          </li>
 
-         <?php endif ?>
+        <?php endif ?>
 
         <!--=====================================
         Botón Plan de compensación
@@ -155,7 +176,7 @@
           </a>
         </li>
 
-       <!--=====================================
+        <!--=====================================
         Botón Soporte
         ======================================-->
 

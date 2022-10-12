@@ -66,7 +66,7 @@ $listaUsuarios = ControladorUsuarios::ctrMostrarUsuarios(null,null);
 
 								<?php
 									
-									if ($key != 0): 
+									if ($value["perfil"]!="admin"): 
 								
 										if(isset($_GET["id"]) && $value["id_usuario"]==$_GET["id"]){
 												?>
@@ -130,7 +130,7 @@ $listaUsuarios = ControladorUsuarios::ctrMostrarUsuarios(null,null);
 
 			<div class="form-group">
 				
-				<textarea id="editor" name="mensaje" style="width: 100%"></textarea>
+				<textarea id="editor" name="mensaje"></textarea>
 
 				<!--=====================================
 				LOS ADJUNTOS DEL TICKET

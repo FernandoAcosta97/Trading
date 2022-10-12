@@ -44,6 +44,8 @@ class TablaUninivel{
 
 			foreach ($red as $key => $value) {
 
+				if($value["perfil"]!="admin"){
+
 
 				/*=============================================
 				FOTO
@@ -61,15 +63,19 @@ class TablaUninivel{
 				/*=============================================
 				SUSCRIPCIÓN
 				=============================================*/	
+				if($value["firma"]!=NULL){
 
-				if($value["suscripcion"] != 0){	
+				if($value["operando"] != 0){	
 
-					$suscripcion = "<h5><span class='badge badge-success'>Activado</span></h5>";
+					$estado = "<h5><span class='badge badge-success'>Operando</span></h5>";
 
 				}else{
 
-					$suscripcion = "<h5><span class='badge badge-danger'>Desactivado</span></h5>";
+					$estado = "<h5><span class='badge badge-danger'>Sin Operar</span></h5>";
 				}
+			}else{
+				$estado = "<h5><span class='badge badge-warning'>Sin Contrato</span></h5>";
+			}
 
 
 				$datosJson	 .= '[
@@ -78,11 +84,19 @@ class TablaUninivel{
 					"'.$foto.'",
 					"'.$value["nombre"].'",
 					"'.$value["pais"].'",
-					"'.$value["vencimiento"].'",
-					"'.$suscripcion.'"
+					"'.$value["fecha_contrato"].'",
+					"'.$estado.'"
 
-				],';		
+				],';	
+				
+			}else{
+				$datosJson = '{"data": []}';
 
+				echo $datosJson;
+
+				return;
+			}
+				
 			}
 
 			$datosJson = substr($datosJson, 0, -1);

@@ -10,11 +10,10 @@ class ModeloMultinivel{
 
 	static public function mdlRegistroUninivel($tabla, $datos){
 
-		$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla (usuario_red, patrocinador_red, periodo_comision,  periodo_venta) VALUES (:usuario_red, :patrocinador_red, :periodo_comision,  :periodo_venta)");
+		$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla (usuario_red, patrocinador_red, periodo_venta) VALUES (:usuario_red, :patrocinador_red, :periodo_venta)");
 
 		$stmt -> bindParam(":usuario_red", $datos["usuario_red"], PDO::PARAM_STR);
 		$stmt -> bindParam(":patrocinador_red", $datos["patrocinador_red"], PDO::PARAM_STR);
-		$stmt -> bindParam(":periodo_comision", $datos["periodo_comision"], PDO::PARAM_STR);
 		$stmt -> bindParam(":periodo_venta", $datos["periodo_venta"], PDO::PARAM_STR);
 
 		if($stmt -> execute()){
@@ -63,6 +62,48 @@ class ModeloMultinivel{
 		$stmt -> close();
 
 		$stmt = null;
+
+	}
+
+
+	/*=============================================
+	MOSTRAR TORAL OPERANDO RED INNER JOIN
+	=============================================*/
+
+	static public function mdlMostrarRedOperandoTotal($tabla1, $tabla2, $item, $valor, $item2, $valor2){
+
+		if($item != null && $valor != null){
+
+			if($item2 != null && $valor2 != null){
+ 
+			$stmt = Conexion::conectar()->prepare("SELECT COUNT(*) as total FROM $tabla1 INNER JOIN $tabla2 ON $tabla1.patrocinador = $tabla2.patrocinador_red WHERE $item = :$item AND $item2 = :$item2");	
+
+			$stmt -> bindParam(":".$item, $valor, PDO::PARAM_STR);
+			$stmt -> bindParam(":".$item2, $valor2, PDO::PARAM_INT);
+
+			$stmt -> execute();
+
+			return $stmt -> fetch();
+
+		}else{
+
+			$stmt = Conexion::conectar()->prepare("SELECT COUNT(*) as total FROM $tabla1 INNER JOIN $tabla2 ON $tabla1.enlace_afiliado = $tabla2.patrocinador_red WHERE $item = :$item");
+
+			$stmt -> bindParam(":".$item, $valor, PDO::PARAM_STR);
+
+			$stmt -> execute();
+
+			return $stmt -> fetch();
+
+		}
+
+		$stmt -> close();
+
+		$stmt = null;
+
+		}
+
+
 
 	}
 

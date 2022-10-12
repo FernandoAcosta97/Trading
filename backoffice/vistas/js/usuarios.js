@@ -3,190 +3,204 @@ LISTADO DE PAISES
 =============================================*/
 
 $.ajax({
+  url: "vistas/js/plugins/paises.json",
+  type: "GET",
+  success: function (respuesta) {
+    respuesta.forEach(seleccionarPais);
 
-	url:"vistas/js/plugins/paises.json",
-	type: "GET",
-	success: function(respuesta){
-		
-		respuesta.forEach(seleccionarPais);
+    function seleccionarPais(item, index) {
+      var pais = item.name;
+      var codPais = item.code;
+      var dial = item.dial_code;
 
-		function seleccionarPais(item, index){
-			
-			var pais =  item.name;
-			var codPais =  item.code;
-			var dial = item.dial_code;
-
-			$("#inputPais").append(
-
-				`<option value="`+pais+`,`+codPais+`,`+dial+`">`+pais+`</option>`
-
-			)
-
-
-		}
-
-	}
-
-})
+      $("#inputPais").append(
+        `<option value="` +
+          pais +
+          `,` +
+          codPais +
+          `,` +
+          dial +
+          `">` +
+          pais +
+          `</option>`
+      );
+    }
+  },
+});
 
 /*=============================================
 PLUGIN SELECT 2
 =============================================*/
 
-$('.select2').select2()
+$(".select2").select2();
 
 /*=============================================
 AGREGAR DIAL CODE DEL PAIS
 =============================================*/
 
-$("#inputPais").change(function(){
-
-	$(".dialCode").html($(this).val().split(",")[2])
-
-})
+$("#inputPais").change(function () {
+  $(".dialCode").html($(this).val().split(",")[2]);
+});
 
 /*=============================================
 INPUT MASK
 =============================================*/
 
-$('[data-mask]').inputmask();
+$("[data-mask]").inputmask();
 
 /*=============================================
 FIRMA VIRTUAL
 =============================================*/
 $("#signatureparent").jSignature({
-
-  color:"#333", // line color
-  lineWidth:1, // Grosor de línea
+  color: "#333", // line color
+  lineWidth: 1, // Grosor de línea
   // Ancho y alto área de la firma
-  idth:320,
-  height:100
-
+  idth: 320,
+  height: 100,
 });
 
-$(".repetirFirma").click(function(){
-
-	$("#signatureparent").jSignature("reset");
-
-})
+$(".repetirFirma").click(function () {
+  $("#signatureparent").jSignature("reset");
+});
 
 /*=============================================
 FUNCIÓN PARA GENERAR COOKIES
 =============================================*/
 
-function crearCookie(nombre, valor, diasExpiracion){
+function crearCookie(nombre, valor, diasExpiracion) {
+  var hoy = new Date();
 
-	var hoy = new Date();
+  hoy.setTime(hoy.getTime() + diasExpiracion * 24 * 60 * 60 * 1000);
 
-	hoy.setTime(hoy.getTime() + (diasExpiracion*24*60*60*1000));
+  var fechaExpiracion = "expires=" + hoy.toUTCString();
 
-	var fechaExpiracion = "expires=" +hoy.toUTCString();
-
-	document.cookie = nombre + "=" +valor+"; "+fechaExpiracion;
+  document.cookie = nombre + "=" + valor + "; " + fechaExpiracion;
 }
 
-
+$(".btnCuentas").click(function () {
+  window.location = "cuentas-bancarias";
+});
 
 /*=============================================
 VALIDAR FORMULARIO SUSCRIPCIÓN
 =============================================*/
 
-$(".suscribirse").click(function(){
+$(".suscribirse").click(function () {
+  $(".alert").remove();
 
-	$(".alert").remove();
+  var id_usuario = $("#inputId").val();
+  var doc_usuario = $("#inputDoc").val();
+  var nombre = $("#inputName").val();
+  var email = $("#inputEmail").val();
+  var patrocinador = $("#inputPatrocinador").val();
+  var enlace_afiliado = $("#inputAfiliado").val();
+  var pais = $("#inputPais").val().split(",")[0];
+  var codigo_pais = $("#inputPais").val().split(",")[1];
+  var telefono_movil =
+    $("#inputPais").val().split(",")[2] + " " + $("#inputMovil").val();
+  var red = $("#tipoRed").val();
+  var aceptarTerminos = $("#aceptarTerminos:checked").val();
 
-	var documento = $("#inputDoc").val();
-	var nombre = $("#inputName").val();
-	var email = $("#inputEmail").val();
-	var patrocinador = $("#inputPatrocinador").val();
-	var enlace_afiliado = $("#inputAfiliado").val();
-	var pais = $("#inputPais").val().split(",")[0];
-	var codigo_pais = $("#inputPais").val().split(",")[1];
-	var telefono_movil = $("#inputPais").val().split(",")[2]+" "+$("#inputMovil").val();
-	var red = $("#tipoRed").val();
-	var aceptarTerminos = $("#aceptarTerminos:checked").val();
+  if ($("#signatureparent").jSignature("isModified")) {
+    var firma = $("#signatureparent").jSignature("getData", "image/svg+xml");
+  }
 
-	if($("#signatureparent").jSignature("isModified")){
+  /*=============================================
+   VALIDAR
+   =============================================*/
+  if (
+    doc_usuario == "" ||
+    nombre == "" ||
+    email == "" ||
+    patrocinador == "" ||
+    enlace_afiliado == "" ||
+    pais == "" ||
+    codigo_pais == "" ||
+    telefono_movil == "" ||
+    red == "" ||
+    aceptarTerminos != "on" ||
+    !$("#signatureparent").jSignature("isModified")
+  ) {
+    $(".suscribirse").before(`
 
-		var firma = $("#signatureparent").jSignature("getData", "image/svg+xml");
-
-	}
-
-	/*=============================================
-	VALIDAR
-	=============================================*/
-	if( documento == "" ||
-		nombre == "" ||
-		email == "" ||
-		patrocinador == "" ||
-		enlace_afiliado == "" ||
-		pais == "" ||
-		codigo_pais == "" ||
-		telefono_movil == "" ||
-		red == "" ||
-		aceptarTerminos != "on" ||
-		!$("#signatureparent").jSignature('isModified')){
-
-			$(".suscribirse").before(`
-
-				<div class="alert alert-danger">Faltan datos, no ha aceptado o no ha firmado los términos y condiciones</div>
-
-
-			`);
-
-		return;
+			   <div class="alert alert-danger">Faltan datos, no ha aceptado o no ha firmado los términos y condiciones</div>
 
 
-	}else{
+		   `);
 
-		crearCookie("enlace_afiliado", enlace_afiliado, 1);
-		crearCookie("patrocinador", patrocinador, 1);
-		crearCookie("pais", pais, 1);
-		crearCookie("codigo_pais", codigo_pais, 1);
-		crearCookie("telefono_movil", telefono_movil, 1);
-		crearCookie("red", red, 1);
-		crearCookie("firma", firma[1], 1);
+    return;
+  } else {
+    // crearCookie("doc_usuario", documento, 1);
+    //    crearCookie("enlace_afiliado", enlace_afiliado, 1);
+    //    crearCookie("patrocinador", patrocinador, 1);
+    //    crearCookie("pais", pais, 1);
+    //    crearCookie("codigo_pais", codigo_pais, 1);
+    //    crearCookie("telefono_movil", telefono_movil, 1);
+    crearCookie("red", red, 1);
+    //    crearCookie("firma", firma[1], 1);
 
+    //    var data = {"id_usuario": id_usuario,
+    //                "doc_usuario": documento,
+    //                "nombre": nombre,
+    // 			   "email": email,
+    // 			   "pais": pais,
+    // 			   "codigo_pais": codigo_pais,
+    // 			   "telefono_movil": telefono_movil,
+    // 			   "firma": firma[1],
+    // 			   "enlace_afiliado": enlace_afiliado};
 
-		var datos = new FormData();
-		datos.append("suscripcion", "ok");
-		datos.append("nombre", nombre);
-		datos.append("email", email);
+    var datos = new FormData();
+    datos.append("aceptar", "ok");
+    //    datos.append("nombre", nombre);
+    //    datos.append("email", email);
+    datos.append("doc_usuario", doc_usuario);
+    datos.append("id_usuario", id_usuario);
+    datos.append("pais", pais);
+    datos.append("codigo_pais", codigo_pais);
+    datos.append("telefono_movil", telefono_movil);
+    datos.append("firma", firma[1]);
+    datos.append("enlace_afiliado", enlace_afiliado);
+    datos.append("patrocinador", patrocinador);
 
-		$.ajax({
+    $.ajax({
+      url: "ajax/usuarios.ajax.php",
+      method: "POST",
+      data: datos,
+      cache: false,
+      contentType: false,
+      processData: false,
+      //    dataType:"json",
+      beforeSend: function () {
+        $(".suscribirse").after(`
 
-			url:"ajax/usuarios.ajax.php",
-			method: "POST",
-			data: datos,
-			cache: false,
-			contentType: false,
-			processData: false,
-			// dataType:"json",
-			beforeSend: function(){
+				   <img src="vistas/img/plantilla/status.gif" class="ml-3" style="width:30px; height:30px" />
+				   <span class="alert alert-warning ml-3">Procesando la suscripción, no cerrar esta página</span>
 
-				$(".suscribirse").after(`
-
-					<img src="vistas/img/plantilla/status.gif" class="ml-3" style="width:30px; height:30px" />
-					<span class="alert alert-warning ml-3">Procesando la suscripción, no cerrar esta página</span>
-
-				`)
-
-
-			},
-			success:function(respuesta){
-				
-				// console.log("respuesta", respuesta);
-
-				window.location = respuesta;
-
-			}
-
-		})
-	}
-	
-
-})
-
+			   `);
+      },
+      success: function (respuesta) {
+           console.log("respuesta ", respuesta);
+        if (respuesta == "ok") {
+			
+          swal({
+            type: "success",
+            title: "¡Se ha registrado correctamente!",
+            text: "¡Bienvenido a nuestro programa de afiliados, ahora puede comenzar a ganar dinero con nosotros, visite nuestro plan de compensación!",
+			allowOutsideClick: false,
+            showConfirmButton: true,
+            confirmButtonText: "Cerrar",
+          }).then(function (result) {
+            if (result.value) {
+              window.location = "perfil";
+            }
+          });
+		  
+        }
+        //    window.location = respuesta;
+      },
+    });
+  }
+});
 
 /*=============================================
 TABLA USUARIOS
@@ -196,412 +210,223 @@ TABLA USUARIOS
 
 // 	url:"ajax/tabla-usuarios.ajax.php",
 // 	success: function(respuesta){
-		
+
 // 		console.log("respuesta", respuesta);
 // 	}
 
 // });
 
 $(".tablaUsuarios").DataTable({
-	"ajax":"ajax/tabla-usuarios.ajax.php",
- 	"deferRender": true,
-  	"retrieve": true,
-  	"processing": true,
-	"language": {
-
-	    "sProcessing":     "Procesando...",
-	    "sLengthMenu":     "Mostrar _MENU_ registros",
-	    "sZeroRecords":    "No se encontraron resultados",
-	    "sEmptyTable":     "Ningún dato disponible en esta tabla",
-	    "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
-	    "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0",
-	    "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
-	    "sInfoPostFix":    "",
-	    "sSearch":         "Buscar:",
-	    "sUrl":            "",
-	    "sInfoThousands":  ",",
-	    "sLoadingRecords": "Cargando...",
-	    "oPaginate": {
-	      "sFirst":    "Primero",
-	      "sLast":     "Último",
-	      "sNext":     "Siguiente",
-	      "sPrevious": "Anterior"
-	    },
-	    "oAria": {
-	        "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
-	        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
-	    }
-
-   }
-
+  ajax: "ajax/tabla-usuarios.ajax.php",
+  deferRender: true,
+  retrieve: true,
+  processing: true,
+  language: {
+    sProcessing: "Procesando...",
+    sLengthMenu: "Mostrar _MENU_ registros",
+    sZeroRecords: "No se encontraron resultados",
+    sEmptyTable: "Ningún dato disponible en esta tabla",
+    sInfo: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
+    sInfoEmpty: "Mostrando registros del 0 al 0 de un total de 0",
+    sInfoFiltered: "(filtrado de un total de _MAX_ registros)",
+    sInfoPostFix: "",
+    sSearch: "Buscar:",
+    sUrl: "",
+    sInfoThousands: ",",
+    sLoadingRecords: "Cargando...",
+    oPaginate: {
+      sFirst: "Primero",
+      sLast: "Último",
+      sNext: "Siguiente",
+      sPrevious: "Anterior",
+    },
+    oAria: {
+      sSortAscending: ": Activar para ordenar la columna de manera ascendente",
+      sSortDescending:
+        ": Activar para ordenar la columna de manera descendente",
+    },
+  },
 });
-
-function operandoFiltroTabla() {
-    $('#tablaUsuarios').DataTable().draw();
-}
-
-$(document).ready(function () {
-    $.fn.dataTable.ext.search.push(
-        function (settings, data, dataIndex) { //'data' contiene los datos de la fila
-            //En la columna 6 estamos mostrando el dato operando
-            let operando = data[6] || 0;
-            if (!operandoFiltro(operando)) {
-                return false;
-            }
-            return true;
-        }
-    );
-});
-
-function operandoFiltro(operando) {
-    let seleccionado = $('#operandoFiltro').val();
-    //Si la opción seleccionada es 'TODOS', devolvemos 'true' para que pinte la fila
-    if (seleccionado === "") {
-        return true;
-    }
-    //La fila sólo se va a pintar si el valor de la columna coincide con el del filtro seleccionado
-    return operando === seleccionado;
-}
-
 
 /*=============================================
 ACTIVAR USUARIO
 =============================================*/
-$(".tablaUsuarios tbody").on("click","button.btnActivar",function(){
+$(".tablaUsuarios tbody").on("click", "button.btnActivar", function () {
+  var idUsuario = $(this).attr("idUsuario");
+  var estadoUsuario = $(this).attr("estadoUsuario");
 
-	var idUsuario = $(this).attr("idUsuario");
-	var estadoUsuario = $(this).attr("estadoUsuario");
+  var datos = new FormData();
+  datos.append("activarId", idUsuario);
+  datos.append("activarUsuario", estadoUsuario);
 
-	var datos = new FormData();
- 	datos.append("activarId", idUsuario);
-    datos.append("activarUsuario", estadoUsuario);
-
-  	$.ajax({
-
-	  url:"ajax/usuarios.ajax.php",
-	  method: "POST",
-	  data: datos,
-	  cache: false,
+  $.ajax({
+    url: "ajax/usuarios.ajax.php",
+    method: "POST",
+    data: datos,
+    cache: false,
     contentType: false,
     processData: false,
-    success: function(respuesta){
+    success: function (respuesta) {},
+  });
 
-      }
-
-  	})
-
-  	if(estadoUsuario == 0){
-
-  		$(this).removeClass('btn-success');
-  		$(this).addClass('btn-danger');
-  		$(this).html('Desactivado');
-  		$(this).attr('estadoUsuario',1);
-
-  	}else{
-
-  		$(this).addClass('btn-success');
-  		$(this).removeClass('btn-danger');
-  		$(this).html('Activado');
-  		$(this).attr('estadoUsuario',0);
-
-  	}
-
-})
-
+  if (estadoUsuario == 0) {
+    $(this).removeClass("btn-success");
+    $(this).addClass("btn-danger");
+    $(this).html("Desactivado");
+    $(this).attr("estadoUsuario", 1);
+  } else {
+    $(this).addClass("btn-success");
+    $(this).removeClass("btn-danger");
+    $(this).html("Activado");
+    $(this).attr("estadoUsuario", 0);
+  }
+});
 
 /*=============================================
 OPERAR USUARIO
 =============================================*/
-$(".tablaUsuarios tbody").on("click","button.btnOperar",function(){
+$(".tablaUsuarios tbody").on("click", "button.btnOperar", function () {
+  var idUsuario = $(this).attr("idUsuario");
+  var estadoUsuario = $(this).attr("estadoUsuario");
 
-	var idUsuario = $(this).attr("idUsuario");
-	var estadoUsuario = $(this).attr("estadoUsuario");
+  var datos = new FormData();
+  datos.append("operarId", idUsuario);
+  datos.append("operarUsuario", estadoUsuario);
 
-	var datos = new FormData();
- 	datos.append("operarId", idUsuario);
-    datos.append("operarUsuario", estadoUsuario);
-
-  	$.ajax({
-
-	  url:"ajax/usuarios.ajax.php",
-	  method: "POST",
-	  data: datos,
-	  cache: false,
+  $.ajax({
+    url: "ajax/usuarios.ajax.php",
+    method: "POST",
+    data: datos,
+    cache: false,
     contentType: false,
     processData: false,
-    success: function(respuesta){
+    success: function (respuesta) {},
+  });
 
-      }
-
-  	})
-
-  	if(estadoUsuario == 0){
-
-  		$(this).removeClass('btn-success');
-  		$(this).addClass('btn-danger');
-  		$(this).html('No');
-  		$(this).attr('estadoUsuario',1);
-
-  	}else{
-
-  		$(this).addClass('btn-success');
-  		$(this).removeClass('btn-danger');
-  		$(this).html('Si');
-  		$(this).attr('estadoUsuario',0);
-
-  	}
-
-})
+  if (estadoUsuario == 0) {
+    $(this).removeClass("btn-success");
+    $(this).addClass("btn-danger");
+    $(this).html("No");
+    $(this).attr("estadoUsuario", 1);
+  } else {
+    $(this).addClass("btn-success");
+    $(this).removeClass("btn-danger");
+    $(this).html("Si");
+    $(this).attr("estadoUsuario", 0);
+  }
+});
 
 /*=============================================
 EDITAR USUARIO
 =============================================*/
-$(".tablaUsuarios tbody").on("click","button.btnEditarUsuario", function(){
+$(".tablaUsuarios tbody").on("click", "button.btnEditarUsuario", function () {
+  var idUsuario = $(this).attr("idUsuario");
 
-	var idUsuario = $(this).attr("idUsuario");
-	
-	var datos = new FormData();
-	datos.append("idUsuarioEditar", idUsuario);
+  var datos = new FormData();
+  datos.append("idUsuarioEditar", idUsuario);
 
-	$.ajax({
+  $.ajax({
+    url: "ajax/usuarios.ajax.php",
+    method: "POST",
+    data: datos,
+    cache: false,
+    contentType: false,
+    processData: false,
+    dataType: "json",
+    success: function (respuesta) {
+      $("#editarUsuario").val(respuesta["id_usuario"]);
+      $("#editarNombre").val(respuesta["nombre"]);
+      $("#editarEmail").val(respuesta["email"]);
+      $("#editarPerfil").val(respuesta["perfil"]);
+      $("#editarMovil").val(respuesta["telefono_movil"]);
+      $("#passwordActual").val(respuesta["password"]);
+    },
+  });
+});
 
-		url:"ajax/usuarios.ajax.php",
-		method: "POST",
-		data: datos,
-		cache: false,
-		contentType: false,
-		processData: false,
-		dataType: "json",
-		success: function(respuesta){
-			
-			$("#editarUsuario").val(respuesta["id_usuario"]);
-			$("#editarNombre").val(respuesta["nombre"]);
-			$("#editarEmail").val(respuesta["email"]);
-			$("#editarPerfil").val(respuesta["perfil"]);
-			$("#editarMovil").val(respuesta["telefono_movil"]);
-			$("#passwordActual").val(respuesta["password"]);
+$(".tablaUsuarios tbody").on("click", "button.btnEliminarUsuario", function () {
+  var idUsuario = $(this).attr("idUsuario");
+  var datos = new FormData();
+  datos.append("idUsuarioEliminar", idUsuario);
 
-		}
-
-	});
-
-})
-
-
-
-$(".tablaUsuarios tbody").on("click","button.btnEliminarUsuario",function(){
-
-    var idUsuario=$(this).attr("idUsuario");
-    var datos = new FormData();
-    datos.append("idUsuarioEliminar",idUsuario);
-
-    swal({
-    title: '¿Está seguro de borrar el usuario?',
+  swal({
+    title: "¿Está seguro de borrar el usuario?",
     text: "¡Si no lo está puede cancelar la acción!",
-    type: 'warning',
+    type: "warning",
     showCancelButton: true,
-    confirmButtonColor: '#3085d6',
-    cancelButtonColor: '#d33',
-    cancelButtonText: 'Cancelar',
-    confirmButtonText: 'Si, borrar usuario!'
-   }).then((result)=>{
-
-    if(result.value){
-
-		$.ajax({
-
-			url:"ajax/usuarios.ajax.php",
-			method: "POST",
-			data: datos,
-			cache: false,
-			contentType: false,
-			processData: false,
-			success:function(respuesta){
-				
-				if(respuesta == "ok"){
-
-					swal({
-						type:"success",
-						  title: "¡OK!",
-						  text: "¡El usuario se ha eliminado correctamente!",
-						  showConfirmButton: true,
-						confirmButtonText: "Cerrar"
-					  
-					}).then(function(result){
-
-							if(result.value){   
-								window.location = "usuarios";
-							  } 
-					});
-									
-				}
-
-			}
-
-		})
-
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    cancelButtonText: "Cancelar",
+    confirmButtonText: "Si, borrar usuario!",
+  }).then((result) => {
+    if (result.value) {
+      $.ajax({
+        url: "ajax/usuarios.ajax.php",
+        method: "POST",
+        data: datos,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (respuesta) {
+          if (respuesta == "ok") {
+            swal({
+              type: "success",
+              title: "¡OK!",
+              text: "¡El usuario se ha eliminado correctamente!",
+              showConfirmButton: true,
+              confirmButtonText: "Cerrar",
+            }).then(function (result) {
+              if (result.value) {
+                window.location = "usuarios";
+              }
+            });
+          }
+        },
+      });
     }
-
-   })
-
-})
+  });
+});
 
 /*=============================================
 COPIAR EN EL CLIPBOARD
 =============================================*/
 
-$(".copiarLink").click(function(){
+$(".copiarLink").click(function () {
+  var temporal = $("<input>");
 
-	var temporal = $("<input>");
+  $("body").append(temporal);
 
-	$("body").append(temporal);
+  temporal.val($("#linkAfiliado").val()).select();
 
-	temporal.val($("#linkAfiliado").val()).select();
+  document.execCommand("copy");
 
-	document.execCommand("copy");
+  temporal.remove();
 
-	temporal.remove();
-
-	$(this).parent().parent().after(`
+  $(this).parent().parent().after(`
 		
 		<div class="text-muted copiado">Enlace copiado en el portapapeles</div>
 
-	`)
+	`);
 
-	setTimeout(function(){
+  setTimeout(function () {
+    $(".copiado").remove();
+  }, 2000);
+});
 
-		$(".copiado").remove();
+$(".tablaUsuarios tbody").on("click", "button.btnSoporte", function () {
+  var idUsuario = $(this).attr("idUsuario");
 
-	},2000)
-
-})
-
-/*=============================================
-Cancelar Suscripción
-=============================================*/
-
-$(".cancelarSuscripcion").click(function(){
-
-	var idSuscripcion = $(this).attr("idSuscripcion");
-	var idUsuario = $(this).attr("idUsuario");
-
-	swal({
-    	title: '¿Está seguro de cancelar la suscripción?',
-    	text: "¡Si no lo está puede cancelar la acción, recuerde que perderá todo el trabajo que ha hecho con la red pero recibirá el pago de su último mes!",
-    	type: 'warning',
-    	showCancelButton: true,
-    	confirmButtonColor: '#3085d6',
-      	cancelButtonColor: '#d33',
-      	cancelButtonText: 'Cancelar',
-      	confirmButtonText: 'Si, cancelar suscripción!'
-	  }).then(function(result){
-
-	    if(result.value){
-
-	    	var token = null;
-
-	    	var settings1 = {
-			  "async": true,
-			  "crossDomain": true,
-			  "url": "https://api.sandbox.paypal.com/v1/oauth2/token",
-			  "method": "POST",
-			  "headers": {
-			    "content-type": "application/x-www-form-urlencoded",
-			    "authorization": "Basic QVRHd21HZGVxZ2xmS0R4VFpaNkNwUjZFV1VjNWRZcElaUndiX25jcjNvZXRHLVFSWnRQRU1YemY4MlZZZVdpSzg2a1luMjdiVmFOSGtBbFI6RU1sdXZsbVZfQ056QzhXT1p1LTRFSlNfQjBTVkFhWktiNnhjLVgwR2Fob3gtNlFEVE1IS2hJMVEyNnlXaUFuY3pEOG92Q012bFpmMks1TG8=",
-			    "cache-control": "no-cache"
-			  },
-			  "data": {
-			    "grant_type": "client_credentials"
-			  }
-			}
-
-			$.ajax(settings1).done(function (response) {
-			  
-				token = "Bearer "+response["access_token"];
-				
-				var settings2 = {
-				  "async": true,
-				  "crossDomain": true,
-				  "url": "https://api.sandbox.paypal.com/v1/billing/subscriptions/"+idSuscripcion+"/cancel",
-				  "method": "POST",
-				  "headers": {
-				    "content-type": "application/json",
-				    "authorization": token,
-				    "cache-control": "no-cache"
-				  },
-				  "processData": false,
-				  "data": "{\r\n  \"reason\": \"Not satisfied with the service\"\r\n}"
-				}
-
-				$.ajax(settings2).done(function (response) {
-		
-			 		var datos = new FormData();
-					datos.append("idUsuario", idUsuario);
-
-					$.ajax({
-
-						url:"ajax/usuarios.ajax.php",
-						method: "POST",
-						data: datos,
-						cache: false,
-						contentType: false,
-						processData: false,
-						success:function(respuesta){
-							
-							if(respuesta == "ok"){
-
-								swal({
-									type:"success",
-								  	title: "¡Su suscripción ha sido cancelada con éxito!",
-								  	text: "¡Continua disfrutando de nuestro contenido gratuito!",
-								  	showConfirmButton: true,
-									confirmButtonText: "Cerrar"
-								  
-								}).then(function(result){
-
-										if(result.value){   
-										    window.location = "perfil";
-										  } 
-								});
-												
-							}
-
-						}
-
-					})
-									 
-
-				});
-
-
-			});
-
-	    }
-
-	})
-
-
-})
-
-$(".tablaUsuarios tbody").on("click","button.btnSoporte",function(){
-
-    var idUsuario=$(this).attr("idUsuario");
-
-	window.location = "index.php?pagina=soporte&id="+idUsuario;
-   
-
-})
-
+  window.location = "index.php?pagina=soporte&id=" + idUsuario;
+});
 
 /*=============================================
 PINTEREST GRID
 =============================================*/
 
-$('.grid').pinterest_grid({
-
-	no_columns: 3,
-	padding_x: 10,
-	padding_y: 10,
-	margin_bottom: 50,
-	single_column_breakpoint: 700
-})
+$(".grid").pinterest_grid({
+  no_columns: 3,
+  padding_x: 10,
+  padding_y: 10,
+  margin_bottom: 50,
+  single_column_breakpoint: 700,
+});

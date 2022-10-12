@@ -18,7 +18,7 @@ class ModeloCuentas{
 
 			$stmt -> execute();
 
-			return $stmt -> fetch();
+			return $stmt -> fetchAll();
 
 		}else{
 
@@ -30,7 +30,7 @@ class ModeloCuentas{
 
 		}
 
-		$stmt-> close();
+		$stmt -> close();
 
 		$stmt = null;
 

@@ -2,7 +2,7 @@
 
 require_once "conexion.php";
 
-class ModeloUsuarios
+class ModeloComprobantes
 {
 
     /*=============================================
@@ -35,10 +35,10 @@ class ModeloUsuarios
     }
 
     /*=============================================
-    Mostrar Usuarios
+    Mostrar Comprobantes
     =============================================*/
 
-    public static function mdlMostrarUsuarios($tabla, $item, $valor)
+    public static function mdlMostrarComprobantes($tabla, $item, $valor)
     {
 
         if ($item != null && $valor != null) {
@@ -49,7 +49,7 @@ class ModeloUsuarios
 
             $stmt->execute();
 
-            return $stmt->fetch();
+            return $stmt->fetchAll();
         } else {
 
             $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla ORDER BY 'id_usuario' ASC");
@@ -95,16 +95,16 @@ class ModeloUsuarios
     }
 
     /*=============================================
-    Actualizar usuario
+    Actualizar Comprobante
     =============================================*/
 
-    public static function mdlActualizarUsuario($tabla, $id, $item, $valor)
+    public static function mdlActualizarComprobante($tabla, $id, $item, $valor)
     {
 
-        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET $item = :$item WHERE id_usuario = :id_usuario");
+        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET $item = :$item WHERE id = :id");
 
-        $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
-        $stmt->bindParam(":id_usuario", $id, PDO::PARAM_INT);
+        $stmt->bindParam(":" . $item, $valor, PDO::PARAM_INT);
+        $stmt->bindParam(":id", $id, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
 
@@ -120,20 +120,23 @@ class ModeloUsuarios
     }
 
     /*=============================================
-    Editar usuario
+    Editar comprobantes
     =============================================*/
 
-    public static function mdlEditarUsuario($tabla, $datos)
+    public static function mdlEditarComprobantes($tabla, $datos)
     {
 
-        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET nombre = :nombre, email = :email, telefono_movil = :telefono, password = :password, perfil = :perfil WHERE id_usuario = :id_usuario");
+        if($datos["foto"]!=""){
+        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET codigo = :codigo, valor = :valor, fecha = :fecha, foto = :foto WHERE id = :id");
+        $stmt->bindParam(":foto", $datos["foto"], PDO::PARAM_STR);
+    }else{
+        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET codigo = :codigo, valor = :valor, fecha = :fecha WHERE id = :id");
+    }
 
-        $stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
-        $stmt->bindParam(":password", $datos["password"], PDO::PARAM_STR);
-        $stmt->bindParam(":telefono", $datos["telefono"], PDO::PARAM_STR);
-        $stmt->bindParam(":perfil", $datos["perfil"], PDO::PARAM_STR);
-        $stmt->bindParam(":email", $datos["email"], PDO::PARAM_STR);
-        $stmt->bindParam(":id_usuario", $datos["id_usuario"], PDO::PARAM_STR);
+        $stmt->bindParam(":codigo", $datos["codigo"], PDO::PARAM_STR);
+        $stmt->bindParam(":valor", $datos["valor"], PDO::PARAM_STR);
+        $stmt->bindParam(":fecha", $datos["fecha"], PDO::PARAM_STR);
+        $stmt->bindParam(":id", $datos["id"], PDO::PARAM_STR);
 
         if ($stmt->execute()) {
 
@@ -196,44 +199,14 @@ class ModeloUsuarios
     Iniciar Suscripción
     =============================================*/
 
-    // public static function mdlIniciarSuscripcion($tabla, $datos)
-    // {
-
-    //     $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET doc_usuario = :doc_usuario, enlace_afiliado = :enlace_afiliado, patrocinador = :patrocinador, pais = :pais, codigo_pais = :codigo_pais, telefono_movil = :telefono_movil, firma = :firma, fecha_contrato = :fecha_contrato  WHERE id_usuario = :id_usuario");
-
-    //     $stmt->bindParam(":doc_usuario", $datos["doc_usuario"], PDO::PARAM_INT);
-    //     $stmt->bindParam(":enlace_afiliado", $datos["enlace_afiliado"], PDO::PARAM_STR);
-    //     $stmt->bindParam(":patrocinador", $datos["patrocinador"], PDO::PARAM_STR);
-    //     $stmt->bindParam(":pais", $datos["pais"], PDO::PARAM_STR);
-    //     $stmt->bindParam(":codigo_pais", $datos["codigo_pais"], PDO::PARAM_STR);
-    //     $stmt->bindParam(":telefono_movil", $datos["telefono_movil"], PDO::PARAM_STR);
-    //     $stmt->bindParam(":firma", $datos["firma"], PDO::PARAM_STR);
-    //     $stmt->bindParam(":fecha_contrato", $datos["fecha_contrato"], PDO::PARAM_STR);
-    //     $stmt->bindParam(":id_usuario", $datos["id_usuario"], PDO::PARAM_INT);
-
-    //     if ($stmt->execute()) {
-
-    //         return "ok";
-    //     } else {
-
-    //         return print_r(Conexion::conectar()->errorInfo());
-    //     }
-
-    //     $stmt->close();
-
-    //     $stmt = null;
-    // }
-
-     /*=============================================
-    Iniciar Suscripción
-    =============================================*/
-
     public static function mdlIniciarSuscripcion($tabla, $datos)
     {
-        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET doc_usuario = :doc_usuario, enlace_afiliado = :enlace_afiliado, pais = :pais, codigo_pais = :codigo_pais, telefono_movil = :telefono_movil, firma = :firma, fecha_contrato = :fecha_contrato  WHERE id_usuario = :id_usuario");
+
+        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET doc_usuario = :doc_usuario, enlace_afiliado = :enlace_afiliado, patrocinador = :patrocinador, pais = :pais, codigo_pais = :codigo_pais, telefono_movil = :telefono_movil, firma = :firma, fecha_contrato = :fecha_contrato  WHERE id_usuario = :id_usuario");
 
         $stmt->bindParam(":doc_usuario", $datos["doc_usuario"], PDO::PARAM_INT);
         $stmt->bindParam(":enlace_afiliado", $datos["enlace_afiliado"], PDO::PARAM_STR);
+        $stmt->bindParam(":patrocinador", $datos["patrocinador"], PDO::PARAM_STR);
         $stmt->bindParam(":pais", $datos["pais"], PDO::PARAM_STR);
         $stmt->bindParam(":codigo_pais", $datos["codigo_pais"], PDO::PARAM_STR);
         $stmt->bindParam(":telefono_movil", $datos["telefono_movil"], PDO::PARAM_STR);

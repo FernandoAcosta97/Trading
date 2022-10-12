@@ -60,41 +60,23 @@ $usuarios = ControladorUsuarios::ctrMostrarusuarios($item, $valor);
 
       <div class="card-body">
 
-      <div class="form-group">
-
-      <label for="operandoFiltro" class="control-label">FILTRO</label>
-
-       <div>
-
-       <select class="form-control" id="operandoFiltro" onchange="operandoFiltroTabla()" style="width: 30%">
-       
-       </style>>
-         <option value="">TODOS</option>
-         <option value="Si">OPERANDO</option>
-         <option value="No">SIN OPERAR</option>
-       </select>
-
-       </div>
-
-     </div>
         
         <table id="tablaUsuarios" class="table table-striped table-bordered dt-responsive tablaUsuarios" width="100%">
 
           <thead>
             <tr>
-              <th>#</th>
-              <th>Foto</th>
+              <th style="width:10px">#</th>
+              <th>CC</th>
               <th>Nombre</th>
               <th>Email</th>
               <th>País</th>
               <th>Estado</th>
               <th>Operando</th>
-              <th>Enlace Afiliado</th>
               <th>Patrocinador</th>
+              <th>Enlace Afiliado</th>
               <th>Acciones</th>
-              <th>Email de PayPal</th>
+              <th>Telefono</th>
               <th>Última actualización</th>
-              <th>Fecha de vencimiento</th>
             </tr>
           </thead>
           <tbody>

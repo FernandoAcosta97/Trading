@@ -2,32 +2,48 @@
 
 $red = ControladorMultinivel::ctrMostrarRed("usuarios", "red_uninivel", "patrocinador_red",	$usuario["enlace_afiliado"]);
 
+           /*=============================================
+			Limpinado el array de tipo Objeto de valores repetidos
+			=============================================*/
 
-$activados = 0;
-$desactivados = 0;
+			$resultado = array();
 
-if(count($red) != 0){
+			foreach ($red as $value) {
+				
+				$resultado[$value["id_usuario"]]= $value;
+				
+			}
+
+			$red = array_values($resultado);
+
+
+$operando = 0;
+$sinOperar = 0;
+
+if(count($red) > 0){
 
 	foreach ($red as $key => $value) {
-	
-		if($value["suscripcion"] != 0){
 
-			++$activados;
+		if($value["perfil"]!="admin"){
+	
+		if($value["operando"] == 1){
+
+			++$operando;
 		
 		}else{
 
-			++$desactivados;
+			++$sinOperar;
 
 		}
+	}
 	}
 
 }else{
 
-	$activados = 0;
-	$desactivados = 0;
+	$operando = 0;
+	$sinOperar = 0;
 
 }
-
 
 
 ?>
@@ -40,7 +56,7 @@ if(count($red) != 0){
 
 		<div class="card-header">
 			
-			<h5 class="m-0 float-left">Mi red: <?php echo $activados; ?> activos - <?php echo $desactivados; ?> desactivados</h5>
+			<h5 class="m-0 float-left">Mi red: <?php echo $operando; ?> operando - <?php echo $sinOperar; ?> sin operar</h5>
 
 			<?php if ($usuario["enlace_afiliado"] != $patrocinador): ?>
 
@@ -64,8 +80,8 @@ if(count($red) != 0){
 						<th>Foto</th>
 						<th>Nombre</th>				   
 						<th>Pais</th>					
-						<th>Vencimiento</th>
-						<th>Suscripción</th>
+						<th>Fecha</th>
+						<th>Estado</th>
 
 					</tr>   
 

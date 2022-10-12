@@ -23,7 +23,7 @@ if(count($red) != 0){
 
 	foreach ($red as $key => $value) {
 
-		if($value["id_suscripcion"] != ""){
+		if($value["estado"] != ""){
 		
 			$comisiones += $value["periodo_comision"];
 			$ventas += $value["periodo_venta"];

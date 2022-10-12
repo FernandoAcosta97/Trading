@@ -26,6 +26,7 @@ var enlace_afiliado = $("#enlace_afiliado").val();
 
 // })
 
+
 $(".tablaUninivel").DataTable({
   "ajax":"ajax/tabla-uninivel.ajax.php?enlace_afiliado="+enlace_afiliado,
   "deferRender": true,

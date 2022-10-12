@@ -3,134 +3,168 @@
 require_once "../controladores/general.controlador.php";
 require_once "../controladores/usuarios.controlador.php";
 require_once "../modelos/usuarios.modelo.php";
+require_once "../controladores/multinivel.controlador.php";
+require_once "../modelos/multinivel.modelo.php";
 
-class AjaxUsuarios{
+class AjaxUsuarios
+{
 
-	/*=============================================
-	Validar email existente
-	=============================================*/
+    /*=============================================
+    Validar email existente
+    =============================================*/
 
-	public $validarEmail;
-	
-	public function ajaxValidarEmail(){
+    public $validarEmail;
 
-		$item = "email";
-		$valor = $this->validarEmail;
+    public function ajaxValidarEmail()
+    {
 
-		$respuesta = ControladorUsuarios::ctrMostrarUsuarios($item, $valor);
+        $item = "email";
+        $valor = $this->validarEmail;
 
-		echo json_encode($respuesta);
+        $respuesta = ControladorUsuarios::ctrMostrarUsuarios($item, $valor);
 
-	}
+        echo json_encode($respuesta);
 
-	/*=============================================
-	ACTIVAR USUARIO
-	=============================================*/	
+    }
 
-	public $activarUsuario;
-	public $activarId;
+    /*=============================================
+    ACTIVAR USUARIO
+    =============================================*/
 
+    public $activarUsuario;
+    public $activarId;
 
-	public function ajaxActivarUsuario(){
+    public function ajaxActivarUsuario()
+    {
 
-		$tabla = "usuarios";
+        $tabla = "usuarios";
 
-		$item = "estado";
-		$valor = $this->activarUsuario;
+        $item = "estado";
+        $valor = $this->activarUsuario;
 
-		$id = $this->activarId;
+        $id = $this->activarId;
 
-		$respuesta = ModeloUsuarios::mdlActualizarUsuario($tabla, $id, $item, $valor);
+        $respuesta = ModeloUsuarios::mdlActualizarUsuario($tabla, $id, $item, $valor);
 
-	}
+    }
 
-	/*=============================================
-	OPERAR USUARIO
-	=============================================*/	
+    /*=============================================
+    OPERAR USUARIO
+    =============================================*/
 
-	public $operarUsuario;
-	public $operarId;
+    public $operarUsuario;
+    public $operarId;
 
+    public function ajaxOperarUsuario()
+    {
 
-	public function ajaxOperarUsuario(){
+        $tabla = "usuarios";
 
-		$tabla = "usuarios";
+        $item = "operando";
+        $valor = $this->operarUsuario;
 
-		$item = "operando";
-		$valor = $this->operarUsuario;
+        $id = $this->operarId;
 
-		$id = $this->operarId;
+        $respuesta = ModeloUsuarios::mdlActualizarUsuario($tabla, $id, $item, $valor);
 
-		$respuesta = ModeloUsuarios::mdlActualizarUsuario($tabla, $id, $item, $valor);
+    }
 
-	}
+    /*=============================================
+    Suscripción
+    =============================================*/
+    public $aceptar;
+    public $id_usuario;
+    public $doc_usuario;
+    public $telefono_movil;
+    public $codigo_pais;
+    public $pais;
+    public $enlace_afiliado;
+    public $firma;
+	public $patrocinador;
 
-	/*=============================================
-	Suscripción con Paypal
-	=============================================*/	
-	public $suscripcion;
-	public $nombre;
-	public $email;
+    public function ajaxSuscripcion()
+    {
 
-	public function ajaxSuscripcion(){
+        $fecha = substr(date("c"), 0, -6) . "Z";
 
-		$ruta = ControladorGeneral::ctrRuta();
-		$valorSuscripcion = ControladorGeneral::ctrValorSuscripcion();
-		$fecha = substr(date("c"), 0, -6)."Z";
-		$urlPaypal = "http://localhost/www/trading/backoffice/index.php?pagina=perfil&subscription_id=I-9885416";
-		
+        $datos = array("aceptar" => $this->aceptar,
+            "id_usuario" => $this->id_usuario,
+            "doc_usuario" => $this->doc_usuario,
+            "telefono_movil" => $this->telefono_movil,
+            "codigo_pais" => $this->codigo_pais,
+            "pais" => $this->pais,
+            "enlace_afiliado" => $this->enlace_afiliado,
+            "firma" => $this->firma,
+            "fecha_contrato" => $fecha);
 
-		echo $urlPaypal;
+        $datosUninivel = array("usuario_red" => $this->id_usuario,
+            "patrocinador_red" => $this->patrocinador,
+            "periodo_venta" => 10);
 
-	}
+        $respuesta = ControladorUsuarios::ctrIniciarSuscripcion($datos);
 
-	/*=============================================
-	Cancelar Suscripción
-	=============================================*/	
-	public $idUsuario;
+		$registroUninivel = ControladorMultinivel::ctrRegistroUninivel($datosUninivel);
+        // $ruta = ControladorGeneral::ctrRuta();
+        //$valorSuscripcion = ControladorGeneral::ctrValorSuscripcion();
+        // $fecha = substr(date("c"), 0, -6)."Z";
+        // $valor = $this->documento;
+        // $url = "http://localhost/www/trading/backoffice/index.php?pagina=perfil&id=".urlencode($valor);
 
-	public function ajaxCancelarSuscripcion(){
+        // echo $url;
+        echo $respuesta;
 
-		$valor = $this->idUsuario;
+    }
 
-		$respuesta = ControladorUsuarios::ctrCancelarSuscripcion($valor);
+    /*=============================================
+    Cancelar Suscripción
+    =============================================*/
+    public $idUsuario;
 
-		echo $respuesta;
+    public function ajaxCancelarSuscripcion()
+    {
 
-	}
+        $valor = $this->idUsuario;
 
-	/*=============================================
-	EDITAR USUARIO
-	=============================================*/	
+        $respuesta = ControladorUsuarios::ctrCancelarSuscripcion($valor);
 
-	public $idUsuarioEditar;
+        echo $respuesta;
 
-	public function ajaxEditarUsuario(){
+    }
 
-		$item = "id_usuario";
-		$valor = $this->idUsuarioEditar;
+    /*=============================================
+    EDITAR USUARIO
+    =============================================*/
 
-		$respuesta = ControladorUsuarios::ctrMostrarUsuarios($item, $valor);
+    public $idUsuarioEditar;
 
-		echo json_encode($respuesta);
+    public function ajaxEditarUsuario()
+    {
 
-	}
+        $item = "id_usuario";
+        $valor = $this->idUsuarioEditar;
 
-	/*=============================================
+        $respuesta = ControladorUsuarios::ctrMostrarUsuarios($item, $valor);
+
+        echo json_encode($respuesta);
+
+    }
+
+    /*=============================================
     Eliminar Usuario
-    =============================================*/	
+    =============================================*/
 
-	public $idUsuarioEliminar;
+    public $idUsuarioEliminar;
 
-	public function ajaxEliminarUsuario(){
+    public function ajaxEliminarUsuario()
+    {
 
-		$valor = $this->idUsuarioEliminar;
+        $valor = $this->idUsuarioEliminar;
 
-		$respuesta = ControladorUsuarios::ctrEliminarUsuario($valor);
+        $respuesta = ControladorUsuarios::ctrEliminarUsuario($valor);
 
-		echo $respuesta;
+        echo $respuesta;
 
-	}
+    }
 
 }
 
@@ -138,87 +172,91 @@ class AjaxUsuarios{
 Validar email existente
 =============================================*/
 
-if(isset($_POST["validarEmail"])){
+if (isset($_POST["validarEmail"])) {
 
-	$valEmail = new AjaxUsuarios();
-	$valEmail -> validarEmail = $_POST["validarEmail"];
-	$valEmail -> ajaxValidarEmail();
+    $valEmail = new AjaxUsuarios();
+    $valEmail->validarEmail = $_POST["validarEmail"];
+    $valEmail->ajaxValidarEmail();
 
 }
 
 /*=============================================
 ACTIVAR USUARIO
-=============================================*/	
+=============================================*/
 
-if(isset($_POST["activarUsuario"])){
+if (isset($_POST["activarUsuario"])) {
 
-	$activarUsuario = new AjaxUsuarios();
-	$activarUsuario -> activarUsuario = $_POST["activarUsuario"];
-	$activarUsuario -> activarId = $_POST["activarId"];
-	$activarUsuario -> ajaxActivarUsuario();
+    $activarUsuario = new AjaxUsuarios();
+    $activarUsuario->activarUsuario = $_POST["activarUsuario"];
+    $activarUsuario->activarId = $_POST["activarId"];
+    $activarUsuario->ajaxActivarUsuario();
 
 }
-
 
 /*=============================================
 OPERAR USUARIO
-=============================================*/	
+=============================================*/
 
-if(isset($_POST["operarUsuario"])){
+if (isset($_POST["operarUsuario"])) {
 
-	$operarUsuario = new AjaxUsuarios();
-	$operarUsuario -> operarUsuario = $_POST["operarUsuario"];
-	$operarUsuario -> operarId = $_POST["operarId"];
-	$operarUsuario -> ajaxOperarUsuario();
+    $operarUsuario = new AjaxUsuarios();
+    $operarUsuario->operarUsuario = $_POST["operarUsuario"];
+    $operarUsuario->operarId = $_POST["operarId"];
+    $operarUsuario->ajaxOperarUsuario();
 
 }
 
 /*=============================================
-Suscripción con Paypal
-=============================================*/	
+Suscripción
+=============================================*/
 
-if(isset($_POST["suscripcion"]) && $_POST["suscripcion"] == "ok"){
+if (isset($_POST["aceptar"])) {
 
-	$paypal = new AjaxUsuarios();
-	$paypal -> nombre = $_POST["nombre"];
-	$paypal -> email = $_POST["email"];
-	$paypal -> ajaxSuscripcion();
+    $activoRegistro = new AjaxUsuarios();
+    $activoRegistro->aceptar = $_POST["aceptar"];
+    $activoRegistro->id_usuario = $_POST["id_usuario"];
+    $activoRegistro->doc_usuario = $_POST["doc_usuario"];
+    $activoRegistro->enlace_afiliado = $_POST["enlace_afiliado"];
+    $activoRegistro->pais = $_POST["pais"];
+    $activoRegistro->codigo_pais = $_POST["codigo_pais"];
+    $activoRegistro->telefono_movil = $_POST["telefono_movil"];
+    $activoRegistro->firma = $_POST["firma"];
+	$activoRegistro->patrocinador = $_POST["patrocinador"];
+    $activoRegistro->ajaxSuscripcion();
 
 }
 
 /*=============================================
 Cancelar Suscrpción
-=============================================*/	
+=============================================*/
 
-if(isset($_POST["idUsuario"])){
+if (isset($_POST["idUsuario"])) {
 
-	$cancelarSuscripcion = new AjaxUsuarios();
-	$cancelarSuscripcion -> idUsuario = $_POST["idUsuario"];
-	$cancelarSuscripcion -> ajaxCancelarSuscripcion();
+    $cancelarSuscripcion = new AjaxUsuarios();
+    $cancelarSuscripcion->idUsuario = $_POST["idUsuario"];
+    $cancelarSuscripcion->ajaxCancelarSuscripcion();
 
 }
 
 /*=============================================
 EDITAR USUARIO
 =============================================*/
-if(isset($_POST["idUsuarioEditar"])){
+if (isset($_POST["idUsuarioEditar"])) {
 
-	$editar = new AjaxUsuarios();
-	$editar -> idUsuarioEditar = $_POST["idUsuarioEditar"];
-	$editar -> ajaxEditarUsuario();
+    $editar = new AjaxUsuarios();
+    $editar->idUsuarioEditar = $_POST["idUsuarioEditar"];
+    $editar->ajaxEditarUsuario();
 
 }
 
 /*=============================================
 Eliminar Usuario
-=============================================*/	
+=============================================*/
 
-if(isset($_POST["idUsuarioEliminar"])){
+if (isset($_POST["idUsuarioEliminar"])) {
 
-	$eliminarUsuario = new AjaxUsuarios();
-	$eliminarUsuario -> idUsuarioEliminar = $_POST["idUsuarioEliminar"];
-	$eliminarUsuario -> ajaxEliminarUsuario();
+    $eliminarUsuario = new AjaxUsuarios();
+    $eliminarUsuario->idUsuarioEliminar = $_POST["idUsuarioEliminar"];
+    $eliminarUsuario->ajaxEliminarUsuario();
 
 }
-
-

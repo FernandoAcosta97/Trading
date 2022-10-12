@@ -25,13 +25,27 @@ $totalUsuarios = ControladorUsuarios::ctrTotalUsuarios();
 TOTAL USUARIOS OPERANDO
 =============================================*/
 $totalUsuariosOperando=0;
-$totalUsuariosOperando = ControladorUsuarios::ctrTotalUsuariosXfiltro("operando","1");
+if($usuario["perfil"!="admin"]){
+
+	$totalUsuariosOperando=ControladorMultinivel::ctrMostrarRedOperandoTotal("usuarios","red_uninivel","patrocinador_red",$usuario["enlace_afiliado"],"operando",1);
+
+}else{
+
+	$totalUsuariosOperando = ControladorUsuarios::ctrTotalUsuariosXfiltro("operando","1");
+}
 
 /*=============================================
 TOTAL USUARIOS SIN OPERAR
 =============================================*/
 $totalUsuariosSinOperar=0;
-$totalUsuariosSinOperar = ControladorUsuarios::ctrTotalUsuariosXfiltro("operando","0");
+if($usuario["perfil"!="admin"]){
+
+	$totalUsuariosSinOperar=ControladorMultinivel::ctrMostrarRedOperandoTotal("usuarios","red_uninivel","patrocinador_red",$usuario["enlace_afiliado"],"operando",0);
+
+}else{
+
+	$totalUsuariosSinOperar = ControladorUsuarios::ctrTotalUsuariosXfiltro("operando","0");
+}
 
 /*=============================================
 TOTAL COMISIONES
@@ -69,8 +83,9 @@ if($usuario["estado"] != 0){
 	$resultado = array();
 
 	foreach ($red as $value) {
-		
+        if($value["perfil"]!="admin"){
 		$resultado[$value["id_usuario"]]= $value;
+		}
 		
 	}
 
@@ -80,8 +95,10 @@ if($usuario["estado"] != 0){
 
 	$red = array();
 }
-
-
+$totalRed=0;
+if($usuario["firma"] != NULL ){
+	$totalRed=count($red);
+}
 
 
 ?>
@@ -103,7 +120,7 @@ if($usuario["estado"] != 0){
 			<div class="icon">
 				<i class="fas fa-users"></i>
 			</div>
-			<a href="ingresos-uninivel" class="small-box-footer">Más información <i class="fas fa-arrow-circle-right"></i></a>
+			<a href="usuarios" class="small-box-footer">Más información <i class="fas fa-arrow-circle-right"></i></a>
 		</div>
 	</div>
 	<!-- ./col -->
@@ -165,7 +182,7 @@ if($usuario["estado"] != 0){
 		<!-- small box -->
 		<div class="small-box bg-purple">
 			<div class="inner">
-				<h3><?php echo count($red); ?></h3>
+				<h3><?php echo $totalRed; ?></h3>
 
 				<p>Mi red</p>
 			</div>
