@@ -174,12 +174,12 @@ $(".suscribirse").click(function () {
         $(".suscribirse").after(`
 
 				   <img src="vistas/img/plantilla/status.gif" class="ml-3" style="width:30px; height:30px" />
-				   <span class="alert alert-warning ml-3">Procesando la suscripción, no cerrar esta página</span>
+				   <span class="alert alert-warning ml-3">Procesando el contrato, no cerrar esta página</span>
 
 			   `);
       },
       success: function (respuesta) {
-           console.log("respuesta ", respuesta);
+
         if (respuesta == "ok") {
 			
           swal({

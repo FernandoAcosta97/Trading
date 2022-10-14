@@ -1,51 +1,24 @@
-<?php 
+<?php
 
 /*=============================================
 HISTÓRICO DE COMISIONES
 =============================================*/
 
-if($usuario["enlace_afiliado"] != $patrocinador){
+if ($usuario["enlace_afiliado"] != $patrocinador) {
 
-	$pagos = ControladorMultinivel::ctrMostrarPagosRed("pagos_uninivel", "usuario_pago", $usuario["id_usuario"]);
+    $pagos = ControladorMultinivel::ctrMostrarPagosRed("pagos_uninivel", "usuario_pago", $usuario["id_usuario"]);
 
-}else{
+} else {
 
-	$pagos = ControladorMultinivel::ctrMostrarPagosRed("pagos_uninivel", null, null);
-	
+    $pagos = ControladorMultinivel::ctrMostrarPagosRed("pagos_uninivel", null, null);
 
 }
 
 /*=============================================
 TOTAL USUARIOS
 =============================================*/
-$totalUsuarios=0;
+$totalUsuarios = 0;
 $totalUsuarios = ControladorUsuarios::ctrTotalUsuarios();
-
-/*=============================================
-TOTAL USUARIOS OPERANDO
-=============================================*/
-$totalUsuariosOperando=0;
-if($usuario["perfil"!="admin"]){
-
-	$totalUsuariosOperando=ControladorMultinivel::ctrMostrarRedOperandoTotal("usuarios","red_uninivel","patrocinador_red",$usuario["enlace_afiliado"],"operando",1);
-
-}else{
-
-	$totalUsuariosOperando = ControladorUsuarios::ctrTotalUsuariosXfiltro("operando","1");
-}
-
-/*=============================================
-TOTAL USUARIOS SIN OPERAR
-=============================================*/
-$totalUsuariosSinOperar=0;
-if($usuario["perfil"!="admin"]){
-
-	$totalUsuariosSinOperar=ControladorMultinivel::ctrMostrarRedOperandoTotal("usuarios","red_uninivel","patrocinador_red",$usuario["enlace_afiliado"],"operando",0);
-
-}else{
-
-	$totalUsuariosSinOperar = ControladorUsuarios::ctrTotalUsuariosXfiltro("operando","0");
-}
 
 /*=============================================
 TOTAL COMISIONES
@@ -55,58 +28,85 @@ $totalComisiones = 0;
 
 foreach ($pagos as $key => $value) {
 
-	if($usuario["enlace_afiliado"] != $patrocinador || $value["periodo_comision"] == $value["periodo_venta"]){
+    if ($usuario["enlace_afiliado"] != $patrocinador || $value["periodo_comision"] == $value["periodo_venta"]) {
 
-		$totalComisiones += $value["periodo_comision"];
+        $totalComisiones += $value["periodo_comision"];
 
-	}else{
+    } else {
 
-		$totalComisiones += $value["periodo_venta"]-$value["periodo_comision"];
-		
+        $totalComisiones += $value["periodo_venta"] - $value["periodo_comision"];
 
-	}
-	
+    }
+
 }
 
 /*=============================================
 CANTIDAD DE PERSONAS EN LA RED
 =============================================*/
 
-if($usuario["estado"] != 0){
+$totalUsuariosSinOperar = 0;
+$totalUsuariosOperando = 0;
 
-	$red = ControladorMultinivel::ctrMostrarRed("usuarios", "red_uninivel", "patrocinador_red",	$usuario["enlace_afiliado"]);
+if ($usuario["estado"] != 0 && $usuario["firma"] != "") {
 
-	/*=============================================
-	Limpiando el array de tipo Objeto de valores repetidos
-	=============================================*/
+    $red = ControladorMultinivel::ctrMostrarRed("usuarios", "red_uninivel", "patrocinador_red", $usuario["enlace_afiliado"]);
 
-	$resultado = array();
+    /*=============================================
+    Limpiando el array de tipo Objeto de valores repetidos
+    =============================================*/
 
-	foreach ($red as $value) {
-        if($value["perfil"]!="admin"){
-		$resultado[$value["id_usuario"]]= $value;
-		}
+    $resultado = array();
+
+    foreach ($red as $value) {
+        if ($value["perfil"] != "admin") {
+            $resultado[$value["id_usuario"]] = $value;
+        }
+
+    }
+
+    $red = array_values($resultado);
+
+    /*=============================================
+    TOTAL USUARIOS SIN OPERAR Y OPERANDO
+    =============================================*/
+
+    if ($usuario["perfil"] != "admin") {
+
+        foreach ($red as $value) {
+            if ($value["operando"] == 0) {
+                ++$totalUsuariosSinOperar;
+            }else{
+				++$totalUsuariosOperando;
+			}
 		
-	}
+        }
+        // $totalUsuariosSinOperar = ControladorMultinivel::ctrMostrarRedOperandoTotal("usuarios", "red_uninivel", "patrocinador_red", $usuario["enlace_afiliado"], "operando", 0);
 
-	$red = array_values($resultado);
+    } else {
 
-}else{
+        $res = ControladorUsuarios::ctrTotalUsuariosXfiltro("operando", "0");
+        $totalUsuariosSinOperar = $res[0];
 
-	$red = array();
+		$res2 = ControladorUsuarios::ctrTotalUsuariosXfiltro("operando", "1");
+        $totalUsuariosOperando = $res2[0];
+    }
+
+
+} else {
+
+    $red = array();
 }
-$totalRed=0;
-if($usuario["firma"] != NULL ){
-	$totalRed=count($red);
-}
 
+$totalRed = 0;
+if ($usuario["firma"] != null) {
+    $totalRed = count($red);
+}
 
 ?>
 
 <div class="row">
 
-    <?php if($usuario["perfil"]=="admin"){ ?>
-		
+<?php if($usuario["perfil"]=="admin"){ ?>
 
 	<div class="col-12 col-sm-6 col-lg-3">
 
@@ -124,13 +124,14 @@ if($usuario["firma"] != NULL ){
 		</div>
 	</div>
 	<!-- ./col -->
+	<?php } ?>
 
 	<div class="col-12 col-sm-6 col-lg-3">
 
 		<!-- small box -->
 		<div class="small-box bg-success">
 			<div class="inner">
-				<h3><?php echo number_format($totalUsuariosOperando[0], 0, ",", "."); ?></h3>
+				<h3><?php echo $totalUsuariosOperando; ?></h3>
 
 				<p>Operando</p>
 			</div>
@@ -147,7 +148,7 @@ if($usuario["firma"] != NULL ){
 		<!-- small box -->
 		<div class="small-box bg-danger">
 			<div class="inner">
-				<h3><?php echo number_format($totalUsuariosSinOperar[0], 0, ",", "."); ?></h3>
+				<h3><?php echo $totalUsuariosSinOperar; ?></h3>
 
 				<p>Sin Operar</p>
 			</div>
@@ -158,7 +159,24 @@ if($usuario["firma"] != NULL ){
 		</div>
 	</div>
 	<!-- ./col -->
-	<?php } ?>
+
+
+	<div class="col-12 col-sm-6 col-lg-3">
+
+<!-- small box -->
+<div class="small-box bg-warning">
+	<div class="inner">
+		<h3><?php echo $totalUsuariosSinOperar; ?></h3>
+
+		<p>Sin Contrato</p>
+	</div>
+	<div class="icon">
+		<i class="fas fa-users"></i>
+	</div>
+	<a href="uninivel" class="small-box-footer">Más información <i class="fas fa-arrow-circle-right"></i></a>
+</div>
+</div>
+<!-- ./col -->
 
 
 	<div class="col-12 col-sm-6 col-lg-3">
@@ -243,9 +261,9 @@ if($usuario["firma"] != NULL ){
 			</div>
 
 			<a href="perfil" class="small-box-footer">Operar ahora <i class="fa fa-arrow-circle-right"></i></a>
-		
-			<?php endif ?>
-				
+
+			<?php endif?>
+
 		</div>
 	</div>
 	<!-- ./col -->

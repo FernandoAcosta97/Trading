@@ -92,33 +92,32 @@ class ControladorMultinivel{
 
 		$derrame = ModeloMultinivel::mdlMostrarUsuarioRed("red_binaria", "usuario_red", $idPatrocinador);
 
-		foreach ($derrame as $key => $value) {
-				
+		foreach($derrame as $key => $value){
 			$derrameBinaria = $value["orden_binaria"];	
-			
 		}
+
 
 		/*=============================================
 		EJECUTAMOS FUNCIÓN PARA DAR POSICIÓN EN LA RED
 		=============================================*/	
 
-		$respuesta = ControladorMultinivel::derrameBinaria($derrameBinaria, $datos["patrocinador_red"]);
+		// $derrameB = ControladorMultinivel::derrameBinaria($derrameBinaria, $datos["patrocinador_red"]);
 		
 		/*=============================================
 		GENERAR LA POSICIÓN CORRESPONDIENTE
 		=============================================*/	
 
-		if ($respuesta["posicionLetra"] == "" || $respuesta["posicionLetra"] == "B"){
+		// if ($respuesta["posicionLetra"] == "" || $respuesta["posicionLetra"] == "B"){
 
-			$posicionLetra = "A";
+		// 	$posicionLetra = "A";
 
-		}
+		// }
 
-		if ($respuesta["posicionLetra"] == "A"){				
+		// if ($respuesta["posicionLetra"] == "A"){				
 
-			$posicionLetra = "B";
+		// 	$posicionLetra = "B";
 			
-		}
+		// }
 
 		/*=============================================
 		GUARDAMOS NUEVO USUARIO EN LA RED
@@ -126,8 +125,7 @@ class ControladorMultinivel{
 
 		$datosBinaria = array("usuario_red" => $datos["usuario_red"],
 							  "orden_binaria" => $ordenBinaria,
-							  "derrame_binaria" => $respuesta["derrameBinaria"],				   
-							  "posicion_binaria" => $posicionLetra,
+							  "derrame_binaria" => $derrameBinaria,
 							  "patrocinador_red" => $datos["patrocinador_red"]);
 
 		$tabla = "red_binaria";
@@ -152,8 +150,7 @@ class ControladorMultinivel{
 
 		if(!$lineaDescendiente){
 
-			$datos = array("posicionLetra"=>"",
-				       	   "derrameBinaria"=>$derrameBinaria);
+			$datos = array("derrameBinaria"=>$derrameBinaria);
 
 			return $datos;			
 
@@ -165,8 +162,7 @@ class ControladorMultinivel{
 
 		else if(count($lineaDescendiente) == 1){
 
-			$datos = array("posicionLetra"=>"A",
-				       	   "derrameBinaria"=>$derrameBinaria);
+			$datos = array("derrameBinaria"=>$derrameBinaria);
 
 			return $datos;			
 

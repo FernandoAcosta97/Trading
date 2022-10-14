@@ -23,9 +23,11 @@ Class ControladorUsuarios{
 				$encriptar = crypt($_POST["registroPassword"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
 
 				$encriptarEmail = md5($_POST["registroEmail"]);
+				$aleatorio = mt_rand(2, 999999999999999);
 
 				$tabla = "usuarios";
 				$datos = array("perfil" => "usuario",
+				               "doc_usuario" => $aleatorio,
 							   "nombre" => $_POST["registroNombre"],
 							   "email" => $_POST["registroEmail"],
 							   "password" => $encriptar,
@@ -229,7 +231,7 @@ Class ControladorUsuarios{
 
 	static public function ctrTotalUsuariosXfiltro($item, $valor){
 	
-		$tabla = "usuarios";
+		$tabla = "usuarios"; 
 
 		$respuesta = ModeloUsuarios::mdlTotalUsuariosXfiltro($tabla, $item, $valor);
 

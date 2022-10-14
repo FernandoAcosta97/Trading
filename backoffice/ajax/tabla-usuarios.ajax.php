@@ -70,14 +70,28 @@ class TablaUsuarios{
 			}
 
 				$acciones = "<div class='btn-group'><button class='btn btn-warning btn-xs btnEditarUsuario' idUsuario='".$value["id_usuario"]."' data-toggle='modal' data-target='#modalEditarUsuario'><i class='fa fa-pen' style='color:white'></i></button><button type='button' class='btn btn-primary btn-xs btnSoporte' idUsuario='".$value["id_usuario"]."'><i class='fa fa-envelope'></i></button></div>";
+
+				$docUsuario = "n/a";
+				if($value["firma"]!=""){
+
+					$docUsuario = $value["doc_usuario"];
+
+				}
+
+				$pais = "n/a";
+				if($value["pais"]!=""){
+
+					$pais = $value["pais"];
+
+				}
 				
 				$datosJson .= '[
 
 					   "'.($key+1).'",
-					   "'.$value["doc_usuario"].'",
+					   "'.$docUsuario.'",
 				       "'.$value["nombre"].'",
 				       "'.$value["email"].'",
-				       "'.$value["pais"].'",
+				       "'.$pais.'",
 				       "'.$estado.'",
 				       "'.$operando.'",
 					   "'.$value["patrocinador"].'",

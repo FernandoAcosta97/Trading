@@ -459,7 +459,7 @@ if ($usuario["perfil"] != "admin") {
 
 <?php
 
-if (isset($_GET["id"])) {
+if (isset($_GET["i"])) {
 
     $err = false;
 

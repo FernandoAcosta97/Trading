@@ -80,12 +80,33 @@ class AjaxUsuarios
     public $pais;
     public $enlace_afiliado;
     public $firma;
-	public $patrocinador;
+    public $patrocinador;
 
     public function ajaxSuscripcion()
     {
+        $patrocinador=$this->patrocinador;
 
-        $fecha = substr(date("c"), 0, -6) . "Z";
+        $validarPatrocinador = ControladorUsuarios::ctrMostrarUsuarios("enlace_afiliado", $patrocinador);
+
+        if (!$validarPatrocinador) {
+
+            $confimarPatrocinador = $patrocinador;
+
+        } else {
+
+            if ($validarPatrocinador["firma"] != null) {
+
+                $confimarPatrocinador = $validarPatrocinador["enlace_afiliado"];
+
+            } else {
+
+                $confimarPatrocinador = $patrocinador;
+
+            }
+        }
+
+        $f = getdate();
+        $fecha = $f["year"] . "-" . $f["mon"] . "-" . $f["wday"];
 
         $datos = array("aceptar" => $this->aceptar,
             "id_usuario" => $this->id_usuario,
@@ -98,12 +119,16 @@ class AjaxUsuarios
             "fecha_contrato" => $fecha);
 
         $datosUninivel = array("usuario_red" => $this->id_usuario,
-            "patrocinador_red" => $this->patrocinador,
+            "patrocinador_red" => $confimarPatrocinador,
             "periodo_venta" => 10);
+
+        $datosArbol = array("usuario_red" => $this->id_usuario,
+            "patrocinador_red" => $confimarPatrocinador);
 
         $respuesta = ControladorUsuarios::ctrIniciarSuscripcion($datos);
 
-		$registroUninivel = ControladorMultinivel::ctrRegistroUninivel($datosUninivel);
+        $registroUninivel = ControladorMultinivel::ctrRegistroUninivel($datosUninivel);
+        $registroArbol = ControladorMultinivel::ctrRegistroBinaria($datosArbol);
         // $ruta = ControladorGeneral::ctrRuta();
         //$valorSuscripcion = ControladorGeneral::ctrValorSuscripcion();
         // $fecha = substr(date("c"), 0, -6)."Z";
@@ -221,7 +246,7 @@ if (isset($_POST["aceptar"])) {
     $activoRegistro->codigo_pais = $_POST["codigo_pais"];
     $activoRegistro->telefono_movil = $_POST["telefono_movil"];
     $activoRegistro->firma = $_POST["firma"];
-	$activoRegistro->patrocinador = $_POST["patrocinador"];
+    $activoRegistro->patrocinador = $_POST["patrocinador"];
     $activoRegistro->ajaxSuscripcion();
 
 }

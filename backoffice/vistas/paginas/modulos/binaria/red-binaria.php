@@ -1,40 +1,41 @@
-<?php 
+<?php
 
 $regresar = false;
 
-if(isset($_GET["id"])){
+if (isset($_GET["id"])) {
 
-	$valor = $_GET["id"];
-	$usuario = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $valor);
-	$regresar = true;
+    $valor = $_GET["id"];
+    $usuario = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $valor);
+    $regresar = true;
 
-}else{
+} else {
 
-	$valor = $usuario["id_usuario"];
+    $valor = $usuario["id_usuario"];
 }
 
-$red = ControladorMultinivel::ctrMostrarUsuarioRed("red_binaria", "usuario_red", $valor);
+$red = ControladorMultinivel::ctrMostrarUsuarioRed("red_binaria", "usuario_red", $usuario["id_usuario"]);
 
 $ordenBinaria = $red[0]["orden_binaria"];
+//  print_r($red);
 
 ?>
 
-<input type="hidden" value="<?php echo $usuario["id_usuario"]?>" id="id_usuario">
+<input type="hidden" value="<?php echo $usuario["id_usuario"] ?>" id="id_usuario">
 
 <div class="card card-primary card-outline preloadRed">
-	
+
 	<div class="card-header">
 
 	<?php if ($red[0]["patrocinador_red"] != ""): ?>
-	
 
-		<h5 class="float-left">Patrocinador: 
+
+		<h5 class="float-left">Patrocinador:
 			<span class="badge badge-secondary"><?php echo $red[0]["patrocinador_red"]; ?></span>
 		</h5>
-			
-		<?php endif ?>	
 
-	
+		<?php endif?>
+
+
 
 		<!--=====================================
 		TABLA GANANCIAS
@@ -87,7 +88,7 @@ $ordenBinaria = $red[0]["orden_binaria"];
 
 		</div>
 
-		<?php endif ?>
+		<?php endif?>
 
 	</div>
 
@@ -95,74 +96,64 @@ $ordenBinaria = $red[0]["orden_binaria"];
 
 		<div id="summary" class="tree_main" patrocinador="<?php echo $usuario["enlace_afiliado"]; ?>">
 
-		<?php 
+		<?php
 
-		generarArbol($ordenBinaria, $usuario["id_usuario"], $usuario["nombre"], $usuario["foto"], $usuario["enlace_afiliado"]);
+	generarArbol($ordenBinaria, $usuario["id_usuario"], $usuario["nombre"], $usuario["foto"], $usuario["enlace_afiliado"]);
 
-		function generarArbol($ordenBinaria, $usuarioRed, $nombre, $foto, $patrocinador){
+function generarArbol($ordenBinaria, $usuarioRed, $nombre, $foto, $patrocinador)
+{
 
-			$ladoA = "";
-			$ladoB = "";
+    $lado = "";
 
-			if($foto == ""){
+    if ($foto == "") {
 
-				$foto = 'vistas/img/usuarios/default/default.png';
-			}
+        $foto = 'vistas/img/usuarios/default/default.png';
+    }
 
-			/*=============================================
-			TRAEMOS LADO A Y LADO B DE LA PRIMERA LÍNEA DESCENDIENTE
-			=============================================*/
+    /*=============================================
+    TRAEMOS LA PRIMERA LÍNEA DESCENDIENTE
+    =============================================*/
+    $respuesta = ControladorMultinivel::ctrMostrarUsuarioRed("red_binaria", "derrame_binaria", $ordenBinaria);
 
-			$respuesta = ControladorMultinivel::ctrMostrarUsuarioRed("red_binaria", "derrame_binaria", $ordenBinaria);
-			
-			echo '<ul id="tree_view" style="display:none">
+    // print_r($respuesta);
+    echo '<ul id="tree_view" style="display:none">
 
-					<li>
-						<img class="tree_icon rounded-circle" src="'.$foto.'">
-						<p class="demo_name_style">'.$nombre.'</p>';
+			       <li>
+						<img class="tree_icon rounded-circle" src="' . $foto . '">
+						<p class="demo_name_style bg-info">' . $nombre . '</p>';
 
-						foreach ($respuesta as $key => $value) {
+    foreach ($respuesta as $key => $value) {
 
-							if($value["posicion_binaria"] == "A"){
+        $lado = generarLineasDescendientes($value["orden_binaria"], $lado);
 
-								$ladoA = generarLineasDescendientes($value["orden_binaria"], $ladoA, null, $patrocinador, null);
+    }
 
-							}
+	// echo $lado;
+    echo generarLineasDescendientes($ordenBinaria, $lado);
 
-							if($value["posicion_binaria"] == "B"){
-
-								$ladoB = generarLineasDescendientes($value["orden_binaria"], null, $ladoB, $patrocinador, null);
-
-							}
-
-						}
-
-					
-						echo generarLineasDescendientes($ordenBinaria, $ladoA, $ladoB, $patrocinador, "lineaDescendiente");
-
-
-					echo '</li>
+    echo '</li>
 
 			</ul>';
 
-		
-		}//FIN de la función generarArbol
+} //FIN FUNCION generarArbol
 
-		function generarLineasDescendientes($ordenBinaria, $ladoA, $ladoB, $patrocinador, $clase){
+function generarLineasDescendientes($ordenBinaria, $lado)
+{
 
-			$respuesta = ControladorMultinivel::ctrMostrarUsuarioRed("red_binaria", "derrame_binaria", $ordenBinaria);
+    $respuesta = ControladorMultinivel::ctrMostrarUsuarioRed("red_binaria", "derrame_binaria", $ordenBinaria);
+    // print_r($respuesta);
 
-			$derrame = 0;
-			$sinLineaDescendiente = null;
-			$arbol = '<ul>';
-			
-			/*=============================================
-			CUANDO NO HAY LÍNEA DESCENDIENTE
-			=============================================*/
+    $derrame = 0;
+    $sinLineaDescendiente = null;
+    $arbol = '<ul>';
 
-			if(!$respuesta){
-			
-				$arbol .=  '<li>
+    /*=============================================
+    CUANDO NO HAY LÍNEA DESCENDIENTE
+    =============================================*/
+
+    if (!$respuesta) {
+
+        $arbol .= '<li>
 								<img class="tree_icon rounded-circle" src="vistas/img/usuarios/default/default.png">
 							</li>
 							<li>
@@ -170,143 +161,126 @@ $ordenBinaria = $red[0]["orden_binaria"];
 							</li>
 						</ul>';
 
-				return $arbol;
+        return $arbol;
 
-			}
+    }
 
-			/*=============================================
-			CUANDO SI HAY LÍNEA DESCENDIENTE
-			=============================================*/
+    /*=============================================
+    CUANDO SI HAY LÍNEA DESCENDIENTE
+    =============================================*/
 
-			foreach ($respuesta as $key => $value) {
+    foreach ($respuesta as $key => $value) {
 
-				// TRAEMOS LOS DATOS DEL USUARIO
+        // TRAEMOS LOS DATOS DEL USUARIO
 
-				$afiliado = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $value["usuario_red"]);
+        $afiliado = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $value["usuario_red"]);
+		// print_r($afiliado);
 
-				// VALIDAMOS LA FOTO
+        // VALIDAMOS LA FOTO
 
-				if($afiliado["foto"] == ""){
+        if ($afiliado["foto"] == "") {
 
-					$foto = 'vistas/img/usuarios/default/default.png'; 
-				
-				}else{
+            $foto = 'vistas/img/usuarios/default/default.png';
 
-					$foto = $afiliado["foto"];
+        } else {
 
-				}
+            $foto = $afiliado["foto"];
 
-				// AUMENTAMOS EL DERRAME
+        }
 
-				$derrame++;
+        // AUMENTAMOS EL DERRAME
 
-				/*=============================================
-				DEFINIMOS SEGUNDA LÍNEA DESCENDIENTE LADO A
-				=============================================*/
+        $derrame++;
 
-				if($value["posicion_binaria"] == "A" && $derrame == 1){
-
-					$arbol .= '<li>
-								<a href="index.php?pagina=binaria&id='.$afiliado["id_usuario"].'">
-								<img class="tree_icon rounded-circle '.$clase.'Izq" src="'.$foto.'" patrocinador="'.$afiliado["patrocinador"].'">';
-								
-								if($afiliado["patrocinador"] == $patrocinador){
-
-									$arbol .= '<p class="demo_name_style">'.$afiliado["nombre"].'</p></a>';
-
-								}else{
-
-									$arbol .= '<p class="demo_name_style bg-info">'.$afiliado["nombre"].'</p></a>';
-								}
-							
-
-					$arbol .= $ladoA.generarLineasDescendientes($value["orden_binaria"], $ladoA, null, $patrocinador, $clase).'</li>';
-
-				}
-
-				/*=============================================
-				DEFINIMOS SEGUNDA LÍNEA DESCENDIENTE LADO B
-				=============================================*/
-
-				if($value["posicion_binaria"] == "B" && $derrame == 2){
-
-					$arbol .= '<li>
-								<a href="index.php?pagina=binaria&id='.$afiliado["id_usuario"].'">
-								<img class="tree_icon rounded-circle '.$clase.'Der" src="'.$foto.'" patrocinador="'.$afiliado["patrocinador"].'">';
-								
-								if($afiliado["patrocinador"] == $patrocinador){
-
-									$arbol .= '<p class="demo_name_style">'.$afiliado["nombre"].'</p></a>';
-
-								}else{
-
-									$arbol .= '<p class="demo_name_style bg-info">'.$afiliado["nombre"].'</p></a>';
-								}
-
-					$arbol .= $ladoB.generarLineasDescendientes($value["orden_binaria"], null, $ladoB, $patrocinador, $clase).'</li>';
-
-				}
-
-				$sinLineaDescendiente = $value["posicion_binaria"];
+//    print_r($derrame);
+    /*=============================================
+    DEFINIMOS SEGUNDA LÍNEA DESCENDIENTE LADO
+    =============================================*/
 
 
-			}
+        $arbol .= '<li>
+						<a href="index.php?pagina=binaria&id=' . $afiliado["id_usuario"] . '">
+						<img class="tree_icon rounded-circle" src="' . $foto . '" patrocinador="' . $afiliado["patrocinador"] . '">';
 
-			/*=============================================
-			CUANDO FALTA GENTE EN LADO B
-			=============================================*/ 
+						// $arbol .= '<p class="demo_name_style">' . $afiliado["nombre"] . '</p></a>';
 
-			if($derrame == 1 && $sinLineaDescendiente == "A"){
+        if ($afiliado["operando"] == 1) {
 
-				$arbol .= '<li>
-						<img class="tree_icon rounded-circle" src="vistas/img/usuarios/default/default.png">
-					</li>';
+            $arbol .= '<p class="demo_name_style bg-success">' . $afiliado["nombre"] . '</p></a>';
 
-			}
+        } else if($afiliado["firma"] != ""){
 
-			$arbol .= '</ul>';
-
-   			return $arbol;			
-
+            $arbol .= '<p class="demo_name_style bg-danger">' . $afiliado["nombre"] . '</p></a>';
+        }else{
+			$arbol .= '<p class="demo_name_style bg-warning">' . $afiliado["nombre"] . '</p></a>';
 		}
 
-		?>
+        $arbol .= $lado . generarLineasDescendientes($value["orden_binaria"], $lado) . '</li>';
+
+    
+
+	/*=============================================
+    DEFINIMOS SEGUNDA LÍNEA DESCENDIENTE LADO
+    =============================================*/
+
+    // if ($derrame == 2) {
+
+    //     $arbol .= '<li>
+	// 					<a href="index.php?pagina=binaria&id=' . $afiliado["id_usuario"] . '">
+	// 					<img class="tree_icon rounded-circle" src="' . $foto . '" patrocinador="' . $afiliado["patrocinador"] . '">';
+
+	// 					$arbol .= '<p class="demo_name_style">' . $afiliado["nombre"] . '</p></a>';
+
+    //     $arbol .= $lado . generarLineasDescendientes($value["orden_binaria"], $lado) . '</li>';
+
+    // }
+	$sinLineaDescendiente = $value["posicion_binaria"];
+}
+
+$arbol .= '</ul>';
+
+return $arbol;	
+
+
+}
+
+?>
 
 			<!-- <ul id="tree_view" style="display:none">
-				
-				<li>	
-					
+
+				<li>
+
 					<img class="tree_icon rounded-circle" src="vistas/img/usuarios/4/701.jpg">
 
 					<p class="demo_name_style">Academy of Life</p>
 
 					<ul>
-						
+
 						<li>
-							
+
 							<img class="tree_icon rounded-circle lineaDescendienteIzq" src="vistas/img/usuarios/9/828.png">
 							<p class="demo_name_style">Monica Murillo</p>
 
 							<ul>
-								
+
 								<li>
-									
+
 									<img class="tree_icon rounded-circle lineaDescendienteIzq" src="vistas/img/usuarios/9/828.png">
 									<p class="demo_name_style">Monica Murillo</p>
 
 									<ul>
-								
+
 										<li>
-											
+
 											<img class="tree_icon rounded-circle lineaDescendienteIzq" src="vistas/img/usuarios/9/828.png">
 											<p class="demo_name_style">Monica Murillo</p>
 
-											
+
 
 										</li>
 
 										<li>
-											
+
 											<img class="tree_icon rounded-circle lineaDescendienteDer" src="vistas/img/usuarios/4/701.jpg">
 											<p class="demo_name_style">Alexander Pierce</p>
 
@@ -317,7 +291,7 @@ $ordenBinaria = $red[0]["orden_binaria"];
 								</li>
 
 								<li>
-									
+
 									<img class="tree_icon rounded-circle lineaDescendienteDer" src="vistas/img/usuarios/4/701.jpg">
 									<p class="demo_name_style">Alexander Pierce</p>
 
@@ -328,21 +302,21 @@ $ordenBinaria = $red[0]["orden_binaria"];
 						</li>
 
 						<li>
-							
+
 							<img class="tree_icon rounded-circle lineaDescendienteDer" src="vistas/img/usuarios/4/701.jpg">
 							<p class="demo_name_style">Alexander Pierce</p>
 
 							<ul>
-						
+
 								<li>
-									
+
 									<img class="tree_icon rounded-circle lineaDescendienteIzq" src="vistas/img/usuarios/9/828.png">
 									<p class="demo_name_style">Monica Murillo</p>
 
 								</li>
 
 								<li>
-									
+
 									<img class="tree_icon rounded-circle lineaDescendienteDer" src="vistas/img/usuarios/4/701.jpg">
 									<p class="demo_name_style">Alexander Pierce</p>
 

@@ -145,13 +145,12 @@ class ModeloMultinivel{
 
 	static public function mdlRegistroBinaria($tabla, $datos){
 
-		$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla (usuario_red, orden_binaria,  derrame_binaria, posicion_binaria, patrocinador_red) VALUES (:usuario_red, :orden_binaria, :derrame_binaria, :posicion_binaria, :patrocinador_red)");
+		$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla (usuario_red, orden_binaria,  derrame_binaria,  patrocinador_red) VALUES (:usuario_red, :orden_binaria, :derrame_binaria, :patrocinador_red)");
 
 		
 		$stmt -> bindParam(":usuario_red", $datos["usuario_red"], PDO::PARAM_STR);
 		$stmt -> bindParam(":orden_binaria", $datos["orden_binaria"], PDO::PARAM_STR);
 		$stmt -> bindParam(":derrame_binaria", $datos["derrame_binaria"], PDO::PARAM_STR);	
-		$stmt -> bindParam(":posicion_binaria", $datos["posicion_binaria"], PDO::PARAM_STR);
 		$stmt -> bindParam(":patrocinador_red", $datos["patrocinador_red"], PDO::PARAM_STR);
 
 
