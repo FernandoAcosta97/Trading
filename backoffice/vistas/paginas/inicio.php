@@ -26,84 +26,113 @@
 
     <?php
 
-    //$totalRed = ControladorMultinivel::ctrMostrarRedOperandoTotal("usuarios","red_uninivel","patrocinador_red",$usuario["enlace_afiliado"],null,null);
+//$totalRed = ControladorMultinivel::ctrMostrarRedOperandoTotal("usuarios","red_uninivel","patrocinador_red",$usuario["enlace_afiliado"],null,null);
 
-    //$totalRedOperando = ControladorMultinivel::ctrMostrarRedOperandoTotal("usuarios","red_uninivel","patrocinador_red",$usuario["enlace_afiliado"],"operando",1);
-    $afiliadosNecesarios=2;
+//$totalRedOperando = ControladorMultinivel::ctrMostrarRedOperandoTotal("usuarios","red_uninivel","patrocinador_red",$usuario["enlace_afiliado"],"operando",1);
+$afiliadosNecesarios = 2;
+$operando = 0;
+$sinOperar = 0;
 
-    $red = ControladorMultinivel::ctrMostrarRed("usuarios", "red_uninivel", "patrocinador_red",	$usuario["enlace_afiliado"]);
+if ($usuario["firma"] != "") {
 
-           /*=============================================
-			Limpinado el array de tipo Objeto de valores repetidos
-			=============================================*/
+    $red = ControladorMultinivel::ctrMostrarRed("usuarios", "red_uninivel", "patrocinador_red", $usuario["enlace_afiliado"]);
 
-			$resultado = array();
+    /*=============================================
+    Limpinado el array de tipo Objeto de valores repetidos
+    =============================================*/
 
-			foreach ($red as $value) {
-				
-				$resultado[$value["id_usuario"]]= $value;
-				
-			}
+    $resultado = array();
 
-			$red = array_values($resultado);
+    foreach ($red as $value) {
 
-    $operando = 0;
-    $sinOperar = 0;
+        $resultado[$value["id_usuario"]] = $value;
 
-if(count($red) > 0){
+    }
 
-	foreach ($red as $key => $value) {
+    $red = array_values($resultado);
 
-		if($value["perfil"]!="admin"){
-	
-		if($value["operando"] == 1){
+    if (count($red) > 0) {
 
-			++$operando;
-		
-		}else{
+        foreach ($red as $key => $value) {
 
-			++$sinOperar;
+            if ($value["perfil"] != "admin") {
 
-		}
-	}
-	}
+                if ($value["operando"] == 1) {
 
-}else{
+                    ++$operando;
 
-	$operando = 0;
-	$sinOperar = 0;
+                } else {
+
+                    ++$sinOperar;
+
+                }
+            }
+        }
+
+    } else {
+
+        $operando = 0;
+        $sinOperar = 0;
+
+    }
+
+    $totalRed = $operando + $sinOperar;
+
+    if ($usuario["perfil"] != "admin") {
+
+        if ($totalRed > 2) {
+
+            if ($operando < $totalRed - 1) {
+
+              $afiliadosNecesarios = $totalRed - 1;
+
+      //           echo '<div class="alert alert-warning alert-dismissible">
+      //   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+      //   <h5><i class="icon fas fa-exclamation-triangle"></i> Atención!</h5>
+      //   Recuerda que para recibir tu rendimiento necesitas tener por lo menos [' . $afiliadosNecesarios . '] afiliados con una inversión activa, en estos momentos tienes [' . $operando . '] afiliados con una inversión activa, invita a tus demas referidos a inverir o trae un nuevo referido para que este realice su primer inversión.
+      // </div>';
+
+            }
+
+        } 
+      //   else {
+
+      //       echo '<div class="alert alert-warning alert-dismissible">
+      //   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+      //   <h5><i class="icon fas fa-exclamation-triangle"></i> Atención!</h5>
+      //   Recuerda que para recibir tu rendimiento necesitas tener por lo menos [2] afiliados con una inversión activa, en estos momentos tienes [' . $operando . '] afiliados con una inversión activa, invita a tus demas referidos a inverir o trae un nuevo referido para que este realice su primer inversión.
+      // </div>';
+
+      //   }
+    }
+} 
+// else {
+
+//     echo '<div class="alert alert-warning alert-dismissible">
+//   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+//   <h5><i class="icon fas fa-exclamation-triangle"></i> Atención!</h5>
+//   Recuerda que para recibir tu rendimiento necesitas tener por lo menos [2] afiliados con una inversión activa, en estos momentos tienes [0] afiliados con una inversión activa, invita a tus demas referidos a inverir o trae un nuevo referido para que este realice su primer inversión.
+// </div>';
+
+// }
+
+if ($usuario["perfil"] != "admin") {
+
+echo '<div class="alert alert-warning alert-dismissible">
+<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+<h5><i class="icon fas fa-exclamation-triangle"></i> Atención!</h5>
+Recuerda que para recibir tu rendimiento necesitas tener por lo menos [' . $afiliadosNecesarios . '] afiliados con una inversión activa, en estos momentos tienes [' . $operando . '] afiliados con una inversión activa, invita a tus demas referidos a inverir o trae un nuevo referido para que este realice su primer inversión.
+</div>';
 
 }
 
-
-    $totalRed=$operando+$sinOperar;
-    
-
-    if($totalRed>2){
-      $afiliadosNecesarios=$totalRed-1;
-    }
-
-
-    if($totalRed>2){
-      if($operando<$totalRed-1){
-
-        echo '<div class="alert alert-warning alert-dismissible">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-        <h5><i class="icon fas fa-exclamation-triangle"></i> Atención!</h5>
-        Recuerda que para recibir tu rendimiento necesitas tener por lo menos ['.$afiliadosNecesarios.'] afiliados con una inversión activa, en estos momentos tienes ['.$operando.'] afiliados con una inversión activa, invita a tus demas referidos a inverir o trae un nuevo referido para que este realice su primer inversión.
-      </div>';
-
-      }
-
-    }
-
-    ?>
+?>
 
    <?php
 
-    include "modulos/inicio/recuadros-superiores.php";
+include "modulos/inicio/recuadros-superiores.php";
 
-  ?>
+?>
 
     </div>
 

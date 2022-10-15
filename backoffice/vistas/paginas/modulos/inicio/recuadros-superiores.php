@@ -46,6 +46,7 @@ CANTIDAD DE PERSONAS EN LA RED
 
 $totalUsuariosSinOperar = 0;
 $totalUsuariosOperando = 0;
+$totalSinContrato=0;
 
 if ($usuario["estado"] != 0 && $usuario["firma"] != "") {
 
@@ -73,6 +74,9 @@ if ($usuario["estado"] != 0 && $usuario["firma"] != "") {
     if ($usuario["perfil"] != "admin") {
 
         foreach ($red as $value) {
+			if($value["firma"]== null){
+				++$totalSinContrato;
+			}
             if ($value["operando"] == 0) {
                 ++$totalUsuariosSinOperar;
             }else{
@@ -89,6 +93,10 @@ if ($usuario["estado"] != 0 && $usuario["firma"] != "") {
 
 		$res2 = ControladorUsuarios::ctrTotalUsuariosXfiltro("operando", "1");
         $totalUsuariosOperando = $res2[0];
+
+		$res3 = ControladorUsuarios::ctrTotalUsuariosXfiltro("firma", null);
+		$totalSinContrato = $res3[0];
+
     }
 
 
@@ -166,7 +174,7 @@ if ($usuario["firma"] != null) {
 <!-- small box -->
 <div class="small-box bg-warning">
 	<div class="inner">
-		<h3><?php echo $totalUsuariosSinOperar; ?></h3>
+		<h3><?php echo $totalSinContrato; ?></h3>
 
 		<p>Sin Contrato</p>
 	</div>
