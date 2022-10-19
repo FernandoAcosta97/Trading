@@ -118,12 +118,6 @@
                   <p>Red binaria</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="matriz" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Red matriz 4x4</p>
-                </a>
-              </li>
             </ul>
           </li>
 
@@ -152,12 +146,6 @@
                 <a href="ingresos-binaria" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Ingresos binaria</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="ingresos-matriz" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Ingresos matriz 4x4</p>
                 </a>
               </li>
             </ul>

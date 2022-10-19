@@ -3,10 +3,29 @@
 session_start();
 $ruta = ControladorRuta::ctrRuta(); 
 
- ?>
+/*=============================================
+Enlace de afiliado 
+=============================================*/
+if(isset($_GET["pagina"])){
+
+    $validarEnlace = ControladorUsuarios::ctrMostrarUsuarios("enlace_afiliado", $_GET["pagina"]);
+     
+    if(is_array($validarEnlace)){
+		
+ 	    if($validarEnlace["enlace_afiliado"] == $_GET["pagina"] && $validarEnlace["estado"] == 1){
+
+ 		    setcookie("patrocinador", $validarEnlace["enlace_afiliado"], time() + 604800, "/");
+
+ 		    include "paginas/inicio.php";
+
+ 	    }
+    }
+}
+
+?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
 	<meta charset="UTF-8">
 
@@ -114,23 +133,6 @@ if(isset($_GET["pagina"])){
 	
 	}
 
-	/*=============================================
-	Enlace de afiliado 
-	=============================================*/
-
-	$validarEnlace = ControladorUsuarios::ctrMostrarUsuarios("enlace_afiliado", $_GET["pagina"]);
-     
-    if(is_array($validarEnlace)){
-		
- 	if($validarEnlace["enlace_afiliado"] == $_GET["pagina"] && $validarEnlace["estado"] == 1){
-
- 		setcookie("patrocinador", $validarEnlace["enlace_afiliado"], time() + 604800, "/" );
-
- 		include "paginas/inicio.php";
-
- 	}
- }
-
 	if( $_GET["pagina"] == "inicio"){
 
 		include "paginas/inicio.php";
@@ -191,13 +193,7 @@ if(isset($_GET["pagina"])){
 
 }
 
-
-
-
-
- ?>
-
-<?php if (!isset($_COOKIE["ver_cookies"])): ?>
+ if (!isset($_COOKIE["ver_cookies"])): ?>
 
 <div class="jumbotron bg-white w-100 text-center py-4 shadow-lg cookies">	
 

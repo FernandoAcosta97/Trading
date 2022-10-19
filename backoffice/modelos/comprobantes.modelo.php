@@ -6,21 +6,20 @@ class ModeloComprobantes
 {
 
     /*=============================================
-    Registro de usuarios
+    Registro de COMPROBANTES
     =============================================*/
 
-    public static function mdlRegistroUsuario($tabla, $datos)
+    public static function mdlRegistrarComprobantes($tabla, $datos)
     {
 
-        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(perfil, nombre, email, password, verificacion, email_encriptado, patrocinador) VALUES (:perfil, :nombre, :email, :password, :verificacion, :email_encriptado, :patrocinador)");
+        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(codigo, valor, fecha, foto, estado, doc_usuario) VALUES (:codigo, :valor, :fecha, :foto, :estado, :doc_usuario)");
 
-        $stmt->bindParam(":perfil", $datos["perfil"], PDO::PARAM_STR);
-        $stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
-        $stmt->bindParam(":email", $datos["email"], PDO::PARAM_STR);
-        $stmt->bindParam(":password", $datos["password"], PDO::PARAM_STR);
-        $stmt->bindParam(":verificacion", $datos["verificacion"], PDO::PARAM_STR);
-        $stmt->bindParam(":email_encriptado", $datos["email_encriptado"], PDO::PARAM_STR);
-        $stmt->bindParam(":patrocinador", $datos["patrocinador"], PDO::PARAM_STR);
+        $stmt->bindParam(":codigo", $datos["codigo"], PDO::PARAM_STR);
+        $stmt->bindParam(":valor", $datos["valor"], PDO::PARAM_INT);
+        $stmt->bindParam(":fecha", $datos["fecha"], PDO::PARAM_STR);
+        $stmt->bindParam(":foto", $datos["foto"], PDO::PARAM_STR);
+        $stmt->bindParam(":estado", $datos["estado"], PDO::PARAM_INT);
+        $stmt->bindParam(":doc_usuario", $datos["doc_usuario"], PDO::PARAM_INT);
 
         if ($stmt->execute()) {
 

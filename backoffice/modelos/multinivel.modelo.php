@@ -22,12 +22,11 @@ class ModeloMultinivel{
 
 		}else{
 
-			echo "\nPDO::errorInfo():\n";
-    		print_r(Conexion::conectar()->errorInfo());
+    		return print_r(Conexion::conectar()->errorInfo());
 
 		}
 
-		$stmt-> close();
+		$stmt->close();
 
 		$stmt = null;
 
@@ -160,8 +159,7 @@ class ModeloMultinivel{
 
 		}else{
 
-			echo "\nPDO::errorInfo():\n";
-    		print_r(Conexion::conectar()->errorInfo());
+    		return print_r(Conexion::conectar()->errorInfo());
 
 		}
 
@@ -189,8 +187,7 @@ class ModeloMultinivel{
 
 		}else{
 
-			echo "\nPDO::errorInfo():\n";
-    		print_r(Conexion::conectar()->errorInfo());
+    		return print_r(Conexion::conectar()->errorInfo());
 
 		}
 
@@ -222,8 +219,7 @@ class ModeloMultinivel{
 
 		}else{
 
-			echo "\nPDO::errorInfo():\n";
-    		print_r(Conexion::conectar()->errorInfo());
+    		return print_r(Conexion::conectar()->errorInfo());
 
 		}
 

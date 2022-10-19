@@ -1,6 +1,6 @@
 <?php if ($usuario["firma"] == null): ?>
-	<input type="hidden" value="b_select" id="b_select">
 
+	<?php  $ruta = ControladorGeneral::ctrRuta();  ?>
 
 <div class="col-12 col-md-8">
 
@@ -32,7 +32,7 @@
 
 	               <input type="number" class="form-control" id="inputDoc" required>
 
-				   <input type="hidden" class="form-control" id="inputId" value="<?php echo $usuario["id_usuario"] ?>">
+				   <input type="hidden" class="form-control" id="inputId" name="id_usuario" value="<?php echo $usuario["id_usuario"] ?>">
 
               </div>
 
@@ -81,7 +81,7 @@
 
 				<div class="input-group">
 					<div class="input-group-prepend">
-						<span class="p-2 bg-info rounded-left">http://localhost/www/trading/</span>
+						<span class="p-2 bg-info rounded-left"><?php echo $ruta; ?></span>
 					</div>
 					<input type="text" class="form-control" id="inputAfiliado" value="<?php echo strtolower(str_replace(" ", "-", $usuario["nombre"])) . "-" . $usuario["id_usuario"] ?>" readonly>
 				</div>
@@ -455,244 +455,6 @@ if ($usuario["perfil"] != "admin") {
 </div>
 
 <?php endif?>
-
-
-<?php
-
-if (isset($_GET["i"])) {
-
-    $err = false;
-
-    if ($err) {
-
-        echo "cURL Error #:" . $err;
-
-    } else {
-
-        /*=============================================
-        VALIDAR EL ESTADO DE LA SUSCRIPCIÓN
-        =============================================*/
-
-        if ($err) {
-
-            echo "cURL Error #:" . $err;
-
-        } else {
-
-            /*=============================================
-            APPROVAL_PENDING. La suscripción se crea, pero aún no ha sido aprobada por el comprador.
-            APPROVED. El comprador ha aprobado la suscripción.
-            ACTIVE. La suscripción está activa.
-            SUSPENDED. La suscripción está suspendida.
-            CANCELLED. Se cancela la suscripción.
-            EXPIRED. La suscripción ha caducado.
-            =============================================*/
-
-            $contrato = "1";
-            $f = getdate();
-            $fec = $f["year"] . "-" . $f["mon"] . "-" . $f["wday"];
-            //$fec="2022-09-08";
-
-            if ($contrato == "1") {
-
-                $doc_usuario = urldecode($_GET["id"]);
-
-                $estado = 1;
-
-                // $doc_usuario = $_COOKIE["doc_usuario"];
-                $fechaInicial = substr($fec, 0, -10);
-                $enlace_afiliado = $_COOKIE["enlace_afiliado"];
-                $pais = $_COOKIE["pais"];
-                $codigo_pais = $_COOKIE["codigo_pais"];
-                $telefono_movil = $_COOKIE["telefono_movil"];
-                $firma = $_COOKIE["firma"];
-
-                $validarPatrocinador = ControladorUsuarios::ctrMostrarUsuarios("enlace_afiliado", $_COOKIE["patrocinador"]);
-
-                if (!$validarPatrocinador) {
-
-                    $confimarPatrocinador = $patrocinador;
-
-                } else {
-
-                    if ($validarPatrocinador["firma"] != null) {
-
-                        $confimarPatrocinador = $validarPatrocinador["enlace_afiliado"];
-
-                    } else {
-
-                        $confimarPatrocinador = $patrocinador;
-
-                    }
-                }
-
-                $datos = array("doc_usuario" => $doc_usuario,
-                    "id_usuario" => $usuario["id_usuario"],
-                    "estado" => $estado,
-                    "enlace_afiliado" => $enlace_afiliado,
-                    "patrocinador" => $confimarPatrocinador,
-                    "pais" => $pais,
-                    "codigo_pais" => $codigo_pais,
-                    "telefono_movil" => $telefono_movil,
-                    "firma" => $firma,
-                    "fecha_contrato" => $fechaInicial);
-
-                /*=============================================
-                REGISTRO UNINIVEL
-                =============================================*/
-				
-                if ($_COOKIE["red"] == "uninivel") {
-
-                    // Validar comisión
-                    if ($patrocinador == $_COOKIE["patrocinador"]) {
-
-                        $porcentaje = 1;
-
-                    } else {
-
-                        $porcentaje = 0.4;
-                    }
-
-                    $datosUninivel = array("usuario_red" => $usuario["id_usuario"],
-                        "patrocinador_red" => $confimarPatrocinador,
-                        "periodo_venta" => 10);
-
-                    $registroUninivel = ControladorMultinivel::ctrRegistroUninivel($datosUninivel);
-
-                    $iniciarSuscripcion = ControladorUsuarios::ctrIniciarSuscripcion($datos);
-
-                    if ($iniciarSuscripcion == "ok" && $registroUninivel == "ok") {
-
-                        echo '<script>
-
-								swal({
-										type:"success",
-									  	title: "¡La suscripción se ha hecho correctamente!",
-									  	text: "¡Bienvenido a nuestro programa de afiliados, ahora puede comenzar a ganar dinero con nosotros, visite nuestro plan de compensación!",
-									  	showConfirmButton: true,
-										confirmButtonText: "Cerrar"
-
-								}).then(function(result){
-
-										if(result.value){
-										    window.location = "' . $ruta . 'backoffice/perfil";
-										  }
-								});
-
-							</script>';
-
-                        return;
-
-                    }
-
-                }
-
-                /*=============================================
-                REGISTRO RED BINARIA
-                =============================================*/
-
-                if ($_COOKIE["red"] == "binaria") {
-
-                    $datosBinaria = array("usuario_red" => $usuario["id_usuario"],
-                        "patrocinador_red" => $confimarPatrocinador);
-
-                    $registroBinaria = ControladorMultinivel::ctrRegistroBinaria($datosBinaria);
-
-                    $iniciarSuscripcion = ControladorUsuarios::ctrIniciarSuscripcion($datos);
-
-                    if ($iniciarSuscripcion == "ok" && $registroBinaria == "ok") {
-
-                        echo '<script>
-
-								swal({
-										type:"success",
-									  	title: "¡La suscripción se ha hecho correctamente!",
-									  	text: "¡Bienvenido a nuestro programa de afiliados, ahora puede comenzar a ganar dinero con nosotros, visite nuestro plan de compensación!",
-									  	showConfirmButton: true,
-										confirmButtonText: "Cerrar"
-
-								}).then(function(result){
-
-										if(result.value){
-										    window.location = "' . $ruta . 'backoffice/perfil";
-										  }
-								});
-
-							</script>';
-
-                        return;
-
-                    }
-
-                }
-
-                /*=============================================
-                REGISTRO RED MATRIZ
-                =============================================*/
-
-                if ($_COOKIE["red"] == "matriz") {
-
-                    $datosMatriz = array("usuario_red" => $usuario["id_usuario"],
-                        "patrocinador_red" => $confimarPatrocinador);
-
-                    $registroMatriz = ControladorMultinivel::ctrRegistroMatriz($datosMatriz);
-
-                    $iniciarSuscripcion = ControladorUsuarios::ctrIniciarSuscripcion($datos);
-
-                    if ($iniciarSuscripcion == "ok" && $registroMatriz == "ok") {
-
-                        echo '<script>
-
-								swal({
-										type:"success",
-									  	title: "¡La suscripción se ha hecho correctamente!",
-									  	text: "¡Bienvenido a nuestro programa de afiliados, ahora puede comenzar a ganar dinero con nosotros, visite nuestro plan de compensación!",
-									  	showConfirmButton: true,
-										confirmButtonText: "Cerrar"
-
-								}).then(function(result){
-
-										if(result.value){
-										    window.location = "' . $ruta . 'backoffice/perfil";
-										  }
-								});
-
-							</script>';
-
-                        return;
-
-                    }
-
-                }
-
-            } else {
-
-                echo '<script>
-
-						swal({
-								type:"error",
-							  	title: "¡ERROR AL MOMENTO DE ACTIVAR LA SUSCRIPCION!",
-							  	text: "Ocurrió un error al momento de activar la suscripción, enviar un correo a admin@trading.com si han hecho algún desembolso de su dinero",
-							  	showConfirmButton: true,
-								confirmButtonText: "Cerrar"
-
-						}).then(function(result){
-
-								if(result.value){
-								    window.location = "' . $ruta . 'backoffice/perfil";
-								 }
-						});
-
-				</script>';
-
-            }
-        }
-
-    }
-
-}
-
-?>
 
 
 

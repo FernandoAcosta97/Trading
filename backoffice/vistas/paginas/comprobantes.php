@@ -46,11 +46,13 @@ $comprobantes = ControladorComprobantes::ctrMostrarComprobantes($item, $valor); 
 
         <h3 class="card-title">Comprobantes registrados</h3>
 
+        <hr/>
+
+        <button class="btn btn-primary" data-toggle="modal" data-target="#modalRegistrarComprobante">Registrar Comprobante</button>
+
         <div class="card-tools">
           <button type="button" class="btn btn-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
           <i class="fas fa-minus"></i></button>
-          <button type="button" class="btn btn-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
-          <i class="fas fa-times"></i></button>
         </div>
 
       </div>
@@ -83,7 +85,7 @@ $comprobantes = ControladorComprobantes::ctrMostrarComprobantes($item, $valor); 
       <!-- /.card-body -->
 
       <div class="card-footer">
-        Footer
+        
       </div>
         <!-- /.card-footer-->
 
@@ -207,6 +209,131 @@ EDITAR COMPROBANTE
 
     $editarComprobantes = new ControladorComprobantes();
     $editarComprobantes->ctrEditarComprobantes();
+
+    ?>
+
+
+      </form>
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<!--=====================================
+REGISTRAR COMPROBANTE
+======================================-->
+
+<!-- The Modal -->
+<div class="modal" id="modalRegistrarComprobante">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+    	<form method="post" enctype="multipart/form-data">
+
+	      <!-- Modal Header -->
+	      <div class="modal-header">
+	        <h4 class="modal-title">Registrar comprobante</h4>
+	        <button type="button" class="close" data-dismiss="modal">&times;</button>
+	      </div>
+
+	      <!-- Modal body -->
+	      <div class="modal-body">
+
+
+              <!-- ENTRADA PARA EL CODIGO -->
+              <div class="form-group">
+
+                <label for="registrarCodigo" class="control-label">Código</label>
+
+                <div>
+
+                  <input type="text" class="form-control" id="registrarCodigo" name="registrarCodigo" placeholder="Código comprobante" required>
+
+                  <input type="hidden" value="<?php echo $usuario["doc_usuario"]; ?>" name="doc_usuario">
+
+                </div>
+
+              </div>
+
+              <div class="form-group">
+
+                  <label for="registrarValor" class="control-label">Valor</label>
+
+                <div>
+
+                  <input type="number" class="form-control" id="registrarValor" name="registrarValor" placeholder="Valor comprobante" required>
+
+                </div>
+
+              </div>
+
+              <div class="form-group">
+
+                  <label for="registrarFecha" class="control-label">Fecha</label>
+
+                <div class="input-group">
+
+                    <input type="date" name="registrarFecha" class="form-control" id="registrarFecha" required>
+
+                </div>
+
+              </div>
+
+              <div class="form-group">
+
+                <label for="registrarEstado" class="control-label">Estado</label>
+
+                <div>
+                  <select class="form-control" id="registrarEstado" name="registrarEstado" readonly>
+
+                      <option value="2">Pendiente</option>
+                      <option value="1">Aprobado</option>
+                      <option value="0">Rechazado</option>
+
+                  </select>
+
+                </div>
+
+              </div>
+
+      <!-- ENTRADA PARA LA FOTO DEL COMPROBANTE -->
+      <div class="form-group">
+
+				<input id="registrarFotoComprobante" type="file" class="form-control-file border registrarFotoComprobante" name="registrarFotoComprobante">
+
+        <img id="previsualizarRegistrar" src="vistas/img/comprobantes/default/default.jpg" class="img-thumbnail previsualizarRegistrar" width="100px">
+
+
+			</div>
+
+
+	      </div>
+
+	      <!-- Modal footer -->
+	      <div class="modal-footer d-flex justify-content-between">
+
+	      	<div>
+
+	        	<button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+
+	        </div>
+
+        	<div>
+
+	        	<button type="submit" class="btn btn-primary">Enviar</button>
+
+	        </div>
+
+	      </div>
+
+		<?php
+
+    $registrarComprobantes = new ControladorComprobantes();
+    $registrarComprobantes -> ctrRegistrarComprobantes();
 
     ?>
 

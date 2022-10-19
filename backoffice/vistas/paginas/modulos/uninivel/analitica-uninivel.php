@@ -25,7 +25,7 @@ if(count($red) != 0){
 
 		if($value["estado"] != ""){
 		
-			$comisiones += $value["periodo_comision"];
+			$comisiones += $value["periodo_venta"];
 			$ventas += $value["periodo_venta"];
 
 		}

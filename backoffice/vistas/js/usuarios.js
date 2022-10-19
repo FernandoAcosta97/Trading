@@ -180,6 +180,8 @@ $(".suscribirse").click(function () {
       },
       success: function (respuesta) {
 
+        console.log(respuesta);
+
         if (respuesta == "ok") {
 			
           swal({
@@ -195,6 +197,21 @@ $(".suscribirse").click(function () {
             }
           });
 		  
+        }else{
+
+          swal({
+            type: "error",
+            title: "¡Ha ocurrido un error!",
+            text: "¡Contacte con el administrador o vuelve a intentarlo mas tarde!",
+            showConfirmButton: true,
+            confirmButtonText: "Cerrar",
+          }).then(function (result) {
+            if (result.value) {
+              //window.location = "perfil";
+            }
+          });
+		  
+
         }
         //    window.location = respuesta;
       },

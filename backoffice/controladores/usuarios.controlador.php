@@ -60,9 +60,9 @@ Class ControladorUsuarios{
 
 					$mail->isMail();
 
-					$mail->setFrom("info@academyoflife.com", "Academy of Life");
+					$mail->setFrom("admin@trading.com", "Admin Trading");
 
-					$mail->addReplyTo("info@academyoflife.com", "Academy of Life");
+					$mail->addReplyTo("admin@trading.com", "Admin Trading");
 
 					$mail->Subject  = "Por favor verifique su dirección de correo electrónico";
 
@@ -72,7 +72,7 @@ Class ControladorUsuarios{
 	
 						<center>
 								
-							<img style="padding:20px; width:10%" src="https://tutorialesatualcance.com/tienda/logo.png">
+							<img style="padding:20px; width:10%" src="'.$ruta.'vistas/img/logo.png">
 
 						</center>
 
@@ -80,7 +80,7 @@ Class ControladorUsuarios{
 							
 							<center>
 
-								<img style="padding:20px; width:15%" src="https://tutorialesatualcance.com/tienda/icon-email.png">
+								<img style="padding:20px; width:15%" src="'.$ruta.'vistas/img/email.png">
 
 								<h3 style="font-weight:100; color:#999">VERIFIQUE SU DIRECCIÓN DE CORREO ELECTRÓNICO</h3>
 
@@ -98,7 +98,7 @@ Class ControladorUsuarios{
 
 								<hr style="border:1px solid #ccc; width:80%">
 
-								<h5 style="font-weight:100; color:#999">Si no se inscribió en esta cuenta, puede ignorar este correo electrónico y eliminarlo.</h5>
+								<h5 style="font-weight:100; color:#999">Si no se inscribió en esta cuenta, puede ignorar este correo electrónico.</h5>
 
 							</center>	
 
@@ -780,9 +780,9 @@ Class ControladorUsuarios{
 
 						$mail->isMail();
 
-						$mail->setFrom("info@academyoflife.com", "Academy of Life");
+						$mail->setFrom("admin@trading.com", "Admin Trading");
 
-						$mail->addReplyTo("info@academyoflife.com", "Academy of Life");
+						$mail->addReplyTo("admin@trading.com", "Admin Trading");
 
 						$mail->Subject  = "Solicitud nueva contraseña";
 
@@ -792,7 +792,7 @@ Class ControladorUsuarios{
 	
 							<center>
 								
-								<img style="padding:20px; width:10%" src="https://tutorialesatualcance.com/tienda/logo.png">
+								<img style="padding:20px; width:10%" src="'.$ruta.'vistas/img/logo.png">
 
 							</center>
 
@@ -800,7 +800,7 @@ Class ControladorUsuarios{
 							
 								<center>
 								
-								<img style="padding:20px; width:15%" src="https://tutorialesatualcance.com/tienda/icon-pass.png">
+								<img style="padding:20px; width:15%" src="'.$ruta.'vistas/img/email.png">
 
 								<h3 style="font-weight:100; color:#999">SOLICITUD DE NUEVA CONTRASEÑA</h3>
 
@@ -822,7 +822,7 @@ Class ControladorUsuarios{
 
 								<hr style="border:1px solid #ccc; width:80%">
 
-								<h5 style="font-weight:100; color:#999">Si no se inscribió en esta cuenta, puede ignorar este correo electrónico y la cuenta se eliminará.</h5>
+								<h5 style="font-weight:100; color:#999">Si no se inscribió en esta cuenta, puede ignorar este correo electrónico.</h5>
 
 								</center>
 

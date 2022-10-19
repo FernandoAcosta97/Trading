@@ -1,7 +1,7 @@
 <?php
 
-require_once '../controladores/Comprobantes.controlador.php';
-require_once '../modelos/Comprobantes.modelo.php';
+require_once '../controladores/comprobantes.controlador.php';
+require_once '../modelos/comprobantes.modelo.php';
 
 class TablaComprobantes {
 
@@ -45,11 +45,15 @@ class TablaComprobantes {
 
             if ( $value[ 'estado' ] == 1 ) {
 
-                $estado = "<select class='form-control selectAprobado' estadoComprobante=0 idComprobante='".$value["id"]."'><option value='aprobado' selected>Aprobado</option><option value='rechazado'>Rechazado</option></select>";
+                $estado = "<select class='form-control selectAprobado' estadoComprobante=0 idComprobante='".$value["id"]."'><option value='1' selected>Aprobado</option><option value='0'>Rechazado</option><option value='2'>Pendiente</option></select>";
 
-            } else {
+            } else if($value["estado"] == 0){
 
-                $estado = "<select class='form-control selectAprobado' estadoComprobante=1 idComprobante='".$value["id"]."'><option value='aprobado'>Aprobado</option><option value='rechazado' selected>Rechazado</option></select>";
+                $estado = "<select class='form-control selectAprobado' estadoComprobante=1 idComprobante='".$value["id"]."'><option value='1'>Aprobado</option><option value='0' selected>Rechazado</option><option value='2'>Pendiente</option></select>";
+
+            }else if($value["estado"] == 2){
+
+                $estado = "<select class='form-control selectAprobado' estadoComprobante=2 idComprobante='".$value["id"]."'><option value='1'>Aprobado</option><option value='0'>Rechazado</option><option value='2' selected>Pendiente</option></select>";
 
             }
 

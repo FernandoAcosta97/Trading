@@ -125,10 +125,15 @@ class AjaxUsuarios
         $datosArbol = array("usuario_red" => $this->id_usuario,
             "patrocinador_red" => $confimarPatrocinador);
 
-        $respuesta = ControladorUsuarios::ctrIniciarSuscripcion($datos);
-
         $registroUninivel = ControladorMultinivel::ctrRegistroUninivel($datosUninivel);
         $registroArbol = ControladorMultinivel::ctrRegistroBinaria($datosArbol);
+
+        $respuesta = "error";
+
+        if($registroUninivel == "ok" && $registroArbol == "ok"){
+            
+            $respuesta = ControladorUsuarios::ctrIniciarSuscripcion($datos);
+        }
         // $ruta = ControladorGeneral::ctrRuta();
         //$valorSuscripcion = ControladorGeneral::ctrValorSuscripcion();
         // $fecha = substr(date("c"), 0, -6)."Z";

@@ -7,135 +7,100 @@ class ControladorComprobantes
     Registro de comprobantes
     =============================================*/
 
-    public function ctrRegistroUsuario()
+    public function ctrRegistrarComprobantes()
     {
 
-        if (isset($_POST["registroNombre"])) {
+        if (isset($_POST["registrarCodigo"])) {
 
-            $ruta = ControladorRuta::ctrRuta();
 
-            if (preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ\- ]+$/', $_POST["registroNombre"]) &&
-                preg_match('/^[^0-9][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[@][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,4}$/', $_POST["registroEmail"]) &&
-                preg_match('/^[a-zA-Z0-9]+$/', $_POST["registroPassword"])) {
+            if (preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ\- ]+$/', $_POST["registrarCodigo"]) &&
+                preg_match('/^[0-9]+$/', $_POST["registrarValor"])) {
 
-                $encriptar = crypt($_POST["registroPassword"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
+                /*=============================================
+                VALIDAR IMAGEN
+                =============================================*/
 
-                $encriptarEmail = md5($_POST["registroEmail"]);
+                $ruta = "";
 
-                $tabla = "usuarios";
-                $datos = array("perfil" => "usuario",
-                    "nombre" => $_POST["registroNombre"],
-                    "email" => $_POST["registroEmail"],
-                    "password" => $encriptar,
-                    "estado" => 1,
-                    "verificacion" => 0,
-                    "email_encriptado" => $encriptarEmail,
-                    "patrocinador" => $_POST["patrocinador"]);
+                if (isset($_FILES["registrarFotoComprobante"]["tmp_name"]) && $_FILES["registrarFotoComprobante"]["tmp_name"]) {
 
-                //$respuesta_usuario = ModeloUsuarios::mdlMostrarUsuarios($tabla,"enlace_afiliado",$_POST["patrocinador"]);
-
-                //$datos2 = array("patrocinador" => $respuesta_usuario["doc_usuario"], "referido" => 109486498);
-
-                $respuesta = ModeloUsuarios::mdlRegistroUsuario($tabla, $datos);
-
-                //$respuesta2 = ModeloUsuarios::mdlRegistroReferido("referidos", $datos2);
-
-                if ($respuesta == "ok") {
+                    list($ancho, $alto) = getimagesize($_FILES["registrarFotoComprobante"]["tmp_name"]);
 
                     /*=============================================
-                    Verificación Correo Electrónico
+                    CREAMOS EL DIRECTORIO DONDE VAMOS A GUARDAR LA FOTO DEL USUARIO
                     =============================================*/
 
-                    date_default_timezone_set("America/Bogota");
-
-                    $mail = new PHPMailer;
-
-                    $mail->Charset = "UTF-8";
-
-                    $mail->isMail();
-
-                    $mail->setFrom("info@academyoflife.com", "Academy of Life");
-
-                    $mail->addReplyTo("info@academyoflife.com", "Academy of Life");
-
-                    $mail->Subject = "Por favor verifique su dirección de correo electrónico";
-
-                    $mail->addAddress($_POST["registroEmail"]);
-
-                    $mail->msgHTML('<div style="width:100%; background:#eee; position:relative; font-family:sans-serif; padding-bottom:40px">
-
-						<center>
-
-							<img style="padding:20px; width:10%" src="https://tutorialesatualcance.com/tienda/logo.png">
-
-						</center>
-
-						<div style="position:relative; margin:auto; width:600px; background:white; padding:20px">
-
-							<center>
-
-								<img style="padding:20px; width:15%" src="https://tutorialesatualcance.com/tienda/icon-email.png">
-
-								<h3 style="font-weight:100; color:#999">VERIFIQUE SU DIRECCIÓN DE CORREO ELECTRÓNICO</h3>
-
-								<hr style="border:1px solid #ccc; width:80%">
-
-								<h4 style="font-weight:100; color:#999; padding:0 20px">Para comenzar a usar su cuenta, debe confirmar su dirección de correo electrónico</h4>
-
-								<a href="' . $ruta . $encriptarEmail . '" target="_blank" style="text-decoration:none">
-
-									<div style="line-height:60px; background:#0aa; width:60%; color:white">Verifique su dirección de correo electrónico</div>
-
-								</a>
-
-								<br>
-
-								<hr style="border:1px solid #ccc; width:80%">
-
-								<h5 style="font-weight:100; color:#999">Si no se inscribió en esta cuenta, puede ignorar este correo electrónico y eliminarlo.</h5>
-
-							</center>
-
-						</div>
-
-					</div>');
-
-                    $envio = $mail->Send();
-
-                    if (!$envio) {
-
-                        echo '<script>
-
-							swal({
-
-								type:"error",
-								title: "¡ERROR!",
-								text: "¡¡Ha ocurrido un problema enviando verificación de correo electrónico a ' . $_POST["registroEmail"] . ' ' . $mail->ErrorInfo . ', por favor inténtelo nuevamente",
-								showConfirmButton: true,
-								confirmButtonText: "Cerrar"
-
-							}).then(function(result){
-
-								if(result.value){
-
-									history.back();
-
-								}
+                    $directorio = "vistas/img/comprobantes/" . $_POST["registrarCodigo"];
 
 
-							});
+					mkdir($directorio, 0755);
+					
+                    /*=============================================
+                    DE ACUERDO AL TIPO DE IMAGEN APLICAMOS LAS FUNCIONES POR DEFECTO DE PHP
+                    =============================================*/
 
-						</script>';
+                    if ($_FILES["registrarFotoComprobante"]["type"] == "image/jpeg") {
 
-                    } else {
+                        /*=============================================
+                        GUARDAMOS LA IMAGEN EN EL DIRECTORIO
+                        =============================================*/
+
+                        $aleatorio = mt_rand(100, 999);
+
+                        $ruta = "vistas/img/comprobantes/" . $_POST["registrarCodigo"] . "/" . $aleatorio . ".jpg";
+
+                        $origen = imagecreatefromjpeg($_FILES["registrarFotoComprobante"]["tmp_name"]);
+
+                        $destino = imagecreatetruecolor($ancho, $alto);
+
+                        imagecopyresized($destino, $origen, 0, 0, 0, 0, $ancho, $alto, $ancho, $alto);
+
+                        imagejpeg($destino, $ruta);
+
+                    }
+
+                    if ($_FILES["registrarFotoComprobante"]["type"] == "image/png") {
+
+                        /*=============================================
+                        GUARDAMOS LA IMAGEN EN EL DIRECTORIO
+                        =============================================*/
+
+                        $aleatorio = mt_rand(100, 999);
+
+                        $ruta = "vistas/img/comprobantes/" . $_POST["registrarCodigo"] . "/" . $aleatorio . ".png";
+
+                        $origen = imagecreatefrompng($_FILES["registrarFotoComprobante"]["tmp_name"]);
+
+                        $destino = imagecreatetruecolor($ancho, $alto);
+
+                        imagecopyresized($destino, $origen, 0, 0, 0, 0, $ancho, $alto, $ancho, $alto);
+
+                        imagepng($destino, $ruta);
+
+                    }
+		
+					
+				}
+
+
+                $tabla = "comprobantes";
+                $datos = array("codigo" => $_POST["registrarCodigo"],
+                    "valor" => $_POST["registrarValor"],
+                    "fecha" => $_POST["registrarFecha"],
+                    "estado" => $_POST["registrarEstado"],
+                    "foto" => $ruta,
+                    "doc_usuario" => $_POST["doc_usuario"]);
+
+                $respuesta = ModeloComprobantes::mdlRegistrarComprobantes($tabla, $datos);
+
+                if ($respuesta == "ok") {
 
                         echo '<script>
 
 							swal({
 
 								type:"success",
-								title: "¡SU CUENTA HA SIDO CREADA CORRECTAMENTE!",
-								text: "¡Por favor revise la bandeja de entrada o la carpeta SPAM de su correo electrónico para verificar la cuenta!",
+								title: "¡COMPROBANTE REGISTRADO CORRECTAMENTE!",
 								showConfirmButton: true,
 								confirmButtonText: "Cerrar"
 
@@ -143,7 +108,6 @@ class ControladorComprobantes
 
 								if(result.value){
 
-									window.location = "' . $ruta . 'ingreso";
 
 								}
 
@@ -151,8 +115,7 @@ class ControladorComprobantes
 							});
 
 						</script>';
-
-                    }
+           
 
                 }
 

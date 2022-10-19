@@ -247,6 +247,7 @@ class ModeloUsuarios
             return "ok";
         } else {
 
+            //echo print_r(Conexion::conectar()->errorInfo());
             return print_r(Conexion::conectar()->errorInfo());
         }
 
