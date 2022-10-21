@@ -206,6 +206,7 @@ if (isset($_GET["pagina"])) {
     if ($_GET["pagina"] == "inicio" ||
         $_GET["pagina"] == "perfil" ||
         $_GET["pagina"] == "usuarios" ||
+		$_GET["pagina"] == "usuarios-operando" ||
         $_GET["pagina"] == "cuentas-bancarias" ||
         $_GET["pagina"] == "comprobantes" ||
         $_GET["pagina"] == "uninivel" ||

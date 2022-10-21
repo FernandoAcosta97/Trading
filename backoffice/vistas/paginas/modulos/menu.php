@@ -54,15 +54,15 @@
           </a>
         </li>
 
-        <!--=====================================
+      <!--=====================================
       Botón Usuarios
       ======================================-->
 
         <?php if ($usuario["perfil"] == "admin") : ?>
 
-          <li class="nav-item">
+        <li class="nav-item">
             <a href="usuarios" class="nav-link">
-              <i class="nav-icon fas fa-users"></i>
+            <i class="nav-icon fas fa-users"></i>
               <p>Usuarios</p>
             </a>
           </li>
@@ -123,7 +123,7 @@
 
 
 
-          <!--=====================================
+        <!--=====================================
         Botón Ingresos
         ======================================-->
 

@@ -211,6 +211,21 @@ Class ControladorUsuarios{
 
 	}
 
+
+	/*=============================================
+	Mostrar Usuarios FetchAll
+	=============================================*/
+
+	static public function ctrMostrarUsuariosFetchAll($item, $valor){
+	
+		$tabla = "usuarios";
+
+		$respuesta = ModeloUsuarios::mdlMostrarUsuariosFetchAll($tabla, $item, $valor);
+
+		return $respuesta;
+
+	}
+
 	/*=============================================
 	Total Usuarios
 	=============================================*/

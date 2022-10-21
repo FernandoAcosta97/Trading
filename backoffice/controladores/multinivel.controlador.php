@@ -31,6 +31,18 @@ class ControladorMultinivel{
 
 	}
 
+	/*=============================================
+	MOSTRAR RED SIN INNER JOIN
+	=============================================*/
+
+	static public function ctrMostrarRedUninivel($tabla, $item, $valor){
+
+		$respuesta = ModeloMultinivel::mdlMostrarRedUninivel($tabla, $item, $valor);
+
+		return $respuesta;
+
+	}
+
 	
 	/*=============================================
 	MOSTRAR TOTAL OPERANDO RED CON INNER JOIN

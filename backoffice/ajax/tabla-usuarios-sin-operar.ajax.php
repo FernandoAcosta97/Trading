@@ -12,18 +12,16 @@ class TablaUsuarios{
 
 		$ruta = ControladorGeneral::ctrRuta();
 
-		$item = null;
-		$valor = null;
-		$usuarios = ControladorUsuarios::ctrMostrarusuarios($item, $valor);
-		// $totalAfiliadosActivos=0;
-
+		$item = "operando";
+		$valor = 0;
+		$usuarios = ControladorUsuarios::ctrMostrarusuariosFetchAll($item, $valor);
+		$totalAfiliadosActivos=0;
 
 		if(count($usuarios) < 2 ){
 
 			echo '{ "data":[]}';
 
 			return;
-
 		}
 
 		$datosJson = '{"data":[';
@@ -31,32 +29,6 @@ class TablaUsuarios{
 		foreach ($usuarios as $key => $value) {
 
 			if($value["perfil"] != "admin"){
-
-		// 	$red = ControladorMultinivel::ctrMostrarRedUninivel("red_uninivel", "patrocinador_red", $value["enlace_afiliado"]);
-
-		// 	if(count($red)>0){
-		// 	foreach ($red as $key2 => $value2){
-		// 		$usuarioRedOperando = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $value2["usuario_red"]);
-
-		// 		if($usuarioRedOperando["operando"]==1){
-		// 			++$totalAfiliadosActivos;
-		// 		}
-
-		// 	}
-		// }
-				/*=============================================
-				FOTO USUARIOS
-				=============================================*/	
-
-				// if($value["foto"] == ""){
-
-				// 	$foto = "<img src='vistas/img/usuarios/default/default.png' class='img-fluid rounded-circle' width='30px'>";
-
-				// }else{
-
-				// 	$foto = "<img src='".$value["foto"]."' class='img-fluid rounded-circle' width='30px'>";
-
-				// }
 
 				/*=============================================
 				ESTADO Y OPERANDO
@@ -112,14 +84,13 @@ class TablaUsuarios{
 				       "'.$operando.'",
                        "'.$value["referidos_activos"].'", 
 					   "'.$value["patrocinador"].'", 
-					   "'.$ruta.$value["enlace_afiliado"].'", 
+					   "'.$ruta.$value["enlace_afiliado"].'",    
 					   "'.$value["telefono_movil"].'",
 					   "'.$value["fecha"].'"
 
 				],';
 
 			}
-			// $totalAfiliadosActivos=0;
 
 		}
 

@@ -169,10 +169,10 @@ if ($usuario["firma"] != null) {
 	<!-- ./col -->
 
 
-	<div class="col-12 col-sm-6 col-lg-3">
+	<!-- <div class="col-12 col-sm-6 col-lg-3"> -->
 
 <!-- small box -->
-<div class="small-box bg-warning">
+<!-- <div class="small-box bg-warning">
 	<div class="inner">
 		<h3><?php echo $totalSinContrato; ?></h3>
 
@@ -183,7 +183,7 @@ if ($usuario["firma"] != null) {
 	</div>
 	<a href="uninivel" class="small-box-footer">Más información <i class="fas fa-arrow-circle-right"></i></a>
 </div>
-</div>
+</div> -->
 <!-- ./col -->
 
 
