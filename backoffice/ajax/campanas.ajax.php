@@ -1,9 +1,9 @@
 <?php
 
-require_once "../controladores/comprobantes.controlador.php";
-require_once "../modelos/comprobantes.modelo.php";
+require_once "../controladores/campanas.controlador.php";
+require_once "../modelos/campanas.modelo.php";
 
-class AjaxComprobantes{
+class AjaxCampanas{
 
 	/*=============================================
 	Validar email existente
@@ -23,22 +23,22 @@ class AjaxComprobantes{
 	}
 
 	/*=============================================
-	ACTIVAR COMPROBANTES
+	CAMBIAR ESTADO CAMPAÑA
 	=============================================*/	
 
-	public $aprobadoIdComprobante;
-	public $aprobadoComprobante;
+	public $activarIdCampana;
+	public $activarCampana;
 
-	public function ajaxAprobadoComprobante(){
+	public function ajaxActivarCampana(){
 
-		$tabla = "comprobantes";
+		$tabla = "campanas";
 
 		$item = "estado";
-		$valor = $this->aprobadoComprobante;
+		$valor = $this->activarCampana;
 
-		$id = $this->aprobadoIdComprobante;
+		$id = $this->activarIdCampana;
 
-		$respuesta = ModeloComprobantes::mdlActualizarComprobante($tabla, $id, $item, $valor);
+		$respuesta = ModeloCampanas::mdlActualizarCampana($tabla, $id, $item, $valor);
 
 	}
 
@@ -63,25 +63,7 @@ class AjaxComprobantes{
 
 	}
 
-	/*=============================================
-	Suscripción con Paypal
-	=============================================*/	
-	public $suscripcion;
-	public $nombre;
-	public $email;
-	public $documento;
 
-	public function ajaxSuscripcion(){
-
-		$ruta = ControladorGeneral::ctrRuta();
-		//$valorSuscripcion = ControladorGeneral::ctrValorSuscripcion();
-		$fecha = substr(date("c"), 0, -6)."Z";
-		$valor = $this->documento;
-		$url = "http://localhost/www/trading/backoffice/index.php?pagina=perfil&id=".urlencode($valor);
-
-		echo $url;
-
-	}
 
 	/*=============================================
 	Cancelar Suscripción
@@ -99,17 +81,17 @@ class AjaxComprobantes{
 	}
 
 	/*=============================================
-	EDITAR COMPROBANTE
+	EDITAR CAMPAÑA
 	=============================================*/	
 
-	public $idComprobanteEditar;
+	public $idCampanaEditar;
 
-	public function ajaxEditarComprobante(){
+	public function ajaxEditarCampana(){
 
 		$item = "id";
-		$valor = $this->idComprobanteEditar;
+		$valor = $this->idCampanaEditar;
 
-		$respuesta = ControladorComprobantes::ctrMostrarComprobantes($item, $valor);
+		$respuesta = ControladorCampanas::ctrMostrarCampanas($item, $valor);
 
 		echo json_encode($respuesta);
 
@@ -147,15 +129,15 @@ if(isset($_POST["validarEmail"])){
 }
 
 /*=============================================
-ACTIVAR COMPROBANTE
+ACTIVAR CAMPAÑA
 =============================================*/	
 
-if(isset($_POST["aprobadoIdComprobante"])){
+if(isset($_POST["activarIdCampana"])){
 
-	$aprobadoIdComprobante = new AjaxComprobantes();
-	$aprobadoIdComprobante -> aprobadoIdComprobante = $_POST["aprobadoIdComprobante"];
-	$aprobadoIdComprobante -> aprobadoComprobante = $_POST["aprobadoComprobante"];
-	$aprobadoIdComprobante -> ajaxAprobadoComprobante();
+	$activarIdCampana = new AjaxCampanas();
+	$activarIdCampana -> activarIdCampana = $_POST["activarIdCampana"];
+	$activarIdCampana -> activarCampana = $_POST["activarCampana"];
+	$activarIdCampana -> ajaxActivarCampana();
 
 }
 
@@ -200,13 +182,13 @@ if(isset($_POST["idUsuario"])){
 }
 
 /*=============================================
-EDITAR COMPROBANTE
+EDITAR CAMPANA
 =============================================*/
-if(isset($_POST["idComprobanteEditar"])){
+if(isset($_POST["idCampanaEditar"])){
 
-	$editar = new AjaxComprobantes();
-	$editar -> idComprobanteEditar = $_POST["idComprobanteEditar"];
-	$editar -> ajaxEditarComprobante();
+	$editar = new AjaxCampanas();
+	$editar -> idCampanaEditar = $_POST["idCampanaEditar"];
+	$editar -> ajaxEditarCampana();
 
 }
 

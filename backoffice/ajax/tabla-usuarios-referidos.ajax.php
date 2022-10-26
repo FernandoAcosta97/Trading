@@ -28,7 +28,7 @@ class TablaUsuarios{
 
 		foreach ($usuarios as $key => $value) {
 
-			if($value["perfil"] != "admin" && $value["referidos_activos"] > 0){
+			if($value["perfil"] != "admin"){
 
 				$red = ControladorMultinivel::ctrMostrarRedUninivel("red_uninivel", "patrocinador_red", $value["enlace_afiliado"]);
 				// print_r($red);
@@ -44,19 +44,8 @@ class TablaUsuarios{
 				}
 			}
 
-				/*=============================================
-				FOTO USUARIOS
-				=============================================*/	
-
-				// if($value["foto"] == ""){
-
-				// 	$foto = "<img src='vistas/img/usuarios/default/default.png' class='img-fluid rounded-circle' width='30px'>";
-
-				// }else{
-
-				// 	$foto = "<img src='".$value["foto"]."' class='img-fluid rounded-circle' width='30px'>";
-
-				// }
+			
+            if($totalAfiliadosActivos>0){
 
 				/*=============================================
 				ESTADO Y OPERANDO
@@ -119,6 +108,7 @@ class TablaUsuarios{
 				],';
 
 			}
+		}
 			$totalAfiliadosActivos=0;
 
 		}

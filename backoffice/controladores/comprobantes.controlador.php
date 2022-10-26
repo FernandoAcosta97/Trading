@@ -89,7 +89,8 @@ class ControladorComprobantes
                     "fecha" => $_POST["registrarFecha"],
                     "estado" => $_POST["registrarEstado"],
                     "foto" => $ruta,
-                    "doc_usuario" => $_POST["doc_usuario"]);
+                    "doc_usuario" => $_POST["doc_usuario"],
+                    "campana" => $_POST["id_campana"]);
 
                 $respuesta = ModeloComprobantes::mdlRegistrarComprobantes($tabla, $datos);
 
@@ -108,7 +109,7 @@ class ControladorComprobantes
 
 								if(result.value){
 
-
+                                   window.location = "comprobantes";
 								}
 
 

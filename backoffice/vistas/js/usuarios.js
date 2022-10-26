@@ -82,7 +82,7 @@ $(".btnCuentas").click(function () {
 });
 
 /*=============================================
-VALIDAR FORMULARIO SUSCRIPCIÓN
+VALIDAR FORMULARIO REGISTRO CONTRATO
 =============================================*/
 
 $(".suscribirse").click(function () {
@@ -98,7 +98,6 @@ $(".suscribirse").click(function () {
   var codigo_pais = $("#inputPais").val().split(",")[1];
   var telefono_movil =
     $("#inputPais").val().split(",")[2] + " " + $("#inputMovil").val();
-  var red = $("#tipoRed").val();
   var aceptarTerminos = $("#aceptarTerminos:checked").val();
 
   if ($("#signatureparent").jSignature("isModified")) {
@@ -117,7 +116,6 @@ $(".suscribirse").click(function () {
     pais == "" ||
     codigo_pais == "" ||
     telefono_movil == "" ||
-    red == "" ||
     aceptarTerminos != "on" ||
     !$("#signatureparent").jSignature("isModified")
   ) {
@@ -136,7 +134,7 @@ $(".suscribirse").click(function () {
     //    crearCookie("pais", pais, 1);
     //    crearCookie("codigo_pais", codigo_pais, 1);
     //    crearCookie("telefono_movil", telefono_movil, 1);
-    crearCookie("red", red, 1);
+    //crearCookie("red", red, 1);
     //    crearCookie("firma", firma[1], 1);
 
     //    var data = {"id_usuario": id_usuario,
@@ -188,7 +186,7 @@ $(".suscribirse").click(function () {
             type: "success",
             title: "¡Se ha registrado correctamente!",
             text: "¡Bienvenido a nuestro programa de afiliados, ahora puede comenzar a ganar dinero con nosotros, visite nuestro plan de compensación!",
-			allowOutsideClick: false,
+			      allowOutsideClick: false,
             showConfirmButton: true,
             confirmButtonText: "Cerrar",
           }).then(function (result) {
@@ -219,19 +217,118 @@ $(".suscribirse").click(function () {
   }
 });
 
-/*=============================================
-TABLA USUARIOS
-=============================================*/
 
-// $.ajax({
 
-// 	url:"ajax/tabla-usuarios.ajax.php",
-// 	success: function(respuesta){
+// /*=============================================
+// VALIDAR FORMULARIO REGISTRO MANUAL
+// =============================================*/
 
-// 		console.log("respuesta", respuesta);
-// 	}
+// $(".registroManual").click(function () {
+//   $(".alert").remove();
 
+//   var doc_usuario = $("#inputDoc").val();
+//   var nombre = $("#inputName").val();
+//   var email = $("#inputEmail").val();
+//   var password = $("#inputPassword").val();
+//   var patrocinador = $("#inputPatrocinador").val();
+//   var enlace_afiliado = $("#inputAfiliado").val();
+//   var pais = $("#inputPais").val().split(",")[0];
+//   var codigo_pais = $("#inputPais").val().split(",")[1];
+//   var telefono_movil =
+//     $("#inputPais").val().split(",")[2] + " " + $("#inputMovil").val();
+
+
+//   /*=============================================
+//    VALIDAR
+//    =============================================*/
+//   if (
+//     doc_usuario == "" ||
+//     nombre == "" ||
+//     email == "" ||
+//     patrocinador == "" ||
+//     enlace_afiliado == "" ||
+//     pais == "" ||
+//     codigo_pais == "" ||
+//     telefono_movil == "" ||
+//     password == ""
+//   ) {
+//     $(".registroManual").before(`
+
+// 			   <div class="alert alert-danger">Faltan datos, los campos no pueden ir vacíos</div>
+
+// 		   `);
+
+//     return;
+//   } else {
+
+//     var datos = new FormData();
+//     datos.append("aceptarRegistroManual", "ok");
+//     datos.append("nombre", nombre);
+//     datos.append("email", email);
+//     datos.append("doc_usuario", doc_usuario);
+//     datos.append("password", password);
+//     datos.append("pais", pais);
+//     datos.append("codigo_pais", codigo_pais);
+//     datos.append("telefono_movil", telefono_movil);
+//     datos.append("patrocinador", patrocinador);
+
+//     $.ajax({
+//       url: "ajax/usuarios.ajax.php",
+//       method: "POST",
+//       data: datos,
+//       cache: false,
+//       contentType: false,
+//       processData: false,
+//       //    dataType:"json",
+//       beforeSend: function () {
+//         $(".registroManual").after(`
+
+// 				   <img src="vistas/img/plantilla/status.gif" class="ml-3" style="width:30px; height:30px" />
+// 				   <span class="alert alert-warning ml-3">Procesando el registro, no cerrar esta página</span>
+
+// 			   `);
+//       },
+//       success: function (respuesta) {
+
+//         if (respuesta == "ok") {
+			
+//           swal({
+//             type: "success",
+//             title: "¡Se ha registrado correctamente!",
+// 			      allowOutsideClick: false,
+//             showConfirmButton: true,
+//             confirmButtonText: "Cerrar",
+//           }).then(function (result) {
+//             if (result.value) {
+//               window.location = "usuarios";
+//             }
+//           });
+		  
+//         }else{
+
+//           $(".alert").remove();
+
+//           swal({
+//             type: "error",
+//             title: "¡Ha ocurrido un error!",
+//             allowOutsideClick: false,
+//             showConfirmButton: true,
+//             confirmButtonText: "Cerrar",
+//           }).then(function (result) {
+//             if (result.value) {
+//               window.location = "usuarios";
+//             }
+//           });
+		  
+
+//         }
+//         //    window.location = respuesta;
+//       },
+//     });
+//   }
 // });
+
+
 
 
 $("#selectFiltro").on("change", function (){

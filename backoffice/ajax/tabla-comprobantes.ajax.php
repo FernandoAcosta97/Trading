@@ -2,6 +2,10 @@
 
 require_once '../controladores/comprobantes.controlador.php';
 require_once '../modelos/comprobantes.modelo.php';
+require_once '../controladores/usuarios.controlador.php';
+require_once '../modelos/usuarios.modelo.php';
+require_once '../controladores/campanas.controlador.php';
+require_once '../modelos/campanas.modelo.php';
 
 class TablaComprobantes {
 
@@ -9,10 +13,17 @@ class TablaComprobantes {
 
         $item = null;
         $valor = null;
+        $usuario = null;
 
         if(isset($_GET["doc_usuario"])){
             $item = "doc_usuario";
             $valor = $_GET["doc_usuario"];
+            $usuario = ControladorUsuarios::ctrMostrarUsuarios($item, $valor);
+            if($usuario["perfil"]=="admin"){
+                $item = null;
+                $valor = null;
+                $usuario = null;
+            }
         }
 
         $comprobantes = ControladorComprobantes::ctrMostrarComprobantes( $item, $valor );
@@ -29,6 +40,8 @@ class TablaComprobantes {
 
         foreach ( $comprobantes as $key => $value ) {
 
+            $campana = ControladorCampanas::ctrMostrarCampanas("id",$value["campana"]);
+
             //FOTO COMPROBANTES
 
             if ( $value[ 'foto' ] == '' ) {
@@ -41,23 +54,38 @@ class TablaComprobantes {
 
             }
 
-            //ESTADO COMPROBANTES
+            if($usuario!=null){
 
-            if ( $value[ 'estado' ] == 1 ) {
+                if($value["estado"]==1){
+                    $estado = "<h5><span class='badge badge-success'>Aprobado</span></h5>";
+                }else if($value["estado"]==0){
+                    $estado = "<h5><span class='badge badge-danger'>Rechazado</span></h5>";
+                }else if($value["estado"]==2){
+                    $estado = "<h5><span class='badge badge-warning'>Pendiente</span></h5>";
+                }
 
-                $estado = "<select class='form-control selectAprobado' estadoComprobante=0 idComprobante='".$value["id"]."'><option value='1' selected>Aprobado</option><option value='0'>Rechazado</option><option value='2'>Pendiente</option></select>";
+                $acciones="<button type='button' class='btn btn-primary btn-xs btnSoporte'><i class='fa fa-envelope'></i></button>";
 
-            } else if($value["estado"] == 0){
-
-                $estado = "<select class='form-control selectAprobado' estadoComprobante=1 idComprobante='".$value["id"]."'><option value='1'>Aprobado</option><option value='0' selected>Rechazado</option><option value='2'>Pendiente</option></select>";
-
-            }else if($value["estado"] == 2){
-
-                $estado = "<select class='form-control selectAprobado' estadoComprobante=2 idComprobante='".$value["id"]."'><option value='1'>Aprobado</option><option value='0'>Rechazado</option><option value='2' selected>Pendiente</option></select>";
+            }else{
+                //ESTADO COMPROBANTES
+    
+                if ( $value["estado"] == 1 ) {
+    
+                    $estado = "<select class='form-control selectAprobado' estadoComprobante=0 idComprobante='".$value["id"]."'><option value='1' selected>Aprobado</option><option value='0'>Rechazado</option><option value='2'>Pendiente</option></select>";
+    
+                } else if($value["estado"] == 0){
+    
+                    $estado = "<select class='form-control selectAprobado' estadoComprobante=1 idComprobante='".$value["id"]."'><option value='1'>Aprobado</option><option value='0' selected>Rechazado</option><option value='2'>Pendiente</option></select>";
+    
+                }else if($value["estado"] == 2){
+    
+                    $estado = "<select class='form-control selectAprobado' estadoComprobante=2 idComprobante='".$value["id"]."'><option value='1'>Aprobado</option><option value='0'>Rechazado</option><option value='2' selected>Pendiente</option></select>";
+    
+                }
+                
+            $acciones = "<div class='btn-group'><button class='btn btn-warning btn-xs btnEditarComprobante' idComprobante='".$value["id"]."' data-toggle='modal' data-target='#modalEditarComprobante'><i class='fa fa-pen' style='color:white'></i></button></div>";
 
             }
-
-            $acciones = "<div class='btn-group'><button class='btn btn-warning btn-xs btnEditarComprobante' idComprobante='".$value["id"]."' data-toggle='modal' data-target='#modalEditarComprobante'><i class='fa fa-pen' style='color:white'></i></button></div>";
 
             $datosJson .= '[
 					   "'.( $key+1 ).'",
@@ -67,7 +95,7 @@ class TablaComprobantes {
 				       "$ '.number_format($value[ 'valor' ], 0, ",", ".").'",
 					   "'.$value[ 'doc_usuario' ].'",
 					   "'.$value[ 'fecha' ].'",
-					   "'.$value[ 'campaña' ].'",
+					   "'.$campana[ 'nombre' ].'",
 					   "'.$acciones.'"
 				],';
 

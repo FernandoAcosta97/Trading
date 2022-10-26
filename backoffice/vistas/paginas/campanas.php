@@ -1,34 +1,18 @@
 
-<!-- if($usuario["perfil"] != "admin"){
-
-  echo '<script>
-
-  window.location = "'.$ruta.'backoffice/inicio";
-
-  </script>';
-
-  return;
-}
-
-$item = null;
-$valor = null;
-$comprobantes = ControladorComprobantes::ctrMostrarComprobantes($item, $valor); -->
-
-
 <div class="content-wrapper" style="min-height: 1058.31px;">
-
+  
   <!-- Content Header (Page header) -->
   <section class="content-header">
-
+    
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>Comprobantes</h1>
+          <h1>Campañas</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="inicio">Inicio</a></li>
-            <li class="breadcrumb-item active">Comprobantes</li>
+            <li class="breadcrumb-item active">Campañas</li>
           </ol>
         </div>
       </div>
@@ -41,18 +25,20 @@ $comprobantes = ControladorComprobantes::ctrMostrarComprobantes($item, $valor); 
 
     <!-- Default box -->
     <div class="card">
-
+      
       <div class="card-header">
 
-        <h3 class="card-title">Comprobantes registrados</h3>
-
-        <hr/>
+        <h3 class="card-title">Campañas registradas</h3>
 
         <?php if($usuario["perfil"]=="admin"): ?>
 
-        <!-- <button class="btn btn-primary" data-toggle="modal" data-target="#modalRegistrarComprobante">Registrar Comprobante</button> -->
+        <div style="margin:1em auto auto auto">
 
-        <?php endif  ?>
+            <button class="btn btn-primary" data-toggle="modal" data-target="#modalRegistrarCampana">Registrar Campaña</button>
+
+        </div>
+
+        <?php endif ?>
 
         <div class="card-tools">
           <button type="button" class="btn btn-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -63,23 +49,22 @@ $comprobantes = ControladorComprobantes::ctrMostrarComprobantes($item, $valor); 
 
       <div class="card-body">
 
-        <table id="tablaComprobantes" class="table table-striped table-bordered dt-responsive tablaComprobantes" width="100%">
+        
+        <table id="tablaCampanas" class="table table-striped table-bordered dt-responsive tablaCampanas" width="100%">
 
           <thead>
             <tr>
-              <th style="width:10px">#</th>
-              <th>Codigo</th>
-              <th>Foto</th>
-              <th>Estado</th>
-              <th>Valor</th>
-              <th>Usuario</th>
-              <th>Fecha</th>
-              <th>Campaña</th>
               <th>Acciones</th>
+              <th>Nombre</th>
+              <th>Retorno</th>
+              <th>Estado</th>
+              <th>Cupos</th>
+              <th>Fecha Inicio</th>
+              <th>Fecha Fin</th>
             </tr>
           </thead>
-          <tbody>
-
+          <tbody>  
+          
           </tbody>
         </table>
 
@@ -89,7 +74,7 @@ $comprobantes = ControladorComprobantes::ctrMostrarComprobantes($item, $valor); 
       <!-- /.card-body -->
 
       <div class="card-footer">
-        
+        Footer
       </div>
         <!-- /.card-footer-->
 
@@ -104,11 +89,133 @@ $comprobantes = ControladorComprobantes::ctrMostrarComprobantes($item, $valor); 
 
 
 <!--=====================================
-EDITAR COMPROBANTE
+EDITAR CAMPAÑA
 ======================================-->
 
 <!-- The Modal -->
-<div class="modal" id="modalEditarComprobante">
+<div class="modal" id="modalEditarCampana">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+    	<form method="post">
+
+	      <!-- Modal Header -->
+	      <div class="modal-header">
+	        <h4 class="modal-title">Editar campaña</h4>
+	        <button type="button" class="close" data-dismiss="modal">&times;</button>
+	      </div>
+
+	      <!-- Modal body -->
+	      <div class="modal-body">
+
+	      	<input type="hidden" id="idCampana" name="idCampana">
+
+          <!-- ENTRADA PARA EL NOMBRE-->
+          <div class="form-group">
+
+          <label for="editarNombre" class="control-label">Nombre</label>
+
+          <div>
+
+            <input type="text" class="form-control" id="editarNombre" name="editarNombre" required>
+
+          </div>
+
+          </div>
+
+
+          <div class="form-group">
+
+          <label for="editarRetorno" class="control-label">Retorno</label>
+
+          <div>
+
+          <input type="number" class="form-control" id="editarRetorno" name="editarRetorno" required>
+
+          </div>
+
+          </div>
+
+          <div class="form-group">
+
+            <label for="editarCupos" class="control-label">Cupos</label>
+
+          <div>
+
+            <input type="number" class="form-control" id="editarCupos" name="editarCupos" placeholder="Cupos campaña" required>
+
+          </div>
+
+          </div>
+
+            <div class="form-group">
+
+              <label for="editarFechaInicio" class="control-label">Fecha Inicio</label>
+
+            <div class="input-group">
+
+                <input type="date" name="editarFechaInicio" class="form-control" id="editarFechaInicio" required>
+
+            </div>
+
+            </div>
+
+
+        <div class="form-group">
+
+          <label for="editarFechaFinal" class="control-label">Fecha Final</label>
+
+        <div class="input-group">
+
+            <input type="date" name="editarFechaFinal" class="form-control" id="editarFechaFinal" required>
+
+        </div>
+
+        </div>
+
+	      </div>
+
+	      <!-- Modal footer -->
+	      <div class="modal-footer d-flex justify-content-between">
+
+	      	<div>
+	        	
+	        	<button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+
+	        </div>
+
+        	<div>
+	        	
+	        	<button type="submit" class="btn btn-primary">Enviar</button>
+
+	        </div>
+
+	      </div>
+
+		<?php
+
+			$editarCampana = new ControladorCampanas();
+			$editarCampana -> ctrEditarCampana();
+
+		?>
+
+
+      </form>
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<!--=====================================
+REGISTRAR CAMPAÑA
+======================================-->
+
+<!-- The Modal -->
+<div class="modal" id="modalRegistrarCampana">
   <div class="modal-dialog">
     <div class="modal-content">
 
@@ -116,24 +223,47 @@ EDITAR COMPROBANTE
 
 	      <!-- Modal Header -->
 	      <div class="modal-header">
-	        <h4 class="modal-title">Editar comprobante</h4>
+	        <h4 class="modal-title">Registrar Campaña</h4>
 	        <button type="button" class="close" data-dismiss="modal">&times;</button>
 	      </div>
 
 	      <!-- Modal body -->
 	      <div class="modal-body">
 
-	      	<input type="hidden" id="editarComprobante" name="editarComprobante">
-          <input type="hidden" id="editarCodigoActual" name="editarCodigoActual">
 
-              <!-- ENTRADA PARA EL CODIGO -->
+              <!-- ENTRADA PARA EL NOMBRE-->
               <div class="form-group">
 
-                <label for="editarCodigo" class="control-label">Código</label>
+                <label for="registroNombre" class="control-label">Nombre</label>
 
                 <div>
 
-                  <input type="text" class="form-control" id="editarCodigo" name="editarCodigo" required>
+                  <input type="text" class="form-control" id="registroNombre" name="registroNombre" placeholder="Nombre Campaña" required>
+
+                </div>
+
+              </div>
+
+
+              <div class="form-group">
+
+              <label for="registroRetorno" class="control-label">Retorno</label>
+
+              <div>
+
+              <input type="number" class="form-control" id="registroRetorno" name="registroRetorno" placeholder="Retorno campaña" required>
+
+              </div>
+
+              </div>
+
+              <div class="form-group">
+
+                  <label for="registroCupos" class="control-label">Cupos</label>
+
+                <div>
+
+                  <input type="number" class="form-control" id="registroCupos" name="registroCupos" placeholder="Cupos campaña" required>
 
                 </div>
 
@@ -141,53 +271,29 @@ EDITAR COMPROBANTE
 
               <div class="form-group">
 
-                  <label for="editarValor" class="control-label">Valor</label>
-
-                <div>
-
-                  <input type="number" class="form-control" id="editarValor" name="editarValor" required>
-
-                </div>
-
-              </div>
-
-              <div class="form-group">
-
-                  <label for="editarFecha" class="control-label">Fecha</label>
+                  <label for="registroFechaInicio" class="control-label">Fecha Inicio</label>
 
                 <div class="input-group">
 
-                    <input type="date" name="editarFecha" class="form-control" id="editarFecha">
+                    <input type="date" name="registroFechaInicio" class="form-control" id="registroFechaInicio" required>
 
                 </div>
 
               </div>
 
-              <!-- <div class="form-group">
 
-                <label for="editarPerfil" class="control-label">Perfil</label>
+              
+              <div class="form-group">
 
-                <div>
-                  <select class="form-control" id="editarPerfil" name="editarPerfil" readonly>
+                  <label for="registroFechaFinal" class="control-label">Fecha Final</label>
 
-                      <option value="usuario">Usuario</option>
+                <div class="input-group">
 
-                  </select>
+                    <input type="date" name="registroFechaFinal" class="form-control" id="registroFechaFinal" required>
 
                 </div>
 
-              </div> -->
-
-      <!-- ENTRADA PARA LA FOTO DEL COMPROBANTE -->
-      <div class="form-group">
-
-				<input id="editarFotoComprobante" type="file" class="form-control-file border editarFotoComprobante" name="editarFotoComprobante">
-
-        <img id="previsualizarEditar" src="vistas/img/comprobantes/default/default.jpg" class="img-thumbnail previsualizarEditar" width="100px">
-
-        <input type="hidden" id="fotoActualComprobante" name="fotoActualComprobante">
-
-			</div>
+              </div>
 
 
 	      </div>
@@ -211,8 +317,8 @@ EDITAR COMPROBANTE
 
 		<?php
 
-    $editarComprobantes = new ControladorComprobantes();
-    $editarComprobantes->ctrEditarComprobantes();
+    $registrarCampanas = new ControladorCampanas();
+    $registrarCampanas -> ctrRegistroCampana();
 
     ?>
 
@@ -222,7 +328,6 @@ EDITAR COMPROBANTE
     </div>
   </div>
 </div>
-
 
 
 
@@ -258,6 +363,8 @@ REGISTRAR COMPROBANTE
                   <input type="text" class="form-control" id="registrarCodigo" name="registrarCodigo" placeholder="Código comprobante" required>
 
                   <input type="hidden" value="<?php echo $usuario["doc_usuario"]; ?>" name="doc_usuario">
+
+                  <input type="hidden" id="id_campana" name="id_campana">
 
                 </div>
 
@@ -295,8 +402,6 @@ REGISTRAR COMPROBANTE
                   <select class="form-control" id="registrarEstado" name="registrarEstado" readonly>
 
                       <option value="2">Pendiente</option>
-                      <option value="1">Aprobado</option>
-                      <option value="0">Rechazado</option>
 
                   </select>
 

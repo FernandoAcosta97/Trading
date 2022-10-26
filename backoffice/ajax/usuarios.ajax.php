@@ -70,7 +70,7 @@ class AjaxUsuarios
     }
 
     /*=============================================
-    Suscripción
+    Contrato
     =============================================*/
     public $aceptar;
     public $id_usuario;
@@ -105,8 +105,9 @@ class AjaxUsuarios
             }
         }
 
+        date_default_timezone_set("America/Bogota");
         $f = getdate();
-        $fecha = $f["year"] . "-" . $f["mon"] . "-" . $f["wday"];
+        $fecha = $f["year"] . "-" . $f["mon"] . "-" . $f["mday"];
 
         $datos = array("aceptar" => $this->aceptar,
             "id_usuario" => $this->id_usuario,
@@ -144,6 +145,66 @@ class AjaxUsuarios
         echo $respuesta;
 
     }
+
+    /*=============================================
+    Registro Manual
+    =============================================*/
+    // public $aceptarRegistroManual;
+    // public $nombre;
+    // public $email;
+    // public $password;
+
+    // public function ajaxRegistroManual()
+    // {
+    //     $patrocinador=$this->patrocinador;
+
+    //     $f = getdate();
+    //     $fecha = $f["year"] . "-" . $f["mon"] . "-" . $f["wday"];
+
+    //     $datos = array("aceptarRegistroManual" => $this->aceptar,
+    //         "doc_usuario" => $this->doc_usuario,
+    //         "nombre" => $this->nombre,
+    //         "correo" => $this->email,
+    //         "password" => $this->password,
+    //         "telefono_movil" => $this->telefono_movil,
+    //         "codigo_pais" => $this->codigo_pais,
+    //         "pais" => $this->pais,
+    //         "fecha_contrato" => $fecha);
+
+    //     $respuesta = ControladorUsuarios::ctrRegistroUsuarioManual($datos);
+                
+    //     if($respuesta == "ok"){
+
+    //         $usuario_registrado = ControladorUsuarios::ctrMostrarUsuarios("doc_usuario", $this->doc_usuario);
+
+    //         if($usuario_registrado){
+
+    //             $datosUninivel = array("usuario_red" => $usuario_registrado["id_usuario"],
+    //                 "patrocinador_red" => $patrocinador,
+    //                 "periodo_venta" => 10);
+            
+    //             $datosArbol = array("usuario_red" => $usuario_registrado["id_usuario"],
+    //                 "patrocinador_red" => $patrocinador);
+
+    //             $registroUninivel = ControladorMultinivel::ctrRegistroUninivel($datosUninivel);
+    //             $registroArbol = ControladorMultinivel::ctrRegistroBinaria($datosArbol);
+
+    //             if($registroUninivel == "ok" && $registroArbol == "ok"){
+    //                 $respuesta = "ok";
+    //             }else{
+    //                 $respuesta = "error";
+    //             }
+
+    //         }
+                
+
+    // }
+
+    //     echo $respuesta;
+
+    // }
+
+
 
     /*=============================================
     Cancelar Suscripción
@@ -237,7 +298,7 @@ if (isset($_POST["operarUsuario"])) {
 }
 
 /*=============================================
-Suscripción
+Contrato
 =============================================*/
 
 if (isset($_POST["aceptar"])) {
@@ -255,6 +316,27 @@ if (isset($_POST["aceptar"])) {
     $activoRegistro->ajaxSuscripcion();
 
 }
+
+
+// /*=============================================
+// Registro manual
+// =============================================*/
+
+// if (isset($_POST["aceptarRegistroManual"])) {
+
+//     $registroManual = new AjaxUsuarios();
+//     $registroManual->aceptarRegistroManual = $_POST["aceptarRegistroManual"];
+//     $registroManual->doc_usuario = $_POST["doc_usuario"];
+//     $registroManual->nombre = $_POST["nombre"];
+//     $registroManual->email = $_POST["email"];
+//     $registroManual->password = $_POST["password"];
+//     $registroManual->pais = $_POST["pais"];
+//     $registroManual->codigo_pais = $_POST["codigo_pais"];
+//     $registroManual->telefono_movil = $_POST["telefono_movil"];
+//     $registroManual->patrocinador = $_POST["patrocinador"];
+//     $registroManual->ajaxRegistroManual();
+
+// }
 
 /*=============================================
 Cancelar Suscrpción

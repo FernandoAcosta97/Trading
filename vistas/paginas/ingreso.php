@@ -59,7 +59,7 @@
 
 					<form method="post" class="mt-5">
 
-						<p class="text-center py-3">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi sunt officia unde officiis</p>
+						<p class="text-center py-3">Sistema de inversiones Colombia</p>
 
 						<input type="email" class="form-control my-3 py-3" placeholder="Correo Electrónico" name="ingresoEmail" required>
 
@@ -86,11 +86,11 @@
 
 			<div class="col-12 col-lg-8 fotoIngreso text-center">		
 
-				<a href="<?php echo $ruta; ?>inicio"><button class="d-none d-lg-block text-center btn btn-default btn-lg my-3 text-white btnRegresar">Regresar</button></a>
+				<!-- <a href="<?php echo $ruta; ?>inicio"><button class="d-none d-lg-block text-center btn btn-default btn-lg my-3 text-white btnRegresar">Regresar</button></a> -->
 
-				<a href="<?php echo $ruta; ?>inicio"><button class="d-block d-lg-none text-center btn btn-default btn-lg btn-block my-3 text-white btnRegresarMovil">Regresar</button></a>
+				<!-- <a href="<?php echo $ruta; ?>inicio"><button class="d-block d-lg-none text-center btn btn-default btn-lg btn-block my-3 text-white btnRegresarMovil">Regresar</button></a> -->
 
-				<ul class="p-0 m-0 py-4 d-flex justify-content-center redesSociales">
+				<!-- <ul class="p-0 m-0 py-4 d-flex justify-content-center redesSociales">
 
 					<li>
 						<a href="#" target="_blank"><i class="fab fa-facebook-f lead text-white mx-4"></i></a>
@@ -113,7 +113,7 @@
 						<a href="#" target="_blank"><i class="fab fa-youtube lead text-white mx-4"></i></a>
 					</li>
 
-				</ul>
+				</ul> -->
 
 			</div>
 

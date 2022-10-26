@@ -1,9 +1,9 @@
 <?php
 
-require_once "../controladores/comprobantes.controlador.php";
-require_once "../modelos/comprobantes.modelo.php";
+require_once "../controladores/cuentas.controlador.php";
+require_once "../modelos/cuentas.modelo.php";
 
-class AjaxComprobantes{
+class AjaxCuentas{
 
 	/*=============================================
 	Validar email existente
@@ -23,22 +23,22 @@ class AjaxComprobantes{
 	}
 
 	/*=============================================
-	ACTIVAR COMPROBANTES
+	ACTIVAR CUENTAS
 	=============================================*/	
 
-	public $aprobadoIdComprobante;
-	public $aprobadoComprobante;
+	public $aprobadoIdCuenta;
+	public $aprobadoCuenta;
 
-	public function ajaxAprobadoComprobante(){
+	public function ajaxAprobadoCuentas(){
 
-		$tabla = "comprobantes";
+		$tabla = "cuentas_bancarias";
 
 		$item = "estado";
-		$valor = $this->aprobadoComprobante;
+		$valor = $this->aprobadoCuenta;
 
-		$id = $this->aprobadoIdComprobante;
+		$id = $this->aprobadoIdCuenta;
 
-		$respuesta = ModeloComprobantes::mdlActualizarComprobante($tabla, $id, $item, $valor);
+		$respuesta = ModeloCuentas::mdlActualizarCuenta($tabla, $id, $item, $valor);
 
 	}
 
@@ -99,22 +99,21 @@ class AjaxComprobantes{
 	}
 
 	/*=============================================
-	EDITAR COMPROBANTE
+	EDITAR CUENTA
 	=============================================*/	
 
-	public $idComprobanteEditar;
+	public $idCuentaEditar;
 
-	public function ajaxEditarComprobante(){
+	public function ajaxEditarCuenta(){
 
 		$item = "id";
-		$valor = $this->idComprobanteEditar;
+		$valor = $this->idCuentaEditar;
 
-		$respuesta = ControladorComprobantes::ctrMostrarComprobantes($item, $valor);
+		$respuesta = ControladorCuentas::ctrMostrarCuentas($item, $valor);
 
 		echo json_encode($respuesta);
 
 	}
-
 
 	/*=============================================
     Eliminar Usuario
@@ -147,15 +146,15 @@ if(isset($_POST["validarEmail"])){
 }
 
 /*=============================================
-ACTIVAR COMPROBANTE
+ACTIVAR CUENTA
 =============================================*/	
 
-if(isset($_POST["aprobadoIdComprobante"])){
+if(isset($_POST["aprobadoIdCuenta"])){
 
-	$aprobadoIdComprobante = new AjaxComprobantes();
-	$aprobadoIdComprobante -> aprobadoIdComprobante = $_POST["aprobadoIdComprobante"];
-	$aprobadoIdComprobante -> aprobadoComprobante = $_POST["aprobadoComprobante"];
-	$aprobadoIdComprobante -> ajaxAprobadoComprobante();
+	$aprobadoIdCuenta = new AjaxCuentas();
+	$aprobadoIdCuenta -> aprobadoIdCuenta = $_POST["aprobadoIdCuenta"];
+	$aprobadoIdCuenta -> aprobadoCuenta = $_POST["aprobadoCuenta"];
+	$aprobadoIdCuenta -> ajaxAprobadoCuentas();
 
 }
 
@@ -200,13 +199,13 @@ if(isset($_POST["idUsuario"])){
 }
 
 /*=============================================
-EDITAR COMPROBANTE
+EDITAR CUENTA
 =============================================*/
-if(isset($_POST["idComprobanteEditar"])){
+if(isset($_POST["idCuentaEditar"])){
 
-	$editar = new AjaxComprobantes();
-	$editar -> idComprobanteEditar = $_POST["idComprobanteEditar"];
-	$editar -> ajaxEditarComprobante();
+	$editar = new AjaxCuentas();
+	$editar -> idCuentaEditar = $_POST["idCuentaEditar"];
+	$editar -> ajaxEditarCuenta();
 
 }
 

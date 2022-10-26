@@ -4,7 +4,7 @@ if ($usuario["perfil"] != "admin") {
 
     echo '<script>
 
-  window.location = "' . $ruta . 'backoffice/inicio";
+  window.location = "inicio";
 
   </script>';
 
@@ -45,11 +45,15 @@ if ($usuario["perfil"] != "admin") {
 
         <h3 class="card-title">Usuarios registrados</h3>
 
+        <div style="margin:1em auto auto auto">
 
+				<button class="btn btn-primary" data-toggle="modal" data-target="#modalRegistroUsuarioManual">Registrar Usuario</button>
 
-          <label for="selectFiltro" class="control-label">Filtro</label>
+			  </div>
 
-          <div>
+          <label for="selectFiltro" class="control-label" style="margin:1em">FILTRO</label>
+
+          <div style="width:50%">
             <select class="form-control form-select" id="selectFiltro">
 
               <option value="tabla-usuarios" selected>TODOS</option>
@@ -238,4 +242,164 @@ $editarUsuario->ctrEditarUsuario();
 
     </div>
   </div>
+</div>
+
+
+
+
+
+<?php $ruta = ControladorGeneral::ctrRuta();?>
+<!--=====================================
+REGISTRO USUARIO MANUAL
+======================================-->
+
+<!-- The Modal -->
+<div class="modal" id="modalRegistroUsuarioManual">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+    	<form method="post">
+
+	      <!-- Modal Header -->
+	      <div class="modal-header">
+	        <h4 class="modal-title">Registrar Usuario</h4>
+	        <button type="button" class="close" data-dismiss="modal">&times;</button>
+	      </div>
+
+	      <!-- Modal body -->
+	      <div class="modal-body">
+
+
+
+	<div class="card card-primary card-outline">
+
+		<div class="card-header">
+
+
+		</div>
+
+		<div class="card-body">
+
+			<div class="form-group">
+
+             <label for="inputDoc" class="control-label">Numero documento</label>
+
+              <div>
+
+	               <input type="number" class="form-control" id="inputDoc" name="registroDoc" required>
+
+              </div>
+
+            </div>
+
+			<div class="form-group">
+
+				<label for="inputName" class="control-label">Nombre completo</label>
+
+				<div>
+
+					<input type="text" class="form-control" id="inputName" name="registroNombre">
+
+				</div>
+
+			</div>
+
+			<div class="form-group">
+
+				<label for="inputEmail" class="control-label">Correo electrónico</label>
+
+				<div>
+
+					<input type="text" class="form-control" id="inputEmail" name="registroEmail">
+
+				</div>
+
+			</div>
+
+			<div class="form-group">
+
+				<label for="inputPatrocinador" class="control-label">Patrocinador</label>
+
+				<div>
+
+					<input type="text" class="form-control" id="inputPatrocinador" name="registroPatrocinador" value="<?php echo $usuario["enlace_afiliado"] ?>" readonly>
+
+				</div>
+
+			</div>
+
+
+			<div class="form-group">
+
+				<label for="inputPais" class="control-label">País</label>
+
+				<div>
+					<select class="form-control select2 py-4" id="inputPais" name="registroPais">
+
+						<option value="">Seleccione su país</option>
+
+					</select>
+
+				</div>
+
+			</div>
+
+
+
+			<div class="form-group">
+
+				<label for="inputMovil" class="control-label">Teléfono Móvil</label>
+
+				<div class="input-group">
+
+					<div class="input-group-prepend">
+						<span class="p-2 bg-info rounded-left dialCode"></span>
+					</div>
+
+					<input type="text" class="form-control" id="inputMovil" name="registroTelefono" data-inputmask="'mask':'(999) 999-9999'" data-mask>
+
+				</div>
+
+			</div>
+
+
+      <div class="form-group">
+
+        <label for="inputPassword" class="control-label">Contraseña</label>
+
+        <div>
+
+          <input type="password" class="form-control" id="inputPassword" name="registroPassword" required>
+
+        </div>
+
+      </div>
+
+			<div class="form-group">
+				<div class="col-sm-offset-2">
+					<button type="submit" class="btn btn-dark registroManual">Enviar</button>
+				</div>
+			</div>
+<?php
+      $registroUsuarioManual = new ControladorUsuarios();
+      $registroUsuarioManual->ctrRegistroUsuarioManual();
+
+?>
+
+</form>
+		</div>
+
+	</div>
+
+
+<!-- Modal footer -->
+<div class="modal-footer d-flex justify-content-between">
+
+<div>
+
+  <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+
+</div>
+
+
 </div>

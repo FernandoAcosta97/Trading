@@ -9,7 +9,7 @@ if (!isset($_SESSION["validarSesion"])) {
 
     echo '<script>
 
-		window.location = "' . $ruta . 'ingreso";
+		window.location = "'.$ruta.'ingreso";
 
 	</script>';
 
@@ -206,7 +206,7 @@ if (isset($_GET["pagina"])) {
     if ($_GET["pagina"] == "inicio" ||
         $_GET["pagina"] == "perfil" ||
         $_GET["pagina"] == "usuarios" ||
-		$_GET["pagina"] == "usuarios-operando" ||
+		$_GET["pagina"] == "campanas" ||
         $_GET["pagina"] == "cuentas-bancarias" ||
         $_GET["pagina"] == "comprobantes" ||
         $_GET["pagina"] == "uninivel" ||
@@ -243,6 +243,7 @@ include "paginas/modulos/footer.php";
 <script src="vistas/js/inicio.js"></script>
 <script src="vistas/js/usuarios.js"></script>
 <script src="vistas/js/comprobantes.js"></script>
+<script src="vistas/js/campanas.js"></script>
 <script src="vistas/js/cuentas.js"></script>
 <script src="vistas/js/multinivel.js"></script>
 <script src="vistas/js/ingresos.js"></script>

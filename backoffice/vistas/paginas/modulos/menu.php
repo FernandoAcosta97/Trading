@@ -32,7 +32,7 @@
 
       <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
-        <!--=====================================
+      <!--=====================================
       Botón Inicio
       ======================================-->
 
@@ -69,6 +69,19 @@
 
         <?php endif ?>
 
+        <?php if ($usuario["firma"] != null) : ?>
+
+      <!--=====================================
+      Botón Campañas
+      ======================================-->
+
+      <li class="nav-item">
+          <a href="campanas" class="nav-link">
+            <i class="nav-icon fas fa-money-bill"></i>
+            <p>Campañas</p>
+          </a>
+        </li>
+
         <!--=====================================
       Botón Cuentas
       ======================================-->
@@ -79,6 +92,7 @@
               <p>Cuentas</p>
             </a>
           </li>
+
 
       <!--=====================================
       Botón Comprobantes
@@ -94,8 +108,6 @@
         <!--=====================================
       Botón Redes Multinivel
       ======================================-->
-
-        <?php if ($usuario["firma"] != NULL) : ?>
 
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">

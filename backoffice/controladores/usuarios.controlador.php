@@ -23,7 +23,7 @@ Class ControladorUsuarios{
 				$encriptar = crypt($_POST["registroPassword"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
 
 				$encriptarEmail = md5($_POST["registroEmail"]);
-				$aleatorio = mt_rand(2, 999999999999999);
+				$aleatorio = mt_rand(2, 999999999999);
 
 				$tabla = "usuarios";
 				$datos = array("perfil" => "usuario",
@@ -196,6 +196,156 @@ Class ControladorUsuarios{
 		}
 
 	}
+
+
+	/*=============================================
+	Registro de usuarios manual
+	=============================================*/
+
+	public function ctrRegistroUsuarioManual(){
+
+		if(isset($_POST["registroNombre"])){
+
+			if(preg_match('/^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["registroNombre"]) &&
+			   preg_match('/^[^0-9][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[@][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,4}$/', $_POST["registroEmail"]) &&
+			    preg_match('/^[a-zA-Z0-9]+$/', $_POST["registroPassword"]) &&
+			    preg_match('/^[0-9]+$/', $_POST["registroDoc"])){
+
+				$encriptar = crypt($_POST["registroPassword"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
+
+				$encriptarEmail = md5($_POST["registroEmail"]);
+				$firma = "firma";
+				$datos_pais = explode(",", $_POST["registroPais"]);
+				$pais = $datos_pais[0];
+				$codigo_pais = $datos_pais[1];
+				$telefono_movil = $datos_pais[2]." ".$_POST["registroTelefono"];
+				date_default_timezone_set("America/Bogota");
+				$fecha  = getdate();
+				$fecha_contrato = $fecha["year"] . "-" . $fecha["mon"] . "-" . $fecha["mday"];
+
+				$tabla = "usuarios";
+				$datos = array("perfil" => "usuario",
+				               "doc_usuario" => $_POST["registroDoc"],
+							   "nombre" => $_POST["registroNombre"],
+							   "email" => $_POST["registroEmail"],
+							   "password" => $encriptar,
+							   "estado" => 1,
+							   "verificacion" => 1,
+							   "email_encriptado" => $encriptarEmail,
+							   "pais" => $pais,
+							   "telefono_movil" => $telefono_movil,
+							   "codigo_pais" => $codigo_pais,
+							   "patrocinador" => $_POST["registroPatrocinador"],
+							   "fecha_contrato" => $fecha_contrato,
+							   "firma" => $firma); 
+
+
+			$respuesta = ModeloUsuarios::mdlRegistroUsuarioManual($tabla, $datos);	
+			
+			if($respuesta == "ok"){
+
+				$usuario_registrado = ControladorUsuarios::ctrMostrarUsuarios("doc_usuario", $_POST["registroDoc"]);
+
+				$enlace_afiliado = strtolower(str_replace(" ", "-", $_POST["registroNombre"])) . "-" . $usuario_registrado["id_usuario"];
+
+				$actualizar_enlace_afiliado = ControladorUsuarios::ctrActualizarUsuario($usuario_registrado["id_usuario"],"enlace_afiliado",$enlace_afiliado);
+
+				$datosUninivel = array("usuario_red" => $usuario_registrado["id_usuario"],
+					"patrocinador_red" => $_POST["registroPatrocinador"],
+					"periodo_venta" => 10);
+		
+				$datosArbol = array("usuario_red" => $usuario_registrado["id_usuario"],
+					"patrocinador_red" => $_POST["registroPatrocinador"]);
+		
+				$registroUninivel = ControladorMultinivel::ctrRegistroUninivel($datosUninivel);
+				$registroArbol = ControladorMultinivel::ctrRegistroBinaria($datosArbol);
+
+				if($registroArbol == "ok" && $registroUninivel == "ok"){
+
+					echo '<script>
+
+						swal({
+
+							type:"success",
+							title: "¡LA CUENTA HA SIDO CREADA CORRECTAMENTE!",
+							showConfirmButton: true,
+							confirmButtonText: "Cerrar"
+
+						}).then(function(result){
+
+							if(result.value){
+
+								
+
+							}
+
+
+						});	
+
+					</script>';
+
+				}else{
+
+					echo '<script>
+
+					swal({
+
+						type:"error",
+						title: "¡ERROR!",
+						text: "¡¡Ha ocurrido un problema, por favor inténtelo nuevamente",
+						showConfirmButton: true,
+						confirmButtonText: "Cerrar"
+
+					}).then(function(result){
+
+						if(result.value){
+
+							history.back();
+
+						}
+
+
+					});	
+
+				</script>';
+			
+
+				}
+			}
+				
+
+			}else{
+
+				echo '<script>
+
+					swal({
+
+						type:"error",
+						title: "¡CORREGIR!",
+						text: "¡No se permiten caracteres especiales en ninguno de los campos!",
+						showConfirmButton: true,
+						confirmButtonText: "Cerrar"
+
+					}).then(function(result){
+
+						if(result.value){
+
+							history.back();
+
+						}
+
+
+					});	
+
+				</script>';
+
+
+			}
+
+		}
+
+	}
+
 
 	/*=============================================
 	Mostrar Usuarios
@@ -1009,7 +1159,7 @@ Class ControladorUsuarios{
 			preg_match('/^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["registrarEntidadCuenta"]) ){
 
 				$datos = array(	"titular" => $_POST["idUsuarioCuentaRegistrar"],
-				"estado" => 1,
+				"estado" => 2,
 				"tipo" => $_POST["registrarTipoCuenta"],
 				"entidad" => $_POST["registrarEntidadCuenta"],
 				"numero" => $_POST["registrarNumeroCuenta"]);

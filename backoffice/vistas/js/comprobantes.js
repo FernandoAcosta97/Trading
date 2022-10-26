@@ -209,3 +209,9 @@ $(".tablaComprobantes tbody").on("change","select.selectAprobado",function(){
 
 
 
+$(".tablaComprobantes tbody").on("click", "button.btnSoporte", function () {
+  
+	window.location = "soporte";
+  });
+
+

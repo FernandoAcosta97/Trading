@@ -121,21 +121,6 @@
 
 			</div>
 
-			<div class="form-group">
-
-				<label for="tipoRed">Tipo de Red:</label>
-
-				<select class="form-control" id="tipoRed">
-
-					<option value="">Seleccione tipo de red</option>
-					<option value="uninivel">Red UniNivel</option>
-					<option value="binaria">Red Binaria</option>
-					<option value="matriz">Red Matriz 4x4</option>
-
-				</select>
-
-			</div>
-
 			<div class="form-group pb-4">
 
 				<div class="col-sm-offset-2">
@@ -358,27 +343,32 @@
 <?php else:
 
     if ($usuario) {
+		if($usuario["perfil"]!="admin"){
 
-        $cuentas_bancarias = ControladorCuentas::CtrMostrarCuentas("titular", $usuario["doc_usuario"]);
+        $cuenta = ControladorCuentas::ctrMostrarCuentas("titular", $usuario["doc_usuario"]);
 
-        $total_cuentas = count($cuentas_bancarias);
+        // $total_cuentas = count($cuentas_bancarias);
         $cuenta_bancaria = "";
 
-        if ($total_cuentas > 1) {
-
-            foreach ($cuentas_bancarias as $key => $value) {
-                if ($value["estado"] == 1) {
-                    $cuenta_bancaria = $value["numero"];
-                    break;
+                if ($cuenta["estado"] == 1) {
+                    $cuenta_bancaria = $cuenta["numero"];
                 }
-            }
-        } elseif ($cuentas_bancarias) {
-        $cuenta_bancaria = $cuentas_bancarias[0]["numero"];
-    }
+    //     if ($total_cuentas > 1) {
+
+    //         foreach ($cuentas_bancarias as $key => $value) {
+    //             if ($value["estado"] == 1) {
+    //                 $cuenta_bancaria = $value["numero"];
+    //                 break;
+    //             }
+    //         }
+    //     } elseif ($cuentas_bancarias) {
+    //     $cuenta_bancaria = $cuentas_bancarias[0]["numero"];
+    // }
 
     if ($cuenta_bancaria == "") {
         $cuenta_bancaria = "Cuenta no registrada";
     }
+}
 }
 ?>
 
@@ -421,7 +411,8 @@ if ($usuario["perfil"] != "admin") {
 
 				<input type="text" class="form-control" id="correoPaypal" value="<?php echo $cuenta_bancaria; ?>" readonly>
 
-				<?php if ($total_cuentas == 0 || $cuenta_bancaria == "") {?>
+
+				<?php if ($cuenta_bancaria == "") {?>
 
 				<div class="input-group-prepend">
 					<button class="btn btn-primary rounded-left" data-toggle="modal" data-target="#registrarCuenta"><i class="fa fa-plus"></i></button>

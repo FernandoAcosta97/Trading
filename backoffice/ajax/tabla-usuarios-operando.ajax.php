@@ -15,6 +15,7 @@ class TablaUsuarios{
 		$item = "operando";
 		$valor = 1;
 		$usuarios = ControladorUsuarios::ctrMostrarusuariosFetchAll($item, $valor);
+		$totalAfiliadosActivos=0;
 
 		if(count($usuarios) < 2 ){
 
@@ -27,8 +28,21 @@ class TablaUsuarios{
 
 		foreach ($usuarios as $key => $value) {
 
-			if($value["perfil"] != "admin"){
-
+			if($value["perfil"] != "admin" && $value["operando"]==1){
+				
+				$red = ControladorMultinivel::ctrMostrarRedUninivel("red_uninivel", "patrocinador_red", $value["enlace_afiliado"]);
+				// print_r($red);
+	
+				if(count($red)>0){
+				foreach ($red as $key2 => $value2){
+					$usuarioRedOperando = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $value2["usuario_red"]);
+	
+					if($usuarioRedOperando["operando"]==1){
+						++$totalAfiliadosActivos;
+					}
+	
+				}
+			}
 
 				/*=============================================
 				ESTADO Y OPERANDO
@@ -45,14 +59,8 @@ class TablaUsuarios{
 
 				if($value["firma"]!=NULL){
 
-				if($value["operando"] == 0){
-
-					$operando = "<button type='button' class='btn btn-danger btn-sm btnOperar' idUsuario='".$value["id_usuario"]."' estadoUsuario='1'>No</button>";
-
-				}else{
-
-					$operando = "<button type='button' class='btn btn-success btn-sm btnOperar' idUsuario='".$value["id_usuario"]."' estadoUsuario='0'>Si</button>";
-				}
+                $operando = "<button type='button' class='btn btn-success btn-sm btnOperar' idUsuario='".$value["id_usuario"]."' estadoUsuario='0'>Si</button>";
+				
 			}else{
 				$operando = "<button type='button' disabled class='btn btn-danger btn-sm'>No</button>";
 			}
@@ -82,7 +90,7 @@ class TablaUsuarios{
 				       "'.$pais.'",
 				       "'.$estado.'",
 				       "'.$operando.'",
-                       "'.$value["referidos_activos"].'", 
+                       "'.$totalAfiliadosActivos.'", 
 					   "'.$value["patrocinador"].'", 
 					   "'.$ruta.$value["enlace_afiliado"].'",   
 					   "'.$value["telefono_movil"].'",
@@ -91,6 +99,8 @@ class TablaUsuarios{
 				],';
 
 			}
+
+			$totalAfiliadosActivos=0;
 
 		}
 

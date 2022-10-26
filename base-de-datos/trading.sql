@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 19-10-2022 a las 22:36:08
+-- Tiempo de generación: 26-10-2022 a las 20:36:10
 -- Versión del servidor: 10.4.20-MariaDB
 -- Versión de PHP: 8.0.9
 
@@ -20,6 +20,30 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `trading`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `campanas`
+--
+
+CREATE TABLE `campanas` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `nombre` text NOT NULL,
+  `retorno` float NOT NULL,
+  `estado` int(11) NOT NULL,
+  `cupos` int(11) NOT NULL,
+  `fecha_inicio` date NOT NULL,
+  `fecha_fin` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `campanas`
+--
+
+INSERT INTO `campanas` (`id`, `nombre`, `retorno`, `estado`, `cupos`, `fecha_inicio`, `fecha_fin`) VALUES
+(1, 'Shiba Inu 2', 20, 1, 3000, '2022-10-22', '2022-10-29'),
+(3, 'BitCoin', 10, 0, 1500, '2022-10-27', '2022-11-16');
 
 -- --------------------------------------------------------
 
@@ -60,17 +84,18 @@ CREATE TABLE `comprobantes` (
   `estado` int(11) NOT NULL,
   `valor` bigint(20) NOT NULL,
   `doc_usuario` int(11) NOT NULL,
-  `campaña` int(11) NOT NULL DEFAULT 1
+  `campana` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Volcado de datos para la tabla `comprobantes`
 --
 
-INSERT INTO `comprobantes` (`id`, `codigo`, `foto`, `fecha`, `estado`, `valor`, `doc_usuario`, `campaña`) VALUES
-(3, 'POS-23FG', '', '2022-10-12', 1, 8000000, 1, 1),
-(4, 'bk452', '', '2022-10-20', 2, 98000, 1, 0),
-(6, 'pos-023k', 'vistas/img/comprobantes/pos-023k/463.png', '2022-10-29', 1, 100000, 1, 0);
+INSERT INTO `comprobantes` (`id`, `codigo`, `foto`, `fecha`, `estado`, `valor`, `doc_usuario`, `campana`) VALUES
+(7, 'bk452', '', '2022-10-25', 0, 100000, 43, 1),
+(8, '98647lk', 'vistas/img/comprobantes/98647lk/270.png', '2022-10-27', 1, 150000, 879788, 1),
+(9, 'dg56', '', '2022-10-27', 2, 10000, 43, 1),
+(14, 'dsad', '', '2022-10-26', 2, 80000, 879788, 1);
 
 -- --------------------------------------------------------
 
@@ -79,13 +104,22 @@ INSERT INTO `comprobantes` (`id`, `codigo`, `foto`, `fecha`, `estado`, `valor`, 
 --
 
 CREATE TABLE `cuentas_bancarias` (
+  `id` bigint(11) NOT NULL,
   `numero` bigint(20) NOT NULL,
   `titular` bigint(20) NOT NULL,
   `entidad` text NOT NULL,
-  `estado` int(11) NOT NULL,
+  `estado` int(11) NOT NULL DEFAULT 2,
   `tipo` text NOT NULL,
   `fecha` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `cuentas_bancarias`
+--
+
+INSERT INTO `cuentas_bancarias` (`id`, `numero`, `titular`, `entidad`, `estado`, `tipo`, `fecha`) VALUES
+(1, 555555555555, 43, 'Davivienda', 0, 'ahorros', '2022-10-26 18:05:49'),
+(2, 998251561, 879788, 'Bancolombia', 1, 'corriente', '2022-10-26 15:06:57');
 
 -- --------------------------------------------------------
 
@@ -166,7 +200,9 @@ INSERT INTO `red_binaria` (`id_binaria`, `usuario_red`, `orden_binaria`, `derram
 (20, 31, 8, 7, 'julian-30', 0, '2022-10-15 16:06:20'),
 (21, 32, 9, 1, 'admin-trading', 0, '2022-10-17 21:12:36'),
 (22, 35, 10, 3, 'mateo-26', 0, '2022-10-19 02:49:59'),
-(23, 36, 11, 3, 'mateo-26', 0, '2022-10-19 02:58:37');
+(23, 36, 11, 3, 'mateo-26', 0, '2022-10-19 02:58:37'),
+(32, 46, 12, 1, 'admin-trading', 0, '2022-10-25 03:04:15'),
+(33, 49, 13, 1, 'admin-trading', 0, '2022-10-26 16:19:05');
 
 -- --------------------------------------------------------
 
@@ -215,20 +251,9 @@ INSERT INTO `red_uninivel` (`id_uninivel`, `usuario_red`, `patrocinador_red`, `p
 (27, 31, 'julian-30', 10, '2022-10-15 16:06:20'),
 (28, 32, 'admin-trading', 10, '2022-10-17 21:12:36'),
 (29, 35, 'mateo-26', 10, '2022-10-19 02:49:59'),
-(30, 36, 'mateo-26', 10, '2022-10-19 02:58:36');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `referidos`
---
-
-CREATE TABLE `referidos` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `patrocinador` int(11) NOT NULL,
-  `referido` int(11) NOT NULL,
-  `fecha` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+(30, 36, 'mateo-26', 10, '2022-10-19 02:58:36'),
+(39, 46, 'admin-trading', 10, '2022-10-25 03:04:15'),
+(40, 49, 'admin-trading', 10, '2022-10-26 16:19:05');
 
 -- --------------------------------------------------------
 
@@ -291,17 +316,18 @@ CREATE TABLE `usuarios` (
 
 INSERT INTO `usuarios` (`id_usuario`, `doc_usuario`, `perfil`, `nombre`, `email`, `password`, `estado`, `operando`, `ciclo_pago`, `vencimiento`, `verificacion`, `email_encriptado`, `foto`, `enlace_afiliado`, `patrocinador`, `pais`, `codigo_pais`, `telefono_movil`, `firma`, `fecha_contrato`, `fecha`) VALUES
 (1, 1, 'admin', 'Administrador', 'admin@trading.com', '$2a$07$asxx54ahjppf45sd87a5auGZEtGHuyZwm.Ur.FJvWLCql3nmsMbXy', 1, 1, NULL, '2019-10-07', 1, NULL, 'vistas/img/usuarios/1/434.jpg', 'admin-trading', NULL, NULL, NULL, '(573) 218-5749', 'firma', NULL, '2019-09-27 19:13:02'),
-(28, 43, 'usuario', 'prueba', 'prueba@gmail.com', '$2a$07$asxx54ahjppf45sd87a5auGZEtGHuyZwm.Ur.FJvWLCql3nmsMbXy', 1, 0, NULL, NULL, 1, 'c81b5136bcd10b4390108c979ed28ee6', NULL, 'prueba-28', 'juan-25', 'Colombia', 'CO', '+57 (123) 123-1231', '<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\"><svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" width=\"64\" height=\"72\"><path stroke-linejoin=\"round\" stroke-linecap=\"round\" stroke-width=\"1\" stroke=\"#333\" fill=\"none\" d=\"M 1 71 c 0.12 -0.05 4.77 -1.78 7 -3 c 4.46 -2.45 9.26 -4.88 13 -8 c 3.99 -3.33 8.19 -7.78 11 -12 c 2.24 -3.37 2.86 -8.54 5 -12 c 1.98 -3.2 5.72 -5.73 8 -9 c 5.36 -7.69 10.12 -16.96 15 -24 l 3 -2\"/></svg>', '2022-10-06', '2022-10-15 01:04:21'),
+(28, 43, 'usuario', 'prueba', 'prueba@gmail.com', '$2a$07$asxx54ahjppf45sd87a5auGZEtGHuyZwm.Ur.FJvWLCql3nmsMbXy', 1, 1, NULL, NULL, 1, 'c81b5136bcd10b4390108c979ed28ee6', NULL, 'prueba-28', 'juan-25', 'Colombia', 'CO', '+57 (123) 123-1231', '<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\"><svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" width=\"64\" height=\"72\"><path stroke-linejoin=\"round\" stroke-linecap=\"round\" stroke-width=\"1\" stroke=\"#333\" fill=\"none\" d=\"M 1 71 c 0.12 -0.05 4.77 -1.78 7 -3 c 4.46 -2.45 9.26 -4.88 13 -8 c 3.99 -3.33 8.19 -7.78 11 -12 c 2.24 -3.37 2.86 -8.54 5 -12 c 1.98 -3.2 5.72 -5.73 8 -9 c 5.36 -7.69 10.12 -16.96 15 -24 l 3 -2\"/></svg>', '2022-10-06', '2022-10-15 01:04:21'),
 (25, 369, 'usuario', 'Juan', 'juan@gmail.com', '$2a$07$asxx54ahjppf45sd87a5auGZEtGHuyZwm.Ur.FJvWLCql3nmsMbXy', 1, 1, NULL, NULL, 1, '7038663cc684aa330956752c7e6fe7d4', NULL, 'juan-25', 'admin-trading', 'Colombia', 'CO', '+57 (123) 123-2323', '<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\"><svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" width=\"222\" height=\"79\"><path stroke-linejoin=\"round\" stroke-linecap=\"round\" stroke-width=\"1\" stroke=\"#333\" fill=\"none\" d=\"M 12 10 c -0.12 0.19 -4.9 7.19 -7 11 c -1.58 2.88 -3.53 6.17 -4 9 c -0.43 2.6 0.13 6.55 1 9 c 0.62 1.73 2.44 4.04 4 5 c 2.31 1.42 5.99 2.5 9 3 c 4.77 0.79 9.92 1 15 1 c 7.78 0 15.7 0.27 23 -1 c 7.63 -1.33 15.92 -3.89 23 -7 c 6.22 -2.73 13.06 -6.79 18 -11 c 3.51 -2.99 7.4 -7.92 9 -12 c 1.72 -4.38 3.11 -14.05 2 -16 c -0.7 -1.23 -7.47 0.36 -10 2 c -8.64 5.61 -19.2 14.2 -27 22 c -4.04 4.04 -7.32 9.8 -10 15 c -2.54 4.93 -4.76 10.85 -6 16 c -0.65 2.71 -1.1 6.91 0 9 c 1.73 3.29 6.5 7.73 10 10 c 2.58 1.68 6.7 2.7 10 3 c 7.27 0.66 15.62 0.99 23 0 c 9.57 -1.29 19.24 -4.19 29 -7 c 10.35 -2.98 20.38 -5.96 30 -10 c 6.94 -2.92 14.96 -6.71 20 -11 c 3.07 -2.61 5.98 -8.25 7 -12 c 0.74 -2.72 -0.25 -6.98 -1 -10 c -0.5 -2.01 -1.83 -4.25 -3 -6 c -0.74 -1.11 -2.11 -3.21 -3 -3 c -4.14 0.99 -13.19 4.73 -18 8 c -2.78 1.89 -4.93 5.89 -7 9 c -1.22 1.83 -2.64 4.22 -3 6 c -0.22 1.1 0.23 3.42 1 4 c 1.36 1.02 4.68 1.89 7 2 c 11.47 0.53 24.36 1.13 36 0 c 8.62 -0.83 17.93 -3.66 26 -6 l 5 -3\"/></svg>', '2022-10-06', '2022-10-14 23:51:52'),
-(27, 765, 'usuario', 'pedro pablo', 'pedro@gmail.com', '$2a$07$asxx54ahjppf45sd87a5auGZEtGHuyZwm.Ur.FJvWLCql3nmsMbXy', 1, 0, NULL, NULL, 1, 'c3b7f393410fe6185ba5d966a213a38f', NULL, 'pedro-pablo-27', 'mateo-26', 'Peru', 'PE', '+51 (123) 123-1231', '<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\"><svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" width=\"210\" height=\"20\"><path stroke-linejoin=\"round\" stroke-linecap=\"round\" stroke-width=\"1\" stroke=\"#333\" fill=\"none\" d=\"M 1 1 c 1.58 0 59.27 -0.86 90 0 c 18.15 0.51 35.41 1.32 53 4 c 22 3.36 65 14 65 14\"/></svg>', '2022-10-06', '2022-10-15 00:33:48'),
+(27, 765, 'usuario', 'pedro pablo', 'pedro@gmail.com', '$2a$07$asxx54ahjppf45sd87a5auGZEtGHuyZwm.Ur.FJvWLCql3nmsMbXy', 1, 0, NULL, NULL, 1, 'c3b7f393410fe6185ba5d966a213a38f', NULL, 'pedro-pablo-27', 'mateo-26', 'Peru', 'PE', '(888) 888-8888', '<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\"><svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" width=\"210\" height=\"20\"><path stroke-linejoin=\"round\" stroke-linecap=\"round\" stroke-width=\"1\" stroke=\"#333\" fill=\"none\" d=\"M 1 1 c 1.58 0 59.27 -0.86 90 0 c 18.15 0.51 35.41 1.32 53 4 c 22 3.36 65 14 65 14\"/></svg>', '2022-10-06', '2022-10-15 00:33:48'),
 (29, 980, 'usuario', 'Luis', 'luis@gmail.com', '$2a$07$asxx54ahjppf45sd87a5auGZEtGHuyZwm.Ur.FJvWLCql3nmsMbXy', 1, 0, NULL, NULL, 1, '19ff31020abd6906f2f975a3e77e07c7', NULL, 'luis-29', 'admin-trading', 'Israel', 'IL', '+972 (787) 767-6676', '<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\"><svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" width=\"146\" height=\"54\"><path stroke-linejoin=\"round\" stroke-linecap=\"round\" stroke-width=\"1\" stroke=\"#333\" fill=\"none\" d=\"M 1 53 c 0.07 -0.02 2.96 -0.41 4 -1 c 1.07 -0.61 1.89 -2.26 3 -3 c 1.75 -1.17 3.88 -2.29 6 -3 c 22.86 -7.62 45.47 -15.05 69 -22 c 6.31 -1.86 12.66 -2.27 19 -4 c 8.58 -2.34 16.75 -4.9 25 -8 c 5.21 -1.95 10.83 -4.45 15 -7 l 3 -4\"/></svg>', '2022-10-06', '2022-10-15 14:53:53'),
-(31, 73908, 'usuario', 'Carlos', 'carlos@gmail.com', '$2a$07$asxx54ahjppf45sd87a5auGZEtGHuyZwm.Ur.FJvWLCql3nmsMbXy', 1, 0, NULL, NULL, 1, 'db1e0a3750e0399df3eeee808187d9b4', NULL, 'carlos-31', 'julian-30', 'Chile', 'CL', '+56 (657) 576-5765', '<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\"><svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" width=\"165\" height=\"40\"><path stroke-linejoin=\"round\" stroke-linecap=\"round\" stroke-width=\"1\" stroke=\"#333\" fill=\"none\" d=\"M 1 1 c 0.23 0.05 9.43 1.03 13 3 c 8.24 4.56 16.43 13.02 25 18 c 5.37 3.12 11.76 5.07 18 7 c 12.38 3.83 24.99 8.75 37 10 c 12.55 1.3 27.48 0.12 40 -2 c 8.31 -1.41 17.07 -6.62 25 -9 l 5 0\"/></svg>', '2022-10-06', '2022-10-15 16:04:22'),
-(30, 89875, 'usuario', 'Julian', 'julian@gmail.com', '$2a$07$asxx54ahjppf45sd87a5auGZEtGHuyZwm.Ur.FJvWLCql3nmsMbXy', 1, 1, NULL, NULL, 1, '4efe518f863e162e8f00e7d823b40230', NULL, 'julian-30', 'mateo-26', 'Argentina', 'AR', '+54 (875) 858-7587', '<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\"><svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" width=\"200\" height=\"90\"><path stroke-linejoin=\"round\" stroke-linecap=\"round\" stroke-width=\"1\" stroke=\"#333\" fill=\"none\" d=\"M 1 74 c 0.04 -0.05 1.19 -2.19 2 -3 c 1.76 -1.76 3.78 -3.78 6 -5 c 10.15 -5.61 21.37 -10.16 32 -16 c 6.68 -3.67 13.53 -7.21 19 -12 c 10.15 -8.89 19.7 -19.85 29 -30 c 1.61 -1.75 4.76 -5.67 4 -6 c -2.11 -0.92 -15.65 -3.18 -20 -1 c -4.96 2.48 -10.22 12.1 -14 18 c -1.21 1.88 -1.74 4.69 -2 7 c -0.39 3.49 -0.69 7.67 0 11 c 0.88 4.21 2.97 9.14 5 13 c 1.14 2.17 3.18 4.18 5 6 c 1.82 1.82 3.92 3.38 6 5 c 0.96 0.75 1.96 1.69 3 2 c 2.03 0.61 4.64 0.95 7 1 c 13.03 0.28 26.52 0.92 39 0 c 4.97 -0.37 10.06 -2.43 15 -4 c 2.42 -0.77 4.84 -1.82 7 -3 c 1.42 -0.77 4.07 -3.05 4 -3 c -0.23 0.15 -9.44 5.62 -13 9 c -2.75 2.61 -5.27 6.53 -7 10 c -1.8 3.6 -2.5 8.24 -4 12 c -0.43 1.07 -1.2 2.46 -2 3 c -0.92 0.61 -3.36 1.57 -4 1 c -1.8 -1.62 -3.76 -6.8 -6 -10 c -2.46 -3.51 -6.16 -6.73 -8 -10 c -0.87 -1.55 -1.98 -5.15 -1 -6 c 4.28 -3.69 15.33 -8.35 23 -13 c 3.54 -2.15 6.53 -4.88 10 -7 c 2.55 -1.56 5.27 -3.44 8 -4 c 7.98 -1.64 17.21 -2.27 26 -3 c 3.36 -0.28 6.81 -0.49 10 0 c 5.26 0.81 11.84 2.25 16 4 l 3 4\"/></svg>', '2022-10-06', '2022-10-15 15:09:33'),
+(31, 73908, 'usuario', 'Carlos Andres', 'carlos@gmail.com', '$2a$07$asxx54ahjppf45sd87a5auGZEtGHuyZwm.Ur.FJvWLCql3nmsMbXy', 1, 0, NULL, NULL, 1, 'db1e0a3750e0399df3eeee808187d9b4', NULL, 'carlos-31', 'julian-30', 'Chile', 'CL', '(566) 575-7657', '<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\"><svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" width=\"165\" height=\"40\"><path stroke-linejoin=\"round\" stroke-linecap=\"round\" stroke-width=\"1\" stroke=\"#333\" fill=\"none\" d=\"M 1 1 c 0.23 0.05 9.43 1.03 13 3 c 8.24 4.56 16.43 13.02 25 18 c 5.37 3.12 11.76 5.07 18 7 c 12.38 3.83 24.99 8.75 37 10 c 12.55 1.3 27.48 0.12 40 -2 c 8.31 -1.41 17.07 -6.62 25 -9 l 5 0\"/></svg>', '2022-10-06', '2022-10-15 16:04:22'),
+(30, 89875, 'usuario', 'Julian', 'julian@gmail.com', '$2a$07$asxx54ahjppf45sd87a5auGZEtGHuyZwm.Ur.FJvWLCql3nmsMbXy', 1, 0, NULL, NULL, 1, '4efe518f863e162e8f00e7d823b40230', NULL, 'julian-30', 'mateo-26', 'Argentina', 'AR', '+54 (875) 858-7587', '<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\"><svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" width=\"200\" height=\"90\"><path stroke-linejoin=\"round\" stroke-linecap=\"round\" stroke-width=\"1\" stroke=\"#333\" fill=\"none\" d=\"M 1 74 c 0.04 -0.05 1.19 -2.19 2 -3 c 1.76 -1.76 3.78 -3.78 6 -5 c 10.15 -5.61 21.37 -10.16 32 -16 c 6.68 -3.67 13.53 -7.21 19 -12 c 10.15 -8.89 19.7 -19.85 29 -30 c 1.61 -1.75 4.76 -5.67 4 -6 c -2.11 -0.92 -15.65 -3.18 -20 -1 c -4.96 2.48 -10.22 12.1 -14 18 c -1.21 1.88 -1.74 4.69 -2 7 c -0.39 3.49 -0.69 7.67 0 11 c 0.88 4.21 2.97 9.14 5 13 c 1.14 2.17 3.18 4.18 5 6 c 1.82 1.82 3.92 3.38 6 5 c 0.96 0.75 1.96 1.69 3 2 c 2.03 0.61 4.64 0.95 7 1 c 13.03 0.28 26.52 0.92 39 0 c 4.97 -0.37 10.06 -2.43 15 -4 c 2.42 -0.77 4.84 -1.82 7 -3 c 1.42 -0.77 4.07 -3.05 4 -3 c -0.23 0.15 -9.44 5.62 -13 9 c -2.75 2.61 -5.27 6.53 -7 10 c -1.8 3.6 -2.5 8.24 -4 12 c -0.43 1.07 -1.2 2.46 -2 3 c -0.92 0.61 -3.36 1.57 -4 1 c -1.8 -1.62 -3.76 -6.8 -6 -10 c -2.46 -3.51 -6.16 -6.73 -8 -10 c -0.87 -1.55 -1.98 -5.15 -1 -6 c 4.28 -3.69 15.33 -8.35 23 -13 c 3.54 -2.15 6.53 -4.88 10 -7 c 2.55 -1.56 5.27 -3.44 8 -4 c 7.98 -1.64 17.21 -2.27 26 -3 c 3.36 -0.28 6.81 -0.49 10 0 c 5.26 0.81 11.84 2.25 16 4 l 3 4\"/></svg>', '2022-10-06', '2022-10-15 15:09:33'),
 (26, 879788, 'usuario', 'Mateo', 'mateo@gmail.com', '$2a$07$asxx54ahjppf45sd87a5auGZEtGHuyZwm.Ur.FJvWLCql3nmsMbXy', 1, 0, NULL, NULL, 1, 'e64b49457900a3435c49e2e8ee79f603', NULL, 'mateo-26', 'admin-trading', 'Chile', 'CL', '+56 (123) 123-1231', '<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\"><svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" width=\"235\" height=\"68\"><path stroke-linejoin=\"round\" stroke-linecap=\"round\" stroke-width=\"1\" stroke=\"#333\" fill=\"none\" d=\"M 42 48 c 0 -0.1 -0.78 -4.49 0 -6 c 3.01 -5.78 8.11 -13.43 13 -19 c 4.52 -5.14 10.37 -10.01 16 -14 c 4.5 -3.19 12.27 -7.52 15 -8 c 0.86 -0.15 2.39 3.69 2 5 c -1.24 4.12 -4.66 10.77 -8 15 c -5 6.34 -11.59 12.27 -18 18 c -6.45 5.77 -13.01 11.63 -20 16 c -5.99 3.74 -13.29 7.04 -20 9 c -6.49 1.9 -20.56 5.77 -21 3 c -1.14 -7.13 6.56 -41.45 13 -53 c 2.65 -4.76 14.01 -6.45 21 -8 c 7.49 -1.67 16.49 -2.72 24 -2 c 9.01 0.87 18.93 3.76 28 7 c 19.04 6.8 36.91 16.2 56 23 c 10.09 3.6 20.66 6.02 31 8 c 5.18 0.99 11.13 1.72 16 1 c 5.77 -0.85 12.18 -3.49 18 -6 c 8.92 -3.85 26 -13 26 -13\"/></svg>', '2022-10-06', '2022-10-15 00:30:39'),
 (35, 34534545, 'usuario', 'Lucero', 'lucero@gmail.com', '$2a$07$asxx54ahjppf45sd87a5auGZEtGHuyZwm.Ur.FJvWLCql3nmsMbXy', 1, 1, NULL, NULL, 1, '1a8036f7ec230101fa36bc463b68ee0c', NULL, 'lucero-35', 'mateo-26', 'Colombia', 'CO', '+57 (432) 423-4234', '<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\"><svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" width=\"127\" height=\"78\"><path stroke-linejoin=\"round\" stroke-linecap=\"round\" stroke-width=\"1\" stroke=\"#333\" fill=\"none\" d=\"M 1 44 c 0.19 0.09 7.34 4.41 11 5 c 7.88 1.28 17.79 1.84 26 1 c 7.5 -0.77 16.49 -2.82 23 -6 c 6.25 -3.05 13.24 -8.88 18 -14 c 3.36 -3.62 6.39 -9.32 8 -14 c 1.51 -4.39 2.28 -14.44 2 -15 c -0.19 -0.38 -4.07 5.83 -5 9 c -5.2 17.77 -8.93 37.13 -14 56 c -1.03 3.83 -1.8 10.14 -4 11 c -3.6 1.41 -13.24 -0.4 -19 -2 c -5.66 -1.57 -11.8 -4.81 -17 -8 c -4.93 -3.02 -14.35 -9.61 -14 -11 c 0.33 -1.33 11.15 -0.93 17 -1 c 24.73 -0.28 47.8 0.55 72 0 c 5.42 -0.12 10.91 -1.03 16 -2 l 5 -2\"/></svg>', '2022-10-03', '2022-10-19 02:49:00'),
-(32, 54654656, 'usuario', 'Miguel', 'miguel@gmail.com', '$2a$07$asxx54ahjppf45sd87a5auGZEtGHuyZwm.Ur.FJvWLCql3nmsMbXy', 1, 0, NULL, NULL, 1, 'c952ec83eabde595820603a3ca9d7f54', NULL, 'miguel-32', 'admin-trading', 'Israel', 'IL', '+972 (456) 456-4564', '<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\"><svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" width=\"228\" height=\"55\"><path stroke-linejoin=\"round\" stroke-linecap=\"round\" stroke-width=\"1\" stroke=\"#333\" fill=\"none\" d=\"M 1 37 c 0.25 -0.05 9.66 -1.45 14 -3 c 4.74 -1.69 9.15 -4.97 14 -7 c 5.59 -2.34 11.14 -4.51 17 -6 c 12.62 -3.21 26.06 -6.14 38 -8 c 2.17 -0.34 5.1 0.21 7 1 c 1.72 0.72 4.17 2.45 5 4 c 1.2 2.23 1.79 6.01 2 9 c 0.44 6.17 -0.26 12.77 0 19 c 0.07 1.67 0.1 4.2 1 5 c 1.51 1.35 5.4 2.51 8 3 c 2.44 0.46 5.47 0.4 8 0 c 3.61 -0.57 7.48 -1.56 11 -3 c 16.86 -6.91 33.06 -14.18 50 -22 c 5.27 -2.43 9.81 -5.59 15 -8 c 4.25 -1.97 8.87 -2.93 13 -5 c 5.85 -2.93 11.52 -6.42 17 -10 l 6 -5\"/></svg>', '2022-10-01', '2022-10-17 20:27:21'),
-(36, 234234234, 'usuario', 'Carolina', 'carolina@gmail.com', '$2a$07$asxx54ahjppf45sd87a5auGZEtGHuyZwm.Ur.FJvWLCql3nmsMbXy', 1, 1, NULL, NULL, 1, '38ad84cbc67a6e587e34df5df5bdb41c', NULL, 'carolina-36', 'mateo-26', 'Chile', 'CL', '+56 ', '<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\"><svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" width=\"202\" height=\"31\"><path stroke-linejoin=\"round\" stroke-linecap=\"round\" stroke-width=\"1\" stroke=\"#333\" fill=\"none\" d=\"M 29 7 c -0.35 -0.1 -13.52 -4.61 -20 -6 c -2.48 -0.53 -8.14 -0.01 -8 0 c 0.49 0.02 18.31 0.93 28 1 c 37.72 0.28 107.09 0.02 109 0 c 0.14 0 -5.48 -1.22 -8 -1 c -4.79 0.42 -10.12 1.58 -15 3 c -5.45 1.58 -11.34 3.48 -16 6 c -2.9 1.57 -7.57 5.27 -8 7 c -0.29 1.15 3.11 4.14 5 5 c 4.75 2.16 11.24 3.98 17 5 c 9.15 1.63 18.48 2.68 28 3 c 20.27 0.69 60 0 60 0\"/></svg>', '2022-10-03', '2022-10-19 02:51:58'),
-(34, 734393169362967, 'usuario', 'Leidy', 'leidy@gmail.com', '$2a$07$asxx54ahjppf45sd87a5auGZEtGHuyZwm.Ur.FJvWLCql3nmsMbXy', 1, 0, NULL, NULL, 1, 'a243d29fec06fb81d63eb6a6055334c0', NULL, NULL, 'admin-trading', NULL, NULL, NULL, NULL, NULL, '2022-10-18 17:33:45');
+(49, 34543543, 'usuario', 'Gabriel', 'gabriel@gmail.com', '$2a$07$asxx54ahjppf45sd87a5auGZEtGHuyZwm.Ur.FJvWLCql3nmsMbXy', 1, 0, NULL, NULL, 1, '2821e29f7fb82f182ecca8d8c9e681cf', NULL, 'gabriel-49', 'admin-trading', 'Chile', 'CL', '+56 (123) 123-1231', '<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\"><svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" width=\"170\" height=\"70\"><path stroke-linejoin=\"round\" stroke-linecap=\"round\" stroke-width=\"1\" stroke=\"#333\" fill=\"none\" d=\"M 1 69 c 0 -0.09 -0.46 -3.77 0 -5 c 0.39 -1.04 1.89 -2.17 3 -3 c 2.84 -2.13 6.03 -4.52 9 -6 c 1.4 -0.7 4.29 -1.77 5 -1 c 2.17 2.35 4.65 10.79 7 14 c 0.62 0.84 3.31 1.58 4 1 c 2.51 -2.13 6.45 -7.76 9 -12 c 3.42 -5.69 6.94 -11.82 9 -18 c 3.16 -9.47 4.1 -21.29 7 -30 c 0.74 -2.21 3.2 -4.56 5 -6 c 1.24 -0.99 3.7 -2 5 -2 c 0.87 0 2.37 1.12 3 2 c 2.42 3.38 4.9 7.8 7 12 c 2.98 5.95 4.88 12.13 8 18 c 5.33 10.02 11.42 22.34 17 29 c 1.53 1.83 6 1.87 9 2 c 11.71 0.52 24.49 0.73 36 0 c 3.64 -0.23 7.3 -2.41 11 -3 l 14 -1\"/></svg>', '2022-10-26', '2022-10-26 16:04:59'),
+(32, 54654656, 'usuario', 'Miguelito', 'miguel@gmail.com', '$2a$07$asxx54ahjppf45sd87a5auGZEtGHuyZwm.Ur.FJvWLCql3nmsMbXy', 1, 0, NULL, NULL, 1, 'c952ec83eabde595820603a3ca9d7f54', NULL, 'miguel-32', 'admin-trading', 'Israel', 'IL', '(972) 456-4564', '<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\"><svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" width=\"228\" height=\"55\"><path stroke-linejoin=\"round\" stroke-linecap=\"round\" stroke-width=\"1\" stroke=\"#333\" fill=\"none\" d=\"M 1 37 c 0.25 -0.05 9.66 -1.45 14 -3 c 4.74 -1.69 9.15 -4.97 14 -7 c 5.59 -2.34 11.14 -4.51 17 -6 c 12.62 -3.21 26.06 -6.14 38 -8 c 2.17 -0.34 5.1 0.21 7 1 c 1.72 0.72 4.17 2.45 5 4 c 1.2 2.23 1.79 6.01 2 9 c 0.44 6.17 -0.26 12.77 0 19 c 0.07 1.67 0.1 4.2 1 5 c 1.51 1.35 5.4 2.51 8 3 c 2.44 0.46 5.47 0.4 8 0 c 3.61 -0.57 7.48 -1.56 11 -3 c 16.86 -6.91 33.06 -14.18 50 -22 c 5.27 -2.43 9.81 -5.59 15 -8 c 4.25 -1.97 8.87 -2.93 13 -5 c 5.85 -2.93 11.52 -6.42 17 -10 l 6 -5\"/></svg>', '2022-10-01', '2022-10-17 20:27:21'),
+(46, 98716415, 'usuario', 'Manuel Perez', 'manuel@gmail.com', '$2a$07$asxx54ahjppf45sd87a5auGZEtGHuyZwm.Ur.FJvWLCql3nmsMbXy', 1, 0, NULL, NULL, 1, '4201ddc9eb0ad45aaeda7542c7c544de', NULL, 'manuel-perez-46', 'admin-trading', 'Colombia', 'CO', '+57 (321) 323-1231', 'firma', '2022-10-24', '2022-10-25 03:04:15'),
+(36, 234234234, 'usuario', 'Carolina', 'carolina@gmail.com', '$2a$07$asxx54ahjppf45sd87a5auGZEtGHuyZwm.Ur.FJvWLCql3nmsMbXy', 1, 1, NULL, NULL, 1, '38ad84cbc67a6e587e34df5df5bdb41c', NULL, 'carolina-36', 'mateo-26', 'Chile', 'CL', '+56 ', '<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\"><svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" width=\"202\" height=\"31\"><path stroke-linejoin=\"round\" stroke-linecap=\"round\" stroke-width=\"1\" stroke=\"#333\" fill=\"none\" d=\"M 29 7 c -0.35 -0.1 -13.52 -4.61 -20 -6 c -2.48 -0.53 -8.14 -0.01 -8 0 c 0.49 0.02 18.31 0.93 28 1 c 37.72 0.28 107.09 0.02 109 0 c 0.14 0 -5.48 -1.22 -8 -1 c -4.79 0.42 -10.12 1.58 -15 3 c -5.45 1.58 -11.34 3.48 -16 6 c -2.9 1.57 -7.57 5.27 -8 7 c -0.29 1.15 3.11 4.14 5 5 c 4.75 2.16 11.24 3.98 17 5 c 9.15 1.63 18.48 2.68 28 3 c 20.27 0.69 60 0 60 0\"/></svg>', '2022-10-03', '2022-10-19 02:51:58');
 
 -- --------------------------------------------------------
 
@@ -350,6 +376,13 @@ INSERT INTO `videos` (`id_video`, `id_cat`, `titulo_video`, `descripcion_video`,
 --
 
 --
+-- Indices de la tabla `campanas`
+--
+ALTER TABLE `campanas`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `id` (`id`);
+
+--
 -- Indices de la tabla `categorias`
 --
 ALTER TABLE `categorias`
@@ -366,8 +399,7 @@ ALTER TABLE `comprobantes`
 -- Indices de la tabla `cuentas_bancarias`
 --
 ALTER TABLE `cuentas_bancarias`
-  ADD PRIMARY KEY (`numero`),
-  ADD KEY `titular` (`titular`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `pagos_binaria`
@@ -409,13 +441,6 @@ ALTER TABLE `red_uninivel`
   ADD KEY `red_uninivel_ibfk_1` (`usuario_red`);
 
 --
--- Indices de la tabla `referidos`
---
-ALTER TABLE `referidos`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `id` (`id`);
-
---
 -- Indices de la tabla `soporte`
 --
 ALTER TABLE `soporte`
@@ -439,6 +464,12 @@ ALTER TABLE `videos`
 --
 
 --
+-- AUTO_INCREMENT de la tabla `campanas`
+--
+ALTER TABLE `campanas`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT de la tabla `categorias`
 --
 ALTER TABLE `categorias`
@@ -448,7 +479,13 @@ ALTER TABLE `categorias`
 -- AUTO_INCREMENT de la tabla `comprobantes`
 --
 ALTER TABLE `comprobantes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT de la tabla `cuentas_bancarias`
+--
+ALTER TABLE `cuentas_bancarias`
+  MODIFY `id` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `pagos_binaria`
@@ -472,7 +509,7 @@ ALTER TABLE `pagos_uninivel`
 -- AUTO_INCREMENT de la tabla `red_binaria`
 --
 ALTER TABLE `red_binaria`
-  MODIFY `id_binaria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id_binaria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT de la tabla `red_matriz`
@@ -484,13 +521,7 @@ ALTER TABLE `red_matriz`
 -- AUTO_INCREMENT de la tabla `red_uninivel`
 --
 ALTER TABLE `red_uninivel`
-  MODIFY `id_uninivel` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
-
---
--- AUTO_INCREMENT de la tabla `referidos`
---
-ALTER TABLE `referidos`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id_uninivel` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT de la tabla `soporte`
@@ -502,7 +533,7 @@ ALTER TABLE `soporte`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id_usuario` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 
 --
 -- AUTO_INCREMENT de la tabla `videos`

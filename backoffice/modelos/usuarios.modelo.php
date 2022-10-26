@@ -23,6 +23,7 @@ class ModeloUsuarios
         $stmt->bindParam(":email_encriptado", $datos["email_encriptado"], PDO::PARAM_STR);
         $stmt->bindParam(":patrocinador", $datos["patrocinador"], PDO::PARAM_STR);
 
+
         if ($stmt->execute()) {
 
             return "ok";
@@ -34,6 +35,43 @@ class ModeloUsuarios
         $stmt->close();
         $stmt = null;
     }
+
+
+    /*=============================================
+    Registro de usuarios Manual
+    =============================================*/
+
+    public static function mdlRegistroUsuarioManual($tabla, $datos)
+    {
+
+        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(perfil, doc_usuario, nombre, email, password, verificacion, email_encriptado, patrocinador, pais, codigo_pais, telefono_movil, fecha_contrato, firma) VALUES (:perfil, :doc_usuario, :nombre, :email, :password, :verificacion, :email_encriptado, :patrocinador, :pais, :codigo_pais, :telefono_movil, :fecha_contrato, :firma)");
+
+        $stmt->bindParam(":perfil", $datos["perfil"], PDO::PARAM_STR);
+        $stmt->bindParam(":doc_usuario", $datos["doc_usuario"], PDO::PARAM_INT);
+        $stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
+        $stmt->bindParam(":email", $datos["email"], PDO::PARAM_STR);
+        $stmt->bindParam(":password", $datos["password"], PDO::PARAM_STR);
+        $stmt->bindParam(":verificacion", $datos["verificacion"], PDO::PARAM_STR);
+        $stmt->bindParam(":email_encriptado", $datos["email_encriptado"], PDO::PARAM_STR);
+        $stmt->bindParam(":patrocinador", $datos["patrocinador"], PDO::PARAM_STR);
+        $stmt->bindParam(":pais", $datos["pais"], PDO::PARAM_STR);
+        $stmt->bindParam(":codigo_pais", $datos["codigo_pais"], PDO::PARAM_STR);
+        $stmt->bindParam(":telefono_movil", $datos["telefono_movil"], PDO::PARAM_STR);
+        $stmt->bindParam(":fecha_contrato", $datos["fecha_contrato"], PDO::PARAM_STR);
+        $stmt->bindParam(":firma", $datos["firma"], PDO::PARAM_STR);
+
+        if ($stmt->execute()) {
+
+            return "ok";
+        } else {
+
+            return print_r(Conexion::conectar()->errorInfo());
+        }
+
+        $stmt->close();
+        $stmt = null;
+    }
+
 
     /*=============================================
     Mostrar Usuarios

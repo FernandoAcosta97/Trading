@@ -83,3 +83,98 @@ $cuentas = ControladorCuentas::ctrMostrarCuentas($item, $valor);
   <!-- /.content -->
 
 </div>
+
+
+
+<!--=====================================
+EDITAR CUENTA
+======================================-->
+
+<!-- The Modal -->
+<div class="modal" id="modalEditarCuenta">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+    	<form method="post">
+
+	      <!-- Modal Header -->
+	      <div class="modal-header">
+	        <h4 class="modal-title">Editar cuenta</h4>
+	        <button type="button" class="close" data-dismiss="modal">&times;</button>
+	      </div>
+
+	      <!-- Modal body -->
+	      <div class="modal-body">
+
+              <!-- ENTRADA PARA EL NUMERO -->
+              <div class="form-group">
+
+                <label for="editarNumero" class="control-label">Número</label>
+
+                <div>
+  
+                  <input type="text" class="form-control" id="editarNumero" name="editarNumero" required>
+
+                  <input type="hidden" id="idCuenta" name="idCuenta">
+
+                </div>
+
+              </div>
+
+          <div class="form-group">
+
+          <label for="editarEntidad">Entidad:</label>
+
+				    <input type="text" class="form-control" id="editarEntidad" name="editarEntidad" required>
+
+			    </div>
+
+			    <div class="form-group">
+
+              <label for="editarTipo">Tipo de Cuenta:</label>
+
+              <select class="form-control" id="editarTipo" name="editarTipo">
+
+                <option value="">Seleccione tipo de cuenta</option>
+                <option value="ahorros">Ahorros</option>
+                <option value="corriente">Corriente</option>
+                <option value="otro">Otro</option>
+
+              </select>
+
+			    </div>
+
+
+
+	      </div>
+
+	      <!-- Modal footer -->
+	      <div class="modal-footer d-flex justify-content-between">
+
+	      	<div>
+	        	
+	        	<button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+
+	        </div>
+
+        	<div>
+	        	
+	        	<button type="submit" class="btn btn-primary">Enviar</button>
+
+	        </div>
+
+	      </div>
+
+		<?php
+
+			$editarCuenta = new ControladorCuentas();
+			$editarCuenta -> ctrEditarCuenta();
+
+		?>
+
+
+      </form>
+
+    </div>
+  </div>
+</div>

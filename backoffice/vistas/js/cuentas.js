@@ -41,4 +41,69 @@ $(".tablaCuentas").DataTable({
 
 
 
+$(".tablaCuentas tbody").on("click", "button.btnSoporte", function () {
+  
+	window.location = "soporte";
+  });
 
+
+
+/*=============================================
+APROBADO O RECHAZADO CUENTA
+=============================================*/
+$(".tablaCuentas tbody").on("change","select.selectAprobado",function(){
+
+	var idCuenta = $(this).attr("idCuenta");
+	var seleccionado = $(this).val();
+
+	var datos = new FormData();
+ 	datos.append("aprobadoIdCuenta", idCuenta);
+    datos.append("aprobadoCuenta", seleccionado);
+
+  	$.ajax({
+
+	  url:"ajax/cuentas.ajax.php",
+	  method: "POST",
+	  data: datos,
+	  cache: false,
+      contentType: false,
+      processData: false,
+      success: function(respuesta){
+
+      }
+
+  	})
+
+
+})
+
+
+//EDITAR CUENTA
+$(".tablaCuentas").on("click","button.btnEditarCuenta",function(){
+
+	var idCuenta = $(this).attr("idCuenta");
+  
+	var datos = new FormData();
+	datos.append("idCuentaEditar",idCuenta);
+  
+	$.ajax({
+  
+	 url:"ajax/cuentas.ajax.php",
+	 method:"POST",
+	 data:datos,
+	 cache:false,
+	 contentType:false,
+	 processData:false,
+	 dataType:"json",
+	 success:function(respuesta){
+
+	  $("#idCuenta").val(idCuenta);
+      $("#editarNumero").val(respuesta["numero"]);
+	  $("#editarEntidad").val(respuesta["entidad"]);
+	  $('#editarTipo option[value="'+respuesta["tipo"]+'"]').attr('selected', 'selected');
+	  
+	}
+  
+  });
+  
+  })

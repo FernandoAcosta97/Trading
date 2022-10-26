@@ -29,7 +29,7 @@
 //$totalRed = ControladorMultinivel::ctrMostrarRedOperandoTotal("usuarios","red_uninivel","patrocinador_red",$usuario["enlace_afiliado"],null,null);
 
 //$totalRedOperando = ControladorMultinivel::ctrMostrarRedOperandoTotal("usuarios","red_uninivel","patrocinador_red",$usuario["enlace_afiliado"],"operando",1);
-$afiliadosNecesarios = 2;
+$afiliadosNecesarios = 0;
 $operando = 0;
 $sinOperar = 0;
 $totalRed = 0;

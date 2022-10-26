@@ -15,7 +15,7 @@ class TablaUsuarios{
 		$item = null;
 		$valor = null;
 		$usuarios = ControladorUsuarios::ctrMostrarusuarios($item, $valor);
-		// $totalAfiliadosActivos=0;
+		$totalAfiliadosActivos=0;
 
 
 		if(count($usuarios) < 2 ){
@@ -32,18 +32,18 @@ class TablaUsuarios{
 
 			if($value["perfil"] != "admin"){
 
-		// 	$red = ControladorMultinivel::ctrMostrarRedUninivel("red_uninivel", "patrocinador_red", $value["enlace_afiliado"]);
+			$red = ControladorMultinivel::ctrMostrarRedUninivel("red_uninivel", "patrocinador_red", $value["enlace_afiliado"]);
 
-		// 	if(count($red)>0){
-		// 	foreach ($red as $key2 => $value2){
-		// 		$usuarioRedOperando = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $value2["usuario_red"]);
+			if(count($red)>0){
+			foreach ($red as $key2 => $value2){
+				$usuarioRedOperando = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $value2["usuario_red"]);
 
-		// 		if($usuarioRedOperando["operando"]==1){
-		// 			++$totalAfiliadosActivos;
-		// 		}
+				if($usuarioRedOperando["operando"]==1){
+					++$totalAfiliadosActivos;
+				}
 
-		// 	}
-		// }
+			}
+		}
 				/*=============================================
 				FOTO USUARIOS
 				=============================================*/	
@@ -110,7 +110,7 @@ class TablaUsuarios{
 				       "'.$pais.'",
 				       "'.$estado.'",
 				       "'.$operando.'",
-                       "'.$value["referidos_activos"].'", 
+                       "'.$totalAfiliadosActivos.'", 
 					   "'.$value["patrocinador"].'", 
 					   "'.$ruta.$value["enlace_afiliado"].'", 
 					   "'.$value["telefono_movil"].'",
@@ -119,7 +119,7 @@ class TablaUsuarios{
 				],';
 
 			}
-			// $totalAfiliadosActivos=0;
+			$totalAfiliadosActivos=0;
 
 		}
 

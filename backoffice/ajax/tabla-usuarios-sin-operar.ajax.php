@@ -28,7 +28,21 @@ class TablaUsuarios{
 
 		foreach ($usuarios as $key => $value) {
 
-			if($value["perfil"] != "admin"){
+			if($value["perfil"] != "admin" && $value["operando"]==0){
+
+				$red = ControladorMultinivel::ctrMostrarRedUninivel("red_uninivel", "patrocinador_red", $value["enlace_afiliado"]);
+				// print_r($red);
+	
+				if(count($red)>0){
+				foreach ($red as $key2 => $value2){
+					$usuarioRedOperando = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $value2["usuario_red"]);
+	
+					if($usuarioRedOperando["operando"]==1){
+						++$totalAfiliadosActivos;
+					}
+	
+				}
+			}
 
 				/*=============================================
 				ESTADO Y OPERANDO
@@ -82,7 +96,7 @@ class TablaUsuarios{
 				       "'.$pais.'",
 				       "'.$estado.'",
 				       "'.$operando.'",
-                       "'.$value["referidos_activos"].'", 
+                       "'.$totalAfiliadosActivos.'", 
 					   "'.$value["patrocinador"].'", 
 					   "'.$ruta.$value["enlace_afiliado"].'",    
 					   "'.$value["telefono_movil"].'",
@@ -91,6 +105,7 @@ class TablaUsuarios{
 				],';
 
 			}
+			$totalAfiliadosActivos=0;
 
 		}
 

@@ -149,19 +149,19 @@ function generarLineasDescendientes($ordenBinaria, $lado)
     CUANDO NO HAY LÍNEA DESCENDIENTE
     =============================================*/
 
-    if (!$respuesta) {
+    // if (!$respuesta) {
 
-        $arbol .= '<li>
-								<img class="tree_icon rounded-circle" src="vistas/img/usuarios/default/default.png">
-							</li>
-							<li>
-								<img class="tree_icon rounded-circle" src="vistas/img/usuarios/default/default.png">
-							</li>
-						</ul>';
+    //     $arbol .= '<li>
+	// 							<img class="tree_icon rounded-circle" src="vistas/img/usuarios/default/default.png">
+	// 						</li>
+	// 						<li>
+	// 							<img class="tree_icon rounded-circle" src="vistas/img/usuarios/default/default.png">
+	// 						</li>
+	// 					</ul>';
 
-        return $arbol;
+    //     return $arbol;
 
-    }
+    // }
 
 		/*=============================================
 			CUANDO SI HAY LÍNEA DESCENDIENTE
