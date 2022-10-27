@@ -50,7 +50,7 @@ class TablaComprobantes {
 
             } else {
 
-                $foto = "<img src='".$value[ 'foto' ]."' class='img-thumbnail' width='60px'>";
+                $foto = "<img src='".$value[ 'foto' ]."' class='img-thumbnail fotoComprobante' width='60px' data-toggle='modal' data-target='#modalVerFotoComprobante'>";
 
             }
 

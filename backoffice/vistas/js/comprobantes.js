@@ -215,3 +215,9 @@ $(".tablaComprobantes tbody").on("click", "button.btnSoporte", function () {
   });
 
 
+
+  $(".tablaComprobantes tbody").on("click", "img.fotoComprobante", function () {
+  
+	foto = $(this).attr("src");
+	$(".previsualizarFotoComprobante").attr("src", foto);
+  });
