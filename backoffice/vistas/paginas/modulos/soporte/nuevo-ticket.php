@@ -36,7 +36,7 @@ $listaUsuarios = ControladorUsuarios::ctrMostrarUsuarios(null,null);
 				    
 				    <?php else: ?>  
 
-						<input type="text" class="form-control" value="Academy of life" readonly required>
+						<input type="text" class="form-control" value="Admin Trading" readonly required>
 
 						<input type="hidden" class="form-control" value="1" name="receptor">
 

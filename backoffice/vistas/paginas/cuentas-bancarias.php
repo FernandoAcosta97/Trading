@@ -51,13 +51,12 @@ $cuentas = ControladorCuentas::ctrMostrarCuentas($item, $valor);
 
           <thead>
             <tr>
-              <th width="10px">#</th>
+              <th>Acciones</th>
               <th>Número</th>
               <th>Entidad</th>
               <th>Tipo</th>
               <th>Estado</th>
               <th>Fecha</th>
-              <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
