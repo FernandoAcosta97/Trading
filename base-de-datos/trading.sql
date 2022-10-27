@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-10-2022 a las 20:36:10
+-- Tiempo de generación: 27-10-2022 a las 22:35:31
 -- Versión del servidor: 10.4.20-MariaDB
 -- Versión de PHP: 8.0.9
 
@@ -93,9 +93,9 @@ CREATE TABLE `comprobantes` (
 
 INSERT INTO `comprobantes` (`id`, `codigo`, `foto`, `fecha`, `estado`, `valor`, `doc_usuario`, `campana`) VALUES
 (7, 'bk452', '', '2022-10-25', 0, 100000, 43, 1),
-(8, '98647lk', 'vistas/img/comprobantes/98647lk/270.png', '2022-10-27', 1, 150000, 879788, 1),
+(8, '98647lk', 'vistas/img/comprobantes/98647lk/270.png', '2022-10-27', 0, 150000, 879788, 1),
 (9, 'dg56', '', '2022-10-27', 2, 10000, 43, 1),
-(14, 'dsad', '', '2022-10-26', 2, 80000, 879788, 1);
+(14, 'dsad', 'vistas/img/comprobantes/dsad/235.jpg', '2022-10-26', 2, 80000, 879788, 1);
 
 -- --------------------------------------------------------
 
@@ -118,8 +118,8 @@ CREATE TABLE `cuentas_bancarias` (
 --
 
 INSERT INTO `cuentas_bancarias` (`id`, `numero`, `titular`, `entidad`, `estado`, `tipo`, `fecha`) VALUES
-(1, 555555555555, 43, 'Davivienda', 0, 'ahorros', '2022-10-26 18:05:49'),
-(2, 998251561, 879788, 'Bancolombia', 1, 'corriente', '2022-10-26 15:06:57');
+(1, 555555555555, 43, 'Davivienda', 2, 'ahorros', '2022-10-27 20:00:18'),
+(2, 998251561, 879788, 'Bancolombia', 1, 'corriente', '2022-10-27 20:01:24');
 
 -- --------------------------------------------------------
 
@@ -278,7 +278,8 @@ CREATE TABLE `soporte` (
 --
 
 INSERT INTO `soporte` (`id_soporte`, `remitente`, `receptor`, `asunto`, `mensaje`, `adjuntos`, `tipo`, `papelera`, `fecha_soporte`) VALUES
-(1, 1, 30, 'Obtenga nuestros beneficos', '<p>Obtenga todos nuestros beneficios, no olvide ir a perfil y firmar el contrato.</p>', '[\"vistas\\/img\\/tickets\\/1\\/318.png\"]', 'enviado', NULL, '2022-10-15 15:35:32');
+(1, 1, 30, 'Obtenga nuestros beneficos', '<p>Obtenga todos nuestros beneficios, no olvide ir a perfil y firmar el contrato.</p>', '[\"vistas\\/img\\/tickets\\/1\\/318.png\"]', 'enviado', NULL, '2022-10-15 15:35:32'),
+(2, 26, 1, 'hola', '<p>dasdasdsad</p>', '[]', 'enviado', '[]', '2022-10-27 20:06:52');
 
 -- --------------------------------------------------------
 
@@ -321,7 +322,7 @@ INSERT INTO `usuarios` (`id_usuario`, `doc_usuario`, `perfil`, `nombre`, `email`
 (27, 765, 'usuario', 'pedro pablo', 'pedro@gmail.com', '$2a$07$asxx54ahjppf45sd87a5auGZEtGHuyZwm.Ur.FJvWLCql3nmsMbXy', 1, 0, NULL, NULL, 1, 'c3b7f393410fe6185ba5d966a213a38f', NULL, 'pedro-pablo-27', 'mateo-26', 'Peru', 'PE', '(888) 888-8888', '<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\"><svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" width=\"210\" height=\"20\"><path stroke-linejoin=\"round\" stroke-linecap=\"round\" stroke-width=\"1\" stroke=\"#333\" fill=\"none\" d=\"M 1 1 c 1.58 0 59.27 -0.86 90 0 c 18.15 0.51 35.41 1.32 53 4 c 22 3.36 65 14 65 14\"/></svg>', '2022-10-06', '2022-10-15 00:33:48'),
 (29, 980, 'usuario', 'Luis', 'luis@gmail.com', '$2a$07$asxx54ahjppf45sd87a5auGZEtGHuyZwm.Ur.FJvWLCql3nmsMbXy', 1, 0, NULL, NULL, 1, '19ff31020abd6906f2f975a3e77e07c7', NULL, 'luis-29', 'admin-trading', 'Israel', 'IL', '+972 (787) 767-6676', '<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\"><svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" width=\"146\" height=\"54\"><path stroke-linejoin=\"round\" stroke-linecap=\"round\" stroke-width=\"1\" stroke=\"#333\" fill=\"none\" d=\"M 1 53 c 0.07 -0.02 2.96 -0.41 4 -1 c 1.07 -0.61 1.89 -2.26 3 -3 c 1.75 -1.17 3.88 -2.29 6 -3 c 22.86 -7.62 45.47 -15.05 69 -22 c 6.31 -1.86 12.66 -2.27 19 -4 c 8.58 -2.34 16.75 -4.9 25 -8 c 5.21 -1.95 10.83 -4.45 15 -7 l 3 -4\"/></svg>', '2022-10-06', '2022-10-15 14:53:53'),
 (31, 73908, 'usuario', 'Carlos Andres', 'carlos@gmail.com', '$2a$07$asxx54ahjppf45sd87a5auGZEtGHuyZwm.Ur.FJvWLCql3nmsMbXy', 1, 0, NULL, NULL, 1, 'db1e0a3750e0399df3eeee808187d9b4', NULL, 'carlos-31', 'julian-30', 'Chile', 'CL', '(566) 575-7657', '<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\"><svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" width=\"165\" height=\"40\"><path stroke-linejoin=\"round\" stroke-linecap=\"round\" stroke-width=\"1\" stroke=\"#333\" fill=\"none\" d=\"M 1 1 c 0.23 0.05 9.43 1.03 13 3 c 8.24 4.56 16.43 13.02 25 18 c 5.37 3.12 11.76 5.07 18 7 c 12.38 3.83 24.99 8.75 37 10 c 12.55 1.3 27.48 0.12 40 -2 c 8.31 -1.41 17.07 -6.62 25 -9 l 5 0\"/></svg>', '2022-10-06', '2022-10-15 16:04:22'),
-(30, 89875, 'usuario', 'Julian', 'julian@gmail.com', '$2a$07$asxx54ahjppf45sd87a5auGZEtGHuyZwm.Ur.FJvWLCql3nmsMbXy', 1, 0, NULL, NULL, 1, '4efe518f863e162e8f00e7d823b40230', NULL, 'julian-30', 'mateo-26', 'Argentina', 'AR', '+54 (875) 858-7587', '<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\"><svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" width=\"200\" height=\"90\"><path stroke-linejoin=\"round\" stroke-linecap=\"round\" stroke-width=\"1\" stroke=\"#333\" fill=\"none\" d=\"M 1 74 c 0.04 -0.05 1.19 -2.19 2 -3 c 1.76 -1.76 3.78 -3.78 6 -5 c 10.15 -5.61 21.37 -10.16 32 -16 c 6.68 -3.67 13.53 -7.21 19 -12 c 10.15 -8.89 19.7 -19.85 29 -30 c 1.61 -1.75 4.76 -5.67 4 -6 c -2.11 -0.92 -15.65 -3.18 -20 -1 c -4.96 2.48 -10.22 12.1 -14 18 c -1.21 1.88 -1.74 4.69 -2 7 c -0.39 3.49 -0.69 7.67 0 11 c 0.88 4.21 2.97 9.14 5 13 c 1.14 2.17 3.18 4.18 5 6 c 1.82 1.82 3.92 3.38 6 5 c 0.96 0.75 1.96 1.69 3 2 c 2.03 0.61 4.64 0.95 7 1 c 13.03 0.28 26.52 0.92 39 0 c 4.97 -0.37 10.06 -2.43 15 -4 c 2.42 -0.77 4.84 -1.82 7 -3 c 1.42 -0.77 4.07 -3.05 4 -3 c -0.23 0.15 -9.44 5.62 -13 9 c -2.75 2.61 -5.27 6.53 -7 10 c -1.8 3.6 -2.5 8.24 -4 12 c -0.43 1.07 -1.2 2.46 -2 3 c -0.92 0.61 -3.36 1.57 -4 1 c -1.8 -1.62 -3.76 -6.8 -6 -10 c -2.46 -3.51 -6.16 -6.73 -8 -10 c -0.87 -1.55 -1.98 -5.15 -1 -6 c 4.28 -3.69 15.33 -8.35 23 -13 c 3.54 -2.15 6.53 -4.88 10 -7 c 2.55 -1.56 5.27 -3.44 8 -4 c 7.98 -1.64 17.21 -2.27 26 -3 c 3.36 -0.28 6.81 -0.49 10 0 c 5.26 0.81 11.84 2.25 16 4 l 3 4\"/></svg>', '2022-10-06', '2022-10-15 15:09:33'),
+(30, 89875, 'usuario', 'Julian', 'julian@gmail.com', '$2a$07$asxx54ahjppf45sd87a5auGZEtGHuyZwm.Ur.FJvWLCql3nmsMbXy', 1, 1, NULL, NULL, 1, '4efe518f863e162e8f00e7d823b40230', NULL, 'julian-30', 'mateo-26', 'Argentina', 'AR', '+54 (875) 858-7587', '<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\"><svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" width=\"200\" height=\"90\"><path stroke-linejoin=\"round\" stroke-linecap=\"round\" stroke-width=\"1\" stroke=\"#333\" fill=\"none\" d=\"M 1 74 c 0.04 -0.05 1.19 -2.19 2 -3 c 1.76 -1.76 3.78 -3.78 6 -5 c 10.15 -5.61 21.37 -10.16 32 -16 c 6.68 -3.67 13.53 -7.21 19 -12 c 10.15 -8.89 19.7 -19.85 29 -30 c 1.61 -1.75 4.76 -5.67 4 -6 c -2.11 -0.92 -15.65 -3.18 -20 -1 c -4.96 2.48 -10.22 12.1 -14 18 c -1.21 1.88 -1.74 4.69 -2 7 c -0.39 3.49 -0.69 7.67 0 11 c 0.88 4.21 2.97 9.14 5 13 c 1.14 2.17 3.18 4.18 5 6 c 1.82 1.82 3.92 3.38 6 5 c 0.96 0.75 1.96 1.69 3 2 c 2.03 0.61 4.64 0.95 7 1 c 13.03 0.28 26.52 0.92 39 0 c 4.97 -0.37 10.06 -2.43 15 -4 c 2.42 -0.77 4.84 -1.82 7 -3 c 1.42 -0.77 4.07 -3.05 4 -3 c -0.23 0.15 -9.44 5.62 -13 9 c -2.75 2.61 -5.27 6.53 -7 10 c -1.8 3.6 -2.5 8.24 -4 12 c -0.43 1.07 -1.2 2.46 -2 3 c -0.92 0.61 -3.36 1.57 -4 1 c -1.8 -1.62 -3.76 -6.8 -6 -10 c -2.46 -3.51 -6.16 -6.73 -8 -10 c -0.87 -1.55 -1.98 -5.15 -1 -6 c 4.28 -3.69 15.33 -8.35 23 -13 c 3.54 -2.15 6.53 -4.88 10 -7 c 2.55 -1.56 5.27 -3.44 8 -4 c 7.98 -1.64 17.21 -2.27 26 -3 c 3.36 -0.28 6.81 -0.49 10 0 c 5.26 0.81 11.84 2.25 16 4 l 3 4\"/></svg>', '2022-10-06', '2022-10-15 15:09:33'),
 (26, 879788, 'usuario', 'Mateo', 'mateo@gmail.com', '$2a$07$asxx54ahjppf45sd87a5auGZEtGHuyZwm.Ur.FJvWLCql3nmsMbXy', 1, 0, NULL, NULL, 1, 'e64b49457900a3435c49e2e8ee79f603', NULL, 'mateo-26', 'admin-trading', 'Chile', 'CL', '+56 (123) 123-1231', '<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\"><svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" width=\"235\" height=\"68\"><path stroke-linejoin=\"round\" stroke-linecap=\"round\" stroke-width=\"1\" stroke=\"#333\" fill=\"none\" d=\"M 42 48 c 0 -0.1 -0.78 -4.49 0 -6 c 3.01 -5.78 8.11 -13.43 13 -19 c 4.52 -5.14 10.37 -10.01 16 -14 c 4.5 -3.19 12.27 -7.52 15 -8 c 0.86 -0.15 2.39 3.69 2 5 c -1.24 4.12 -4.66 10.77 -8 15 c -5 6.34 -11.59 12.27 -18 18 c -6.45 5.77 -13.01 11.63 -20 16 c -5.99 3.74 -13.29 7.04 -20 9 c -6.49 1.9 -20.56 5.77 -21 3 c -1.14 -7.13 6.56 -41.45 13 -53 c 2.65 -4.76 14.01 -6.45 21 -8 c 7.49 -1.67 16.49 -2.72 24 -2 c 9.01 0.87 18.93 3.76 28 7 c 19.04 6.8 36.91 16.2 56 23 c 10.09 3.6 20.66 6.02 31 8 c 5.18 0.99 11.13 1.72 16 1 c 5.77 -0.85 12.18 -3.49 18 -6 c 8.92 -3.85 26 -13 26 -13\"/></svg>', '2022-10-06', '2022-10-15 00:30:39'),
 (35, 34534545, 'usuario', 'Lucero', 'lucero@gmail.com', '$2a$07$asxx54ahjppf45sd87a5auGZEtGHuyZwm.Ur.FJvWLCql3nmsMbXy', 1, 1, NULL, NULL, 1, '1a8036f7ec230101fa36bc463b68ee0c', NULL, 'lucero-35', 'mateo-26', 'Colombia', 'CO', '+57 (432) 423-4234', '<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\"><svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" width=\"127\" height=\"78\"><path stroke-linejoin=\"round\" stroke-linecap=\"round\" stroke-width=\"1\" stroke=\"#333\" fill=\"none\" d=\"M 1 44 c 0.19 0.09 7.34 4.41 11 5 c 7.88 1.28 17.79 1.84 26 1 c 7.5 -0.77 16.49 -2.82 23 -6 c 6.25 -3.05 13.24 -8.88 18 -14 c 3.36 -3.62 6.39 -9.32 8 -14 c 1.51 -4.39 2.28 -14.44 2 -15 c -0.19 -0.38 -4.07 5.83 -5 9 c -5.2 17.77 -8.93 37.13 -14 56 c -1.03 3.83 -1.8 10.14 -4 11 c -3.6 1.41 -13.24 -0.4 -19 -2 c -5.66 -1.57 -11.8 -4.81 -17 -8 c -4.93 -3.02 -14.35 -9.61 -14 -11 c 0.33 -1.33 11.15 -0.93 17 -1 c 24.73 -0.28 47.8 0.55 72 0 c 5.42 -0.12 10.91 -1.03 16 -2 l 5 -2\"/></svg>', '2022-10-03', '2022-10-19 02:49:00'),
 (49, 34543543, 'usuario', 'Gabriel', 'gabriel@gmail.com', '$2a$07$asxx54ahjppf45sd87a5auGZEtGHuyZwm.Ur.FJvWLCql3nmsMbXy', 1, 0, NULL, NULL, 1, '2821e29f7fb82f182ecca8d8c9e681cf', NULL, 'gabriel-49', 'admin-trading', 'Chile', 'CL', '+56 (123) 123-1231', '<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?><!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" \"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\"><svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" width=\"170\" height=\"70\"><path stroke-linejoin=\"round\" stroke-linecap=\"round\" stroke-width=\"1\" stroke=\"#333\" fill=\"none\" d=\"M 1 69 c 0 -0.09 -0.46 -3.77 0 -5 c 0.39 -1.04 1.89 -2.17 3 -3 c 2.84 -2.13 6.03 -4.52 9 -6 c 1.4 -0.7 4.29 -1.77 5 -1 c 2.17 2.35 4.65 10.79 7 14 c 0.62 0.84 3.31 1.58 4 1 c 2.51 -2.13 6.45 -7.76 9 -12 c 3.42 -5.69 6.94 -11.82 9 -18 c 3.16 -9.47 4.1 -21.29 7 -30 c 0.74 -2.21 3.2 -4.56 5 -6 c 1.24 -0.99 3.7 -2 5 -2 c 0.87 0 2.37 1.12 3 2 c 2.42 3.38 4.9 7.8 7 12 c 2.98 5.95 4.88 12.13 8 18 c 5.33 10.02 11.42 22.34 17 29 c 1.53 1.83 6 1.87 9 2 c 11.71 0.52 24.49 0.73 36 0 c 3.64 -0.23 7.3 -2.41 11 -3 l 14 -1\"/></svg>', '2022-10-26', '2022-10-26 16:04:59'),
@@ -527,7 +528,7 @@ ALTER TABLE `red_uninivel`
 -- AUTO_INCREMENT de la tabla `soporte`
 --
 ALTER TABLE `soporte`
-  MODIFY `id_soporte` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_soporte` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
