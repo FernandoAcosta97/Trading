@@ -349,10 +349,9 @@
 
         // $total_cuentas = count($cuentas_bancarias);
         $cuenta_bancaria = "";
-
-                if ($cuenta["estado"] == 1) {
-                    $cuenta_bancaria = $cuenta["numero"];
-                }
+			if($cuenta!=""){
+                    $cuenta_bancaria = $cuenta["numero"];   
+			}
     //     if ($total_cuentas > 1) {
 
     //         foreach ($cuentas_bancarias as $key => $value) {
@@ -412,7 +411,7 @@ if ($usuario["perfil"] != "admin") {
 				<input type="text" class="form-control" id="correoPaypal" value="<?php echo $cuenta_bancaria; ?>" readonly>
 
 
-				<?php if ($cuenta_bancaria == "") {?>
+				<?php if ($cuenta_bancaria == "Cuenta no registrada") {?>
 
 				<div class="input-group-prepend">
 					<button class="btn btn-primary rounded-left" data-toggle="modal" data-target="#registrarCuenta"><i class="fa fa-plus"></i></button>

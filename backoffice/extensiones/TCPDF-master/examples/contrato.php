@@ -17,7 +17,7 @@ $valor = $this->usuario;
 
 $respuesta = ControladorUsuarios::ctrMostrarUsuarios($item, $valor);
 
-if($respuesta["suscripcion"] == 0){
+if($respuesta["firma"] == null){
 
 	echo '<script>
 		window.location = "'.$ruta.'/backoffice/perfil";

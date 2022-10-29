@@ -85,24 +85,25 @@ Enlace de afiliado
 
 <?php 
 
-if(isset($_GET["pagina"])){
-
 /*=============================================
 Enlace de afiliado 
 =============================================*/
 
-	$validarEnlace = ControladorUsuarios::ctrMostrarUsuarios("enlace_afiliado", $_GET["pagina"]);
+$validarEnlace = ControladorUsuarios::ctrMostrarUsuarios("enlace_afiliado", $_GET["pagina"]);
      
-    if(is_array($validarEnlace)){
-		
- 	    if($validarEnlace["enlace_afiliado"] == $_GET["pagina"] && $validarEnlace["estado"] == 1){
+if(is_array($validarEnlace)){
+	
+	 if($validarEnlace["enlace_afiliado"] == $_GET["pagina"] && $validarEnlace["estado"] == 1){
 
- 		    setcookie("patrocinador", $validarEnlace["enlace_afiliado"], time() + 604800, "/");
+		 setcookie("patrocinador", $validarEnlace["enlace_afiliado"], time() + 604800, "/");
 
- 		    include "paginas/registro.php";
+		 include "paginas/registro.php";
 
- 	    }
-    }
+	 }
+}
+
+
+if(isset($_GET["pagina"])){
 
 	/*=============================================
 	Validar correo electrónico

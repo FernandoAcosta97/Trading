@@ -27,14 +27,29 @@ class TablaCuentas
             }
         }
         $cuentas = ControladorCuentas::ctrMostrarCuentas($item, $valor);
+        if(is_array($cuentas)){
 
-        if (count($cuentas) == 0) {
+            if (count($cuentas) == 0) {
 
-            echo '{ "data":[]}';
+                echo '{ "data":[]}';
+    
+                return;
+    
+            }
 
-            return;
+        }else{
+
+            if ($cuentas=="") {
+
+                echo '{ "data":[]}';
+    
+                return;
+    
+            }
 
         }
+
+
 
         $datosJson = '{"data":[';
 
