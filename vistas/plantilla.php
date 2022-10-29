@@ -85,6 +85,12 @@ Enlace de afiliado
 
 <?php 
 
+
+
+
+if(isset($_GET["pagina"]) && $_GET["pagina"]){
+
+
 /*=============================================
 Enlace de afiliado 
 =============================================*/
@@ -101,9 +107,6 @@ if(is_array($validarEnlace)){
 
 	 }
 }
-
-
-if(isset($_GET["pagina"])){
 
 	/*=============================================
 	Validar correo electrónico
