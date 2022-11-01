@@ -8,52 +8,15 @@
 
 				<figure class="p-2 p-sm-5 p-lg-4 p-xl-5 text-center">
 				
-					<a href="<?php echo $ruta; ?>inicio"><img src="img/logo-positivo.png" class="img-fluid"></a>
+					<!-- <a href="<?php echo $ruta; ?>inicio"><img src="img/logo-positivo.png" class="img-fluid"></a> -->
+					<div class="d-flex justify-content-between">
+					<h2>TRADING COLOMBIA</h2>
+                    </div>
 
 					<div class="d-flex justify-content-between">
 					
 						<h4>Ingreso al sistema</h4>
-
-						<div class="dropdown text-right">
-
-							<button type="button" class="btn btn-light btn-sm dropdown-toggle pr-3" data-toggle="dropdown">
-								<form method="post" action="<?php echo "http://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]; ?>">
-									
-									<input type="hidden" name="idioma" value="es">
-									<input type="submit" value="ES" style="border: 0;
-																		    background: transparent;
-																		    padding: 0;
-																		    margin: 0;
-																		    float: left;
-																		    cursor: pointer;">
-
-
-
-								</form>
-							</button>
-
-							<div class="dropdown-menu">
-
-								<a class="dropdown-item">
-									
-									<form method="post" action="<?php echo "http://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"]; ?>">
-									
-										<input type="hidden" name="idioma" value="en">
-										<input type="submit" value="EN" style="border: 0;
-																			    background: transparent;
-																			    padding: 0;
-																			    margin: 0;
-																			    cursor: pointer;">
-
-
-
-									</form>
-
-								</a>
-
-							</div>
-
-						</div>
+				
 
 					</div>
 

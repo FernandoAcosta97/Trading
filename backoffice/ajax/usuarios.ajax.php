@@ -27,6 +27,25 @@ class AjaxUsuarios
 
     }
 
+
+    /*=============================================
+    Validar documento existente
+    =============================================*/
+
+    public $validarDocumento;
+
+    public function ajaxValidarDocumento()
+    {
+
+        $item = "doc_usuario";
+        $valor = $this->validarDocumento;
+
+        $respuesta = ControladorUsuarios::ctrMostrarUsuarios($item, $valor);
+
+        echo json_encode($respuesta);
+
+    }
+
     /*=============================================
     ACTIVAR USUARIO
     =============================================*/
@@ -268,6 +287,19 @@ if (isset($_POST["validarEmail"])) {
     $valEmail = new AjaxUsuarios();
     $valEmail->validarEmail = $_POST["validarEmail"];
     $valEmail->ajaxValidarEmail();
+
+}
+
+
+/*=============================================
+Validar numero de documento existente
+=============================================*/
+
+if (isset($_POST["validarDocumento"])) {
+
+    $valDocumento = new AjaxUsuarios();
+    $valDocumento->validarDocumento = $_POST["validarDocumento"];
+    $valDocumento->ajaxValidarDocumento();
 
 }
 

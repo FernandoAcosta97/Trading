@@ -24,6 +24,8 @@
 
 			<p class="card-text">Al activar su cuenta ingresa en nuestro programa de afiliados, el cual podrá generar ingresos extras de forma consecutiva gracias a la red multinivel que puede hacer con nosotros, más información ingrese a la página <a href="plan-compensacion">Plan de compensanción.</a></p>
 
+			<input type="hidden" class="form-control" id="inputRuta" value="<?php echo $ruta ?>">
+
 			<div class="form-group">
 
              <label for="inputDoc" class="control-label">Numero documento</label>

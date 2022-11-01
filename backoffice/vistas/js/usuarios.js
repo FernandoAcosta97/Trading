@@ -411,6 +411,54 @@ $(".tablaUsuarios").DataTable({
 
 
 
+/*=============================================
+VALIDAR NÚMERO DOCUMENTO REPETIDO
+=============================================*/
+
+var ruta = $("#inputRuta").val();
+
+$("#inputDoc").change(function(){
+
+	var documento = $(this).val();
+	
+	var datos = new FormData();
+	datos.append("validarDocumento", documento);
+
+	$.ajax({
+
+		url: ruta+"backoffice/ajax/usuarios.ajax.php",
+		method: "POST",
+		data: datos,
+		cache: false,
+		contentType: false,
+		processData: false,
+		dataType:"json",
+		success:function(respuesta){
+			
+			if(respuesta){
+
+				$("#inputDoc").val("");
+
+				$("#inputDoc").after(`
+
+						<div class="alert alert-warning">
+							<strong>ERROR:</strong>
+							El número de documento ya existe en la base de datos, por favor ingrese otro diferente
+
+						</div>
+				`)
+
+				return;
+
+			}
+
+		}
+
+	})
+
+})
+
+
 
 
 /*=============================================
