@@ -77,20 +77,84 @@ class ModeloComprobantes
 
             $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
             $stmt->bindParam(":" . $item2, $valor2, PDO::PARAM_STR);
+            
+        $stmt->execute();
 
-            $stmt->execute();
-
-            return $stmt->fetchAll();
+        return $stmt->fetchAll();
 
         } else if($item2 != null && $valor2 != null){
 
             $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item2 = :$item2");
 
             $stmt->bindParam(":" . $item2, $valor2, PDO::PARAM_STR);
+        
+            $stmt->execute();
+
+            return $stmt->fetchAll();
+
+        }
+
+
+        $stmt->close();
+
+        $stmt = null;
+    }
+
+
+    /*=============================================
+    Mostrar Comprobantes
+    =============================================*/
+
+    public static function mdlMostrarComprobantesxEstadoyFecha($tabla, $item, $valor,$item2, $valor2, $fechaInicial, $fechaFinal)
+    {
+
+        if ($item != null && $valor != null && $item2 != null && $valor2 != null && $fechaInicial != null && $fechaFinal != null) {
+
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item AND $item2 = :$item2 AND (fecha BETWEEN :fechaInicial AND :fechaFinal) ");
+
+            $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
+            $stmt->bindParam(":" . $item2, $valor2, PDO::PARAM_STR);
+            $stmt->bindParam(":fechaInicial", $fechaInicial, PDO::PARAM_STR);
+            $stmt->bindParam(":fechaFinal", $fechaFinal, PDO::PARAM_STR);
 
             $stmt->execute();
 
             return $stmt->fetchAll();
+
+        } else if($item2 != null && $valor2 != null && $fechaInicial != null && $fechaFinal != null){
+
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item2 = :$item2 AND fecha BETWEEN :fechaInicial AND :fechaFinal");
+
+            $stmt->bindParam(":" . $item2, $valor2, PDO::PARAM_STR);
+            $stmt->bindParam(":fechaInicial", $fechaInicial, PDO::PARAM_STR);
+            $stmt->bindParam(":fechaFinal", $fechaFinal,  PDO::PARAM_STR);
+
+            $stmt->execute();
+
+            return $stmt->fetchAll();
+        }else if($item != null && $valor != null && $fechaInicial != null && $fechaFinal != null){
+
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item AND (fecha BETWEEN :fechaInicial AND :fechaFinal)");
+
+            $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
+            $stmt->bindParam(":fechaInicial", $fechaInicial, PDO::PARAM_STR);
+            $stmt->bindParam(":fechaFinal", $fechaFinal,  PDO::PARAM_STR);
+
+            $stmt->execute();
+
+            return $stmt->fetchAll();
+           
+        }else if($fechaInicial != null && $fechaFinal != null){
+
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE (fecha BETWEEN :fechaInicial AND :fechaFinal)");
+
+            $stmt->bindParam(":fechaInicial", $fechaInicial, PDO::PARAM_STR);
+            $stmt->bindParam(":fechaFinal", $fechaFinal,  PDO::PARAM_STR);
+
+            $stmt->execute();
+
+            return $stmt->fetchAll();
+
         }
 
         $stmt->close();

@@ -54,9 +54,38 @@ $comprobantes = ControladorComprobantes::ctrMostrarComprobantes($item, $valor); 
 
         <?php endif  ?>
 
-        <label for="selectFiltro" class="control-label" style="margin:1em">FILTRO</label>
 
-<div style="width:50%">
+
+<div class="input-group">
+
+
+<button type="button" style="margin:auto 1%" class="btn btn-default" id="daterange-btn">
+ 
+  <span>
+    <i class="fa fa-calendar"></i> 
+
+    <?php
+
+      // if(isset($_GET["fechaInicial"])){
+
+      //   echo $_GET["fechaInicial"]." - ".$_GET["fechaFinal"];
+      
+      // }else{
+       
+      //   echo 'Rango de fecha';
+
+      // }
+
+    ?>
+  </span>
+
+  <i class="fa fa-caret-down"></i>
+
+</button>
+
+<label for="selectFiltro" class="control-label" style="margin:auto 2%">FILTRO</label>
+
+<div>
   <select class="form-control form-select" id="selectFiltro">
 
       <option selected value="3">TODOS</option>
@@ -65,6 +94,8 @@ $comprobantes = ControladorComprobantes::ctrMostrarComprobantes($item, $valor); 
       <option value="0">RECHAZADOS</option>
 
   </select>
+
+</div>
 
 </div>
 

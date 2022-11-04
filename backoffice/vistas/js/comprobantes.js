@@ -43,49 +43,98 @@ $(".tablaComprobantes").DataTable({
 
 $("#selectFiltro").on("change", function (){
 
-	seleccion = $(this).val();
-  
+	seleccionarFiltro(null,null);
+	    
+});
+
+
+function seleccionarFiltro(fechaInicial, fechaFinal){
+
+	seleccion = $("#selectFiltro").val();
+
 	tabla = $(".tablaComprobantes");
 	tbody = $(".tablaComprobantes tbody");
 	tbody.empty();
 	tabla = tabla.dataTable().fnDestroy();
-  
-	tabla = $(".tablaComprobantes").DataTable({
-	  ajax: "ajax/tabla-comprobantes.ajax.php?doc_usuario="+doc_usuario+"&estado="+seleccion,
-	  deferRender: true,
-	  retrieve: true,
-	  processing: true,
-	  language: {
-		sProcessing: "Procesando...",
-		sLengthMenu: "Mostrar _MENU_ registros",
-		sZeroRecords: "No se encontraron resultados",
-		sEmptyTable: "Ningún dato disponible en esta tabla",
-		sInfo: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
-		sInfoEmpty: "Mostrando registros del 0 al 0 de un total de 0",
-		sInfoFiltered: "(filtrado de un total de _MAX_ registros)",
-		sInfoPostFix: "",
-		sSearch: "Buscar:",
-		sUrl: "",
-		sInfoThousands: ",",
-		sLoadingRecords: "Cargando...",
-		oPaginate: {
-		  sFirst: "Primero",
-		  sLast: "Último",
-		  sNext: "Siguiente",
-		  sPrevious: "Anterior",
-		},
-		oAria: {
-		  sSortAscending: ": Activar para ordenar la columna de manera ascendente",
-		  sSortDescending:
-			": Activar para ordenar la columna de manera descendente",
-		},
-	  },
-	});
-  
-  
-  });
-  
-  
+
+	if(fechaInicial != null || fechaFinal != null){
+
+		tabla = $(".tablaComprobantes").DataTable({
+			ajax: "ajax/tabla-comprobantes.ajax.php?doc_usuario="+doc_usuario+"&estado="+seleccion+"&inicio="+fechaInicial+"&fin="+fechaFinal,
+			deferRender: true,
+			retrieve: true,
+			processing: true,
+			language: {
+			  sProcessing: "Procesando...",
+			  sLengthMenu: "Mostrar _MENU_ registros",
+			  sZeroRecords: "No se encontraron resultados",
+			  sEmptyTable: "Ningún dato disponible en esta tabla",
+			  sInfo: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
+			  sInfoEmpty: "Mostrando registros del 0 al 0 de un total de 0",
+			  sInfoFiltered: "(filtrado de un total de _MAX_ registros)",
+			  sInfoPostFix: "",
+			  sSearch: "Buscar:",
+			  sUrl: "",
+			  sInfoThousands: ",",
+			  sLoadingRecords: "Cargando...",
+			  oPaginate: {
+				sFirst: "Primero",
+				sLast: "Último",
+				sNext: "Siguiente",
+				sPrevious: "Anterior",
+			  },
+			  oAria: {
+				sSortAscending: ": Activar para ordenar la columna de manera ascendente",
+				sSortDescending:
+				  ": Activar para ordenar la columna de manera descendente",
+			  },
+			},
+		  });
+
+	}else{
+
+		tabla = $(".tablaComprobantes").DataTable({
+			ajax: "ajax/tabla-comprobantes.ajax.php?doc_usuario="+doc_usuario+"&estado="+seleccion,
+			deferRender: true,
+			retrieve: true,
+			processing: true,
+			language: {
+			  sProcessing: "Procesando...",
+			  sLengthMenu: "Mostrar _MENU_ registros",
+			  sZeroRecords: "No se encontraron resultados",
+			  sEmptyTable: "Ningún dato disponible en esta tabla",
+			  sInfo: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
+			  sInfoEmpty: "Mostrando registros del 0 al 0 de un total de 0",
+			  sInfoFiltered: "(filtrado de un total de _MAX_ registros)",
+			  sInfoPostFix: "",
+			  sSearch: "Buscar:",
+			  sUrl: "",
+			  sInfoThousands: ",",
+			  sLoadingRecords: "Cargando...",
+			  oPaginate: {
+				sFirst: "Primero",
+				sLast: "Último",
+				sNext: "Siguiente",
+				sPrevious: "Anterior",
+			  },
+			  oAria: {
+				sSortAscending: ": Activar para ordenar la columna de manera ascendente",
+				sSortDescending:
+				  ": Activar para ordenar la columna de manera descendente",
+			  },
+			},
+		  });
+
+	}
+
+
+	  
+	  
+
+}
+
+
+
 
 /*=============================================
 SUBIENDO LA FOTO DEL COMPROBANTE A REGISTRAR
@@ -264,3 +313,132 @@ $(".tablaComprobantes tbody").on("click", "button.btnSoporte", function () {
 	foto = $(this).attr("src");
 	$(".previsualizarFotoComprobante").attr("src", foto);
   });
+
+
+
+  /*=============================================
+VARIABLE LOCAL STORAGE
+=============================================*/
+
+if(localStorage.getItem("capturarRango") != null){
+
+	$("#daterange-btn span").html(localStorage.getItem("capturarRango"));
+  
+  
+  }else{
+  
+	$("#daterange-btn span").html('<i class="fa fa-calendar"></i> Rango de fecha')
+  
+  }
+
+
+  /*=============================================
+RANGO DE FECHAS
+=============================================*/
+rangoFecha();
+function rangoFecha(){
+
+	$('#daterange-btn').daterangepicker(
+		{
+		  ranges   : {
+			'Hoy'       : [moment(), moment()],
+			'Ayer'   : [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+			'Últimos 7 días' : [moment().subtract(6, 'days'), moment()],
+			'Últimos 30 días': [moment().subtract(29, 'days'), moment()],
+			'Este mes'  : [moment().startOf('month'), moment().endOf('month')],
+			'Último mes'  : [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+		  },
+		  startDate: moment(),
+		  endDate  : moment()
+		},
+		function (start, end) {
+		  $('#daterange-btn span').html(start.format('MMMM DD, YYYY') + ' - ' + end.format('MMMM DD, YYYY'));
+	  
+		  var fechaInicial = start.format('YYYY-MM-DD');
+	  
+		  var fechaFinal = end.format('YYYY-MM-DD');
+	  
+		  var capturarRango = $("#daterange-btn span").html();
+		 
+		  localStorage.setItem("capturarRango", capturarRango);
+	
+		  seleccionarFiltro(fechaInicial, fechaFinal);
+	  
+		//   window.location = "index.php?pagina=comprobantes&fechaInicial="+fechaInicial+"&fechaFinal="+fechaFinal;
+	  
+		}
+	  
+	  )
+}
+
+
+  /*=============================================
+CANCELAR RANGO DE FECHAS
+=============================================*/
+
+$(".daterangepicker.opensright .range_inputs .cancelBtn").on("click", function(){
+
+	localStorage.removeItem("capturarRango");
+	localStorage.clear();
+	$('#daterange-btn span').html("Rango de fecha");
+	seleccionarFiltro(null,null);
+	// window.location = "comprobantes";
+  })
+
+
+
+  /*=============================================
+CAPTURAR HOY
+=============================================*/
+
+$(".daterangepicker.opensright .ranges li").on("click", function(){
+
+    var textoHoy = $(this).attr("data-range-key");
+
+  if(textoHoy == "Hoy"){
+
+    var d = new Date();
+    
+    var dia = d.getDate();
+    var mes = d.getMonth()+1;
+    var año = d.getFullYear();
+
+    // if(mes < 10){
+
+    //  var fechaInicial = año+"-0"+mes+"-"+dia;
+    //  var fechaFinal = año+"-0"+mes+"-"+dia;
+
+    // }else if(dia < 10){
+
+    //  var fechaInicial = año+"-"+mes+"-0"+dia;
+    //  var fechaFinal = año+"-"+mes+"-0"+dia;
+
+    // }else if(mes < 10 && dia < 10){
+
+    //  var fechaInicial = año+"-0"+mes+"-0"+dia;
+    //  var fechaFinal = año+"-0"+mes+"-0"+dia;
+
+    // }else{
+
+    //  var fechaInicial = año+"-"+mes+"-"+dia;
+   //     var fechaFinal = año+"-"+mes+"-"+dia;
+
+    // }
+
+    dia = ("0"+dia).slice(-2);
+    mes = ("0"+mes).slice(-2);
+
+    var fechaInicial = año+"-"+mes+"-"+dia;
+    var fechaFinal = año+"-"+mes+"-"+dia; 
+
+      localStorage.setItem("capturarRango", "Hoy");
+	  seleccionarFiltro(fechaInicial, fechaFinal);
+
+    //   window.location = "index.php?pagina=comprobantes&fechaInicial="+fechaInicial+"&fechaFinal="+fechaFinal;
+
+  }
+
+});
+
+
+

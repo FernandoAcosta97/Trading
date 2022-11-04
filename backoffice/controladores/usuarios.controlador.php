@@ -1110,6 +1110,79 @@ Class ControladorUsuarios{
 
 	}
 
+
+	/*=============================================
+	Cambiar número de telefono
+	=============================================*/
+
+	public function ctrCambiarTelefono(){
+
+		if(isset($_POST["editarMovil"])){	
+
+			if(preg_match('/^[0-9-() ]+$/', $_POST["editarMovil"])){
+
+
+				$tabla = "usuarios";
+				$id = $_POST["idUsuario"];
+				$item = "telefono_movil";
+				$valor = $_POST["editarMovil"];
+
+				$respuesta = ModeloUsuarios::mdlActualizarUsuario($tabla, $id, $item, $valor);
+
+				if($respuesta == "ok"){
+
+					echo '<script>
+
+						swal({
+							type:"success",
+						  	title: "¡CORRECTO!",
+						  	text: "¡El número de teléfono ha sido actualizada!",
+						  	showConfirmButton: true,
+							confirmButtonText: "Cerrar"
+						  
+						}).then(function(result){
+
+								if(result.value){   
+								    history.back();
+								  } 
+						});
+
+					</script>';
+
+
+				}
+
+			}else{
+
+			 	echo '<script>
+
+					swal({
+
+						type:"error",
+						title: "¡CORREGIR!",
+						text: "¡No se permiten caracteres especiales!",
+						showConfirmButton: true,
+						confirmButtonText: "Cerrar"
+
+					}).then(function(result){
+
+						if(result.value){
+
+							history.back();
+
+						}
+
+					});	
+
+				</script>';
+
+			 }
+
+
+		}
+
+	}
+
 	/*=============================================
 	Iniciar Suscripción
 	=============================================*/

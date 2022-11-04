@@ -177,7 +177,7 @@ class ModeloCampanas
     public static function mdlTotalComprobantesxCampana($tabla, $tabla2,$valor)
     {
 
-        $stmt = Conexion::conectar()->prepare("SELECT COUNT(*) as total FROM $tabla INNER JOIN $tabla2 ON $tabla.id=$tabla2.campana WHERE $tabla.id=:id");
+        $stmt = Conexion::conectar()->prepare("SELECT COUNT(*) as total FROM $tabla INNER JOIN $tabla2 ON $tabla.id=$tabla2.campana WHERE $tabla.id=:id AND $tabla2.estado=1");
 
         $stmt->bindParam(":id", $valor, PDO::PARAM_INT);
         $stmt->execute();

@@ -179,6 +179,22 @@ class ControladorComprobantes
 
     }
 
+
+    /*=============================================
+    Mostrar Comprobantes x Estado Y Fecha
+    =============================================*/
+
+    public static function ctrMostrarComprobantesxEstadoyFecha($item, $valor, $item2, $valor2, $fechaInicial, $fechaFinal)
+    {
+
+        $tabla = "comprobantes";
+
+        $respuesta = ModeloComprobantes::mdlMostrarComprobantesxEstadoyFecha($tabla, $item, $valor,$item2, $valor2, $fechaInicial, $fechaFinal);
+
+        return $respuesta;
+
+    }
+
     /*=============================================
     Total Usuarios
     =============================================*/

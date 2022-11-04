@@ -557,6 +557,7 @@ $(".tablaUsuarios tbody").on("click", "button.btnEditarUsuario", function () {
   });
 });
 
+
 $(".tablaUsuarios tbody").on("click", "button.btnEliminarUsuario", function () {
   var idUsuario = $(this).attr("idUsuario");
   var datos = new FormData();
@@ -597,6 +598,29 @@ $(".tablaUsuarios tbody").on("click", "button.btnEliminarUsuario", function () {
         },
       });
     }
+  });
+});
+
+/*=============================================
+EDITAR TELEFONO
+=============================================*/
+$("#cambiarTelefono").click(function () {
+  var idUsuario = $(this).attr("idUsuario");
+
+  var datos = new FormData();
+  datos.append("idUsuarioEditar", idUsuario);
+
+  $.ajax({
+    url: "ajax/usuarios.ajax.php",
+    method: "POST",
+    data: datos,
+    cache: false,
+    contentType: false,
+    processData: false,
+    dataType: "json",
+    success: function (respuesta) {
+      $("#editarMovil").val(respuesta["telefono_movil"]);
+    },
   });
 });
 

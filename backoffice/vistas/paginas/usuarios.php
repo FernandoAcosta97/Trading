@@ -172,7 +172,7 @@ EDITAR USUARIO
               <!-- ENTRADA PARA EL NOMBRE -->
               <div class="form-group">
 
-                <label for="editarNombre" class="control-label">Nombre completo</label>
+                <label for="editarNombre" class="control-label">Usuario</label>
 
                 <div>
 

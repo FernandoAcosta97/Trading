@@ -82,6 +82,9 @@ $usuario = ControladorUsuarios::ctrMostrarUsuarios($item, $valor);
 	<!-- iCheck -->
 	<link rel="stylesheet" href="vistas/css/plugins/iCheck-flat-blue.css">
 
+     <!-- Daterange picker -->
+	 <link rel="stylesheet" href="vistas/css/plugins/daterangepicker.css">
+
   	<!-- estilo personalizado -->
   	<link rel="stylesheet" href="vistas/css/style.css">
 
@@ -172,6 +175,10 @@ $usuario = ControladorUsuarios::ctrMostrarUsuarios($item, $valor);
 	<!-- iCheck -->
 	<!-- https://github.com/fronteed/iCheck/ -->
 	<script src="vistas/js/plugins/icheck.min.js"></script>
+
+	<!-- daterangepicker http://www.daterangepicker.com/-->
+    <script src="vistas/js/plugins/moment.min.js"></script>
+    <script src="vistas/js/plugins/daterangepicker.js"></script>
 
 </head>
 

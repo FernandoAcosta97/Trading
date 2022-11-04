@@ -36,6 +36,9 @@
 				<!-- <?php if($usuario["perfil"]!="admin"): ?>
 				<button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#cambiarFoto">Cambiar foto</button>
 				<?php endif ?> -->
+				<?php if($usuario["perfil"]!="admin"): ?>
+				<button class="btn btn-primary btn-sm" data-toggle="modal" id="cambiarTelefono" data-target="#modalCambiarTelefono" idUsuario="<?php echo $usuario["id_usuario"] ?>">Cambiar número de teléfono</button>
+				<?php endif ?>
 				<button class="btn btn-purple btn-sm" data-toggle="modal" data-target="#cambiarPassword">Cambiar contraseña</button>
 
 			</div>
@@ -169,6 +172,79 @@ Cambiar Contraseña
 			$cambiarPassword -> ctrCambiarPassword();
 
 		?>
+
+
+      </form>
+
+    </div>
+  </div>
+</div>
+
+
+
+<!--=====================================
+Cambiar Telefono
+======================================-->
+
+<!-- The Modal -->
+<div class="modal" id="modalCambiarTelefono">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+    	<form method="post">
+
+	      <!-- Modal Header -->
+	      <div class="modal-header">
+	        <h4 class="modal-title">Cambiar número de teléfono</h4>
+	        <button type="button" class="close" data-dismiss="modal">&times;</button>
+	      </div>
+
+	      <!-- Modal body -->
+	      <div class="modal-body">
+
+	      	<input type="hidden" name="idUsuario" value="<?php echo $usuario["id_usuario"] ?>">
+	        
+              <div class="form-group">
+
+                  <label for="editarMovil" class="control-label">Teléfono Móvil</label>
+
+                <div class="input-group">
+
+                      <div class="input-group-prepend">
+                        <span class="p-2 bg-info rounded-left dialCode"></span>
+                          </div>
+
+                        <input type="text" name="editarMovil" class="form-control" required id="editarMovil" data-inputmask="'mask':'(999) 999-9999'" data-mask>
+
+                </div>
+
+              </div>
+
+	      </div>
+
+	      <!-- Modal footer -->
+	      <div class="modal-footer d-flex justify-content-between">
+
+	      	<div>
+	        	
+	        	<button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+
+	        </div>
+
+        	<div>
+	        	
+	        	<button type="submit" class="btn btn-primary">Enviar</button>
+
+	        </div>
+
+	      </div>
+
+		 <?php
+
+			$cambiarTelefono = new ControladorUsuarios();
+			$cambiarTelefono -> ctrCambiarTelefono();
+
+		?> 
 
 
       </form>
