@@ -273,6 +273,43 @@ Class ControladorCampanas{
 
 
 	/*=============================================
+	Tolta comprobantes campaña
+	=============================================*/
+
+	static public function ctrTotalComprobantesxCampana($id){
+
+		$tabla = "campanas";
+		$tabla2 = "comprobantes";
+
+		$respuesta = ModeloCampanas::mdlTotalComprobantesxCampana($tabla, $tabla2, $id);
+
+		return $respuesta;
+
+	}
+
+
+	/*=============================================
+	Eliminar Campana
+	=============================================*/
+
+	static public function ctrEliminarCampana($id){
+
+		$tabla = "campanas";
+		$tabla2 = "comprobantes";
+
+		$totalComprobantes = ModeloCampanas::mdlTotalComprobantesxCampana($tabla, $tabla2, $id);
+
+		if($totalComprobantes["total"] > 0) return $totalComprobantes["total"];
+
+		$respuesta = ModeloCampanas::mdlEliminarCampana($tabla, $id);
+
+		return $respuesta;
+
+	}
+
+
+
+	/*=============================================
 	registrar cuenta bancaria
 	=============================================*/
 

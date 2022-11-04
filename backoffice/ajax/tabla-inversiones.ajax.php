@@ -26,18 +26,7 @@ class TablaComprobantes {
             }
         }
 
-        $item2 = null;
-        $valor2 = null;
-
-        if(isset($_GET["estado"]) && $_GET["estado"]!=3){
-            $item2 = "estado";
-            $valor2 = $_GET["estado"];
-            $comprobantes = ControladorComprobantes::ctrMostrarComprobantesxEstado( $item, $valor, $item2, $valor2);
-        }else{
-            $comprobantes = ControladorComprobantes::ctrMostrarComprobantes( $item, $valor);
-        }
-
-
+        $comprobantes = ControladorComprobantes::ctrMostrarComprobantes( $item, $valor );
 
         if ( count( $comprobantes ) < 1 ) {
 

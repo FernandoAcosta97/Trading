@@ -209,8 +209,6 @@
 				 			Para el cumplimiento y adecuado desarrollo del presente contrato, EL DISTRIBUIDOR tendrá a su cargo las siguientes obligaciones so pena de la terminación automática del presente contrato y el cobro de los prejuicios por parte del FABRICANTE:
 				 			<ol>
 								<li>Promover la compra automática de los productos del FABRICANTE que se realiza a través de la oficina virtual de la página web www.academyoflife.com/backoffice</li>
-								<li>Realizar todos los trámites necesarios y suficientes tendientes a obtener y actualizar su cuenta de PayPal como vendedor.</li>
-								<li>Asumir las comisiones internas que cobra PayPal al manejar una cuenta de vendedor.</li>
 								<li>Llevar contabilidad de los negocios que celebre en nombre del FABRICANTE, para lo cual velará por el cumplimiento de todas las normas y deberes fiscales correspondiente a su país, siendo de su absoluta responsabilidad cualquier evasión, incumplimiento o actividad ilícita que se detectare.</li>
 							</ol>
 				 		</div>
@@ -347,7 +345,7 @@
     if ($usuario) {
 		if($usuario["perfil"]!="admin"){
 
-        $cuenta = ControladorCuentas::ctrMostrarCuentas("titular", $usuario["doc_usuario"]);
+        $cuenta = ControladorCuentas::ctrMostrarCuentas("usuario", $usuario["id_usuario"]);
 
         // $total_cuentas = count($cuentas_bancarias);
         $cuenta_bancaria = "";
@@ -433,6 +431,7 @@ if ($usuario["perfil"] != "admin") {
 
 
 		</div>
+		<?php if($usuario["perfil"] != "admin"): ?>
 
 		<div class="card-footer">
 
@@ -441,6 +440,8 @@ if ($usuario["perfil"] != "admin") {
 			<!--<button class="btn btn-danger float-right cancelarSuscripcion" idUsuario="<?php echo $usuario["id_usuario"] ?>" idSuscripcion="<?php echo $usuario["id_suscripcion"] ?>">Cancelar suscripción</button>-->
 
 		</div>
+
+		<?php endif ?>
 
 	</div>
 
@@ -451,7 +452,7 @@ if ($usuario["perfil"] != "admin") {
 
 
 <!--=====================================
-registar Cuenta
+Registar Cuenta
 ======================================-->
 
 <!-- The Modal -->
@@ -470,7 +471,7 @@ registar Cuenta
 	      <!-- Modal body -->
 	      <div class="modal-body">
 
-	      	<input type="hidden" name="idUsuarioCuentaRegistrar" value="<?php echo $usuario["doc_usuario"] ?>">
+	      	<input type="hidden" name="idUsuarioCuentaRegistrar" value="<?php echo $usuario["id_usuario"] ?>">
 
 			<div class="form-group">
 
@@ -478,9 +479,19 @@ registar Cuenta
 
 			</div>
 
+				<div class="form-group">
+
+				<label for="titular">Titular:</label>
+
+				<input type="number" class="form-control" id="titular" placeholder="Número documento titular" name="registrarNumeroTitular" required>
+
+			</div>
+
 			<div class="form-group">
 
-				<input type="text" class="form-control" placeholder="Entidad" name="registrarEntidadCuenta" required>
+			<label for="entidad">Entidad:</label>
+
+				<input type="text" class="form-control" id="entidad" placeholder="Entidad bancaria" name="registrarEntidadCuenta" required>
 
 			</div>
 
@@ -520,10 +531,10 @@ registar Cuenta
 
 		<?php
 
-$registrarCuenta = new ControladorUsuarios();
-$registrarCuenta->ctrRegistrarCuentaBancaria();
+			$registrarCuenta = new ControladorUsuarios();
+			$registrarCuenta->ctrRegistrarCuentaBancaria();
 
-?>
+		?>
 
 
       </form>

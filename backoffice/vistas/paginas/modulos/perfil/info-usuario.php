@@ -33,19 +33,20 @@
 			</p>
 
 			<div class="text-center">
-				
+				<!-- <?php if($usuario["perfil"]!="admin"): ?>
 				<button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#cambiarFoto">Cambiar foto</button>
+				<?php endif ?> -->
 				<button class="btn btn-purple btn-sm" data-toggle="modal" data-target="#cambiarPassword">Cambiar contraseña</button>
 
 			</div>
 
 		</div>
 
-		<div class="card-footer">
+		<!-- <div class="card-footer">
 
 			<button class="btn btn-default float-right">Eliminar cuenta</button>
 
-		</div>
+		</div> -->
 
 	</div>	
 	

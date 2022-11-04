@@ -375,10 +375,10 @@ $("#selectFiltro").on("change", function (){
 
 });
 
-
+seleccion = $("#selectFiltro").val();
 
 $(".tablaUsuarios").DataTable({
-  ajax: "ajax/tabla-usuarios.ajax.php",
+  ajax: "ajax/"+seleccion+".ajax.php",
   deferRender: true,
   retrieve: true,
   processing: true,
@@ -626,10 +626,18 @@ $(".copiarLink").click(function () {
   }, 2000);
 });
 
+
 $(".tablaUsuarios tbody").on("click", "button.btnSoporte", function () {
   var idUsuario = $(this).attr("idUsuario");
 
   window.location = "index.php?pagina=soporte&id=" + idUsuario;
+});
+
+
+$(".tablaUsuarios tbody").on("click", "button.btnVerUsuario", function () {
+  var idUsuario = $(this).attr("idUsuario");
+
+  window.location = "index.php?pagina=usuario&id=" + idUsuario;
 });
 
 /*=============================================

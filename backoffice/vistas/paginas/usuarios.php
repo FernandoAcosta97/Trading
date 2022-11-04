@@ -56,11 +56,35 @@ if ($usuario["perfil"] != "admin") {
           <div style="width:50%">
             <select class="form-control form-select" id="selectFiltro">
 
+            <?php if(isset($_GET["estado"]) && ($_GET["estado"]==1 || $_GET["estado"]==0)){ 
+             
+              if($_GET["estado"]==1){ ?>
+
+                <option value="tabla-usuarios">TODOS</option>
+                <option value="tabla-usuarios-operando" selected>OPERANDO</option>
+                <option value="tabla-usuarios-sin-operar">SIN OPERAR</option>
+                <option value="tabla-usuarios-referidos">CON REFERIDOS</option>
+                <option value="tabla-usuarios-sin-referidos">SIN REFERIDOS</option>
+
+             <?php }else{ ?>
+
+                <option value="tabla-usuarios">TODOS</option>
+                <option value="tabla-usuarios-operando">OPERANDO</option>
+                <option value="tabla-usuarios-sin-operar" selected>SIN OPERAR</option>
+                <option value="tabla-usuarios-referidos">CON REFERIDOS</option>
+                <option value="tabla-usuarios-sin-referidos">SIN REFERIDOS</option>
+
+              <?php }
+              
+              }else{ ?>
+
               <option value="tabla-usuarios" selected>TODOS</option>
               <option value="tabla-usuarios-operando">OPERANDO</option>
               <option value="tabla-usuarios-sin-operar">SIN OPERAR</option>
               <option value="tabla-usuarios-referidos">CON REFERIDOS</option>
               <option value="tabla-usuarios-sin-referidos">SIN REFERIDOS</option>
+
+              <?php } ?>
 
             </select>
 

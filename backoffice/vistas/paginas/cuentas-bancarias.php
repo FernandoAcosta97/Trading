@@ -1,7 +1,7 @@
 <?php
 
-$item = "titular";
-$valor = $usuario["doc_usuario"];
+$item = "usuario";
+$valor = $usuario["id_usuario"];
 $cuentas = ControladorCuentas::ctrMostrarCuentas($item, $valor);
 
 ?>
@@ -36,6 +36,16 @@ $cuentas = ControladorCuentas::ctrMostrarCuentas($item, $valor);
 
         <h3 class="card-title">Cuentas bancarias registradas</h3>
 
+        <?php if($usuario["perfil"]!="admin" && !$cuentas):?>
+
+        <div style="margin:1em auto auto auto">
+
+            <button class="btn btn-primary" data-toggle="modal" data-target="#registrarCuenta">Registrar Cuenta</button>
+
+        </div>
+
+        <?php endif ?>
+
         <div class="card-tools">
           <button type="button" class="btn btn-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
             <i class="fas fa-minus"></i></button>
@@ -53,9 +63,11 @@ $cuentas = ControladorCuentas::ctrMostrarCuentas($item, $valor);
             <tr>
               <th>Acciones</th>
               <th>Número</th>
+              <th>Usuario - C.C.</th>
+              <th>Titular</th>
+              <th>Estado</th>
               <th>Entidad</th>
               <th>Tipo</th>
-              <th>Estado</th>
               <th>Fecha</th>
             </tr>
           </thead>
@@ -65,13 +77,13 @@ $cuentas = ControladorCuentas::ctrMostrarCuentas($item, $valor);
           </tbody>
         </table>
 
-        <input type="hidden" value="<?php echo $usuario["doc_usuario"]; ?>" id="titular">
+        <input type="hidden" value="<?php echo $usuario["id_usuario"]; ?>" id="id_usuario">
 
       </div>
       <!-- /.card-body -->
 
       <div class="card-footer">
-        Footer
+   
       </div>
       <!-- /.card-footer-->
 
@@ -168,6 +180,102 @@ EDITAR CUENTA
 
 			$editarCuenta = new ControladorCuentas();
 			$editarCuenta -> ctrEditarCuenta();
+
+		?>
+
+
+      </form>
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<!--=====================================
+Registar Cuenta
+======================================-->
+
+<!-- The Modal -->
+<div class="modal" id="registrarCuenta">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+    	<form method="post">
+
+	      <!-- Modal Header -->
+	      <div class="modal-header">
+	        <h4 class="modal-title">Registrar cuenta</h4>
+	        <button type="button" class="close" data-dismiss="modal">&times;</button>
+	      </div>
+
+	      <!-- Modal body -->
+	      <div class="modal-body">
+
+	      	<input type="hidden" name="idUsuarioCuentaRegistrar" value="<?php echo $usuario["id_usuario"] ?>">
+
+			<div class="form-group">
+
+				<input type="number" class="form-control" placeholder="Número cuenta" name="registrarNumeroCuenta" required>
+
+			</div>
+
+				<div class="form-group">
+
+				<label for="titular">Titular:</label>
+
+				<input type="number" class="form-control" id="titular" placeholder="Número documento titular" name="registrarNumeroTitular" required>
+
+			</div>
+
+			<div class="form-group">
+
+			<label for="entidad">Entidad:</label>
+
+				<input type="text" class="form-control" id="entidad" placeholder="Entidad bancaria" name="registrarEntidadCuenta" required>
+
+			</div>
+
+			<div class="form-group">
+
+				<label for="tipoCuenta">Tipo de Cuenta:</label>
+
+				<select class="form-control" id="tipoCuenta" name="registrarTipoCuenta">
+
+					<option value="">Seleccione tipo de cuenta</option>
+					<option value="ahorros">Ahorros</option>
+					<option value="corriente">Corriente</option>
+					<option value="otro">Otro</option>
+
+				</select>
+
+			</div>
+
+	      </div>
+
+	      <!-- Modal footer -->
+	      <div class="modal-footer d-flex justify-content-between">
+
+	      	<div>
+
+	        	<button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+
+	        </div>
+
+        	<div>
+
+	        	<button type="submit" class="btn btn-primary">Enviar</button>
+
+	        </div>
+
+	      </div>
+
+		<?php
+
+			$registrarCuenta = new ControladorUsuarios();
+			$registrarCuenta->ctrRegistrarCuentaBancaria();
 
 		?>
 

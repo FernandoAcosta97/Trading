@@ -12,11 +12,9 @@ class ModeloComprobantes
     public static function mdlRegistrarComprobantes($tabla, $datos)
     {
 
-        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(codigo, valor, fecha, foto, estado, doc_usuario, campana) VALUES (:codigo, :valor, :fecha, :foto, :estado, :doc_usuario, :campana)");
+        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(valor, foto, estado, doc_usuario, campana) VALUES (:valor, :foto, :estado, :doc_usuario, :campana)");
 
-        $stmt->bindParam(":codigo", $datos["codigo"], PDO::PARAM_STR);
         $stmt->bindParam(":valor", $datos["valor"], PDO::PARAM_INT);
-        $stmt->bindParam(":fecha", $datos["fecha"], PDO::PARAM_STR);
         $stmt->bindParam(":foto", $datos["foto"], PDO::PARAM_STR);
         $stmt->bindParam(":estado", $datos["estado"], PDO::PARAM_INT);
         $stmt->bindParam(":doc_usuario", $datos["doc_usuario"], PDO::PARAM_INT);
@@ -41,7 +39,7 @@ class ModeloComprobantes
     public static function mdlMostrarComprobantes($tabla, $item, $valor)
     {
 
-        if ($item != null && $valor != null) {
+        if ($item != null && $valor) {
 
             $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item");
 
@@ -50,9 +48,45 @@ class ModeloComprobantes
             $stmt->execute();
 
             return $stmt->fetchAll();
+
         } else {
 
             $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla ORDER BY 'id_usuario' ASC");
+
+            $stmt->execute();
+
+            return $stmt->fetchAll();
+        }
+
+        $stmt->close();
+
+        $stmt = null;
+    }
+
+
+     /*=============================================
+    Mostrar Comprobantes
+    =============================================*/
+
+    public static function mdlMostrarComprobantesxEstado($tabla, $item, $valor,$item2, $valor2)
+    {
+
+        if ($item != null && $valor != null && $item2 != null && $valor2 != null) {
+
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item AND $item2 = :$item2");
+
+            $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
+            $stmt->bindParam(":" . $item2, $valor2, PDO::PARAM_STR);
+
+            $stmt->execute();
+
+            return $stmt->fetchAll();
+
+        } else if($item2 != null && $valor2 != null){
+
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item2 = :$item2");
+
+            $stmt->bindParam(":" . $item2, $valor2, PDO::PARAM_STR);
 
             $stmt->execute();
 
@@ -127,15 +161,13 @@ class ModeloComprobantes
     {
 
         if($datos["foto"]!=""){
-        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET codigo = :codigo, valor = :valor, fecha = :fecha, foto = :foto WHERE id = :id");
+        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET valor = :valor, foto = :foto WHERE id = :id");
         $stmt->bindParam(":foto", $datos["foto"], PDO::PARAM_STR);
     }else{
-        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET codigo = :codigo, valor = :valor, fecha = :fecha WHERE id = :id");
+        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET valor = :valor WHERE id = :id");
     }
 
-        $stmt->bindParam(":codigo", $datos["codigo"], PDO::PARAM_STR);
         $stmt->bindParam(":valor", $datos["valor"], PDO::PARAM_STR);
-        $stmt->bindParam(":fecha", $datos["fecha"], PDO::PARAM_STR);
         $stmt->bindParam(":id", $datos["id"], PDO::PARAM_STR);
 
         if ($stmt->execute()) {

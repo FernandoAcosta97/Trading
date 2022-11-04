@@ -169,7 +169,7 @@ $(".fotoIngreso, .fotoRegistro").css({"height":$(".formulario").height()+"px"})
 BORRAR ALERTAS
 =============================================*/
 
-$("input[name='registroEmail'], #politicas").change(function(){
+$("input[name='registroEmail'], input[name='registroNombre'], #politicas").change(function(){
 
 	$(".alert").remove();
 
@@ -208,6 +208,54 @@ $("input[name='registroEmail']").change(function(){
 						<div class="alert alert-warning">
 							<strong>ERROR:</strong>
 							El correo electrónico ya existe en la base de datos, por favor ingrese otro diferente
+
+						</div>
+				`)
+
+				return;
+
+			}
+
+		}
+
+	})
+
+})
+
+
+/*=============================================
+VALIDAR USUARIO REPETIDO
+=============================================*/
+
+var ruta = $("#ruta").val();
+
+$("input[name='registroNombre']").change(function(){
+
+	var usuario = $(this).val();
+	
+	var datos = new FormData();
+	datos.append("validarUsuario", usuario);
+
+	$.ajax({
+
+		url: ruta+"backoffice/ajax/usuarios.ajax.php",
+		method: "POST",
+		data: datos,
+		cache: false,
+		contentType: false,
+		processData: false,
+		dataType:"json",
+		success:function(respuesta){
+			
+			if(respuesta){
+
+				$("input[name='registroNombre']").val("");
+
+				$("input[name='registroNombre']").after(`
+
+						<div class="alert alert-warning">
+							<strong>ERROR:</strong>
+							El nombre de usuario ya existe en la base de datos, por favor ingrese otro diferente
 
 						</div>
 				`)

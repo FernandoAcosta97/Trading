@@ -15,18 +15,17 @@ class TablaCuentas
         $valor = null;
         $usuario = null;
 
-        if (isset($_GET["titular"])) {
-            $item = "titular";
-            $item2 = "doc_usuario";
-            $valor = $_GET["titular"];
-            $usuario = ControladorUsuarios::ctrMostrarUsuarios($item2, $valor);
+        if (isset($_GET["usuario"])) {
+            $item = "id_usuario";
+            $valor = $_GET["usuario"];
+            $usuario = ControladorUsuarios::ctrMostrarUsuarios($item, $valor);
             if($usuario["perfil"]=="admin"){
                 $item = null;
                 $valor = null;
                 $usuario = null;
             }
         }
-        $cuentas = ControladorCuentas::ctrMostrarCuentas($item, $valor);
+        $cuentas = ControladorCuentas::ctrMostrarCuentas("usuario", $valor);
         if(is_array($cuentas)){
 
             if (count($cuentas) == 0) {
@@ -73,9 +72,11 @@ class TablaCuentas
             $datosJson .= '[
                 "' . $acciones . '",
                 "' . $cuentas["numero"] . '",
+                "' . $usuario["nombre"] . ' - '. $usuario["doc_usuario"] .'",
+                "' . $cuentas["titular"] . '",
+                "' . $estado . '",
                 "' . $cuentas["entidad"] . '",
                 "' . $cuentas["tipo"] . '",
-                "' . $estado . '",
                 "' . $cuentas["fecha"] . '"
          ],';
 
@@ -84,6 +85,8 @@ class TablaCuentas
                 foreach ($cuentas as $key => $value) {
 
                 //ESTADO CUENTAS
+
+                $usuario = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $value["usuario"]);
     
                 if ( $value["estado"] == 1 ) {
     
@@ -104,9 +107,11 @@ class TablaCuentas
                 $datosJson .= '[
                   "' . $acciones . '",
                   "' . $value["numero"] . '",
+                  "' . $usuario["nombre"] . ' - '. $usuario["doc_usuario"] .'",
+                  "' . $value["titular"] . '",
+                  "' . $estado . '",
                   "' . $value["entidad"] . '",
                   "' . $value["tipo"] . '",
-                  "' . $estado . '",
                   "' . $value["fecha"] . '"
            ],';
               }

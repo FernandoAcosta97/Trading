@@ -3,10 +3,10 @@
 TABLA CUENTAS
 =============================================*/
 
-var titular = $("#titular").val();
+var id_usuario = $("#id_usuario").val();
 
 $(".tablaCuentas").DataTable({
-	"ajax":"ajax/tabla-cuentas.ajax.php?titular="+titular,
+	"ajax":"ajax/tabla-cuentas.ajax.php?usuario="+id_usuario,
  	"deferRender": true,
   	"retrieve": true,
   	"processing": true,

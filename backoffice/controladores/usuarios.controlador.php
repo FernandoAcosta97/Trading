@@ -1155,10 +1155,11 @@ Class ControladorUsuarios{
 
 		if(isset($_POST["idUsuarioCuentaRegistrar"])){
 
-			if(preg_match('/^[0-9]+$/', $_POST["registrarNumeroCuenta"]) &&
+			if(preg_match('/^[0-9]+$/', $_POST["registrarNumeroCuenta"]) && preg_match('/^[0-9]+$/', $_POST["registrarNumeroTitular"]) &&
 			preg_match('/^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["registrarEntidadCuenta"]) ){
 
-				$datos = array(	"titular" => $_POST["idUsuarioCuentaRegistrar"],
+				$datos = array(	"titular" => $_POST["registrarNumeroTitular"],
+				"usuario" => $_POST["idUsuarioCuentaRegistrar"],
 				"estado" => 2,
 				"tipo" => $_POST["registrarTipoCuenta"],
 				"entidad" => $_POST["registrarEntidadCuenta"],
@@ -1182,7 +1183,7 @@ Class ControladorUsuarios{
 
 								if(result.value){
 
-									window.location = "perfil";
+									window.location = "cuentas-bancarias";
 
 								}
 

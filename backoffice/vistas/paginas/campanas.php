@@ -58,7 +58,7 @@
               <th>Nombre</th>
               <th>Retorno</th>
               <th>Estado</th>
-              <th>Cupos</th>
+              <th>Cupos Disponibles</th>
               <th>Fecha Inicio</th>
               <th>Fecha Fin</th>
             </tr>
@@ -74,7 +74,7 @@
       <!-- /.card-body -->
 
       <div class="card-footer">
-        Footer
+      
       </div>
         <!-- /.card-footer-->
 
@@ -251,7 +251,7 @@ REGISTRAR CAMPAÑA
 
               <div>
 
-              <input type="number" class="form-control" id="registroRetorno" name="registroRetorno" placeholder="Retorno campaña" required>
+              <input type="number" class="form-control" id="registroRetorno" name="registroRetorno" placeholder="Retorno campaña ej: 20%" required>
 
               </div>
 
@@ -263,7 +263,7 @@ REGISTRAR CAMPAÑA
 
                 <div>
 
-                  <input type="number" class="form-control" id="registroCupos" name="registroCupos" placeholder="Cupos campaña" required>
+                  <input type="number" class="form-control" id="registroCupos" name="registroCupos" placeholder="Cupos campaña ej: 1000" required>
 
                 </div>
 
@@ -352,23 +352,9 @@ REGISTRAR COMPROBANTE
 	      <!-- Modal body -->
 	      <div class="modal-body">
 
+        <input type="hidden" value="<?php echo $usuario["doc_usuario"]; ?>" name="doc_usuario">
 
-              <!-- ENTRADA PARA EL CODIGO -->
-              <div class="form-group">
-
-                <label for="registrarCodigo" class="control-label">Código</label>
-
-                <div>
-
-                  <input type="text" class="form-control" id="registrarCodigo" name="registrarCodigo" placeholder="Código comprobante" required>
-
-                  <input type="hidden" value="<?php echo $usuario["doc_usuario"]; ?>" name="doc_usuario">
-
-                  <input type="hidden" id="id_campana" name="id_campana">
-
-                </div>
-
-              </div>
+        <input type="hidden" id="id_campana" name="id_campana">
 
               <div class="form-group">
 
@@ -377,18 +363,6 @@ REGISTRAR COMPROBANTE
                 <div>
 
                   <input type="number" class="form-control" id="registrarValor" name="registrarValor" placeholder="Valor comprobante" required>
-
-                </div>
-
-              </div>
-
-              <div class="form-group">
-
-                  <label for="registrarFecha" class="control-label">Fecha</label>
-
-                <div class="input-group">
-
-                    <input type="date" name="registrarFecha" class="form-control" id="registrarFecha" required>
 
                 </div>
 
@@ -412,9 +386,9 @@ REGISTRAR COMPROBANTE
       <!-- ENTRADA PARA LA FOTO DEL COMPROBANTE -->
       <div class="form-group">
 
-				<input id="registrarFotoComprobante" type="file" class="form-control-file border registrarFotoComprobante" name="registrarFotoComprobante">
+				<input id="registrarFotoComprobante" type="file" class="form-control-file border registrarFotoComprobante" name="registrarFotoComprobante" required>
 
-        <img id="previsualizarRegistrar" src="vistas/img/comprobantes/default/default.jpg" class="img-thumbnail previsualizarRegistrar" width="100px">
+        <img id="previsualizarRegistrar" src="" class="img-thumbnail previsualizarRegistrar" width="100px">
 
 
 			</div>

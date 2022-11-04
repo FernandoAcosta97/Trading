@@ -169,16 +169,35 @@ class ModeloCampanas
         $stmt = null;
     }
 
+
     /*=============================================
-    Eliminar usuario
+    total de comprobantes x campaña
     =============================================*/
 
-    public static function mdlEliminarUsuario($tabla, $id)
+    public static function mdlTotalComprobantesxCampana($tabla, $tabla2,$valor)
     {
 
-        $stmt = Conexion::conectar()->prepare("DELETE FROM $tabla WHERE id_usuario = :id_usuario");
+        $stmt = Conexion::conectar()->prepare("SELECT COUNT(*) as total FROM $tabla INNER JOIN $tabla2 ON $tabla.id=$tabla2.campana WHERE $tabla.id=:id");
 
-        $stmt->bindParam(":id_usuario", $id, PDO::PARAM_INT);
+        $stmt->bindParam(":id", $valor, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch();
+
+        $stmt->close();
+        $stmt = null;
+    }
+
+
+    /*=============================================
+    Eliminar Campana
+    =============================================*/
+
+    public static function mdlEliminarCampana($tabla, $id)
+    {
+
+        $stmt = Conexion::conectar()->prepare("DELETE FROM $tabla WHERE id = :id");
+
+        $stmt->bindParam(":id", $id, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
 

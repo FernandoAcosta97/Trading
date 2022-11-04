@@ -38,7 +38,7 @@
 
 						<input type="email" class="form-control my-3 py-3" placeholder="Correo Electrónico" name="registroEmail" required>
 
-						<input type="password" class="form-control my-3 py-3" placeholder="Contraseña" name="registroPassword" required>
+						<input type="password" class="form-control my-3 py-3" placeholder="Contraseña" name="registroPassword" minlength="6" required>
 
 						<div class="form-check-inline text-right">
 							

@@ -99,16 +99,16 @@ class AjaxCampanas{
 
 
 	/*=============================================
-    Eliminar Usuario
+    Eliminar Campana
     =============================================*/	
 
-	public $idUsuarioEliminar;
+	public $idCampanaEliminar;
 
-	public function ajaxEliminarUsuario(){
+	public function ajaxEliminarCampana(){
 
-		$valor = $this->idUsuarioEliminar;
+		$valor = $this->idCampanaEliminar;
 
-		$respuesta = ControladorUsuarios::ctrEliminarUsuario($valor);
+		$respuesta = ControladorCampanas::ctrEliminarCampana($valor);
 
 		echo $respuesta;
 
@@ -193,14 +193,14 @@ if(isset($_POST["idCampanaEditar"])){
 }
 
 /*=============================================
-Eliminar Usuario
+Eliminar Campaña
 =============================================*/	
 
-if(isset($_POST["idUsuarioEliminar"])){
+if(isset($_POST["idCampanaEliminar"])){
 
-	$eliminarUsuario = new AjaxUsuarios();
-	$eliminarUsuario -> idUsuarioEliminar = $_POST["idUsuarioEliminar"];
-	$eliminarUsuario -> ajaxEliminarUsuario();
+	$eliminarCampana = new AjaxCampanas();
+	$eliminarCampana -> idCampanaEliminar = $_POST["idCampanaEliminar"];
+	$eliminarCampana -> ajaxEliminarCampana();
 
 }
 

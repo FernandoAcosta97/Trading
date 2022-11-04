@@ -17,6 +17,7 @@ class TablaCampanas{
 		$campanas = ControladorCampanas::ctrMostrarCampanas($item, $valor);
 		$usuario = ControladorUsuarios::ctrMostrarUsuarios("doc_usuario",$_GET["doc_usuario"]);
 
+
 		if(count($campanas) < 1 ){
 
 			echo '{ "data":[]}';
@@ -29,8 +30,13 @@ class TablaCampanas{
 
 		foreach ($campanas as $key => $value) {
 
+			$total_comprobantes_campana = ControladorCampanas::ctrTotalComprobantesxCampana($value["id"]);
+			$cupos = $value["cupos"];
+			$cupos_disponibles = $cupos-$total_comprobantes_campana["total"];
+
 			if($usuario["perfil"] != "admin"){
 
+                 if($value["estado"] == 1){
 				/*=============================================
 				ESTADO Y OPERANDO
 				=============================================*/	
@@ -58,6 +64,18 @@ class TablaCampanas{
 					$acciones = "<div class='btn-group'><button type='button' class='btn btn-primary btn-xs' disabled>Invertir</button></div>";
 
 				}
+				$datosJson .= '[
+					"'.$acciones.'",
+					"'.$value["nombre"].'",
+					"'.$value["retorno"].' %",
+					"'.$estado.'", 
+					"'.number_format($cupos_disponibles).'", 
+					"'.$value["fecha_inicio"].'",
+					"'.$value["fecha_fin"].'"
+			 ],';
+
+			}
+			
 
 
 			}else{
@@ -81,20 +99,19 @@ class TablaCampanas{
 
 			}
 
-				$acciones = "<div class='btn-group'><button class='btn btn-warning btn-xs btnEditarCampana' idCampana='".$value["id"]."' data-toggle='modal' data-target='#modalEditarCampana'><i class='fa fa-pen' style='color:white'></i></button></div>";
+				$acciones = "<div class='btn-group'><button class='btn btn-warning btn-xs btnEditarCampana' idCampana='".$value["id"]."' data-toggle='modal' data-target='#modalEditarCampana'><i class='fa fa-pen' style='color:white'></i></button><button class='btn btn-danger btn-xs btnEliminarCampana' idCampana='".$value["id"]."'><i class='fa fa-times' style='color:white'></i></button></div>";
+
+				$datosJson .= '[
+					"'.$acciones.'",
+					"'.$value["nombre"].'",
+					"'.$value["retorno"].' %",
+					"'.$estado.'", 
+					"'.number_format($cupos_disponibles).'", 
+					"'.$value["fecha_inicio"].'",
+					"'.$value["fecha_fin"].'"
+			 ],';
 
 			}
-
-				
-				$datosJson .= '[
-					   "'.$acciones.'",
-				       "'.$value["nombre"].'",
-				       "'.$value["retorno"].' %",
-					   "'.$estado.'", 
-					   "'.number_format($value["cupos"]).'", 
-					   "'.$value["fecha_inicio"].'",
-					   "'.$value["fecha_fin"].'"
-				],';
 
 			
 

@@ -85,7 +85,7 @@ class TablaUsuarios{
 				$operando = "<button type='button' disabled class='btn btn-danger btn-sm'>No</button>";
 			}
 
-				$acciones = "<div class='btn-group'><button class='btn btn-warning btn-xs btnEditarUsuario' idUsuario='".$value["id_usuario"]."' data-toggle='modal' data-target='#modalEditarUsuario'><i class='fa fa-pen' style='color:white'></i></button><button type='button' class='btn btn-primary btn-xs btnSoporte' idUsuario='".$value["id_usuario"]."'><i class='fa fa-envelope'></i></button></div>";
+				$acciones = "<div class='btn-group'><button type='button' class='btn btn-primary btn-xs btnSoporte' idUsuario='".$value["id_usuario"]."'><i class='fa fa-envelope'></i></button><button class='btn btn-warning btn-xs btnEditarUsuario' idUsuario='".$value["id_usuario"]."' data-toggle='modal' data-target='#modalEditarUsuario'><i class='fa fa-pen' style='color:white'></i></button><button type='button' class='btn btn-info btn-xs btnVerUsuario' idUsuario='".$value["id_usuario"]."'><i class='fa fa-eye'></i></button></div>";
 
 				$docUsuario = "n/a";
 				if($value["firma"]!=""){

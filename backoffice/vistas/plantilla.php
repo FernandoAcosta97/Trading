@@ -209,6 +209,7 @@ if (isset($_GET["pagina"])) {
 		$_GET["pagina"] == "campanas" ||
         $_GET["pagina"] == "cuentas-bancarias" ||
         $_GET["pagina"] == "comprobantes" ||
+		$_GET["pagina"] == "inversiones" ||
         $_GET["pagina"] == "uninivel" ||
         $_GET["pagina"] == "binaria" ||
         $_GET["pagina"] == "matriz" ||

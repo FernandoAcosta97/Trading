@@ -132,7 +132,6 @@ if ($usuario["firma"] != null) {
 		</div>
 	</div>
 	<!-- ./col -->
-	<?php } ?>
 
 	<div class="col-12 col-sm-6 col-lg-3">
 
@@ -146,7 +145,7 @@ if ($usuario["firma"] != null) {
 			<div class="icon">
 				<i class="fas fa-users"></i>
 			</div>
-			<a href="ingresos-uninivel" class="small-box-footer">Más información <i class="fas fa-arrow-circle-right"></i></a>
+			<a href="index.php?pagina=usuarios&estado=1" class="small-box-footer">Más información <i class="fas fa-arrow-circle-right"></i></a>
 		</div>
 	</div>
 	<!-- ./col -->
@@ -163,10 +162,11 @@ if ($usuario["firma"] != null) {
 			<div class="icon">
 				<i class="fas fa-users"></i>
 			</div>
-			<a href="ingresos-uninivel" class="small-box-footer">Más información <i class="fas fa-arrow-circle-right"></i></a>
+			<a href="index.php?pagina=usuarios&estado=0" class="small-box-footer">Más información <i class="fas fa-arrow-circle-right"></i></a>
 		</div>
 	</div>
 	<!-- ./col -->
+	<?php } ?>
 
 
 	<!-- <div class="col-12 col-sm-6 col-lg-3"> -->
@@ -185,6 +185,59 @@ if ($usuario["firma"] != null) {
 </div>
 </div> -->
 <!-- ./col -->
+
+
+<?php if($usuario["perfil"]!="admin"):
+if ($usuario["operando"] == 1): ?>
+
+<div class="col-12 col-sm-6 col-lg-3">
+	<!-- small box -->
+	<div class="small-box bg-success">
+		<div class="inner">
+
+
+			<h3>OPERANDO</h3>
+
+			<p>------------------------</p>
+
+		</div>
+
+		<div class="icon">
+			<i class="fas fa-user"></i>
+		</div>
+
+		<a href="campanas" class="small-box-footer">CAMPAÑAS <i class="fas fa-arrow-circle-right"></i></a>
+
+	</div>
+</div>
+<!-- ./col -->
+
+<?php else: ?>
+
+	<div class="col-12 col-sm-6 col-lg-3">
+	<!-- small box -->
+	<div class="small-box bg-red">
+		<div class="inner">
+
+
+			<h3>SIN OPERAR</h3>
+
+			<p>------------------------</p>
+
+		</div>
+
+		<div class="icon">
+			<i class="fas fa-user"></i>
+		</div>
+
+		<a href="campanas" class="small-box-footer">INVERTIR <i class="fas fa-arrow-circle-right"></i></a>
+
+	</div>
+</div>
+<!-- ./col -->
+
+<?php endif?>
+<?php endif?>
 
 
 	<div class="col-12 col-sm-6 col-lg-3">
@@ -236,44 +289,6 @@ if ($usuario["firma"] != null) {
 	</div>
 	<!-- ./col -->
 
-	<div class="col-12 col-sm-6 col-lg-3">
-		<!-- small box -->
-		<div class="small-box bg-red">
-			<div class="inner">
-
-
-				<?php if ($usuario["estado"] != 0): ?>
-
-				<h3>Activo</h3>
-
-				<p>------------------------</p>
-
-			</div>
-
-			<div class="icon">
-				<i class="fas fa-user"></i>
-			</div>
-
-			<a href="perfil" class="small-box-footer">Perfil <i class="fas fa-arrow-circle-right"></i></a>
-
-			<?php else: ?>
-
-				<h3>Desactivado</h3>
-
-        		<p class="text-uppercase">SIN OPERACIONES</p>
-
-        	</div>
-
-        	<div class="icon">
-				<i class="fa-solid fa-arrow-down-right"></i>
-			</div>
-
-			<a href="perfil" class="small-box-footer">Operar ahora <i class="fa fa-arrow-circle-right"></i></a>
-
-			<?php endif?>
-
-		</div>
-	</div>
-	<!-- ./col -->
+	
 
 </div>

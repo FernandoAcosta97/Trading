@@ -10,11 +10,10 @@ class ControladorComprobantes
     public function ctrRegistrarComprobantes()
     {
 
-        if (isset($_POST["registrarCodigo"])) {
+        if (isset($_POST["id_campana"])) {
 
 
-            if (preg_match('/^[a-zA-Z0-9ñÑáéíóúÁÉÍÓÚ\- ]+$/', $_POST["registrarCodigo"]) &&
-                preg_match('/^[0-9]+$/', $_POST["registrarValor"])) {
+            if (preg_match('/^[0-9]+$/', $_POST["registrarValor"])) {
 
                 /*=============================================
                 VALIDAR IMAGEN
@@ -27,13 +26,14 @@ class ControladorComprobantes
                     list($ancho, $alto) = getimagesize($_FILES["registrarFotoComprobante"]["tmp_name"]);
 
                     /*=============================================
-                    CREAMOS EL DIRECTORIO DONDE VAMOS A GUARDAR LA FOTO DEL USUARIO
+                    CREAMOS EL DIRECTORIO DONDE VAMOS A GUARDAR LA FOTO DEL COMPROBANTE
                     =============================================*/
 
-                    $directorio = "vistas/img/comprobantes/" . $_POST["registrarCodigo"];
+                    $directorio = "vistas/img/comprobantes/" . $_POST["doc_usuario"];
 
-
-					mkdir($directorio, 0755);
+                    if(!file_exists($directorio)){
+						mkdir($directorio, 0755);
+					}
 					
                     /*=============================================
                     DE ACUERDO AL TIPO DE IMAGEN APLICAMOS LAS FUNCIONES POR DEFECTO DE PHP
@@ -47,7 +47,7 @@ class ControladorComprobantes
 
                         $aleatorio = mt_rand(100, 999);
 
-                        $ruta = "vistas/img/comprobantes/" . $_POST["registrarCodigo"] . "/" . $aleatorio . ".jpg";
+                        $ruta = "vistas/img/comprobantes/" . $_POST["doc_usuario"] . "/" . $aleatorio . ".jpg";
 
                         $origen = imagecreatefromjpeg($_FILES["registrarFotoComprobante"]["tmp_name"]);
 
@@ -67,7 +67,7 @@ class ControladorComprobantes
 
                         $aleatorio = mt_rand(100, 999);
 
-                        $ruta = "vistas/img/comprobantes/" . $_POST["registrarCodigo"] . "/" . $aleatorio . ".png";
+                        $ruta = "vistas/img/comprobantes/" . $_POST["doc_usuario"] . "/" . $aleatorio . ".png";
 
                         $origen = imagecreatefrompng($_FILES["registrarFotoComprobante"]["tmp_name"]);
 
@@ -84,9 +84,7 @@ class ControladorComprobantes
 
 
                 $tabla = "comprobantes";
-                $datos = array("codigo" => $_POST["registrarCodigo"],
-                    "valor" => $_POST["registrarValor"],
-                    "fecha" => $_POST["registrarFecha"],
+                $datos = array("valor" => $_POST["registrarValor"],
                     "estado" => $_POST["registrarEstado"],
                     "foto" => $ruta,
                     "doc_usuario" => $_POST["doc_usuario"],
@@ -166,6 +164,21 @@ class ControladorComprobantes
 
     }
 
+       /*=============================================
+    Mostrar Comprobantes x Estado
+    =============================================*/
+
+    public static function ctrMostrarComprobantesxEstado($item, $valor, $item2, $valor2)
+    {
+
+        $tabla = "comprobantes";
+
+        $respuesta = ModeloComprobantes::mdlMostrarComprobantesxEstado($tabla, $item, $valor,$item2, $valor2);
+
+        return $respuesta;
+
+    }
+
     /*=============================================
     Total Usuarios
     =============================================*/
@@ -220,8 +233,7 @@ class ControladorComprobantes
 
         if (isset($_POST["editarComprobante"])) {
 
-            if (preg_match('/^[a-zA-Z0-9ñÑ\- ]+$/', $_POST["editarCodigo"]) &&
-                preg_match('/^[0-9]+$/', $_POST["editarValor"])) {
+            if (preg_match('/^[0-9]+$/', $_POST["editarValor"])) {
 
                 /*=============================================
                 VALIDAR IMAGEN
@@ -233,6 +245,8 @@ class ControladorComprobantes
 					$validar=false;
 				}
 
+                $rutaFotoActual = $_POST["fotoActualComprobante"];
+
                 if (isset($_FILES["editarFotoComprobante"]["tmp_name"]) && $validar) {
 
                     list($ancho, $alto) = getimagesize($_FILES["editarFotoComprobante"]["tmp_name"]);
@@ -241,24 +255,13 @@ class ControladorComprobantes
                     CREAMOS EL DIRECTORIO DONDE VAMOS A GUARDAR LA FOTO DEL USUARIO
                     =============================================*/
 
-                    $directorio = "vistas/img/comprobantes/" . $_POST["editarCodigo"];
+                    $directorio = "vistas/img/comprobantes/" . $_POST["doc_usuario"];
 
-					if(!file_exists($directorio) && !file_exists($_POST["fotoActualComprobante"])){
+
+					if(!file_exists($directorio)){
 						mkdir($directorio, 0755);
-					}else{
-					$rutaFotoActual = $_POST["fotoActualComprobante"];
-					unlink($rutaFotoActual);
-					$nuevaRuta = "vistas/img/comprobantes/".$_POST["editarCodigo"]."/";
-					$ruta2 = dirname($rutaFotoActual);
-					rename($ruta2,$nuevaRuta);
-					$nombre = basename($rutaFotoActual);
-                    $ruta = str_replace($_POST
-					['editarCodigoActual'],$_POST["editarCodigo"],$ruta2);
-					$ruta=$ruta."/".$nombre;
-					
 					}
-
-
+					
                     /*=============================================
                     DE ACUERDO AL TIPO DE IMAGEN APLICAMOS LAS FUNCIONES POR DEFECTO DE PHP
                     =============================================*/
@@ -271,7 +274,7 @@ class ControladorComprobantes
 
                         $aleatorio = mt_rand(100, 999);
 
-                        $ruta = "vistas/img/comprobantes/" . $_POST["editarCodigo"] . "/" . $aleatorio . ".jpg";
+                        $ruta = "vistas/img/comprobantes/" . $_POST["doc_usuario"] . "/" . $aleatorio . ".jpg";
 
                         $origen = imagecreatefromjpeg($_FILES["editarFotoComprobante"]["tmp_name"]);
 
@@ -291,7 +294,7 @@ class ControladorComprobantes
 
                         $aleatorio = mt_rand(100, 999);
 
-                        $ruta = "vistas/img/comprobantes/" . $_POST["editarCodigo"] . "/" . $aleatorio . ".png";
+                        $ruta = "vistas/img/comprobantes/" . $_POST["doc_usuario"] . "/" . $aleatorio . ".png";
 
                         $origen = imagecreatefrompng($_FILES["editarFotoComprobante"]["tmp_name"]);
 
@@ -303,26 +306,11 @@ class ControladorComprobantes
 
                     }
 
-                }else{
-					if($_POST["editarCodigo"]!=$_POST["editarCodigoActual"] && $_POST["fotoActualComprobante"] != ""){
-					$rutaFotoActual = $_POST["fotoActualComprobante"];
-					//unlink($rutaFotoActual);
-					$nuevaRuta = "vistas/img/comprobantes/".$_POST["editarCodigo"]."/";
-					$ruta2 = dirname($rutaFotoActual);
-					rename($ruta2,$nuevaRuta);
-					$nombre = basename($rutaFotoActual);
-                    $ruta = str_replace($_POST
-					['editarCodigoActual'],$_POST["editarCodigo"],$ruta2);
-					$ruta=$ruta."/".$nombre;
-					}		
-					
-				}
+                }
 
                 $tabla = "comprobantes";
 
-                $datos = array("codigo" => $_POST["editarCodigo"],
-                    "valor" => $_POST["editarValor"],
-                    "fecha" => $_POST["editarFecha"],
+                $datos = array("valor" => $_POST["editarValor"],
                     "foto" => $ruta,
                     "id" => $_POST["editarComprobante"]);
 
@@ -330,23 +318,45 @@ class ControladorComprobantes
 
                 if ($respuesta == "ok") {
 
+                    if($_FILES["editarFotoComprobante"]["tmp_name"]){
+                        unlink($rutaFotoActual);
+					}
+
                     echo '<script>
 
-					swal({
-						  type: "success",
-						  title: "El comprobantes ha sido editado correctamente",
-						  showConfirmButton: true,
-						  confirmButtonText: "Cerrar"
-						  }).then(function(result){
-									if (result.value) {
+                        swal({
+                              type: "success",
+                              title: "El comprobantes ha sido editado correctamente",
+                              showConfirmButton: true,
+                              confirmButtonText: "Cerrar"
+                              }).then(function(result){
+                                        if (result.value) {
+    
+                                        
+    
+                                        }
+                                    })
+    
+                        </script>';
 
-									
+            
+                }else{
+                    echo '<script>
 
-									}
-								})
+                    swal({
+                          type: "error",
+                          title: "Ha ocurrido un error",
+                          showConfirmButton: true,
+                          confirmButtonText: "Cerrar"
+                          }).then(function(result){
+                                    if (result.value) {
 
-					</script>';
+                                    
 
+                                    }
+                                })
+
+                    </script>';
                 }
 
             } else {
