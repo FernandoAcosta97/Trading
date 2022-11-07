@@ -84,14 +84,14 @@ if ($usuario["firma"] != "") {
 
     $totalRed = $operando + $sinOperar;
 
-    if ($totalRed > 1) {
+    if ($totalInversiones > 1) {
 
       $afiliadosNecesarios = $totalInversiones - 1;
 
     } 
 
 
-} 
+
 
 // print_r($afiliadosNecesarios);
 
@@ -120,6 +120,7 @@ if ($usuario["perfil"] != "admin") {
 }
 
 
+}
 }
 }
 

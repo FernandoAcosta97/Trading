@@ -5,6 +5,9 @@ session_start();
 $ruta = ControladorGeneral::ctrRuta();
 $patrocinador = ControladorGeneral::ctrPatrocinador();
 
+
+
+
 if (!isset($_SESSION["validarSesion"])) {
 
     echo '<script>
@@ -21,6 +24,7 @@ $item = "id_usuario";
 $valor = $_SESSION["id"];
 
 $usuario = ControladorUsuarios::ctrMostrarUsuarios($item, $valor);
+
 
 ?>
 
@@ -196,19 +200,7 @@ include "paginas/modulos/menu.php";
 Páginas del sitio
 =============================================*/
 
-if (isset($_GET["pagina"])) {
-
-    $categorias = ControladorAcademia::ctrMostrarCategorias(null, null);
-    $paginaAcademia = null;
-
-    foreach ($categorias as $key => $value) {
-
-        if ($_GET["pagina"] == $value["ruta_categoria"]) {
-
-            $paginaAcademia = $value["ruta_categoria"];
-
-        }
-    }
+if (isset($_GET["pagina"]) && $usuario["firma"] != null) {
 
     if ($_GET["pagina"] == "inicio" ||
         $_GET["pagina"] == "perfil" ||
@@ -229,18 +221,22 @@ if (isset($_GET["pagina"])) {
 
         include "paginas/" . $_GET["pagina"] . ".php";
 
-    } else if ($_GET["pagina"] == $paginaAcademia) {
-
-        include "paginas/academia.php";
-    } else {
+    }  else {
 
         include "paginas/error404.php";
     }
 
+
 } else {
 
-    include "paginas/inicio.php";
+	if($usuario["firma"] != null){
+		include "paginas/inicio.php";
+	}else{
+		include "paginas/perfil.php";
+		include "paginas/salir.php";
+	} 
 }
+
 
 include "paginas/modulos/footer.php";
 
