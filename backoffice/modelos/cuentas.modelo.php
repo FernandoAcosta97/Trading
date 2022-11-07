@@ -37,6 +37,30 @@ class ModeloCuentas{
 	}
 
 
+    public static function mdlRegistrarCuentaBancaria($tabla, $datos)
+    {
+
+        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(numero, titular, entidad, estado, tipo) VALUES (:numero, :titular, :entidad, :estado, :tipo)");
+
+        $stmt->bindParam(":numero", $datos["numero"], PDO::PARAM_INT);
+        $stmt->bindParam(":titular", $datos["titular"], PDO::PARAM_INT);
+        $stmt->bindParam(":entidad", $datos["entidad"], PDO::PARAM_STR);
+        $stmt->bindParam(":estado", $datos["estado"], PDO::PARAM_STR);
+        $stmt->bindParam(":tipo", $datos["tipo"], PDO::PARAM_STR);
+
+        if ($stmt->execute()) {
+
+            return "ok";
+        } else {
+
+            return print_r(Conexion::conectar()->errorInfo());
+        }
+
+        $stmt->close();
+        $stmt = null;
+    }
+
+
 	/*=============================================
     Editar cuenta
     =============================================*/

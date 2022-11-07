@@ -531,7 +531,7 @@ Registar Cuenta
 
 		<?php
 
-			$registrarCuenta = new ControladorUsuarios();
+			$registrarCuenta = new ControladorCuentas();
 			$registrarCuenta->ctrRegistrarCuentaBancaria();
 
 		?>

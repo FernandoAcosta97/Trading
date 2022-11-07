@@ -63,7 +63,8 @@ $cuentas = ControladorCuentas::ctrMostrarCuentas($item, $valor);
             <tr>
               <th>Acciones</th>
               <th>Número</th>
-              <th>Usuario - C.C.</th>
+              <th>Usuario</th>
+              <th>C.C.</th>
               <th>Titular</th>
               <th>Estado</th>
               <th>Entidad</th>
@@ -274,7 +275,7 @@ Registar Cuenta
 
 		<?php
 
-			$registrarCuenta = new ControladorUsuarios();
+			$registrarCuenta = new ControladorCuentas();
 			$registrarCuenta->ctrRegistrarCuentaBancaria();
 
 		?>
