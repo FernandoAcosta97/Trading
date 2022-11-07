@@ -6,8 +6,6 @@ $ruta = ControladorGeneral::ctrRuta();
 $patrocinador = ControladorGeneral::ctrPatrocinador();
 
 
-
-
 if (!isset($_SESSION["validarSesion"])) {
 
     echo '<script>
@@ -199,8 +197,9 @@ include "paginas/modulos/menu.php";
 /*=============================================
 Páginas del sitio
 =============================================*/
+if($usuario["firma"]!=null){
 
-if (isset($_GET["pagina"]) && $usuario["firma"] != null) {
+if (isset($_GET["pagina"])) {
 
     if ($_GET["pagina"] == "inicio" ||
         $_GET["pagina"] == "perfil" ||
@@ -227,14 +226,23 @@ if (isset($_GET["pagina"]) && $usuario["firma"] != null) {
     }
 
 
+
 } else {
 
-	if($usuario["firma"] != null){
 		include "paginas/inicio.php";
-	}else{
-		include "paginas/perfil.php";
-		include "paginas/salir.php";
-	} 
+	
+}
+}else{
+	if (isset($_GET["pagina"])){
+	if ($_GET["pagina"] == "perfil" || $_GET["pagina"] == "salir"){
+		include "paginas/" . $_GET["pagina"] . ".php";
+	}else {
+
+        include "paginas/perfil.php";
+    }
+}else{
+	include "paginas/perfil.php";
+}
 }
 
 
