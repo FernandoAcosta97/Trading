@@ -28,40 +28,30 @@ class TablaComprobantes {
             }
         }
 
-        $item2 = null;
-        $valor2 = null;
-
-        if(isset($_GET["estado"]) && isset($_GET["inicio"]) && isset($_GET["fin"])){
-
-            $fechaInicial=$_GET["inicio"];
-            $fechaFinal=$_GET["fin"];
-            $item2 = "estado";
-            $valor2 = $_GET["estado"];
-
+        if(isset($_GET["estado"])){
 
             if($_GET["estado"]==3){
 
-                $comprobantes = ControladorComprobantes::ctrMostrarComprobantesxEstadoyFecha( $item, $valor, null, null, $fechaInicial, $fechaFinal);
+                $comprobantes = ControladorComprobantes::ctrMostrarComprobantes( $item, $valor); 
 
             }else{
-            
-            $comprobantes = ControladorComprobantes::ctrMostrarComprobantesxEstadoyFecha( $item, $valor, $item2, $valor2, $fechaInicial, $fechaFinal);
+                
+            $item2="estado";
+            $valor2=$_GET["estado"];
+            $comprobantes = ControladorComprobantes::ctrMostrarComprobantesxEstado( $item, $valor, $item2, $valor2); 
+
             }
-        }else if(isset($_GET["estado"]) && $_GET["estado"]!=3){
 
-            $item2 = "estado";
-            $valor2 = $_GET["estado"];
 
-            $comprobantes = ControladorComprobantes::ctrMostrarComprobantesxEstado( $item, $valor, $item2, $valor2);
 
         }else{
-
-            $item2 = "estado";
-            $valor2 = $_GET["estado"];
-
-            $comprobantes = ControladorComprobantes::ctrMostrarComprobantes( $item, $valor);
-
+            $comprobantes = ControladorComprobantes::ctrMostrarComprobantes( $item, $valor); 
         }
+
+
+
+
+  
 
 
 

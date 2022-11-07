@@ -34,7 +34,7 @@
 
 						<p class="text-center py-3">Bienvenido a Trading Colombia.</p>
 
-						<input type="text" class="form-control my-3 py-3" placeholder="Nombre" name="registroNombre" required>
+						<input type="text" class="form-control my-3 py-3" placeholder="Nombre de Usuario" name="registroNombre" required>
 
 						<input type="email" class="form-control my-3 py-3" placeholder="Correo Electrónico" name="registroEmail" required>
 

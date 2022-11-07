@@ -54,6 +54,40 @@ $comprobantes = ControladorComprobantes::ctrMostrarComprobantes($item, $valor); 
 
         <?php endif  ?>
 
+
+
+<div class="input-group">
+
+
+<button type="button" style="margin:auto 1%" class="btn btn-default" id="daterange-btn">
+ 
+  <span>
+    <i class="fa fa-calendar"></i> 
+
+    <?php
+
+      // if(isset($_GET["fechaInicial"])){
+
+      //   echo $_GET["fechaInicial"]." - ".$_GET["fechaFinal"];
+      
+      // }else{
+       
+      //   echo 'Rango de fecha';
+
+      // }
+
+    ?>
+  </span>
+
+  <i class="fa fa-caret-down"></i>
+
+</button>
+
+
+
+
+</div>
+
         <div class="card-tools">
           <button type="button" class="btn btn-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
           <i class="fas fa-minus"></i></button>
@@ -63,7 +97,7 @@ $comprobantes = ControladorComprobantes::ctrMostrarComprobantes($item, $valor); 
 
       <div class="card-body">
 
-        <table id="tablaComprobantes" class="table table-striped table-bordered dt-responsive tablaComprobantes" width="100%">
+        <table id="tablaComprobantesAprobados" class="table table-striped table-bordered dt-responsive tablaComprobantesAprobados" width="100%">
 
           <thead>
             <tr>
@@ -71,8 +105,9 @@ $comprobantes = ControladorComprobantes::ctrMostrarComprobantes($item, $valor); 
               <th>Foto</th>
               <th>Estado</th>
               <th>Valor</th>
-              <th>Usuario</th>
               <th>Fecha</th>
+              <th>Retorno</th>
+              <th>Fecha Retorno</th>
               <th>Campaña</th>
             </tr>
           </thead>

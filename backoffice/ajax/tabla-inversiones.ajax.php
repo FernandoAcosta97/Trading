@@ -14,6 +14,9 @@ class TablaComprobantes {
         $item = null;
         $valor = null;
         $usuario = null;
+        $fechaInicial = null;
+        $fechaFinal = null;
+        $retorno = 0;
 
         if(isset($_GET["doc_usuario"])){
             $item = "doc_usuario";
@@ -26,7 +29,27 @@ class TablaComprobantes {
             }
         }
 
-        $comprobantes = ControladorComprobantes::ctrMostrarComprobantes( $item, $valor );
+
+        if(isset($_GET["inicio"]) && isset($_GET["fin"])){
+
+                $fechaInicial=$_GET["inicio"];
+                $fechaFinal=$_GET["fin"];
+                $item2 = "estado";
+                $valor2 = 1;
+    
+                $comprobantes = ControladorComprobantes::ctrMostrarComprobantesxEstadoyFecha( $item, $valor, $item2, $valor2, $fechaInicial, $fechaFinal);
+            
+        }else{
+
+            $item2 = "estado";
+            $valor2 = 1;
+
+            $comprobantes = ControladorComprobantes::ctrMostrarComprobantesxEstadoyFecha( $item, $valor, $item2, $valor2, null, null);
+
+        }
+
+
+
 
         if ( count( $comprobantes ) < 1 ) {
 
@@ -47,7 +70,7 @@ class TablaComprobantes {
             if ( $value[ 'foto' ] == '' ) {
 
                 $foto = "<img src='vistas/img/comprobantes/default/default.jpg' class='img-thumbnail' width='60px'>";
-
+                
             } else {
 
                 $foto = "<img src='".$value[ 'foto' ]."' class='img-thumbnail fotoComprobante' width='60px' data-toggle='modal' data-target='#modalVerFotoComprobante'>";
@@ -58,42 +81,22 @@ class TablaComprobantes {
 
                 if($value["estado"]==1){
                     $estado = "<h5><span class='badge badge-success'>Aprobado</span></h5>";
-                }else if($value["estado"]==0){
-                    $estado = "<h5><span class='badge badge-danger'>Rechazado</span></h5>";
-                }else if($value["estado"]==2){
-                    $estado = "<h5><span class='badge badge-warning'>Pendiente</span></h5>";
                 }
 
                 $acciones="<button type='button' class='btn btn-primary btn-xs btnSoporte'><i class='fa fa-envelope'></i></button>";
 
-            }else{
-                //ESTADO COMPROBANTES
-    
-                if ( $value["estado"] == 1 ) {
-    
-                    $estado = "<select class='form-control selectAprobado' estadoComprobante=0 idComprobante='".$value["id"]."'><option value='1' selected>Aprobado</option><option value='0'>Rechazado</option><option value='2'>Pendiente</option></select>";
-    
-                } else if($value["estado"] == 0){
-    
-                    $estado = "<select class='form-control selectAprobado' estadoComprobante=1 idComprobante='".$value["id"]."'><option value='1'>Aprobado</option><option value='0' selected>Rechazado</option><option value='2'>Pendiente</option></select>";
-    
-                }else if($value["estado"] == 2){
-    
-                    $estado = "<select class='form-control selectAprobado' estadoComprobante=2 idComprobante='".$value["id"]."'><option value='1'>Aprobado</option><option value='0'>Rechazado</option><option value='2' selected>Pendiente</option></select>";
-    
-                }
-                
-            $acciones = "<div class='btn-group'><button class='btn btn-warning btn-xs btnEditarComprobante' idComprobante='".$value["id"]."' data-toggle='modal' data-target='#modalEditarComprobante'><i class='fa fa-pen' style='color:white'></i></button></div>";
-
             }
+  
+            $retorno = ($value['valor']*$campana['retorno'])/100;
 
             $datosJson .= '[
                        "'.$acciones.'",
 				       "'.$foto.'",
 				       "'.$estado.'",
 				       "$ '.number_format($value[ 'valor' ], 0, ",", ".").' COP",
-					   "'.$value[ 'doc_usuario' ].'",
 					   "'.$value[ 'fecha' ].'",
+                       "$ '.number_format($retorno, 0, ",", ".").' COP",
+                       "'.$campana[ 'fecha_fin' ].'",
 					   "'.$campana[ 'nombre' ].'"
 				],';
 

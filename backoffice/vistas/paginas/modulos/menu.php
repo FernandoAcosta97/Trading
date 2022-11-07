@@ -82,6 +82,21 @@
           </a>
         </li>
 
+      <?php if ($usuario["perfil"] != "admin") : ?>
+
+      <!--=====================================
+      Botón Inversiones
+      ======================================-->
+
+      <li class="nav-item">
+          <a href="inversiones" class="nav-link">
+            <i class="nav-icon fas fa-money-bill"></i>
+            <p>Inversiones</p>
+          </a>
+        </li>
+
+        <?php endif?>
+
         <!--=====================================
       Botón Cuentas
       ======================================-->

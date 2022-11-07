@@ -41,26 +41,63 @@ $(".tablaComprobantes").DataTable({
 });
 
 
+/*=============================================
+TABLA COMPROBANTES APROBADOS
+=============================================*/
+
+$(".tablaComprobantesAprobados").DataTable({
+	"ajax":"ajax/tabla-inversiones.ajax.php?doc_usuario="+doc_usuario,
+ 	"deferRender": true,
+  	"retrieve": true,
+  	"processing": true,
+	"language": {
+
+	    "sProcessing":     "Procesando...",
+	    "sLengthMenu":     "Mostrar _MENU_ registros",
+	    "sZeroRecords":    "No se encontraron resultados",
+	    "sEmptyTable":     "Ningún dato disponible en esta tabla",
+	    "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
+	    "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0",
+	    "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+	    "sInfoPostFix":    "",
+	    "sSearch":         "Buscar:",
+	    "sUrl":            "",
+	    "sInfoThousands":  ",",
+	    "sLoadingRecords": "Cargando...",
+	    "oPaginate": {
+	      "sFirst":    "Primero",
+	      "sLast":     "Último",
+	      "sNext":     "Siguiente",
+	      "sPrevious": "Anterior"
+	    },
+	    "oAria": {
+	        "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+	        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+	    }
+
+   }
+
+});
+
+
+
 $("#selectFiltro").on("change", function (){
 
 	seleccionarFiltro(null,null);
 	    
 });
 
+function filtroFechaInversiones(fechaInicial, fechaFinal){
 
-function seleccionarFiltro(fechaInicial, fechaFinal){
-
-	seleccion = $("#selectFiltro").val();
-
-	tabla = $(".tablaComprobantes");
-	tbody = $(".tablaComprobantes tbody");
+	tabla = $(".tablaComprobantesAprobados");
+	tbody = $(".tablaComprobantesAprobados tbody");
 	tbody.empty();
 	tabla = tabla.dataTable().fnDestroy();
 
 	if(fechaInicial != null || fechaFinal != null){
 
-		tabla = $(".tablaComprobantes").DataTable({
-			ajax: "ajax/tabla-comprobantes.ajax.php?doc_usuario="+doc_usuario+"&estado="+seleccion+"&inicio="+fechaInicial+"&fin="+fechaFinal,
+		tabla = $(".tablaComprobantesAprobados").DataTable({
+			ajax: "ajax/tabla-inversiones.ajax.php?doc_usuario="+doc_usuario+"&inicio="+fechaInicial+"&fin="+fechaFinal,
 			deferRender: true,
 			retrieve: true,
 			processing: true,
@@ -94,7 +131,7 @@ function seleccionarFiltro(fechaInicial, fechaFinal){
 	}else{
 
 		tabla = $(".tablaComprobantes").DataTable({
-			ajax: "ajax/tabla-comprobantes.ajax.php?doc_usuario="+doc_usuario+"&estado="+seleccion,
+			ajax: "ajax/tabla-comprobantes.ajax.php?doc_usuario="+doc_usuario,
 			deferRender: true,
 			retrieve: true,
 			processing: true,
@@ -127,10 +164,135 @@ function seleccionarFiltro(fechaInicial, fechaFinal){
 
 	}
 
+}
+
+
+
+function seleccionarFiltro(fechaInicial, fechaFinal){
+
+	seleccion = $("#selectFiltro").val();
+
+	tabla = $(".tablaComprobantes");
+	tbody = $(".tablaComprobantes tbody");
+	tbody.empty();
+	tabla = tabla.dataTable().fnDestroy();
+
+		tabla = $(".tablaComprobantes").DataTable({
+			ajax: "ajax/tabla-comprobantes.ajax.php?doc_usuario="+doc_usuario+"&estado="+seleccion+"&inicio="+fechaInicial+"&fin="+fechaFinal,
+			deferRender: true,
+			retrieve: true,
+			processing: true,
+			language: {
+			  sProcessing: "Procesando...",
+			  sLengthMenu: "Mostrar _MENU_ registros",
+			  sZeroRecords: "No se encontraron resultados",
+			  sEmptyTable: "Ningún dato disponible en esta tabla",
+			  sInfo: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
+			  sInfoEmpty: "Mostrando registros del 0 al 0 de un total de 0",
+			  sInfoFiltered: "(filtrado de un total de _MAX_ registros)",
+			  sInfoPostFix: "",
+			  sSearch: "Buscar:",
+			  sUrl: "",
+			  sInfoThousands: ",",
+			  sLoadingRecords: "Cargando...",
+			  oPaginate: {
+				sFirst: "Primero",
+				sLast: "Último",
+				sNext: "Siguiente",
+				sPrevious: "Anterior",
+			  },
+			  oAria: {
+				sSortAscending: ": Activar para ordenar la columna de manera ascendente",
+				sSortDescending:
+				  ": Activar para ordenar la columna de manera descendente",
+			  },
+			},
+		  });
+
+
 
 	  
-	  
+}
 
+
+function seleccionarFiltroInversiones(fechaInicial, fechaFinal){
+
+	seleccion = $("#selectFiltro").val();
+
+	tabla = $(".tablaComprobantesAprobados");
+	tbody = $(".tablaComprobantesAprobados tbody");
+	tbody.empty();
+	tabla = tabla.dataTable().fnDestroy();
+
+	if(fechaInicial!=null && fechaFinal!=null){
+
+		tabla = $(".tablaComprobantesAprobados").DataTable({
+			ajax: "ajax/tabla-inversiones.ajax.php?doc_usuario="+doc_usuario+"&inicio="+fechaInicial+"&fin="+fechaFinal,
+			deferRender: true,
+			retrieve: true,
+			processing: true,
+			language: {
+			  sProcessing: "Procesando...",
+			  sLengthMenu: "Mostrar _MENU_ registros",
+			  sZeroRecords: "No se encontraron resultados",
+			  sEmptyTable: "Ningún dato disponible en esta tabla",
+			  sInfo: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
+			  sInfoEmpty: "Mostrando registros del 0 al 0 de un total de 0",
+			  sInfoFiltered: "(filtrado de un total de _MAX_ registros)",
+			  sInfoPostFix: "",
+			  sSearch: "Buscar:",
+			  sUrl: "",
+			  sInfoThousands: ",",
+			  sLoadingRecords: "Cargando...",
+			  oPaginate: {
+				sFirst: "Primero",
+				sLast: "Último",
+				sNext: "Siguiente",
+				sPrevious: "Anterior",
+			  },
+			  oAria: {
+				sSortAscending: ": Activar para ordenar la columna de manera ascendente",
+				sSortDescending:
+				  ": Activar para ordenar la columna de manera descendente",
+			  },
+			},
+		  });
+
+		}else{
+			tabla = $(".tablaComprobantesAprobados").DataTable({
+				ajax: "ajax/tabla-inversiones.ajax.php?doc_usuario="+doc_usuario,
+				deferRender: true,
+				retrieve: true,
+				processing: true,
+				language: {
+				  sProcessing: "Procesando...",
+				  sLengthMenu: "Mostrar _MENU_ registros",
+				  sZeroRecords: "No se encontraron resultados",
+				  sEmptyTable: "Ningún dato disponible en esta tabla",
+				  sInfo: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
+				  sInfoEmpty: "Mostrando registros del 0 al 0 de un total de 0",
+				  sInfoFiltered: "(filtrado de un total de _MAX_ registros)",
+				  sInfoPostFix: "",
+				  sSearch: "Buscar:",
+				  sUrl: "",
+				  sInfoThousands: ",",
+				  sLoadingRecords: "Cargando...",
+				  oPaginate: {
+					sFirst: "Primero",
+					sLast: "Último",
+					sNext: "Siguiente",
+					sPrevious: "Anterior",
+				  },
+				  oAria: {
+					sSortAscending: ": Activar para ordenar la columna de manera ascendente",
+					sSortDescending:
+					  ": Activar para ordenar la columna de manera descendente",
+				  },
+				},
+			  });
+		}
+
+	  
 }
 
 
@@ -314,30 +476,48 @@ $(".tablaComprobantes tbody").on("click", "button.btnSoporte", function () {
 	$(".previsualizarFotoComprobante").attr("src", foto);
   });
 
+  $(".tablaComprobantes tbody").on("click", "button.btnSoporte", function () {
+  
+	window.location = "soporte";
+  });
+
+
+
+  $(".tablaComprobantesAprobados tbody").on("click", "img.fotoComprobante", function () {
+  
+	foto = $(this).attr("src");
+	$(".previsualizarFotoComprobante").attr("src", foto);
+  });
+
+
+  $(".tablaComprobantesAprobados tbody").on("click", "button.btnSoporte", function () {
+  
+	window.location = "soporte";
+  });
+
+
+
 
 
   /*=============================================
 VARIABLE LOCAL STORAGE
 =============================================*/
 
-if(localStorage.getItem("capturarRango") != null){
+// if(localStorage.getItem("capturarRango") != null){
 
-	$("#daterange-btn span").html(localStorage.getItem("capturarRango"));
+// 	$("#daterange-btn span").html(localStorage.getItem("capturarRango"));
   
   
-  }else{
+//   }else{
   
-	$("#daterange-btn span").html('<i class="fa fa-calendar"></i> Rango de fecha')
+$("#daterange-btn span").html('<i class="fa fa-calendar"></i> Rango de fecha')
   
-  }
+//   }
 
-
-  /*=============================================
+/*=============================================
 RANGO DE FECHAS
 =============================================*/
-rangoFecha();
 function rangoFecha(){
-
 	$('#daterange-btn').daterangepicker(
 		{
 		  ranges   : {
@@ -354,36 +534,86 @@ function rangoFecha(){
 		function (start, end) {
 		  $('#daterange-btn span').html(start.format('MMMM DD, YYYY') + ' - ' + end.format('MMMM DD, YYYY'));
 	  
-		  var fechaInicial = start.format('YYYY-MM-DD');
+		  fechaInicial = start.format('YYYY-MM-DD');
 	  
-		  var fechaFinal = end.format('YYYY-MM-DD');
+		  fechaFinal = end.format('YYYY-MM-DD');
 	  
 		  var capturarRango = $("#daterange-btn span").html();
 		 
-		  localStorage.setItem("capturarRango", capturarRango);
+		//   localStorage.setItem("capturarRango", capturarRango);
 	
-		  seleccionarFiltro(fechaInicial, fechaFinal);
+		//   seleccionarFiltro(fechaInicial, fechaFinal);
+		//   filtroFechaInversiones(fechaInicial, fechaFinal)
 	  
 		//   window.location = "index.php?pagina=comprobantes&fechaInicial="+fechaInicial+"&fechaFinal="+fechaFinal;
-	  
+
 		}
+		
 	  
 	  )
-}
+
+	}
+
+
+
+		$('#daterange-btn').daterangepicker(
+			{
+			  ranges   : {
+				'Hoy'       : [moment(), moment()],
+				'Ayer'   : [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+				'Últimos 7 días' : [moment().subtract(6, 'days'), moment()],
+				'Últimos 30 días': [moment().subtract(29, 'days'), moment()],
+				'Este mes'  : [moment().startOf('month'), moment().endOf('month')],
+				'Último mes'  : [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+			  },
+			  startDate: moment(),
+			  endDate  : moment()
+			},
+			function (start, end) {
+			  $('#daterange-btn span').html(start.format('MMMM DD, YYYY') + ' - ' + end.format('MMMM DD, YYYY'));
+		  
+			  fechaInicial = start.format('YYYY-MM-DD');
+		  
+			  fechaFinal = end.format('YYYY-MM-DD');
+		  
+			  var capturarRango = $("#daterange-btn span").html();
+			 
+			//   localStorage.setItem("capturarRango", capturarRango);
+		
+			//   seleccionarFiltro(fechaInicial, fechaFinal);
+			//   filtroFechaInversiones(fechaInicial, fechaFinal)
+		  
+			//   window.location = "index.php?pagina=comprobantes&fechaInicial="+fechaInicial+"&fechaFinal="+fechaFinal;
+			seleccionarFiltroInversiones(fechaInicial, fechaFinal);
+	
+			}
+			
+		  
+		  )
+	
+		
+
 
 
   /*=============================================
 CANCELAR RANGO DE FECHAS
 =============================================*/
 
+
+
 $(".daterangepicker.opensright .range_inputs .cancelBtn").on("click", function(){
 
-	localStorage.removeItem("capturarRango");
-	localStorage.clear();
+	// localStorage.removeItem("capturarRango");
+	// localStorage.clear();
 	$('#daterange-btn span').html("Rango de fecha");
-	seleccionarFiltro(null,null);
+	// seleccionarFiltro(null,null);
 	// window.location = "comprobantes";
+	//filtros();
+	seleccionarFiltroInversiones(null, null);
+
   })
+
+
 
 
 
@@ -391,8 +621,10 @@ $(".daterangepicker.opensright .range_inputs .cancelBtn").on("click", function()
 CAPTURAR HOY
 =============================================*/
 
+
 $(".daterangepicker.opensright .ranges li").on("click", function(){
 
+	$('#daterange-btn span').html("Hoy");
     var textoHoy = $(this).attr("data-range-key");
 
   if(textoHoy == "Hoy"){
@@ -403,42 +635,44 @@ $(".daterangepicker.opensright .ranges li").on("click", function(){
     var mes = d.getMonth()+1;
     var año = d.getFullYear();
 
-    // if(mes < 10){
+    if(mes < 10){
 
-    //  var fechaInicial = año+"-0"+mes+"-"+dia;
-    //  var fechaFinal = año+"-0"+mes+"-"+dia;
+     var fechaInicial = año+"-0"+mes+"-"+dia;
+     var fechaFinal = año+"-0"+mes+"-"+dia;
 
-    // }else if(dia < 10){
+    }else if(dia < 10){
 
-    //  var fechaInicial = año+"-"+mes+"-0"+dia;
-    //  var fechaFinal = año+"-"+mes+"-0"+dia;
+     var fechaInicial = año+"-"+mes+"-0"+dia;
+     var fechaFinal = año+"-"+mes+"-0"+dia;
 
-    // }else if(mes < 10 && dia < 10){
+    }else if(mes < 10 && dia < 10){
 
-    //  var fechaInicial = año+"-0"+mes+"-0"+dia;
-    //  var fechaFinal = año+"-0"+mes+"-0"+dia;
+     var fechaInicial = año+"-0"+mes+"-0"+dia;
+     var fechaFinal = año+"-0"+mes+"-0"+dia;
 
-    // }else{
+    }else{
 
-    //  var fechaInicial = año+"-"+mes+"-"+dia;
-   //     var fechaFinal = año+"-"+mes+"-"+dia;
+     var fechaInicial = año+"-"+mes+"-"+dia;
+       var fechaFinal = año+"-"+mes+"-"+dia;
 
-    // }
+    }
 
     dia = ("0"+dia).slice(-2);
     mes = ("0"+mes).slice(-2);
+	// seleccionarFiltro(fechaInicial, fechaFinal);
 
-    var fechaInicial = año+"-"+mes+"-"+dia;
-    var fechaFinal = año+"-"+mes+"-"+dia; 
+    // var fechaInicial = año+"-"+mes+"-"+dia;
+    // var fechaFinal = año+"-"+mes+"-"+dia; 
 
-      localStorage.setItem("capturarRango", "Hoy");
-	  seleccionarFiltro(fechaInicial, fechaFinal);
+    //   localStorage.setItem("capturarRango", "Hoy");
+	//   seleccionarFiltro(fechaInicial, fechaFinal);
 
     //   window.location = "index.php?pagina=comprobantes&fechaInicial="+fechaInicial+"&fechaFinal="+fechaFinal;
+	// seleccionarFiltroInversiones(fechaInicial, fechaFinal);
 
   }
 
-});
 
+});
 
 

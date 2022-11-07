@@ -185,10 +185,14 @@ if ($usuario["firma"] != null) {
 </div>
 </div> -->
 <!-- ./col -->
+<?php
+$comprobantes = ControladorComprobantes::ctrMostrarComprobantesxEstado("doc_usuario",$usuario["doc_usuario"],"estado","1");
 
+$ticketRecibidos = ControladorSoporte::ctrMostrarTickets("receptor", $usuario["id_usuario"]);
+?>
 
 <?php if($usuario["perfil"]!="admin"):
-if ($usuario["operando"] == 1): ?>
+if ($usuario["operando"] == 1):?>
 
 <div class="col-12 col-sm-6 col-lg-3">
 	<!-- small box -->
@@ -277,7 +281,7 @@ if ($usuario["operando"] == 1): ?>
 		<!-- small box -->
 		<div class="small-box bg-primary">
 			<div class="inner">
-				<h3>0</h3>
+				<h3><?php echo count($ticketRecibidos);?></h3>
 
 				<p>Mis tickets</p>
 			</div>

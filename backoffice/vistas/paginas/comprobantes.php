@@ -59,7 +59,7 @@ $comprobantes = ControladorComprobantes::ctrMostrarComprobantes($item, $valor); 
 <div class="input-group">
 
 
-<button type="button" style="margin:auto 1%" class="btn btn-default" id="daterange-btn">
+<!-- <button type="button" style="margin:auto 1%" class="btn btn-default" id="daterange-btn">
  
   <span>
     <i class="fa fa-calendar"></i> 
@@ -81,7 +81,7 @@ $comprobantes = ControladorComprobantes::ctrMostrarComprobantes($item, $valor); 
 
   <i class="fa fa-caret-down"></i>
 
-</button>
+</button> -->
 
 <label for="selectFiltro" class="control-label" style="margin:auto 2%">FILTRO</label>
 
