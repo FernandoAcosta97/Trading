@@ -2,6 +2,8 @@
 
 require_once "../controladores/comprobantes.controlador.php";
 require_once "../modelos/comprobantes.modelo.php";
+require_once "../controladores/usuarios.controlador.php";
+require_once "../modelos/usuarios.modelo.php";
 
 class AjaxComprobantes{
 
@@ -40,6 +42,23 @@ class AjaxComprobantes{
 
 		$respuesta = ModeloComprobantes::mdlActualizarComprobante($tabla, $id, $item, $valor);
 
+		$comprobante = ControladorComprobantes::ctrMostrarComprobantes("id",$id);
+		// print_r($comprobante);
+
+		$doc_usuario = $comprobante[0]["doc_usuario"];
+
+		$usuario = ControladorUsuarios::ctrMostrarUsuarios("doc_usuario",$doc_usuario);
+
+		$comprobantesUsuario = ControladorComprobantes::ctrMostrarComprobantesxEstado("doc_usuario",$doc_usuario,"estado",1);
+
+		if($usuario["operando"]==0 && count($comprobantesUsuario)>0){
+			$operando = ControladorUsuarios::ctrActualizarUsuario($usuario["id_usuario"],"operando",1);
+		}else if($usuario["operando"]==1 && count($comprobantesUsuario)==0){
+			$operando = ControladorUsuarios::ctrActualizarUsuario($usuario["id_usuario"],"operando",0);
+		}
+
+
+
 	}
 
 	/*=============================================
@@ -71,17 +90,17 @@ class AjaxComprobantes{
 	public $email;
 	public $documento;
 
-	public function ajaxSuscripcion(){
+	// public function ajaxSuscripcion(){
 
-		$ruta = ControladorGeneral::ctrRuta();
-		//$valorSuscripcion = ControladorGeneral::ctrValorSuscripcion();
-		$fecha = substr(date("c"), 0, -6)."Z";
-		$valor = $this->documento;
-		$url = "http://localhost/www/trading/backoffice/index.php?pagina=perfil&id=".urlencode($valor);
+	// 	$ruta = ControladorGeneral::ctrRuta();
+	// 	//$valorSuscripcion = ControladorGeneral::ctrValorSuscripcion();
+	// 	$fecha = substr(date("c"), 0, -6)."Z";
+	// 	$valor = $this->documento;
+	// 	$url = "http://localhost/www/trading/backoffice/index.php?pagina=perfil&id=".urlencode($valor);
 
-		echo $url;
+	// 	echo $url;
 
-	}
+	// }
 
 	/*=============================================
 	Cancelar Suscripción
@@ -116,21 +135,7 @@ class AjaxComprobantes{
 	}
 
 
-	/*=============================================
-    Eliminar Usuario
-    =============================================*/	
 
-	public $idUsuarioEliminar;
-
-	public function ajaxEliminarUsuario(){
-
-		$valor = $this->idUsuarioEliminar;
-
-		$respuesta = ControladorUsuarios::ctrEliminarUsuario($valor);
-
-		echo $respuesta;
-
-	}
 
 }
 

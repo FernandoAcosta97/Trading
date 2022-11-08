@@ -112,11 +112,15 @@ $comprobantes = ControladorComprobantes::ctrMostrarComprobantes($item, $valor); 
 
           <thead>
             <tr>
+
               <th>Acciones</th>
               <th>Foto</th>
               <th>Estado</th>
               <th>Valor</th>
-              <th>Usuario</th>
+              <?php if($usuario["perfil"]=="admin"): ?>
+              <th>C.C.</th>
+              <th>Nombre</th>
+              <?php endif ?>
               <th>Fecha</th>
               <th>Campaña</th>
             </tr>

@@ -386,7 +386,7 @@
 		<div class="card-body">
 
 			<h6 class="pb-2">Comparte tu enlace de afiliado:</h6>
-
+			
 			<div class="input-group">
 				<div class="input-group-prepend">
 					<span class="p-2 bg-info rounded-left copiarLink" style="cursor:pointer">Copiar</span>

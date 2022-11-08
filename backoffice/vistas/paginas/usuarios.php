@@ -65,6 +65,8 @@ if ($usuario["perfil"] != "admin") {
                 <option value="tabla-usuarios-sin-operar">SIN OPERAR</option>
                 <option value="tabla-usuarios-referidos">CON REFERIDOS</option>
                 <option value="tabla-usuarios-sin-referidos">SIN REFERIDOS</option>
+                <option value="tabla-usuarios-inactivos">INACTIVOS</option>
+                <option value="tabla-usuarios-activos">ACTIVOS</option>
 
              <?php }else{ ?>
 
@@ -73,6 +75,8 @@ if ($usuario["perfil"] != "admin") {
                 <option value="tabla-usuarios-sin-operar" selected>SIN OPERAR</option>
                 <option value="tabla-usuarios-referidos">CON REFERIDOS</option>
                 <option value="tabla-usuarios-sin-referidos">SIN REFERIDOS</option>
+                <option value="tabla-usuarios-inactivos">INACTIVOS</option>
+                <option value="tabla-usuarios-activos">ACTIVOS</option>
 
               <?php }
               
@@ -83,6 +87,8 @@ if ($usuario["perfil"] != "admin") {
               <option value="tabla-usuarios-sin-operar">SIN OPERAR</option>
               <option value="tabla-usuarios-referidos">CON REFERIDOS</option>
               <option value="tabla-usuarios-sin-referidos">SIN REFERIDOS</option>
+              <option value="tabla-usuarios-inactivos">INACTIVOS</option>
+              <option value="tabla-usuarios-activos">ACTIVOS</option>
 
               <?php } ?>
 

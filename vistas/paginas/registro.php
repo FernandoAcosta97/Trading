@@ -40,6 +40,8 @@
 
 						<input type="password" class="form-control my-3 py-3" placeholder="Contraseña" name="registroPassword" minlength="6" required>
 
+						<input type="password" class="form-control my-3 py-3" placeholder="Repetir Contraseña" id="registroPassword2" minlength="6" required>
+
 						<div class="form-check-inline text-right">
 							
 							<input type="checkbox" id="politicas" class="form-check-input">

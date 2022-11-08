@@ -651,6 +651,60 @@ $(".copiarLink").click(function () {
 });
 
 
+/*=============================================
+COPIAR EN EL CLIPBOARD INICIO
+=============================================*/
+
+$(".copiarLinkInicio").click(function () {
+  var temporal = $("<input>");
+
+  $("body").append(temporal);
+
+  temporal.val($("#linkAfiliado").val()).select();
+
+  document.execCommand("copy");
+
+  temporal.remove();
+
+  swal({
+    type: "success",
+    title: "¡Enlace Copiado Correctamente!",
+    position: "top-right",
+    toast : "true",
+    showConfirmButton: false,
+    timer: 3000
+  });
+
+});
+
+
+/*=============================================
+COPIAR CODIGO EN EL CLIPBOARD INICIO
+=============================================*/
+
+$(".copiarCodigoInicio").click(function () {
+  var temporal = $("<input>");
+
+  $("body").append(temporal);
+
+  temporal.val($("#codigoAfiliado").val()).select();
+
+  document.execCommand("copy");
+
+  temporal.remove();
+
+  swal({
+    type: "success",
+    title: "¡Código Copiado Correctamente!",
+    position: "top-right",
+    toast : "true",
+    showConfirmButton: false,
+    timer: 3000
+  });
+
+});
+
+
 $(".tablaUsuarios tbody").on("click", "button.btnSoporte", function () {
   var idUsuario = $(this).attr("idUsuario");
 
@@ -663,6 +717,7 @@ $(".tablaUsuarios tbody").on("click", "button.btnVerUsuario", function () {
 
   window.location = "index.php?pagina=usuario&id=" + idUsuario;
 });
+
 
 /*=============================================
 PINTEREST GRID

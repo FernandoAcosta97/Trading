@@ -49,13 +49,6 @@ class TablaComprobantes {
         }
 
 
-
-
-  
-
-
-
-
         if ( count( $comprobantes ) < 1 ) {
 
             echo '{ "data":[]}';
@@ -94,7 +87,18 @@ class TablaComprobantes {
 
                 $acciones="<button type='button' class='btn btn-primary btn-xs btnSoporte'><i class='fa fa-envelope'></i></button>";
 
+                $datosJson .= '[
+                    "'.$acciones.'",
+                    "'.$foto.'",
+                    "'.$estado.'",
+                    "$ '.number_format($value[ 'valor' ], 0, ",", ".").' COP",
+                    "'.$value[ 'fecha' ].'",
+                    "'.$campana[ 'nombre' ].'"
+             ],';
+
             }else{
+
+                $usuarios = ControladorUsuarios::ctrMostrarUsuarios("doc_usuario",$value["doc_usuario"]);
                 //ESTADO COMPROBANTES
     
                 if ( $value["estado"] == 1 ) {
@@ -113,17 +117,20 @@ class TablaComprobantes {
                 
             $acciones = "<div class='btn-group'><button class='btn btn-warning btn-xs btnEditarComprobante' idComprobante='".$value["id"]."' data-toggle='modal' data-target='#modalEditarComprobante'><i class='fa fa-pen' style='color:white'></i></button></div>";
 
+            $datosJson .= '[
+                "'.$acciones.'",
+                "'.$foto.'",
+                "'.$estado.'",
+                "$ '.number_format($value[ 'valor' ], 0, ",", ".").' COP",
+                "'.$usuarios[ 'doc_usuario' ].'",
+                "'.$usuarios[ 'nombre' ].'",
+                "'.$value[ 'fecha' ].'",
+                "'.$campana[ 'nombre' ].'"
+         ],';
+
             }
 
-            $datosJson .= '[
-                       "'.$acciones.'",
-				       "'.$foto.'",
-				       "'.$estado.'",
-				       "$ '.number_format($value[ 'valor' ], 0, ",", ".").' COP",
-					   "'.$value[ 'doc_usuario' ].'",
-					   "'.$value[ 'fecha' ].'",
-					   "'.$campana[ 'nombre' ].'"
-				],';
+
 
         }
 

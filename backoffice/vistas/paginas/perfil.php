@@ -26,8 +26,18 @@
     <div class="container-fluid">
 
       <div class="row">
+
+      <?php if($usuario["perfil"]!="admin" && $usuario["firma"]==null): ?>
+
+      <div class="alert alert-info alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <h5><i class="icon fas fa-exclamation-triangle"></i> Atención!</h5>
+    Recuerda que para recibir tu rendimiento necesitas tener por lo menos afiliados con una inversión activa, en estos momentos tienes afiliados con una inversión activa, invita a tus demas referidos a inverir o trae un nuevo referido para que este realice su primer inversión.
+    </div>
         
         <?php 
+
+      endif;
 
            include "modulos/perfil/info-usuario.php";
 

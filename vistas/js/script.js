@@ -169,7 +169,7 @@ $(".fotoIngreso, .fotoRegistro").css({"height":$(".formulario").height()+"px"})
 BORRAR ALERTAS
 =============================================*/
 
-$("input[name='registroEmail'], input[name='registroNombre'], #politicas").change(function(){
+$("input[name='registroEmail'], input[name='registroNombre'],input[id='registroPassword2'], #politicas").change(function(){
 
 	$(".alert").remove();
 
@@ -220,6 +220,49 @@ $("input[name='registroEmail']").change(function(){
 
 	})
 
+})
+
+/*=============================================
+VALIDAR REPETIR CONTRASEÑA
+=============================================*/
+$("input[id='registroPassword2']").click(function(){
+	$(".alert").remove();
+});
+
+function validarRepetirPassword(){
+
+	var password = $("input[name='registroPassword']").val();	
+	var password2 = $("input[id='registroPassword2']").val();
+
+	if(password2 != ""){
+	
+			if(password != password2){
+	
+					$("input[id='registroPassword2']").val("");
+	
+					$("input[id='registroPassword2']").after(`
+	
+							<div class="alert alert-warning">
+								<strong>ERROR:</strong>
+								Las contraseñas no coinciden.
+	
+							</div>
+					`)
+	
+					return;
+	
+			}
+
+		}
+
+}
+
+$("input[id='registroPassword2']").change(function(){
+         validarRepetirPassword();
+})
+
+$("input[name='registroPassword']").change(function(){
+	validarRepetirPassword();
 })
 
 
