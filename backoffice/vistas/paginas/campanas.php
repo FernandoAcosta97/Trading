@@ -1,9 +1,9 @@
 
 <div class="content-wrapper" style="min-height: 1058.31px;">
-  
+
   <!-- Content Header (Page header) -->
   <section class="content-header">
-    
+
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
@@ -25,12 +25,12 @@
 
     <!-- Default box -->
     <div class="card">
-      
+
       <div class="card-header">
 
         <h3 class="card-title">Campañas registradas</h3>
 
-        <?php if($usuario["perfil"]=="admin"): ?>
+        <?php if ($usuario["perfil"] == "admin"): ?>
 
         <div style="margin:1em auto auto auto">
 
@@ -38,7 +38,7 @@
 
         </div>
 
-        <?php endif ?>
+        <?php endif?>
 
         <div class="card-tools">
           <button type="button" class="btn btn-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -49,7 +49,7 @@
 
       <div class="card-body">
 
-        
+
         <table id="tablaCampanas" class="table table-striped table-bordered dt-responsive tablaCampanas" width="100%">
 
           <thead>
@@ -61,10 +61,11 @@
               <th>Cupos Disponibles</th>
               <th>Fecha Inicio</th>
               <th>Fecha Fin</th>
+              <th>Fecha Retorno</th>
             </tr>
           </thead>
-          <tbody>  
-          
+          <tbody>
+
           </tbody>
         </table>
 
@@ -74,7 +75,7 @@
       <!-- /.card-body -->
 
       <div class="card-footer">
-      
+
       </div>
         <!-- /.card-footer-->
 
@@ -173,19 +174,31 @@ EDITAR CAMPAÑA
 
         </div>
 
+        <div class="form-group">
+
+          <label for="editarFechaRetorno" class="control-label">Fecha Retorno</label>
+
+          <div class="input-group">
+
+            <input type="date" name="editarFechaRetorno" class="form-control" id="editarFechaRetorno" required>
+
+          </div>
+
+        </div>
+
 	      </div>
 
 	      <!-- Modal footer -->
 	      <div class="modal-footer d-flex justify-content-between">
 
 	      	<div>
-	        	
+
 	        	<button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
 
 	        </div>
 
         	<div>
-	        	
+
 	        	<button type="submit" class="btn btn-primary">Enviar</button>
 
 	        </div>
@@ -194,10 +207,10 @@ EDITAR CAMPAÑA
 
 		<?php
 
-			$editarCampana = new ControladorCampanas();
-			$editarCampana -> ctrEditarCampana();
+$editarCampana = new ControladorCampanas();
+$editarCampana->ctrEditarCampana();
 
-		?>
+?>
 
 
       </form>
@@ -230,6 +243,15 @@ REGISTRAR CAMPAÑA
 	      <!-- Modal body -->
 	      <div class="modal-body">
 
+        <div class="form-group">
+
+          <select class='form-control' id="selectTipoCampana" name="selectTipoCampana">
+            <option value='1' selected>Inversión</option>
+            <option value='2'>Bono extra</option>
+          </select>
+        </div>
+
+          <div id="camposRegistrarCampana">
 
               <!-- ENTRADA PARA EL NOMBRE-->
               <div class="form-group">
@@ -245,7 +267,7 @@ REGISTRAR CAMPAÑA
               </div>
 
 
-              <div class="form-group">
+            <div class="form-group">
 
               <label for="registroRetorno" class="control-label">Retorno</label>
 
@@ -255,7 +277,7 @@ REGISTRAR CAMPAÑA
 
               </div>
 
-              </div>
+            </div>
 
               <div class="form-group">
 
@@ -266,6 +288,8 @@ REGISTRAR CAMPAÑA
                   <input type="number" class="form-control" id="registroCupos" name="registroCupos" placeholder="Cupos campaña ej: 1000" required>
 
                 </div>
+
+          </div>
 
               </div>
 
@@ -282,7 +306,7 @@ REGISTRAR CAMPAÑA
               </div>
 
 
-              
+
               <div class="form-group">
 
                   <label for="registroFechaFinal" class="control-label">Fecha Final</label>
@@ -290,6 +314,18 @@ REGISTRAR CAMPAÑA
                 <div class="input-group">
 
                     <input type="date" name="registroFechaFinal" class="form-control" id="registroFechaFinal" required>
+
+                </div>
+
+              </div>
+
+              <div class="form-group">
+
+                <label for="registroFechaRetorno" class="control-label">Fecha Retorno</label>
+
+                <div class="input-group">
+
+                  <input type="date" name="registroFechaRetorno" class="form-control" id="registroFechaRetorno" required>
 
                 </div>
 
@@ -317,10 +353,10 @@ REGISTRAR CAMPAÑA
 
 		<?php
 
-    $registrarCampanas = new ControladorCampanas();
-    $registrarCampanas -> ctrRegistroCampana();
+$registrarCampanas = new ControladorCampanas();
+$registrarCampanas->ctrRegistroCampana();
 
-    ?>
+?>
 
 
       </form>
@@ -415,10 +451,10 @@ REGISTRAR COMPROBANTE
 
 		<?php
 
-    $registrarComprobantes = new ControladorComprobantes();
-    $registrarComprobantes -> ctrRegistrarComprobantes();
+$registrarComprobantes = new ControladorComprobantes();
+$registrarComprobantes->ctrRegistrarComprobantes();
 
-    ?>
+?>
 
 
       </form>

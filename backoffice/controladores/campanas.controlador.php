@@ -12,7 +12,8 @@ Class ControladorCampanas{
 
 	public function ctrRegistroCampana(){
 
-		if(isset($_POST["registroNombre"])){
+		if(isset($_POST["selectTipoCampana"])){
+			if($_POST["selectTipoCampana"]==1){
 
 			if(preg_match('/^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["registroNombre"]) &&
 			    preg_match('/^[0-9]+$/', $_POST["registroCupos"]) &&
@@ -24,6 +25,7 @@ Class ControladorCampanas{
 							   "cupos" => $_POST["registroCupos"],
 							   "fecha_inicio" => $_POST["registroFechaInicio"],
 							   "fecha_fin" => $_POST["registroFechaFinal"],
+							   "fecha_retorno" => $_POST["registroFechaRetorno"],
 							   "estado" => 0); 
 
 
@@ -110,7 +112,106 @@ Class ControladorCampanas{
 
 			}
 
+		}else if($_POST["selectTipoCampana"]==2){
+
+			if(preg_match('/^[0-9.]+$/', $_POST["registroRetorno"])){
+
+				$tabla = "campanas";
+				$datos = array("nombre" => "Bono Extra",
+				               "retorno" => $_POST["registroRetorno"],
+							   "cupos" => "0",
+							   "fecha_inicio" => $_POST["registroFechaInicio"],
+							   "fecha_fin" => $_POST["registroFechaFinal"],
+							   "fecha_retorno" => $_POST["registroFechaRetorno"],
+							   "estado" => 0); 
+
+
+				$respuesta = ModeloCampanas::mdlRegistroCampana($tabla, $datos);
+				
+
+				if($respuesta == "ok"){
+
+
+					echo '<script>
+
+							swal({
+
+								type:"success",
+								title: "¡BONO EXTRA CREADO CORRECTAMENTE!",
+								showConfirmButton: true,
+								confirmButtonText: "Cerrar"
+
+							}).then(function(result){
+
+								if(result.value){
+
+									window.location = "campanas";
+
+								}
+
+
+							});	
+
+						</script>';
+
+					
+				}else{
+					echo '<script>
+
+							swal({
+
+								type:"error",
+								title: "¡ERROR!",
+								text: "¡¡Ha ocurrido un problema, por favor inténtelo nuevamente",
+								showConfirmButton: true,
+								confirmButtonText: "Cerrar"
+
+							}).then(function(result){
+
+								if(result.value){
+
+									history.back();
+
+								}
+
+
+							});	
+
+						</script>';
+
+				}
+
+			}else{
+
+				echo '<script>
+
+					swal({
+
+						type:"error",
+						title: "¡CORREGIR!",
+						text: "¡No se permiten caracteres especiales en ninguno de los campos!",
+						showConfirmButton: true,
+						confirmButtonText: "Cerrar"
+
+					}).then(function(result){
+
+						if(result.value){
+
+							history.back();
+
+						}
+
+
+					});	
+
+				</script>';
+
+
+			}
+
+
 		}
+	}
 
 	}
 
@@ -208,6 +309,7 @@ Class ControladorCampanas{
 				"cupos" => $_POST["editarCupos"],
 				"fecha_inicio" => $_POST["editarFechaInicio"],
 				"fecha_fin" => $_POST["editarFechaFinal"],
+				"fecha_retorno" => $_POST["editarFechaRetorno"],
 				"id" => $_POST["idCampana"]);
 
 				

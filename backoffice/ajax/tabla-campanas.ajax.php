@@ -64,15 +64,23 @@ class TablaCampanas{
 					$acciones = "<div class='btn-group'><button type='button' class='btn btn-primary btn-xs' disabled>Invertir</button></div>";
 
 				}
-				$datosJson .= '[
-					"'.$acciones.'",
-					"'.$value["nombre"].'",
-					"'.$value["retorno"].' %",
-					"'.$estado.'", 
-					"'.number_format($cupos_disponibles).'", 
-					"'.$value["fecha_inicio"].'",
-					"'.$value["fecha_fin"].'"
-			 ],';
+
+				if($value["nombre"]!="Bono Extra"){
+
+
+					$datosJson .= '[
+						"'.$acciones.'",
+						"'.$value["nombre"].'",
+						"'.$value["retorno"].' %",
+						"'.$estado.'", 
+						"'.number_format($cupos_disponibles).'", 
+						"'.$value["fecha_inicio"].'",
+						"'.$value["fecha_fin"].'",
+						"'.$value["fecha_retorno"].'"
+				 ],';
+	
+				}
+				
 
 			}
 			
@@ -101,6 +109,21 @@ class TablaCampanas{
 
 				$acciones = "<div class='btn-group'><button class='btn btn-warning btn-xs btnEditarCampana' idCampana='".$value["id"]."' data-toggle='modal' data-target='#modalEditarCampana'><i class='fa fa-pen' style='color:white'></i></button><button class='btn btn-danger btn-xs btnEliminarCampana' idCampana='".$value["id"]."'><i class='fa fa-times' style='color:white'></i></button></div>";
 
+			 if($value["nombre"]=="Bono Extra"){
+
+				$datosJson .= '[
+					"'.$acciones.'",
+					"'.$value["nombre"].'",
+					"'.number_format($value["retorno"]).' COP",
+					"'.$estado.'", 
+					"'.number_format($cupos_disponibles).'", 
+					"'.$value["fecha_inicio"].'",
+					"'.$value["fecha_fin"].'",
+					"'.$value["fecha_retorno"].'"
+			 ],';
+
+			}else{
+
 				$datosJson .= '[
 					"'.$acciones.'",
 					"'.$value["nombre"].'",
@@ -108,8 +131,10 @@ class TablaCampanas{
 					"'.$estado.'", 
 					"'.number_format($cupos_disponibles).'", 
 					"'.$value["fecha_inicio"].'",
-					"'.$value["fecha_fin"].'"
+					"'.$value["fecha_fin"].'",
+					"'.$value["fecha_retorno"].'"
 			 ],';
+			}
 
 			}
 

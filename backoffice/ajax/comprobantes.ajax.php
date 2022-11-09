@@ -90,17 +90,6 @@ class AjaxComprobantes{
 	public $email;
 	public $documento;
 
-	// public function ajaxSuscripcion(){
-
-	// 	$ruta = ControladorGeneral::ctrRuta();
-	// 	//$valorSuscripcion = ControladorGeneral::ctrValorSuscripcion();
-	// 	$fecha = substr(date("c"), 0, -6)."Z";
-	// 	$valor = $this->documento;
-	// 	$url = "http://localhost/www/trading/backoffice/index.php?pagina=perfil&id=".urlencode($valor);
-
-	// 	echo $url;
-
-	// }
 
 	/*=============================================
 	Cancelar Suscripción

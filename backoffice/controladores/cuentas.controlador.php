@@ -76,6 +76,20 @@ Class ControladorCuentas{
 
 	}
 
+	/*=============================================
+	Mostrar Cuentas All
+	=============================================*/
+
+	static public function ctrMostrarCuentasAll($item, $valor){
+	
+		$tabla = "cuentas_bancarias";
+
+		$respuesta = ModeloCuentas::mdlMostrarCuentas($tabla, $item, $valor);
+
+		return $respuesta;
+
+	}
+
 
 
 	/*=============================================

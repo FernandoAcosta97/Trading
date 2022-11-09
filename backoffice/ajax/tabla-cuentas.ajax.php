@@ -15,9 +15,9 @@ class TablaCuentas
         $valor = null;
         $usuario = null;
 
-        if (isset($_GET["usuario"])) {
+        if (isset($_GET["id"])) {
             $item = "id_usuario";
-            $valor = $_GET["usuario"];
+            $valor = $_GET["id"];
             $usuario = ControladorUsuarios::ctrMostrarUsuarios($item, $valor);
             if($usuario["perfil"]=="admin"){
                 $item = null;

@@ -39,41 +39,6 @@ $("#tablaCampanas").DataTable({
 });
 
 
-  $(".tablaCampanas").on("click","button.btnEditarCampana",function(){
-
-	var idCampana = $(this).attr("idCampana");
-  
-	var datos = new FormData();
-	datos.append("idCampanaEditar",idCampana);
-  
-	$.ajax({
-  
-	 url:"ajax/comprobantes.ajax.php",
-	 method:"POST",
-	 data:datos,
-	 cache:false,
-	 contentType:false,
-	 processData:false,
-	 dataType:"json",
-	 success:function(respuesta){
-
-      $("#editarComprobante").val(respuesta[0]["id"]);
-	  $("#editarCodigo").val(respuesta[0]["codigo"]);
-	  $("#editarCodigoActual").val(respuesta[0]["codigo"]);
-	  $("#fotoActualComprobante").val(respuesta[0]["foto"]); 
-	  $("#editarValor").val(respuesta[0]["valor"]);
-	  $("#editarFecha").val(respuesta[0]["fecha"]);
-	  if(respuesta[0]["foto"]!=""){
-		$("#fotoActualComprobante").attr("src", respuesta[0]["foto"]);
-		$("#previsualizarEditar").attr("src", respuesta[0]["foto"]);
-	  }
-  
-	}
-  
-  });
-  
-  })
-
 
 
 /*=============================================
@@ -142,6 +107,7 @@ $(".tablaCampanas").on("click","button.btnEditarCampana",function(){
 	  $("#editarCupos").val(respuesta["cupos"]);
 	  $("#editarFechaInicio").val(respuesta["fecha_inicio"]);
 	  $("#editarFechaFinal").val(respuesta["fecha_fin"]);
+	  $("#editarFechaRetorno").val(respuesta["fecha_retorno"]);
 	  
 	}
   
@@ -199,7 +165,7 @@ $(".tablaCampanas").on("click","button.btnEditarCampana",function(){
 					confirmButtonText: "Cerrar",
 				  }).then(function (result) {
 					if (result.value) {
-					//   window.location = "campanas";
+					//   window.location = "campanas";s
 					}
 				  });
 
@@ -209,3 +175,16 @@ $(".tablaCampanas").on("click","button.btnEditarCampana",function(){
 	  }
 	});
   });
+
+
+  $("#selectTipoCampana").change(function(){
+
+   var seleccion = $(this).val();
+   if(seleccion==2){
+   $("#camposRegistrarCampana").html("<div class='form-group'><label for='registroRetorno' class='control-label'>Valor retorno</label><div><input type='number' class='form-control' id='registroRetorno' name='registroRetorno' placeholder='Retorno bono extra' required></div></div>");
+   }else{
+	$("#camposRegistrarCampana").html("<div class='form-group'><label for='registroNombre' class='control-label'>Nombre</label><div><input type='text' class='form-control' id='registroNombre' name='registroNombre' placeholder='Nombre Campaña' required></div></div><div class='form-group'><label for='registroRetorno' class='control-label'>Retorno</label><div><input type='number' class='form-control' id='registroRetorno' name='registroRetorno' placeholder='Retorno campaña ej: 20%' required></div></div><div class='form-group'><label for='registroCupos' class='control-label'>Cupos</label><div><input type='number' class='form-control' id='registroCupos' name='registroCupos' placeholder='Cupos campaña ej: 1000' required></div>");
+   }
+
+  });
+

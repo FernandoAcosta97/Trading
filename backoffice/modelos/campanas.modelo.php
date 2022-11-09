@@ -12,13 +12,14 @@ class ModeloCampanas
     public static function mdlRegistroCampana($tabla, $datos)
     {
 
-        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(nombre, retorno, cupos, fecha_inicio, fecha_fin, estado) VALUES (:nombre, :retorno, :cupos, :fecha_inicio, :fecha_fin, :estado)");
+        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(nombre, retorno, cupos, fecha_inicio, fecha_fin, fecha_retorno, estado) VALUES (:nombre, :retorno, :cupos, :fecha_inicio, :fecha_fin, :fecha_retorno, :estado)");
 
         $stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
         $stmt->bindParam(":retorno", $datos["retorno"], PDO::PARAM_STR);
         $stmt->bindParam(":cupos", $datos["cupos"], PDO::PARAM_INT);
         $stmt->bindParam(":fecha_inicio", $datos["fecha_inicio"], PDO::PARAM_STR);
         $stmt->bindParam(":fecha_fin", $datos["fecha_fin"], PDO::PARAM_STR);
+        $stmt->bindParam(":fecha_retorno", $datos["fecha_retorno"], PDO::PARAM_STR);
         $stmt->bindParam(":estado", $datos["estado"], PDO::PARAM_INT);
 
 
@@ -147,13 +148,14 @@ class ModeloCampanas
     public static function mdlEditarCampana($tabla, $datos)
     {
 
-        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET nombre = :nombre, retorno = :retorno, cupos = :cupos, fecha_inicio = :fecha_inicio , fecha_fin = :fecha_fin WHERE id = :id");
+        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET nombre = :nombre, retorno = :retorno, cupos = :cupos, fecha_inicio = :fecha_inicio , fecha_fin = :fecha_fin, fecha_retorno = :fecha_retorno WHERE id = :id");
 
         $stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
         $stmt->bindParam(":cupos", $datos["cupos"], PDO::PARAM_INT);
         $stmt->bindParam(":retorno", $datos["retorno"], PDO::PARAM_STR);
         $stmt->bindParam(":fecha_inicio", $datos["fecha_inicio"], PDO::PARAM_STR);
         $stmt->bindParam(":fecha_fin", $datos["fecha_fin"], PDO::PARAM_STR);
+        $stmt->bindParam(":fecha_retorno", $datos["fecha_retorno"], PDO::PARAM_STR);
         $stmt->bindParam(":id", $datos["id"], PDO::PARAM_INT);
 
         if ($stmt->execute()) {

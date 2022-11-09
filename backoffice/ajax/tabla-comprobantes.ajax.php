@@ -33,7 +33,7 @@ class TablaComprobantes {
             if($_GET["estado"]==3){
 
                 $comprobantes = ControladorComprobantes::ctrMostrarComprobantes( $item, $valor); 
-
+                
             }else{
                 
             $item2="estado";

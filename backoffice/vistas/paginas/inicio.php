@@ -95,6 +95,18 @@ if ($usuario["firma"] != "") {
 
 // print_r($afiliadosNecesarios);
 
+$bono_extra = ControladorCampanas::ctrMostrarCampanas("nombre","Bono Extra");
+
+if($usuario["perfil"] != "admin" && $bono_extra){
+
+  echo '<div class="alert alert-info alert-info">
+  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+  <h5><i class="icon fas fa-exclamation-triangle"></i> Atención!</h5>
+  Invita a mas personas con tu link de referido entre el '.$bono_extra["fecha_inicio"].' y el '.$bono_extra["fecha_fin"].' y recibiras un bono extra de $ '.number_format($bono_extra["retorno"]).' COP por cada persona que se registre e invierta. No dejes pasar esta oportunidad, que esperas para ganar.
+  </div>';
+
+}
+
 if($totalInversiones>1){
 
 if ($usuario["perfil"] != "admin") {
