@@ -44,7 +44,7 @@ class AjaxComprobantes{
 
 		$comprobante = ControladorComprobantes::ctrMostrarComprobantes("id",$id);
 		// print_r($comprobante);
-
+		
 		$doc_usuario = $comprobante[0]["doc_usuario"];
 
 		$usuario = ControladorUsuarios::ctrMostrarUsuarios("doc_usuario",$doc_usuario);

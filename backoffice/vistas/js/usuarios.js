@@ -412,6 +412,25 @@ $(".tablaUsuarios").DataTable({
 
 
 /*=============================================
+BORRAR ALERTAS
+=============================================*/
+
+$("input[id='inputDoc'], input[id='inputPatrocinador'], input[name='registroNombre'], input[name='registroEmail']").change(function(){
+
+	$(".alert").remove();
+
+})
+
+$("input[id='inputDoc'], input[id='inputPatrocinador'], input[name='registroNombre'], input[name='registroEmail']").click(function(){
+
+	$(".alert").remove();
+
+})
+// $("input[id='inputDoc']", "input[id='inputPatrocinador']").click(function(){
+// 	$(".alert").remove();
+// });
+
+/*=============================================
 VALIDAR NÚMERO DOCUMENTO REPETIDO
 =============================================*/
 
@@ -426,7 +445,7 @@ $("#inputDoc").change(function(){
 
 	$.ajax({
 
-		url: ruta+"backoffice/ajax/usuarios.ajax.php",
+		url: "ajax/usuarios.ajax.php",
 		method: "POST",
 		data: datos,
 		cache: false,
@@ -457,6 +476,192 @@ $("#inputDoc").change(function(){
 	})
 
 })
+
+
+/*=============================================
+VALIDAR USUARIO REPETIDO
+=============================================*/
+
+$("input[name='registroNombre']").change(function(){
+
+	var usuario = $(this).val();
+	
+	var datos = new FormData();
+	datos.append("validarUsuario", usuario);
+
+	$.ajax({
+
+		url: "ajax/usuarios.ajax.php",
+		method: "POST",
+		data: datos,
+		cache: false,
+		contentType: false,
+		processData: false,
+		dataType:"json",
+		success:function(respuesta){
+			
+			if(respuesta){
+
+				$("input[name='registroNombre']").val("");
+
+				$("input[name='registroNombre']").after(`
+
+						<div class="alert alert-warning">
+							<strong>ERROR:</strong>
+							El nombre de usuario ya existe en la base de datos, por favor ingrese otro diferente
+
+						</div>
+				`)
+
+				return;
+
+			}
+
+		}
+
+	})
+
+})
+
+
+/*=============================================
+VALIDAR EMAIL REPETIDO
+=============================================*/
+
+$("input[name='registroEmail']").change(function(){
+
+	var email = $(this).val();
+	
+	var datos = new FormData();
+	datos.append("validarEmail", email);
+
+	$.ajax({
+
+		url: "ajax/usuarios.ajax.php",
+		method: "POST",
+		data: datos,
+		cache: false,
+		contentType: false,
+		processData: false,
+		dataType:"json",
+		success:function(respuesta){
+			
+			if(respuesta){
+
+				$("input[name='registroEmail']").val("");
+
+				$("input[name='registroEmail']").after(`
+
+						<div class="alert alert-warning">
+							<strong>ERROR:</strong>
+							El correo electrónico ya existe en la base de datos, por favor ingrese otro diferente
+
+						</div>
+				`)
+
+				return;
+
+			}
+
+		}
+
+	})
+
+})
+
+
+
+/*=============================================
+VALIDAR REPETIR CONTRASEÑA
+=============================================*/
+$("input[id='registroPassword2']").click(function(){
+	$(".alert").remove();
+});
+
+function validarRepetirPassword(){
+
+	var password = $("input[name='registroPassword']").val();	
+	var password2 = $("input[id='registroPassword2']").val();
+
+	if(password2 != ""){
+	
+			if(password != password2){
+	
+					$("input[id='registroPassword2']").val("");
+	
+					$("input[id='registroPassword2']").after(`
+	
+							<div class="alert alert-warning">
+								<strong>ERROR:</strong>
+								Las contraseñas no coinciden.
+	
+							</div>
+					`)
+	
+					return;
+	
+			}
+
+		}
+
+}
+
+$("input[id='registroPassword2']").change(function(){
+         validarRepetirPassword();
+})
+
+$("input[name='registroPassword']").change(function(){
+	validarRepetirPassword();
+})
+
+
+
+
+/*=============================================
+VALIDAR QUEL CODIGO DEL PATROCINADOR EXISTA
+=============================================*/
+
+$("#inputPatrocinador").change(function(){
+
+	var patrocinador = $(this).val();
+	
+	var datos = new FormData();
+	datos.append("validarPatrocinador", patrocinador);
+
+	$.ajax({
+
+		url: "ajax/usuarios.ajax.php",
+		method: "POST",
+		data: datos,
+		cache: false,
+		contentType: false,
+		processData: false,
+		dataType:"json",
+		success:function(respuesta){
+			
+			if(!respuesta){
+
+				$("#inputPatrocinador").val("");
+
+				$("#inputPatrocinador").after(`
+
+						<div class="alert alert-warning">
+							<strong>ERROR:</strong>
+							El código del patrocinador ingresado no existe en la base de datos.
+
+						</div>
+				`)
+
+				return;
+
+			}
+
+		}
+
+	})
+
+})
+
 
 
 

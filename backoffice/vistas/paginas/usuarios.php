@@ -324,11 +324,11 @@ REGISTRO USUARIO MANUAL
 
 			<div class="form-group">
 
-				<label for="inputName" class="control-label">Nombre completo</label>
+				<label for="inputName" class="control-label">Nombre usuario</label>
 
 				<div>
 
-					<input type="text" class="form-control" id="inputName" name="registroNombre">
+					<input type="text" class="form-control" id="inputName" name="registroNombre" required>
 
 				</div>
 
@@ -340,7 +340,7 @@ REGISTRO USUARIO MANUAL
 
 				<div>
 
-					<input type="text" class="form-control" id="inputEmail" name="registroEmail">
+					<input type="text" class="form-control" id="inputEmail" name="registroEmail" required>
 
 				</div>
 
@@ -352,7 +352,7 @@ REGISTRO USUARIO MANUAL
 
 				<div>
 
-					<input type="text" class="form-control" id="inputPatrocinador" name="registroPatrocinador" value="<?php echo $usuario["enlace_afiliado"] ?>" readonly>
+					<input type="text" class="form-control" id="inputPatrocinador" name="registroPatrocinador" value="<?php echo $usuario["enlace_afiliado"] ?>" required>
 
 				</div>
 
@@ -364,7 +364,7 @@ REGISTRO USUARIO MANUAL
 				<label for="inputPais" class="control-label">País</label>
 
 				<div>
-					<select class="form-control select2 py-4" id="inputPais" name="registroPais">
+					<select class="form-control select2 py-4" id="inputPais" name="registroPais" required>
 
 						<option value="">Seleccione su país</option>
 
@@ -386,7 +386,7 @@ REGISTRO USUARIO MANUAL
 						<span class="p-2 bg-info rounded-left dialCode"></span>
 					</div>
 
-					<input type="text" class="form-control" id="inputMovil" name="registroTelefono" data-inputmask="'mask':'(999) 999-9999'" data-mask>
+					<input type="text" class="form-control" id="inputMovil" name="registroTelefono" data-inputmask="'mask':'(999) 999-9999'" data-mask required>
 
 				</div>
 
@@ -399,7 +399,9 @@ REGISTRO USUARIO MANUAL
 
         <div>
 
-          <input type="password" class="form-control" id="inputPassword" name="registroPassword" required>
+          <input type="password" class="form-control my-3 py-3" id="inputPassword" name="registroPassword" minlength="6" required>
+
+          <input type="password" class="form-control my-3 py-3" placeholder="Repetir Contraseña" id="registroPassword2" required>
 
         </div>
 

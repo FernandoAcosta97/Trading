@@ -65,6 +65,25 @@ class AjaxUsuarios
 
     }
 
+
+     /*=============================================
+    Validar codigo patrocinador
+    =============================================*/
+
+    public $validarPatrocinador;
+
+    public function ajaxValidarPatrocinador()
+    {
+
+        $item = "enlace_afiliado";
+        $valor = $this->validarPatrocinador;
+
+        $respuesta = ControladorUsuarios::ctrMostrarUsuarios($item, $valor);
+
+        echo json_encode($respuesta);
+
+    }
+
     /*=============================================
     ACTIVAR USUARIO
     =============================================*/
@@ -331,6 +350,19 @@ if (isset($_POST["validarDocumento"])) {
     $valDocumento = new AjaxUsuarios();
     $valDocumento->validarDocumento = $_POST["validarDocumento"];
     $valDocumento->ajaxValidarDocumento();
+
+}
+
+
+/*=============================================
+Validar codigo de patrocinador
+=============================================*/
+
+if (isset($_POST["validarPatrocinador"])) {
+
+    $valPatrocinador = new AjaxUsuarios();
+    $valPatrocinador->validarPatrocinador = $_POST["validarPatrocinador"];
+    $valPatrocinador->ajaxValidarPatrocinador();
 
 }
 
