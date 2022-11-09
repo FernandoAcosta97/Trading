@@ -15,6 +15,8 @@ class TablaComprobantes {
         $valor = null;
         $usuario = null;
 
+        $campanas = ControladorCampanas::ctrMostrarCampanas(null, null);
+
         if(isset($_GET["doc_usuario"])){
             $item = "doc_usuario";
             $valor = $_GET["doc_usuario"];
@@ -112,6 +114,26 @@ class TablaComprobantes {
                     $estado = "<select class='form-control selectAprobado' estadoComprobante=2 idComprobante='".$value["id"]."'><option value='1'>Aprobado</option><option value='0'>Rechazado</option><option value='2' selected>Pendiente</option></select>";
     
                 }
+
+                $selectCampanas="<div><select class='form-control select2 selectCampana' idComprobante='".$value['id']."'>";
+
+                foreach($campanas as $key => $value2){
+
+                    if($value2["nombre"]!="Bono Extra"){
+
+                    if($campana["nombre"]==$value2["nombre"]){
+
+                        $selectCampanas.="<option value='".$value2["id"]."' selected>".$value2["nombre"]."</option>";
+                    }else{
+
+                        $selectCampanas.="<option value='".$value2["id"]."'>".$value2["nombre"]."</option>";
+                    }
+                }
+
+                }
+
+                $selectCampanas.="</select></div>";
+
                 
             $acciones = "<div class='btn-group'><button class='btn btn-warning btn-xs btnEditarComprobante' idComprobante='".$value["id"]."' data-toggle='modal' data-target='#modalEditarComprobante'><i class='fa fa-pen' style='color:white'></i></button></div>";
 
@@ -123,7 +145,7 @@ class TablaComprobantes {
                 "'.$usuarios[ 'doc_usuario' ].'",
                 "'.$usuarios[ 'nombre' ].'",
                 "'.$value[ 'fecha' ].'",
-                "'.$campana[ 'nombre' ].'"
+                "'.$selectCampanas.'"
          ],';
 
             }

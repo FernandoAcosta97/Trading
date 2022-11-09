@@ -383,6 +383,36 @@ $(".tablaComprobantes tbody").on("change","select.selectAprobado",function(){
 })
 
 
+/*=============================================
+CAMBIAR CAMPAÑA SELECT
+=============================================*/
+$(".tablaComprobantes tbody").on("change","select.selectCampana",function(){
+
+	var idCampana = $(this).val();
+	var idComprobante = $(this).attr("idComprobante");
+
+	var datos = new FormData();
+    datos.append("cambiarCampanaComprobante", idComprobante);
+	datos.append("idCampana", idCampana);
+
+  	$.ajax({
+
+	  url:"ajax/comprobantes.ajax.php",
+	  method: "POST",
+	  data: datos,
+	  cache: false,
+      contentType: false,
+      processData: false,
+      success: function(respuesta){
+
+      }
+
+  	})
+
+
+})
+
+
 
 $(".tablaComprobantes tbody").on("click", "button.btnSoporte", function () {
   

@@ -61,6 +61,44 @@ class AjaxComprobantes{
 
 	}
 
+
+	/*=============================================
+	CAMBIAR CAMPAÑA COMPROBANTE
+	=============================================*/	
+
+	public $idComprobateCampana;
+	public $idCampana;
+
+	public function ajaxCambiarCampanaComprobante(){
+
+		$tabla = "comprobantes";
+
+		$item = "campana";
+		$valor = $this->idCampana;
+
+		$id = $this->idComprobateCampana;
+
+		$respuesta = ModeloComprobantes::mdlActualizarComprobante($tabla, $id, $item, $valor);
+
+		// $comprobante = ControladorComprobantes::ctrMostrarComprobantes("id",$id);
+		// // print_r($comprobante);
+		
+		// $doc_usuario = $comprobante[0]["doc_usuario"];
+
+		// $usuario = ControladorUsuarios::ctrMostrarUsuarios("doc_usuario",$doc_usuario);
+
+		// $comprobantesUsuario = ControladorComprobantes::ctrMostrarComprobantesxEstado("doc_usuario",$doc_usuario,"estado",1);
+
+		// if($usuario["operando"]==0 && count($comprobantesUsuario)>0){
+		// 	$operando = ControladorUsuarios::ctrActualizarUsuario($usuario["id_usuario"],"operando",1);
+		// }else if($usuario["operando"]==1 && count($comprobantesUsuario)==0){
+		// 	$operando = ControladorUsuarios::ctrActualizarUsuario($usuario["id_usuario"],"operando",0);
+		// }
+
+
+
+	}
+
 	/*=============================================
 	OPERAR USUARIO
 	=============================================*/	
@@ -150,6 +188,20 @@ if(isset($_POST["aprobadoIdComprobante"])){
 	$aprobadoIdComprobante -> aprobadoIdComprobante = $_POST["aprobadoIdComprobante"];
 	$aprobadoIdComprobante -> aprobadoComprobante = $_POST["aprobadoComprobante"];
 	$aprobadoIdComprobante -> ajaxAprobadoComprobante();
+
+}
+
+
+/*=============================================
+CAMBIAR CAMPAÑA COMPROBANTE SELECT
+=============================================*/	
+
+if(isset($_POST["cambiarCampanaComprobante"])){
+
+	$cambiarCampanaComprobante = new AjaxComprobantes();
+	$cambiarCampanaComprobante -> idComprobateCampana = $_POST["cambiarCampanaComprobante"];
+	$cambiarCampanaComprobante -> idCampana = $_POST["idCampana"];
+	$cambiarCampanaComprobante -> ajaxCambiarCampanaComprobante();
 
 }
 
