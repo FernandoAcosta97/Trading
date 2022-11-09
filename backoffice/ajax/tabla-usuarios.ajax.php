@@ -14,11 +14,65 @@ class TablaUsuarios{
 
 		$item = null;
 		$valor = null;
-		$usuarios = ControladorUsuarios::ctrMostrarusuarios($item, $valor);
 		$totalAfiliadosActivos=0;
+		$valido = true;
+		
+
+		if(isset($_GET["filtro"])){
+
+            if($_GET["filtro"]=="todos"){
+
+				$usuarios = ControladorUsuarios::ctrMostrarUsuarios($item, $valor);
+                
+            }
+			if($_GET["filtro"]=="operando"){
+                
+            $item2="operando";
+            $valor2="1";
+			$usuarios = ControladorUsuarios::ctrMostrarUsuariosFetchAll($item2, $valor2);
+
+            }
+
+			if($_GET["filtro"]=="activos"){
+                
+				$item2="estado";
+				$valor2="1";
+				$usuarios = ControladorUsuarios::ctrMostrarUsuariosFetchAll($item2, $valor2);
+	
+			}
+
+			if($_GET["filtro"]=="inactivos"){
+                
+				$item2="estado";
+				$valor2="0";
+				$usuarios = ControladorUsuarios::ctrMostrarUsuariosFetchAll($item2, $valor2);
+		
+			}
+			
+
+			if($_GET["filtro"]=="sin-operar"){
+                
+				$item2="operando";
+				$valor2="0";
+				$usuarios = ControladorUsuarios::ctrMostrarUsuariosFetchAll($item2, $valor2);
+	
+			}
+
+			if($_GET["filtro"]=="referidos" || $_GET["filtro"]=="sin-referidos"){
+                
+				$usuarios = ControladorUsuarios::ctrMostrarUsuarios($item, $valor);
+	
+			}
 
 
-		if(count($usuarios) < 2 ){
+
+        }else{
+			$usuarios = ControladorUsuarios::ctrMostrarUsuarios($item, $valor);
+        }
+
+
+
+		if(count($usuarios) < 1 ){
 
 			echo '{ "data":[]}';
 
@@ -29,35 +83,32 @@ class TablaUsuarios{
 		$datosJson = '{"data":[';
 
 		foreach ($usuarios as $key => $value) {
+			$valido = true;
 
 			if($value["perfil"] != "admin"){
 
-			$red = ControladorMultinivel::ctrMostrarRedUninivel("red_uninivel", "patrocinador_red", $value["enlace_afiliado"]);
-
-			if(count($red)>0){
-			foreach ($red as $key2 => $value2){
-				$usuarioRedOperando = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $value2["usuario_red"]);
-
-				if($usuarioRedOperando["operando"]==1){
-					++$totalAfiliadosActivos;
+				$red = ControladorMultinivel::ctrMostrarRedUninivel("red_uninivel", "patrocinador_red", $value["enlace_afiliado"]);
+	
+				if(count($red)>0){
+				foreach ($red as $key2 => $value2){
+					$usuarioRedOperando = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $value2["usuario_red"]);
+	
+					if($usuarioRedOperando["operando"]==1){
+						++$totalAfiliadosActivos;
+					}
+	
 				}
-
 			}
-		}
-				/*=============================================
-				FOTO USUARIOS
-				=============================================*/	
 
-				// if($value["foto"] == ""){
+			if($_GET["filtro"]=="referidos" && $totalAfiliadosActivos==0){
 
-				// 	$foto = "<img src='vistas/img/usuarios/default/default.png' class='img-fluid rounded-circle' width='30px'>";
+                    $valido = false;
+			
+			}else if($_GET["filtro"]=="sin-referidos" && $totalAfiliadosActivos>0){
+				$valido = false;
+			}
 
-				// }else{
-
-				// 	$foto = "<img src='".$value["foto"]."' class='img-fluid rounded-circle' width='30px'>";
-
-				// }
-
+			if($valido){
 				/*=============================================
 				ESTADO Y OPERANDO
 				=============================================*/	
@@ -119,6 +170,7 @@ class TablaUsuarios{
 				],';
 
 			}
+		}
 			$totalAfiliadosActivos=0;
 
 		}

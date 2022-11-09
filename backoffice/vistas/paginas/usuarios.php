@@ -56,39 +56,39 @@ if ($usuario["perfil"] != "admin") {
           <div style="width:50%">
             <select class="form-control form-select" id="selectFiltro">
 
-            <?php if(isset($_GET["estado"]) && ($_GET["estado"]==1 || $_GET["estado"]==0)){ 
+            <?php if(isset($_GET["filtro"]) && ($_GET["filtro"]=="operando" || $_GET["filtro"]=="sin-operar")){ 
              
-              if($_GET["estado"]==1){ ?>
+              if($_GET["filtro"]=="operando"){ ?>
 
-                <option value="tabla-usuarios">TODOS</option>
-                <option value="tabla-usuarios-operando" selected>OPERANDO</option>
-                <option value="tabla-usuarios-sin-operar">SIN OPERAR</option>
-                <option value="tabla-usuarios-referidos">CON REFERIDOS</option>
-                <option value="tabla-usuarios-sin-referidos">SIN REFERIDOS</option>
-                <option value="tabla-usuarios-inactivos">INACTIVOS</option>
-                <option value="tabla-usuarios-activos">ACTIVOS</option>
+                <option value="todos">TODOS</option>
+                <option value="operando" selected>OPERANDO</option>
+                <option value="sin-operar">SIN OPERAR</option>
+                <option value="referidos">CON REFERIDOS</option>
+                <option value="sin-referidos">SIN REFERIDOS</option>
+                <option value="inactivos">INACTIVOS</option>
+                <option value="activos">ACTIVOS</option>
 
              <?php }else{ ?>
 
-                <option value="tabla-usuarios">TODOS</option>
-                <option value="tabla-usuarios-operando">OPERANDO</option>
-                <option value="tabla-usuarios-sin-operar" selected>SIN OPERAR</option>
-                <option value="tabla-usuarios-referidos">CON REFERIDOS</option>
-                <option value="tabla-usuarios-sin-referidos">SIN REFERIDOS</option>
-                <option value="tabla-usuarios-inactivos">INACTIVOS</option>
-                <option value="tabla-usuarios-activos">ACTIVOS</option>
+                <option value="todos">TODOS</option>
+                <option value="operando">OPERANDO</option>
+                <option value="sin-operar" selected>SIN OPERAR</option>
+                <option value="referidos">CON REFERIDOS</option>
+                <option value="sin-referidos">SIN REFERIDOS</option>
+                <option value="inactivos">INACTIVOS</option>
+                <option value="activos">ACTIVOS</option>
 
               <?php }
               
               }else{ ?>
 
-              <option value="tabla-usuarios" selected>TODOS</option>
-              <option value="tabla-usuarios-operando">OPERANDO</option>
-              <option value="tabla-usuarios-sin-operar">SIN OPERAR</option>
-              <option value="tabla-usuarios-referidos">CON REFERIDOS</option>
-              <option value="tabla-usuarios-sin-referidos">SIN REFERIDOS</option>
-              <option value="tabla-usuarios-inactivos">INACTIVOS</option>
-              <option value="tabla-usuarios-activos">ACTIVOS</option>
+                <option value="todos" selected>TODOS</option>
+                <option value="operando">OPERANDO</option>
+                <option value="sin-operar">SIN OPERAR</option>
+                <option value="referidos">CON REFERIDOS</option>
+                <option value="sin-referidos">SIN REFERIDOS</option>
+                <option value="inactivos">INACTIVOS</option>
+                <option value="activos">ACTIVOS</option>
 
               <?php } ?>
 

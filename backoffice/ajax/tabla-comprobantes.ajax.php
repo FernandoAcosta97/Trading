@@ -14,8 +14,6 @@ class TablaComprobantes {
         $item = null;
         $valor = null;
         $usuario = null;
-        $fechaInicial = null;
-        $fechaFinal = null;
 
         if(isset($_GET["doc_usuario"])){
             $item = "doc_usuario";

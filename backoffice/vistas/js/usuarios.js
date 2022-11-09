@@ -341,7 +341,7 @@ $("#selectFiltro").on("change", function (){
   tabla = tabla.dataTable().fnDestroy();
 
   tabla = $(".tablaUsuarios").DataTable({
-    ajax: "ajax/"+seleccion+".ajax.php",
+    ajax: "ajax/tabla-usuarios.ajax.php?filtro="+seleccion,
     deferRender: true,
     retrieve: true,
     processing: true,
@@ -378,7 +378,7 @@ $("#selectFiltro").on("change", function (){
 seleccion = $("#selectFiltro").val();
 
 $(".tablaUsuarios").DataTable({
-  ajax: "ajax/"+seleccion+".ajax.php",
+  ajax: "ajax/tabla-usuarios.ajax.php?filtro="+seleccion,
   deferRender: true,
   retrieve: true,
   processing: true,

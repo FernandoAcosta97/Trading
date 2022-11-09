@@ -145,7 +145,7 @@ if ($usuario["firma"] != null) {
 			<div class="icon">
 				<i class="fas fa-users"></i>
 			</div>
-			<a href="index.php?pagina=usuarios&estado=1" class="small-box-footer">Más información <i class="fas fa-arrow-circle-right"></i></a>
+			<a href="index.php?pagina=usuarios&filtro=operando" class="small-box-footer">Más información <i class="fas fa-arrow-circle-right"></i></a>
 		</div>
 	</div>
 	<!-- ./col -->
@@ -162,7 +162,7 @@ if ($usuario["firma"] != null) {
 			<div class="icon">
 				<i class="fas fa-users"></i>
 			</div>
-			<a href="index.php?pagina=usuarios&estado=0" class="small-box-footer">Más información <i class="fas fa-arrow-circle-right"></i></a>
+			<a href="index.php?pagina=usuarios&filtro=sin-operar" class="small-box-footer">Más información <i class="fas fa-arrow-circle-right"></i></a>
 		</div>
 	</div>
 	<!-- ./col -->
