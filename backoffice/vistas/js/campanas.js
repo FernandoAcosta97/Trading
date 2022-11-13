@@ -42,7 +42,7 @@ $("#tablaCampanas").DataTable({
 
 
 /*=============================================
-ACTIVA - INACTIVA - FINALIZADA CAMPAÑA
+ CAMBIAR ESTADO CAMPAÑA
 =============================================*/
 $(".tablaCampanas tbody").on("change","select.selectActiva",function(){
 

@@ -38,7 +38,7 @@ if ($usuario["firma"] != "") {
 
     $red = ControladorMultinivel::ctrMostrarRed("usuarios", "red_uninivel", "patrocinador_red", $usuario["enlace_afiliado"]);
 
-    $inversiones=ControladorComprobantes::ctrMostrarComprobantesxEstado("doc_usuario", $usuario["doc_usuario"],"estado","1");
+    $inversiones=ControladorComprobantes::ctrMostrarComprobantesxEstadoxCampana("doc_usuario", $usuario["doc_usuario"],"estado","1","estado","1");
 
     $totalInversiones=count($inversiones);
 

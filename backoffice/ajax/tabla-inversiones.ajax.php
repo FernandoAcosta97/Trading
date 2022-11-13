@@ -79,10 +79,12 @@ class TablaComprobantes {
 
             if($usuario!=null){
 
-                if($value["estado"]==1){
+                if($value["estado"]==1 && $campana["estado"]==2){
+                    $estado = "<h5><span class='badge badge-success'>Aprobado</span><br><span class='badge badge-warning'>Campaña finalizada</span></h5>";
+                }else if($value["estado"]==1){
                     $estado = "<h5><span class='badge badge-success'>Aprobado</span></h5>";
                 }
-
+                
                 $acciones="<button type='button' class='btn btn-primary btn-xs btnSoporte'><i class='fa fa-envelope'></i></button>";
 
             }

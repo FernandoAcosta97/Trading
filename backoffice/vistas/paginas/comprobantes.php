@@ -153,7 +153,6 @@ $comprobantes = ControladorComprobantes::ctrMostrarComprobantes($item, $valor); 
 <!--=====================================
 EDITAR COMPROBANTE
 ======================================-->
-
 <!-- The Modal -->
 <div class="modal" id="modalEditarComprobante">
   <div class="modal-dialog">
@@ -201,6 +200,7 @@ EDITAR COMPROBANTE
                 </div>
 
               </div> -->
+
 
       <!-- ENTRADA PARA LA FOTO DEL COMPROBANTE -->
       <div class="form-group">

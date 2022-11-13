@@ -2,6 +2,10 @@
 
 require_once "../controladores/campanas.controlador.php";
 require_once "../modelos/campanas.modelo.php";
+require_once "../controladores/comprobantes.controlador.php";
+require_once "../modelos/comprobantes.modelo.php";
+require_once "../controladores/usuarios.controlador.php";
+require_once "../modelos/usuarios.modelo.php";
 
 class AjaxCampanas{
 
@@ -38,7 +42,23 @@ class AjaxCampanas{
 
 		$id = $this->activarIdCampana;
 
+		$inversiones = ControladorCampanas::ctrMostrarComprobantesCampanaDoc("id", $id);
+		// print_r($inversiones); 
+
 		$respuesta = ModeloCampanas::mdlActualizarCampana($tabla, $id, $item, $valor);
+
+		foreach($inversiones as $key => $value){
+
+			$usuario = ControladorUsuarios::ctrMostrarUsuarios("doc_usuario",$value["doc_usuario"]);
+			// print_r($usuario); 
+			$comprobantesUsuario = ControladorComprobantes::ctrMostrarComprobantesxEstadoxCampana("doc_usuario",$value["doc_usuario"],"estado",1,"estado",1);
+
+			if($usuario["operando"]==0 && count($comprobantesUsuario)>0){
+				$operando = ControladorUsuarios::ctrActualizarUsuario($usuario["id_usuario"],"operando",1);
+			}else if($usuario["operando"]==1 && count($comprobantesUsuario)==0){
+				$operando = ControladorUsuarios::ctrActualizarUsuario($usuario["id_usuario"],"operando",0);
+			}
+		}
 
 	}
 

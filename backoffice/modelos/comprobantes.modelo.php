@@ -102,6 +102,27 @@ class ModeloComprobantes
 
 
     /*=============================================
+    Mostrar Comprobantes x Estado x Estado campaña
+    =============================================*/
+
+    public static function mdlMostrarComprobantesxEstadoxCampana($tabla, $tabla2, $item, $valor,$item2, $valor2, $item3, $valor3)
+    {
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla INNER JOIN $tabla2 ON $tabla.campana=$tabla2.id AND $tabla.estado=:$item2 AND $tabla2.estado=:$item3 WHERE $tabla.doc_usuario = :$item");
+
+        $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
+        $stmt->bindParam(":" . $item2, $valor2, PDO::PARAM_STR);
+        $stmt->bindParam(":" . $item3, $valor3, PDO::PARAM_STR);
+            
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+
+        $stmt->close();
+        $stmt = null;
+    }
+
+
+    /*=============================================
     Mostrar Comprobantes
     =============================================*/
 
@@ -157,7 +178,7 @@ class ModeloComprobantes
 
         }else if($item != null && $valor != null && $item2 != null && $valor2){
 
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item AND $item2 = :$item2");
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item AND $item2 = :$item2 ORDER BY fecha");
 
             $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
             $stmt->bindParam(":" . $item2, $valor2, PDO::PARAM_STR);

@@ -228,6 +228,47 @@ Class ControladorCampanas{
 		$respuesta = ModeloCampanas::mdlMostrarCampanas($tabla, $item, $valor);
 
 		return $respuesta;
+		
+	}
+
+
+	/*=============================================
+	Mostrar Campañas Activas e Inactivas pero no finalizadas
+	=============================================*/
+
+	static public function ctrMostrarCampanasNoFinalizadas(){
+
+		$tabla = "campanas";
+        $valor = 1;
+        $valor2 = 0;
+
+		$respuesta = ModeloCampanas::mdlMostrarCampanasNoFinalizadas($tabla, $valor, $valor2);
+
+		return $respuesta;
+	}
+
+	static public function ctrMostrarCampanasAll($item, $valor){
+	
+		$tabla = "campanas";
+
+		$respuesta = ModeloCampanas::mdlMostrarCampanasAll($tabla, $item, $valor);
+
+		return $respuesta;
+
+	}
+
+	/*=============================================
+	Mostrar los comprobantes de una campaña sin repetir documento de usuario
+	=============================================*/
+
+	static public function ctrMostrarComprobantesCampanaDoc($item, $valor){
+	
+		$tabla = "campanas";
+		$tabla2 = "comprobantes";
+
+		$respuesta = ModeloCampanas::mdlMostrarComprobantesCampanaDoc($tabla, $tabla2, $item, $valor);
+
+		return $respuesta;
 
 	}
 

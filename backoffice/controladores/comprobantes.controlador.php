@@ -181,6 +181,23 @@ class ControladorComprobantes
 
 
     /*=============================================
+    Mostrar Comprobantes x Estado x Estado campaña
+    =============================================*/
+
+    public static function ctrMostrarComprobantesxEstadoxCampana($item, $valor, $item2, $valor2, $item3, $valor3)
+    {
+
+        $tabla = "comprobantes";
+        $tabla2 = "campanas";
+
+        $respuesta = ModeloComprobantes::mdlMostrarComprobantesxEstadoxCampana($tabla, $tabla2, $item, $valor,$item2, $valor2, $item3, $valor3);
+
+        return $respuesta;
+
+    }
+
+
+    /*=============================================
     Mostrar Comprobantes x Estado Y Fecha
     =============================================*/
 

@@ -50,7 +50,7 @@ class AjaxComprobantes{
 		$usuario = ControladorUsuarios::ctrMostrarUsuarios("doc_usuario",$doc_usuario);
 
 		$comprobantesUsuario = ControladorComprobantes::ctrMostrarComprobantesxEstado("doc_usuario",$doc_usuario,"estado",1);
-
+		
 		if($usuario["operando"]==0 && count($comprobantesUsuario)>0){
 			$operando = ControladorUsuarios::ctrActualizarUsuario($usuario["id_usuario"],"operando",1);
 		}else if($usuario["operando"]==1 && count($comprobantesUsuario)==0){

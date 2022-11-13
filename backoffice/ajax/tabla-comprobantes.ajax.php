@@ -15,7 +15,7 @@ class TablaComprobantes {
         $valor = null;
         $usuario = null;
 
-        $campanas = ControladorCampanas::ctrMostrarCampanas(null, null);
+        $campanas = ControladorCampanas::ctrMostrarCampanasNoFinalizadas();
 
         if(isset($_GET["doc_usuario"])){
             $item = "doc_usuario";
@@ -62,6 +62,7 @@ class TablaComprobantes {
         foreach ( $comprobantes as $key => $value ) {
 
             $campana = ControladorCampanas::ctrMostrarCampanas("id",$value["campana"]);
+            // print_r($campana);
 
             //FOTO COMPROBANTES
 
@@ -114,10 +115,12 @@ class TablaComprobantes {
                     $estado = "<select class='form-control selectAprobado' estadoComprobante=2 idComprobante='".$value["id"]."'><option value='1'>Aprobado</option><option value='0'>Rechazado</option><option value='2' selected>Pendiente</option></select>";
     
                 }
+// print_r($campanas);
+                if($campana["estado"]==1 || $campana["estado"]==0){
 
                 $selectCampanas="<div><select class='form-control select2 selectCampana' idComprobante='".$value['id']."'>";
 
-                foreach($campanas as $key => $value2){
+                foreach($campanas as $key => $value2){ 
 
                     if($value2["nombre"]!="Bono Extra"){
 
@@ -125,7 +128,7 @@ class TablaComprobantes {
 
                         $selectCampanas.="<option value='".$value2["id"]."' selected>".$value2["nombre"]."</option>";
                     }else{
-
+ 
                         $selectCampanas.="<option value='".$value2["id"]."'>".$value2["nombre"]."</option>";
                     }
                 }
@@ -133,6 +136,9 @@ class TablaComprobantes {
                 }
 
                 $selectCampanas.="</select></div>";
+            }else{
+                $selectCampanas = $campana["nombre"];
+            }
 
                 
             $acciones = "<div class='btn-group'><button class='btn btn-warning btn-xs btnEditarComprobante' idComprobante='".$value["id"]."' data-toggle='modal' data-target='#modalEditarComprobante'><i class='fa fa-pen' style='color:white'></i></button></div>";

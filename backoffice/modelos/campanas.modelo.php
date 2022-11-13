@@ -68,7 +68,32 @@ class ModeloCampanas
         $stmt = null;
     }
 
-    public static function mdlMostrarUsuariosFetchAll($tabla, $item, $valor)
+
+    /*=============================================
+	Mostrar Campañas Activas e Inactivas pero no finalizadas
+	=============================================*/
+
+    public static function mdlMostrarCampanasNoFinalizadas($tabla, $valor, $valor2)
+    {
+
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE estado = :$valor OR estado = :$valor2");
+
+        $stmt->bindParam(":" . $valor, $valor, PDO::PARAM_STR);
+        $stmt->bindParam(":" . $valor2, $valor2, PDO::PARAM_STR);
+
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+
+
+        $stmt->close();
+
+        $stmt = null;
+    }
+
+
+
+    public static function mdlMostrarCampanasAll($tabla, $item, $valor)
     {
 
         $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item");
@@ -84,6 +109,38 @@ class ModeloCampanas
 
         $stmt = null;
     }
+
+
+    /*=============================================
+    Mostrar los comprobantes de una campaña sin repetir documento de usuario
+    =============================================*/
+
+    public static function mdlMostrarComprobantesCampanaDoc($tabla, $tabla2, $item, $valor)
+    {
+
+        if ($item != null && $valor != null) {
+
+            $stmt = Conexion::conectar()->prepare("SELECT DISTINCT $tabla2.doc_usuario FROM $tabla INNER JOIN $tabla2 ON $tabla.id=$tabla2.campana WHERE $tabla.id = :$item AND $tabla2.estado=1");
+
+            $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
+
+            $stmt->execute();
+
+            return $stmt->fetchAll();
+        } else {
+
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla ORDER BY 'id_usuario' ASC");
+
+            $stmt->execute();
+
+            return $stmt->fetchAll();
+        }
+
+        $stmt->close();
+
+        $stmt = null;
+    }
+
 
 
     /*=============================================
