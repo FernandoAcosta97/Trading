@@ -111,7 +111,7 @@ if($totalInversiones>1){
 
 if ($usuario["perfil"] != "admin") {
 
-  if($totalInversiones > 6){
+  if($totalInversiones >= 6 && $operando < 6){
 
     echo '<div class="alert alert-warning alert-dismissible">
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
