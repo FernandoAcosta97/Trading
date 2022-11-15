@@ -2,6 +2,8 @@
 
 require_once "../controladores/comprobantes.controlador.php";
 require_once "../modelos/comprobantes.modelo.php";
+require_once "../controladores/pagos.controlador.php";
+require_once "../modelos/pagos.modelo.php";
 require_once "../controladores/usuarios.controlador.php";
 require_once "../modelos/usuarios.modelo.php";
 
@@ -44,6 +46,15 @@ class AjaxComprobantes{
 
 		$comprobante = ControladorComprobantes::ctrMostrarComprobantes("id",$id);
 		// print_r($comprobante);
+
+		if($valor==1){
+			$pago=ControladorPagos::ctrRegistrarPagos($comprobante[0]["id"]);
+		}else{
+			$pago=ControladorPagos::ctrMostrarPagos("id_comprobante",$comprobante[0]["id"]);
+			if($pago!=""){
+            $eliminar=ControladorPagos::ctrEliminarPagos($pago["id"]);
+			}
+		}
 		
 		$doc_usuario = $comprobante[0]["doc_usuario"];
 
@@ -56,7 +67,6 @@ class AjaxComprobantes{
 		}else if($usuario["operando"]==1 && count($comprobantesUsuario)==0){
 			$operando = ControladorUsuarios::ctrActualizarUsuario($usuario["id_usuario"],"operando",0);
 		}
-
 
 
 	}

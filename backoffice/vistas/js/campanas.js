@@ -80,6 +80,13 @@ $(".tablaCampanas").on("click","button.btnInvertir",function(){
 
 });
 
+$(".tablaCampanas").on("click","button.btnVerCampana",function(){
+
+	var id_campana=$(this).attr("idCampana");
+	window.location = "index.php?pagina=comprobantes-campana&campana="+id_campana;
+
+});
+
 
 
 //EDITAR CUENTA

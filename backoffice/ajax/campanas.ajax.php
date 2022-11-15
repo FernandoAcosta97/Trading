@@ -58,6 +58,7 @@ class AjaxCampanas{
 			}else if($usuario["operando"]==1 && count($comprobantesUsuario)==0){
 				$operando = ControladorUsuarios::ctrActualizarUsuario($usuario["id_usuario"],"operando",0);
 			}
+
 		}
 
 	}

@@ -1,19 +1,31 @@
-
-<!-- if($usuario["perfil"] != "admin"){
+<?php
+if($usuario["perfil"] != "admin" || !isset($_GET["campana"])){
 
   echo '<script>
 
-  window.location = "'.$ruta.'backoffice/inicio";
+  window.location = "'.$ruta.'backoffice/campanas";
 
   </script>';
 
   return;
 }
 
-$item = null;
-$valor = null;
-$comprobantes = ControladorComprobantes::ctrMostrarComprobantes($item, $valor); -->
+if(isset($_GET["campana"])){
+$item = "id";
+$valor = $_GET["campana"];
+$campana = ControladorCampanas::ctrMostrarCampanas($item, $valor);
 
+if(!$campana){
+  echo '<script>
+
+  window.location = "'.$ruta.'backoffice/campanas";
+
+  </script>';
+  return;
+}
+
+}
+?>
 
 <div class="content-wrapper" style="min-height: 1058.31px;">
 
@@ -23,12 +35,12 @@ $comprobantes = ControladorComprobantes::ctrMostrarComprobantes($item, $valor); 
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>Inversiones</h1>
+          <h1>Campaña <?php echo $campana["nombre"] ?></h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="inicio">Inicio</a></li>
-            <li class="breadcrumb-item active">Inversiones</li>
+            <li class="breadcrumb-item active">Comprobantes</li>
           </ol>
         </div>
       </div>
@@ -44,7 +56,7 @@ $comprobantes = ControladorComprobantes::ctrMostrarComprobantes($item, $valor); 
 
       <div class="card-header">
 
-        <h3 class="card-title">Inversiones Activas</h3>
+        <h3 class="card-title">Comprobantes registrados en la campaña <?php echo $campana["nombre"] ?></h3>
 
         <hr/>
 
@@ -59,7 +71,7 @@ $comprobantes = ControladorComprobantes::ctrMostrarComprobantes($item, $valor); 
 <div class="input-group">
 
 
-<button type="button" style="margin:auto 1%" class="btn btn-default" id="daterange-btn">
+<!-- <button type="button" style="margin:auto 1%" class="btn btn-default" id="daterange-btn">
  
   <span>
     <i class="fa fa-calendar"></i> 
@@ -81,10 +93,21 @@ $comprobantes = ControladorComprobantes::ctrMostrarComprobantes($item, $valor); 
 
   <i class="fa fa-caret-down"></i>
 
-</button>
+</button> -->
 
+<label for="selectFiltro" class="control-label" style="margin:auto 2%">FILTRO</label>
 
+<div>
+  <select class="form-control form-select" id="selectFiltro2">
 
+      <option selected value="3">TODOS</option>
+      <option value="1">APROBADOS</option>
+      <option value="2">PENDIENTES</option>
+      <option value="0">RECHAZADOS</option>
+
+  </select>
+
+</div>
 
 </div>
 
@@ -97,18 +120,18 @@ $comprobantes = ControladorComprobantes::ctrMostrarComprobantes($item, $valor); 
 
       <div class="card-body">
 
-        <table id="tablaComprobantesAprobados" class="table table-striped table-bordered dt-responsive tablaComprobantesAprobados" width="100%">
+        <table id="tablaComprobantesCampana" class="table table-striped table-bordered dt-responsive tablaComprobantesCampana" width="100%">
 
           <thead>
             <tr>
+
               <th>Acciones</th>
               <th>Foto</th>
               <th>Estado</th>
               <th>Valor</th>
+              <th>C.C.</th>
+              <th>Nombre</th>
               <th>Fecha</th>
-              <th>Ganancia</th>
-              <th>Retorno</th>
-              <th>Fecha Retorno</th>
               <th>Campaña</th>
             </tr>
           </thead>
@@ -117,7 +140,7 @@ $comprobantes = ControladorComprobantes::ctrMostrarComprobantes($item, $valor); 
           </tbody>
         </table>
 
-        <input type="hidden" value="<?php echo $usuario["doc_usuario"]; ?>" id="doc_usuario">
+        <input type="hidden" value="<?php echo $_GET["campana"]; ?>" id="id_campana">
 
       </div>
       <!-- /.card-body -->
@@ -140,7 +163,6 @@ $comprobantes = ControladorComprobantes::ctrMostrarComprobantes($item, $valor); 
 <!--=====================================
 EDITAR COMPROBANTE
 ======================================-->
-
 <!-- The Modal -->
 <div class="modal" id="modalEditarComprobante">
   <div class="modal-dialog">
@@ -188,6 +210,7 @@ EDITAR COMPROBANTE
                 </div>
 
               </div> -->
+
 
       <!-- ENTRADA PARA LA FOTO DEL COMPROBANTE -->
       <div class="form-group">

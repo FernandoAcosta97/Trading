@@ -2,23 +2,19 @@
 
 require_once "conexion.php";
 
-class ModeloComprobantes
+class ModeloPagos
 {
 
     /*=============================================
-    Registro de COMPROBANTES
+    Registro de Pagos
     =============================================*/
 
-    public static function mdlRegistrarComprobantes($tabla, $datos)
+    public static function mdlRegistrarPagos($tabla, $datos)
     {
+        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(id_comprobante, estado) VALUES (:id_comprobante, :estado)");
 
-        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(valor, foto, estado, doc_usuario, campana) VALUES (:valor, :foto, :estado, :doc_usuario, :campana)");
-
-        $stmt->bindParam(":valor", $datos["valor"], PDO::PARAM_INT);
-        $stmt->bindParam(":foto", $datos["foto"], PDO::PARAM_STR);
+        $stmt->bindParam(":id_comprobante", $datos["id_comprobante"], PDO::PARAM_INT);
         $stmt->bindParam(":estado", $datos["estado"], PDO::PARAM_INT);
-        $stmt->bindParam(":doc_usuario", $datos["doc_usuario"], PDO::PARAM_INT);
-        $stmt->bindParam(":campana", $datos["campana"], PDO::PARAM_INT);
 
         if ($stmt->execute()) {
 
@@ -33,25 +29,25 @@ class ModeloComprobantes
     }
 
     /*=============================================
-    Mostrar Comprobantes
+    Mostrar Pagos
     =============================================*/
 
-    public static function mdlMostrarComprobantes($tabla, $item, $valor)
+    public static function mdlMostrarPagos($tabla, $item, $valor)
     {
 
-        if ($item != null && $valor != null) {
-            
+        if ($item != null && $valor !=null) {
+
             $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item");
 
             $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
 
             $stmt->execute();
 
-            return $stmt->fetchAll();
+            return $stmt->fetch();
 
         } else {
 
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla ORDER BY 'id_usuario' ASC");
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
 
             $stmt->execute();
 
@@ -280,15 +276,15 @@ class ModeloComprobantes
     }
 
     /*=============================================
-    Eliminar usuario
+    Eliminar pago
     =============================================*/
 
-    public static function mdlEliminarUsuario($tabla, $id)
+    public static function mdlEliminarPagos($tabla, $id)
     {
 
-        $stmt = Conexion::conectar()->prepare("DELETE FROM $tabla WHERE id_usuario = :id_usuario");
+        $stmt = Conexion::conectar()->prepare("DELETE FROM $tabla WHERE id = :id");
 
-        $stmt->bindParam(":id_usuario", $id, PDO::PARAM_INT);
+        $stmt->bindParam(":id", $id, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
 

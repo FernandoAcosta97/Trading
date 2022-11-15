@@ -88,8 +88,9 @@ class TablaComprobantes {
                 $acciones="<button type='button' class='btn btn-primary btn-xs btnSoporte'><i class='fa fa-envelope'></i></button>";
 
             }
-  
-            $retorno = ($value['valor']*$campana['retorno'])/100;
+
+            $ganancia = ($value['valor']*$campana['retorno'])/100;
+            $retorno = $value['valor']+$ganancia;
 
             $datosJson .= '[
                        "'.$acciones.'",
@@ -97,6 +98,7 @@ class TablaComprobantes {
 				       "'.$estado.'",
 				       "$ '.number_format($value[ 'valor' ], 0, ",", ".").' COP",
 					   "'.$value[ 'fecha' ].'",
+                       "$ '.number_format($ganancia, 0, ",", ".").' COP",
                        "$ '.number_format($retorno, 0, ",", ".").' COP",
                        "'.$campana[ 'fecha_fin' ].'",
 					   "'.$campana[ 'nombre' ].'"

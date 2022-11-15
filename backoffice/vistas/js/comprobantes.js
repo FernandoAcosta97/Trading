@@ -80,10 +80,58 @@ $(".tablaComprobantesAprobados").DataTable({
 });
 
 
+/*=============================================
+TABLA COMPROBANTES POR CAMPAÑA
+=============================================*/
+
+var campana = $("#id_campana").val();
+
+$(".tablaComprobantesCampana").DataTable({
+	"ajax":"ajax/tabla-comprobantes-campana.ajax.php?campana="+campana,
+ 	"deferRender": true,
+  	"retrieve": true,
+  	"processing": true,
+	"language": {
+
+	    "sProcessing":     "Procesando...",
+	    "sLengthMenu":     "Mostrar _MENU_ registros",
+	    "sZeroRecords":    "No se encontraron resultados",
+	    "sEmptyTable":     "Ningún dato disponible en esta tabla",
+	    "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
+	    "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0",
+	    "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+	    "sInfoPostFix":    "",
+	    "sSearch":         "Buscar:",
+	    "sUrl":            "",
+	    "sInfoThousands":  ",",
+	    "sLoadingRecords": "Cargando...",
+	    "oPaginate": {
+	      "sFirst":    "Primero",
+	      "sLast":     "Último",
+	      "sNext":     "Siguiente",
+	      "sPrevious": "Anterior"
+	    },
+	    "oAria": {
+	        "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+	        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+	    }
+
+   }
+
+});
+
+
+
 
 $("#selectFiltro").on("change", function (){
 
 	seleccionarFiltro(null,null);
+	    
+});
+
+$("#selectFiltro2").on("change", function (){
+
+	filtroComprobatesCampana();
 	    
 });
 
@@ -100,6 +148,52 @@ function seleccionarFiltro(fechaInicial, fechaFinal){
 
 		tabla = $(".tablaComprobantes").DataTable({
 			ajax: "ajax/tabla-comprobantes.ajax.php?doc_usuario="+doc_usuario+"&estado="+seleccion+"&inicio="+fechaInicial+"&fin="+fechaFinal,
+			deferRender: true,
+			retrieve: true,
+			processing: true,
+			language: {
+			  sProcessing: "Procesando...",
+			  sLengthMenu: "Mostrar _MENU_ registros",
+			  sZeroRecords: "No se encontraron resultados",
+			  sEmptyTable: "Ningún dato disponible en esta tabla",
+			  sInfo: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
+			  sInfoEmpty: "Mostrando registros del 0 al 0 de un total de 0",
+			  sInfoFiltered: "(filtrado de un total de _MAX_ registros)",
+			  sInfoPostFix: "",
+			  sSearch: "Buscar:",
+			  sUrl: "",
+			  sInfoThousands: ",",
+			  sLoadingRecords: "Cargando...",
+			  oPaginate: {
+				sFirst: "Primero",
+				sLast: "Último",
+				sNext: "Siguiente",
+				sPrevious: "Anterior",
+			  },
+			  oAria: {
+				sSortAscending: ": Activar para ordenar la columna de manera ascendente",
+				sSortDescending:
+				  ": Activar para ordenar la columna de manera descendente",
+			  },
+			},
+		  });
+
+
+}
+
+
+function filtroComprobatesCampana(){
+
+	seleccion = $("#selectFiltro2").val();
+	campana = $("#id_campana").val();
+
+	tabla = $(".tablaComprobantesCampana");
+	tbody = $(".tablaComprobantesCampana tbody");
+	tbody.empty();
+	tabla = tabla.dataTable().fnDestroy();
+
+		tabla = $(".tablaComprobantesCampana").DataTable({
+			ajax: "ajax/tabla-comprobantes-campana.ajax.php?campana="+campana+"&estado="+seleccion,
 			deferRender: true,
 			retrieve: true,
 			processing: true,
@@ -352,11 +446,73 @@ $(".editarFotoComprobante").change(function(){
   })
 
 
+  $(".tablaComprobantesCampana").on("click","button.btnEditarComprobante",function(){
+
+	var idComprobante = $(this).attr("idComprobante");
+  
+	var datos = new FormData();
+	datos.append("idComprobanteEditar",idComprobante);
+  
+	$.ajax({
+  
+	 url:"ajax/comprobantes.ajax.php",
+	 method:"POST",
+	 data:datos,
+	 cache:false,
+	 contentType:false,
+	 processData:false,
+	 dataType:"json",
+	 success:function(respuesta){
+
+      $("#editarComprobante").val(respuesta[0]["id"]);
+	  $("#docUsuario").val(respuesta[0]["doc_usuario"]);
+	  $("#editarValor").val(respuesta[0]["valor"]);
+      $("#fotoActualComprobante").val(respuesta[0]["foto"]);
+	  $("#previsualizarEditar").attr("src", respuesta[0]["foto"]);
+
+  
+	}
+  
+  });
+  
+  })
+
+
 
 /*=============================================
 APROBADO O RECHAZADO COMPROBANTE
 =============================================*/
 $(".tablaComprobantes tbody").on("change","select.selectAprobado",function(){
+
+	var idComprobante = $(this).attr("idComprobante");
+	var seleccionado = $(this).val();
+
+	var datos = new FormData();
+ 	datos.append("aprobadoIdComprobante", idComprobante);
+    datos.append("aprobadoComprobante", seleccionado);
+
+  	$.ajax({
+
+	  url:"ajax/comprobantes.ajax.php",
+	  method: "POST",
+	  data: datos,
+	  cache: false,
+      contentType: false,
+      processData: false,
+      success: function(respuesta){
+
+      }
+
+  	})
+
+
+})
+
+
+/*=============================================
+APROBADO O RECHAZADO COMPROBANTE
+=============================================*/
+$(".tablaComprobantesCampana tbody").on("change","select.selectAprobado",function(){
 
 	var idComprobante = $(this).attr("idComprobante");
 	var seleccionado = $(this).val();
@@ -413,6 +569,36 @@ $(".tablaComprobantes tbody").on("change","select.selectCampana",function(){
 })
 
 
+/*=============================================
+CAMBIAR CAMPAÑA SELECT
+=============================================*/
+$(".tablaComprobantesCampana tbody").on("change","select.selectCampana",function(){
+
+	var idCampana = $(this).val();
+	var idComprobante = $(this).attr("idComprobante");
+
+	var datos = new FormData();
+    datos.append("cambiarCampanaComprobante", idComprobante);
+	datos.append("idCampana", idCampana);
+
+  	$.ajax({
+
+	  url:"ajax/comprobantes.ajax.php",
+	  method: "POST",
+	  data: datos,
+	  cache: false,
+      contentType: false,
+      processData: false,
+      success: function(respuesta){
+
+      }
+
+  	})
+
+
+})
+
+
 
 $(".tablaComprobantes tbody").on("click", "button.btnSoporte", function () {
   
@@ -425,11 +611,6 @@ $(".tablaComprobantes tbody").on("click", "button.btnSoporte", function () {
   
 	foto = $(this).attr("src");
 	$(".previsualizarFotoComprobante").attr("src", foto);
-  });
-
-  $(".tablaComprobantes tbody").on("click", "button.btnSoporte", function () {
-  
-	window.location = "soporte";
   });
 
 
@@ -446,6 +627,12 @@ $(".tablaComprobantes tbody").on("click", "button.btnSoporte", function () {
 	window.location = "soporte";
   });
 
+
+  $(".tablaComprobantesCampana tbody").on("click", "img.fotoComprobante", function () {
+  
+	foto = $(this).attr("src");
+	$(".previsualizarFotoComprobante").attr("src", foto);
+  });
 
 
 
