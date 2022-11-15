@@ -2,6 +2,7 @@
 
 
 $total_a_pagar = 0;
+$total_pagos = 0;
 $pagos = ControladorPagos::ctrMostrarPagos(null,null);
 
 foreach ($pagos as $key => $value) {
@@ -13,7 +14,13 @@ foreach ($pagos as $key => $value) {
 	$ganancia = ($comprobante[0]['valor']*$campana['retorno'])/100;
     $total = $comprobante[0]['valor']+$ganancia;
 
-	$total_a_pagar+=$total;
+	if($value["estado"]==0){
+		$total_a_pagar+=$total;
+	}else{
+		$total_pagos+=$total;
+	}
+
+
 
 }
 
@@ -31,7 +38,7 @@ foreach ($pagos as $key => $value) {
 
 				<h3>$ <span><?php echo number_format($total_a_pagar); ?></span></h3>
 
-				<p class="text-uppercase">Comisiones por pagar</p>
+				<p class="text-uppercase">Inversiones por pagar</p>
 
 			</div>
 
@@ -41,7 +48,7 @@ foreach ($pagos as $key => $value) {
 
 			</div>
 
-			<a href="" class="small-box-footer">Más información <i class="fa fa-arrow-circle-right"></i></a>
+			<a href="pagos-inversiones" class="small-box-footer">Más información <i class="fa fa-arrow-circle-right"></i></a>
 
 		</div>
 
@@ -53,9 +60,9 @@ foreach ($pagos as $key => $value) {
 
 			<div class="inner">
 
-				<h3>$ <span class="periodoVentaBinaria"></span></h3>
+				<h3>$ <span><?php echo number_format($total_pagos); ?></span></h3>
 
-				<p class="text-uppercase">Comisiones pagadas</p>
+				<p class="text-uppercase">Inversiones pagadas</p>
 
 			</div>
 
@@ -65,7 +72,7 @@ foreach ($pagos as $key => $value) {
 
 			</div>
 
-			<a href="" class="small-box-footer">Más información <i class="fa fa-arrow-circle-right"></i></a>
+			<a href="inversiones-pagadas" class="small-box-footer">Más información <i class="fa fa-arrow-circle-right"></i></a>
 			
 		</div>
 

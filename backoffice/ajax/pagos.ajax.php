@@ -1,137 +1,254 @@
 <?php
 
-require_once "../controladores/general.controlador.php";
-
-require_once "../controladores/multinivel.controlador.php";
-require_once "../modelos/multinivel.modelo.php";
-
+require_once "../controladores/comprobantes.controlador.php";
+require_once "../modelos/comprobantes.modelo.php";
+require_once "../controladores/pagos.controlador.php";
+require_once "../modelos/pagos.modelo.php";
 require_once "../controladores/usuarios.controlador.php";
 require_once "../modelos/usuarios.modelo.php";
+require_once "../controladores/pagos.controlador.php";
+require_once "../modelos/pagos.modelo.php";
 
-class TablaPagos{
+class AjaxPagos{
 
 	/*=============================================
-	ACTIVAR TABLA PAGOS
-	=============================================*/ 
+	Validar email existente
+	=============================================*/
 
-	public function mostrarTabla(){
-
-		date_default_timezone_set('America/Bogota');
-
-		$ruta = ControladorGeneral::ctrRuta();
-		$patrocinador = ControladorGeneral::ctrPatrocinador();
-
-			$red = ControladorMultinivel::ctrMostrarUsuarioRed("red_binaria", null, null);
-
-			$pagos = ControladorMultinivel::ctrMostrarPagosRed("pagos_binaria", null, null);
-
-		
-
-		$periodo_comision = 0;
-		$periodo_venta = 0;
-
- 		$datosJson = '{
-
-	 	"data": [ ';
-
-	 	if(count($red) != 0){
-
- 	
-			  $periodo_venta =0; 
-		
-			$usuario = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", "43");
-
-			
-
-				$fechaPago = date('Y-m-d');
-			
-
-			/*=============================================
-			NOTAS
-			=============================================*/			
-
-			$notas = "<h5><a href='".$ruta."backoffice/binaria' class='btn btn-purple btn-sm'>Actualizar</a></h5>";		
-
-			$datosJson	 .= '[
-						
-					"1",
-					"En proceso...",
-					"En proceso...",
-					"En proceso...",
-					"'.$periodo_comision.'",
-					"$ '.number_format($periodo_comision, 2, ",", ".").'",
-					"$ '.number_format($periodo_venta, 2, ",", ".").'",
-					"'.$fechaPago.'",
-					"'.$notas.'"
-
-			],';
-
-		}
-
-		foreach ($pagos as $key => $value) {
-
-			$periodo_comision = 0;
-			$periodo_venta = 0;
-
-			if($_GET["enlace_afiliado"] != $patrocinador || $value["usuario_pago"] == $_GET["id_usuario"]){
-
-				$periodo_comision += $value["periodo_comision"];
-
-			}else{
-
-				$periodo_comision += $value["periodo_venta"]-$value["periodo_comision"];
-			}
-				
-  			$periodo_venta += $value["periodo_venta"];  
-
-  			$usuario = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $value["usuario_pago"]);
+	public $validarEmail;
 	
-			/*=============================================
-			NOTAS
-			=============================================*/
+	public function ajaxValidarEmail(){
 
-			if($_GET["enlace_afiliado"] != $patrocinador){			
+		$item = "email";
+		$valor = $this->validarEmail;
 
-				$notas = "<h5><span class='badge badge-success'>Pagada</span></h5>";
+		$respuesta = ControladorUsuarios::ctrMostrarUsuarios($item, $valor);
 
-			}else{
+		echo json_encode($respuesta);
 
-				$notas = "<h5><span class='badge badge-success'>Pagada $".number_format($value["periodo_comision"])."</span></h5>";
-			}		
-
-			$datosJson	 .= '[
-						
-					"'.($key+2).'",
-					"'.$value["id_pago_paypal"].'",
-					"'.$usuario["nombre"].'",
-					"'.$usuario["paypal"].'",
-					"'.$value["periodo"].'",
-					"$ '.number_format($periodo_comision, 2, ",", ".").'",
-					"$ '.number_format($periodo_venta, 2, ",", ".").'",
-					"'.substr($value["fecha_pago"],0,-9).'",
-					"'.$notas.'"
-
-			],';
-
-		}
-
-
-		$datosJson = substr($datosJson, 0, -1);
-
-		$datosJson.=  ']
-
-		}';
-
-		echo $datosJson;
 	}
+
+	/*=============================================
+	Cambiar estado pago inversion
+	=============================================*/	
+
+	public $idPagoInversion;
+
+	public function ajaxEstadoPagoInversion(){
+
+		$item = "estado";
+		$valor = 1;
+
+		$id = $this->idPagoInversion;
+
+		return $respuesta = ControladorPagos::ctrActualizarPagoInversion($id, $item, $valor);
+
+	}
+
+
+	/*=============================================
+	CAMBIAR CAMPAÑA COMPROBANTE
+	=============================================*/	
+
+	public $idComprobateCampana;
+	public $idCampana;
+
+	public function ajaxCambiarCampanaComprobante(){
+
+		$tabla = "comprobantes";
+
+		$item = "campana";
+		$valor = $this->idCampana;
+
+		$id = $this->idComprobateCampana;
+
+		$respuesta = ModeloComprobantes::mdlActualizarComprobante($tabla, $id, $item, $valor);
+
+		// $comprobante = ControladorComprobantes::ctrMostrarComprobantes("id",$id);
+		// // print_r($comprobante);
+		
+		// $doc_usuario = $comprobante[0]["doc_usuario"];
+
+		// $usuario = ControladorUsuarios::ctrMostrarUsuarios("doc_usuario",$doc_usuario);
+
+		// $comprobantesUsuario = ControladorComprobantes::ctrMostrarComprobantesxEstado("doc_usuario",$doc_usuario,"estado",1);
+
+		// if($usuario["operando"]==0 && count($comprobantesUsuario)>0){
+		// 	$operando = ControladorUsuarios::ctrActualizarUsuario($usuario["id_usuario"],"operando",1);
+		// }else if($usuario["operando"]==1 && count($comprobantesUsuario)==0){
+		// 	$operando = ControladorUsuarios::ctrActualizarUsuario($usuario["id_usuario"],"operando",0);
+		// }
+
+
+
+	}
+
+	/*=============================================
+	OPERAR USUARIO
+	=============================================*/	
+
+	public $operarUsuario;
+	public $operarId;
+
+
+	public function ajaxOperarUsuario(){
+
+		$tabla = "usuarios";
+
+		$item = "operando";
+		$valor = $this->operarUsuario;
+
+		$id = $this->operarId;
+
+		$respuesta = ModeloUsuarios::mdlActualizarUsuario($tabla, $id, $item, $valor);
+
+	}
+
+	/*=============================================
+	Suscripción con Paypal
+	=============================================*/	
+	public $suscripcion;
+	public $nombre;
+	public $email;
+	public $documento;
+
+
+	/*=============================================
+	Cancelar Suscripción
+	=============================================*/	
+	public $idUsuario;
+
+	public function ajaxCancelarSuscripcion(){
+
+		$valor = $this->idUsuario;
+
+		$respuesta = ControladorUsuarios::ctrCancelarSuscripcion($valor);
+
+		echo $respuesta;
+
+	}
+
+	/*=============================================
+	EDITAR COMPROBANTE
+	=============================================*/	
+
+	public $idComprobanteEditar;
+
+	public function ajaxEditarComprobante(){
+
+		$item = "id";
+		$valor = $this->idComprobanteEditar;
+
+		$respuesta = ControladorComprobantes::ctrMostrarComprobantes($item, $valor);
+
+		echo json_encode($respuesta);
+
+	}
+
+
+
 
 }
 
 /*=============================================
-ACTIVAR TABLA PAGOS
-=============================================*/ 
+Validar email existente
+=============================================*/
 
-$activar = new TablaPagos();
-$activar -> mostrarTabla();
+if(isset($_POST["validarEmail"])){
+
+	$valEmail = new AjaxUsuarios();
+	$valEmail -> validarEmail = $_POST["validarEmail"];
+	$valEmail -> ajaxValidarEmail();
+
+}
+
+/*=============================================
+Cambiar estado pago inversion
+=============================================*/	
+
+if(isset($_POST["idPagoInversion"])){
+
+	$pagoInversion = new AjaxPagos();
+	$pagoInversion -> idPagoInversion = $_POST["idPagoInversion"];
+	$pagoInversion -> ajaxEstadoPagoInversion();
+
+}
+
+
+/*=============================================
+CAMBIAR CAMPAÑA COMPROBANTE SELECT
+=============================================*/	
+
+if(isset($_POST["cambiarCampanaComprobante"])){
+
+	$cambiarCampanaComprobante = new AjaxComprobantes();
+	$cambiarCampanaComprobante -> idComprobateCampana = $_POST["cambiarCampanaComprobante"];
+	$cambiarCampanaComprobante -> idCampana = $_POST["idCampana"];
+	$cambiarCampanaComprobante -> ajaxCambiarCampanaComprobante();
+
+}
+
+
+/*=============================================
+OPERAR USUARIO
+=============================================*/	
+
+if(isset($_POST["operarUsuario"])){
+
+	$operarUsuario = new AjaxUsuarios();
+	$operarUsuario -> operarUsuario = $_POST["operarUsuario"];
+	$operarUsuario -> operarId = $_POST["operarId"];
+	$operarUsuario -> ajaxOperarUsuario();
+
+}
+
+/*=============================================
+Suscripción con Paypal
+=============================================*/	
+
+if(isset($_POST["suscripcion"]) && $_POST["suscripcion"] == "ok"){
+
+	$paypal = new AjaxUsuarios();
+	$paypal -> nombre = $_POST["nombre"];
+	$paypal -> email = $_POST["email"];
+	$paypal -> documento = $_POST["documento"];
+	$paypal -> ajaxSuscripcion();
+
+}
+
+/*=============================================
+Cancelar Suscrpción
+=============================================*/	
+
+if(isset($_POST["idUsuario"])){
+
+	$cancelarSuscripcion = new AjaxUsuarios();
+	$cancelarSuscripcion -> idUsuario = $_POST["idUsuario"];
+	$cancelarSuscripcion -> ajaxCancelarSuscripcion();
+
+}
+
+/*=============================================
+EDITAR COMPROBANTE
+=============================================*/
+if(isset($_POST["idComprobanteEditar"])){
+
+	$editar = new AjaxComprobantes();
+	$editar -> idComprobanteEditar = $_POST["idComprobanteEditar"];
+	$editar -> ajaxEditarComprobante();
+
+}
+
+/*=============================================
+Eliminar Usuario
+=============================================*/	
+
+if(isset($_POST["idUsuarioEliminar"])){
+
+	$eliminarUsuario = new AjaxUsuarios();
+	$eliminarUsuario -> idUsuarioEliminar = $_POST["idUsuarioEliminar"];
+	$eliminarUsuario -> ajaxEliminarUsuario();
+
+}
 
 

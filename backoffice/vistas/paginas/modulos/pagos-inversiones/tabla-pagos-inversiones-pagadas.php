@@ -8,28 +8,35 @@
 		
 		<h3 class="card-title p-3">
 			<i class="fas fa-table mr-1"></i>		
-			Tabla comisiones pagadas
+			Tabla inversiones pagadas
 		</h3>
 
 	</div>
 
 	<div class="card-body">
 		
-		<table class="table table-bordered table-striped dt-responsive tabla-comisiones-pagadas" width="100%">
+		<table class="table table-bordered table-striped dt-responsive tabla-inversiones-pagadas" width="100%">
 			
 			<thead>
 
 				<tr>
 
-					<th style="width:10px">#</th> 
-					<th>ID Pago</th>
+				    <th style="width:10px">#</th> 
+				    <th>Estado</th>
+					<th>ID</th>
+					<th>Documento</th>
 					<th>Nombre</th>
-					<th>Email</th>
-					<th>Periodo</th>
-					<th>Comisiones</th>				   
-					<th>Ventas</th>					
-					<th>Fecha de pago</th>
-					<th>Notas</th>
+					<th>Teléfono</th>
+					<th>Entidad bancaria</th>				   
+					<th>Cuenta bancaria</th>					
+					<th>Tipo cuenta</th>
+					<th>Campaña</th>
+					<th>Fecha inversión</th>
+					<th>Fecha pago</th>
+					<th>Valor invertido</th>
+					<th>Porcentaje retorno</th>
+					<th>Ganancia</th>
+					<th>Total pagado</th>
 
 				</tr>   
 

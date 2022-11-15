@@ -98,6 +98,7 @@ class TablaComprobantes {
 				       "'.$estado.'",
 				       "$ '.number_format($value[ 'valor' ], 0, ",", ".").' COP",
 					   "'.$value[ 'fecha' ].'",
+                       "'.$campana["retorno"].' %",
                        "$ '.number_format($ganancia, 0, ",", ".").' COP",
                        "$ '.number_format($retorno, 0, ",", ".").' COP",
                        "'.$campana[ 'fecha_fin' ].'",

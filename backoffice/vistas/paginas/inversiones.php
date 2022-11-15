@@ -106,6 +106,7 @@ $comprobantes = ControladorComprobantes::ctrMostrarComprobantes($item, $valor); 
               <th>Estado</th>
               <th>Valor</th>
               <th>Fecha</th>
+              <th>Porcentaje</th>
               <th>Ganancia</th>
               <th>Retorno</th>
               <th>Fecha Retorno</th>

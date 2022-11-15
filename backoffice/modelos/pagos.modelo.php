@@ -60,6 +60,38 @@ class ModeloPagos
     }
 
 
+    /*=============================================
+    Mostrar Pagos
+    =============================================*/
+
+    public static function mdlMostrarPagosAll($tabla, $item, $valor)
+    {
+
+        if ($item != null && $valor !=null) {
+
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item");
+
+            $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
+
+            $stmt->execute();
+
+            return $stmt->fetchAll();
+
+        } else {
+
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
+
+            $stmt->execute();
+
+            return $stmt->fetchAll();
+        }
+
+        $stmt->close();
+
+        $stmt = null;
+    }
+
+
      /*=============================================
     Mostrar Comprobantes
     =============================================*/
@@ -221,10 +253,10 @@ class ModeloPagos
     }
 
     /*=============================================
-    Actualizar Comprobante
+    Actualizar Estado Pago Inversion
     =============================================*/
 
-    public static function mdlActualizarComprobante($tabla, $id, $item, $valor)
+    public static function mdlActualizarPagoInversion($tabla, $id, $item, $valor)
     {
 
         $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET $item = :$item WHERE id = :id");

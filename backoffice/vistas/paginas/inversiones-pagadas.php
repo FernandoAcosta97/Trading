@@ -6,12 +6,12 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>Inversiones por pagar</h1>
+          <h1>Inversiones Pagadas</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="inicio">Inicio</a></li>
-            <li class="breadcrumb-item active">Pagos Inversiones</li>
+            <li class="breadcrumb-item active">Inversiones Pagadas</li>
           </ol>
         </div>
       </div>
@@ -27,7 +27,7 @@
 
       include "modulos/pagos-inversiones/analitica-pagos.php"; 
 
-      include "modulos/pagos-inversiones/tabla-pagos-inversiones.php"; 
+      include "modulos/pagos-inversiones/tabla-pagos-inversiones-pagadas.php"; 
 
       ?>
 

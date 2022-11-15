@@ -35,7 +35,7 @@ class TablaPagos{
 
 		$red = ControladorMultinivel::ctrMostrarUsuarioRed("red_binaria", null, null);
 
-		$pagos = ControladorPagos::ctrMostrarPagosAll("estado","0");
+		$pagos = ControladorPagos::ctrMostrarPagosAll("estado","1");
 
 		$periodo_comision = 0;
 		$periodo_venta = 0;
@@ -115,7 +115,7 @@ class TablaPagos{
             $ganancia = ($comprobante[0]['valor']*$campana['retorno'])/100;
             $total = $comprobante[0]['valor']+$ganancia;
 
-			$acciones = "<button class='btn btn-info btnPagarInversion' idPagoInversion='".$value["id"]."'>PAGAR</button>";
+			$acciones = "<h5><span class='badge badge-success'>Pago $".number_format($total)."</span></h5>";
 
 			$datosJson	 .= '[
 				    "'.($key+1).'",
@@ -129,7 +129,7 @@ class TablaPagos{
 					"'.$cuenta["tipo"].'",
 					"'.$campana["nombre"].'",
 					"'.$comprobante[0]["fecha"].'",
-					"'.$campana["fecha_retorno"].'",
+					"'.$value["fecha"].'",
 					"$ '.number_format($comprobante[0]["valor"]).'",
 					"'.$campana["retorno"].' %",
 					"$ '.number_format($ganancia).'",

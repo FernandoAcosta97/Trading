@@ -215,6 +215,7 @@ if (isset($_GET["pagina"])) {
         $_GET["pagina"] == "matriz" ||
 		$_GET["pagina"] == "pagos-comisiones" ||
 		$_GET["pagina"] == "pagos-inversiones" ||
+		$_GET["pagina"] == "inversiones-pagadas" ||
 		$_GET["pagina"] == "pagos-bienvenida" ||
         $_GET["pagina"] == "ingresos-uninivel" ||
         $_GET["pagina"] == "ingresos-binaria" ||

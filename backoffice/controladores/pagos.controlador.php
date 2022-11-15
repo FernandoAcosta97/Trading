@@ -33,6 +33,22 @@ class ControladorPagos
 
     }
 
+
+    /*=============================================
+    Mostrar Pagos
+    =============================================*/
+
+    public static function ctrMostrarPagosAll($item, $valor)
+    {
+
+        $tabla = "pagos_inversiones";
+
+        $respuesta = ModeloPagos::mdlMostrarPagosAll($tabla, $item, $valor);
+
+        return $respuesta;
+
+    }
+
        /*=============================================
     Mostrar Comprobantes x Estado
     =============================================*/
@@ -112,17 +128,17 @@ class ControladorPagos
     }
 
     /*=============================================
-    Actualizar Usuario
+    Actualizar Estado Pago
     =============================================*/
 
-    public static function ctrActualizarUsuario($id, $item, $valor)
+    public static function ctrActualizarPagoInversion($id, $item, $valor)
     {
 
-        $tabla = "usuarios";
+        $tabla = "pagos_inversiones";
 
-        $respuesta = ModeloUsuarios::mdlActualizarUsuario($tabla, $id, $item, $valor);
+        $respuesta = ModeloPagos::mdlActualizarPagoInversion($tabla, $id, $item, $valor);
 
-        return $respuesta;
+        echo $respuesta;
 
     }
 
