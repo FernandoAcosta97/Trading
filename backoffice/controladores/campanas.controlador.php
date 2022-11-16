@@ -233,6 +233,21 @@ Class ControladorCampanas{
 
 
 	/*=============================================
+	Mostrar Campanas x Estado
+	=============================================*/
+
+	static public function ctrMostrarCampanasxEstado($item, $valor, $item2, $valor2){
+	
+		$tabla = "campanas";
+
+		$respuesta = ModeloCampanas::mdlMostrarCampanasxEstado($tabla, $item, $valor, $item2, $valor2);
+
+		return $respuesta;
+		
+	}
+
+
+	/*=============================================
 	Mostrar Campañas Activas e Inactivas pero no finalizadas
 	=============================================*/
 

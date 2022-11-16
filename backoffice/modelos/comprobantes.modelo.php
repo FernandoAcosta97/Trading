@@ -41,7 +41,7 @@ class ModeloComprobantes
 
         if ($item != null && $valor != null) {
             
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item");
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item ORDER BY 'fecha'");
 
             $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
 
@@ -51,7 +51,7 @@ class ModeloComprobantes
 
         } else {
 
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla ORDER BY 'id_usuario' ASC");
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla ORDER BY 'fecha'");
 
             $stmt->execute();
 

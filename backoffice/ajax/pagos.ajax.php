@@ -47,88 +47,25 @@ class AjaxPagos{
 
 
 	/*=============================================
-	CAMBIAR CAMPAÑA COMPROBANTE
+	Cambiar estado pago Extra
 	=============================================*/	
 
-	public $idComprobateCampana;
-	public $idCampana;
+	public $idPagoExtra;
 
-	public function ajaxCambiarCampanaComprobante(){
+	public function ajaxEstadoPagoExtra(){
 
-		$tabla = "comprobantes";
+		$item = "estado";
+		$valor = 1;
 
-		$item = "campana";
-		$valor = $this->idCampana;
+		$id = $this->idPagoExtra;
 
-		$id = $this->idComprobateCampana;
-
-		$respuesta = ModeloComprobantes::mdlActualizarComprobante($tabla, $id, $item, $valor);
-
-		// $comprobante = ControladorComprobantes::ctrMostrarComprobantes("id",$id);
-		// // print_r($comprobante);
-		
-		// $doc_usuario = $comprobante[0]["doc_usuario"];
-
-		// $usuario = ControladorUsuarios::ctrMostrarUsuarios("doc_usuario",$doc_usuario);
-
-		// $comprobantesUsuario = ControladorComprobantes::ctrMostrarComprobantesxEstado("doc_usuario",$doc_usuario,"estado",1);
-
-		// if($usuario["operando"]==0 && count($comprobantesUsuario)>0){
-		// 	$operando = ControladorUsuarios::ctrActualizarUsuario($usuario["id_usuario"],"operando",1);
-		// }else if($usuario["operando"]==1 && count($comprobantesUsuario)==0){
-		// 	$operando = ControladorUsuarios::ctrActualizarUsuario($usuario["id_usuario"],"operando",0);
-		// }
-
-
+		return $respuesta = ControladorPagos::ctrActualizarPagoExtra($id, $item, $valor);
 
 	}
 
-	/*=============================================
-	OPERAR USUARIO
-	=============================================*/	
-
-	public $operarUsuario;
-	public $operarId;
 
 
-	public function ajaxOperarUsuario(){
-
-		$tabla = "usuarios";
-
-		$item = "operando";
-		$valor = $this->operarUsuario;
-
-		$id = $this->operarId;
-
-		$respuesta = ModeloUsuarios::mdlActualizarUsuario($tabla, $id, $item, $valor);
-
-	}
-
-	/*=============================================
-	Suscripción con Paypal
-	=============================================*/	
-	public $suscripcion;
-	public $nombre;
-	public $email;
-	public $documento;
-
-
-	/*=============================================
-	Cancelar Suscripción
-	=============================================*/	
-	public $idUsuario;
-
-	public function ajaxCancelarSuscripcion(){
-
-		$valor = $this->idUsuario;
-
-		$respuesta = ControladorUsuarios::ctrCancelarSuscripcion($valor);
-
-		echo $respuesta;
-
-	}
-
-	/*=============================================
+    /*=============================================
 	EDITAR COMPROBANTE
 	=============================================*/	
 
@@ -150,17 +87,7 @@ class AjaxPagos{
 
 }
 
-/*=============================================
-Validar email existente
-=============================================*/
 
-if(isset($_POST["validarEmail"])){
-
-	$valEmail = new AjaxUsuarios();
-	$valEmail -> validarEmail = $_POST["validarEmail"];
-	$valEmail -> ajaxValidarEmail();
-
-}
 
 /*=============================================
 Cambiar estado pago inversion
@@ -171,6 +98,19 @@ if(isset($_POST["idPagoInversion"])){
 	$pagoInversion = new AjaxPagos();
 	$pagoInversion -> idPagoInversion = $_POST["idPagoInversion"];
 	$pagoInversion -> ajaxEstadoPagoInversion();
+
+}
+
+
+/*=============================================
+Cambiar estado pago Extra
+=============================================*/	
+
+if(isset($_POST["idPagoExtra"])){
+
+	$pagoExtra = new AjaxPagos();
+	$pagoExtra -> idPagoExtra = $_POST["idPagoExtra"];
+	$pagoExtra -> ajaxEstadoPagoExtra();
 
 }
 
@@ -189,44 +129,8 @@ if(isset($_POST["cambiarCampanaComprobante"])){
 }
 
 
-/*=============================================
-OPERAR USUARIO
-=============================================*/	
 
-if(isset($_POST["operarUsuario"])){
 
-	$operarUsuario = new AjaxUsuarios();
-	$operarUsuario -> operarUsuario = $_POST["operarUsuario"];
-	$operarUsuario -> operarId = $_POST["operarId"];
-	$operarUsuario -> ajaxOperarUsuario();
-
-}
-
-/*=============================================
-Suscripción con Paypal
-=============================================*/	
-
-if(isset($_POST["suscripcion"]) && $_POST["suscripcion"] == "ok"){
-
-	$paypal = new AjaxUsuarios();
-	$paypal -> nombre = $_POST["nombre"];
-	$paypal -> email = $_POST["email"];
-	$paypal -> documento = $_POST["documento"];
-	$paypal -> ajaxSuscripcion();
-
-}
-
-/*=============================================
-Cancelar Suscrpción
-=============================================*/	
-
-if(isset($_POST["idUsuario"])){
-
-	$cancelarSuscripcion = new AjaxUsuarios();
-	$cancelarSuscripcion -> idUsuario = $_POST["idUsuario"];
-	$cancelarSuscripcion -> ajaxCancelarSuscripcion();
-
-}
 
 /*=============================================
 EDITAR COMPROBANTE

@@ -8,14 +8,14 @@
 		
 		<h3 class="card-title p-3">
 			<i class="fas fa-table mr-1"></i>		
-			Tabla inversiones por pagar
+			Tabla bonos extras por pagar
 		</h3>
 
 	</div>
 
 	<div class="card-body">
 		
-		<table class="table table-bordered table-striped dt-responsive tabla-pagar-inversiones" width="100%">
+		<table class="table table-bordered table-striped dt-responsive tabla-pagar-extras" width="100%">
 			
 			<thead>
 
@@ -27,16 +27,10 @@
 					<th>Nombre</th>
 					<th>País</th>
 					<th>Teléfono</th>
-					<th>Referidos</th>
-					<th>Entidad bancaria</th>				   
-					<th>Cuenta bancaria</th>					
-					<th>Tipo cuenta</th>
-					<th>Campaña</th>
-					<th>Fecha inversión</th>
-					<th>Fecha retorno</th>
-					<th>Valor invertido</th>
-					<th>Porcentaje retorno</th>
-					<th>Ganancia</th>
+					<th>Referidos obtenidos</th>
+					<th>Entidad Bancaria</th>
+					<th>Cuenta Bancaria</th>
+					<th>Tipo Cuenta</th>
 					<th>Total a pagar</th>
 
 				</tr>   

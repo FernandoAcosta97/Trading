@@ -6,6 +6,10 @@ require_once "../controladores/pagos.controlador.php";
 require_once "../modelos/pagos.modelo.php";
 require_once "../controladores/usuarios.controlador.php";
 require_once "../modelos/usuarios.modelo.php";
+require_once "../controladores/campanas.controlador.php";
+require_once "../modelos/campanas.modelo.php";
+require_once "../controladores/multinivel.controlador.php";
+require_once "../modelos/multinivel.modelo.php";
 
 class AjaxComprobantes{
 
@@ -67,7 +71,39 @@ class AjaxComprobantes{
 		}else if($usuario["operando"]==1 && count($comprobantesUsuario)==0){
 			$operando = ControladorUsuarios::ctrActualizarUsuario($usuario["id_usuario"],"operando",0);
 		}
+        
+		if($valor==1){
+		$bono_extra = ControladorCampanas::ctrMostrarCampanasxEstado("nombre","Bono Extra","estado","1");
 
+		// print_r($bono_extra);
+
+		if($bono_extra!=""){
+			$totalComprobantesUsuario = ControladorComprobantes::ctrMostrarComprobantes("doc_usuario",$doc_usuario);
+			$total = count($totalComprobantesUsuario);
+			// print_r($total);
+			if($total==1){
+				$patrocinador=ControladorUsuarios::ctrMostrarUsuarios("enlace_afiliado",$usuario["patrocinador"]);
+
+			if($patrocinador["perfil"]!="admin"){
+
+				$existe_pago_extra=ControladorPagos::ctrMostrarPagosExtras2("id_usuario",$patrocinador["id_usuario"],"id_campana",$bono_extra["id"]);
+
+				if($existe_pago_extra==""){
+					ControladorPagos::ctrRegistrarPagosExtras($patrocinador["id_usuario"], $bono_extra["id"]);
+					$p = ControladorPagos::ctrMostrarPagosExtras2("id_usuario",$patrocinador["id_usuario"],"id_campana",$bono_extra["id"]);
+					$red = ControladorMultinivel::ctrMostrarRedUninivel("red_uninivel","usuario_red",$usuario["id_usuario"]);
+					// print_r($red);
+					ControladorPagos::ctrRegistrarBonosExtras($p["id"], $red[0]["id_uninivel"]);
+				}else{
+					$red = ControladorMultinivel::ctrMostrarRedUninivel("red_uninivel","usuario_red",$usuario["id_usuario"]);
+					ControladorPagos::ctrRegistrarBonosExtras($existe_pago_extra["id"], $red[0]["id_uninivel"]);
+
+				}
+
+				}
+			}
+		}
+	  }
 
 	}
 

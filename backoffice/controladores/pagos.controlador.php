@@ -19,6 +19,36 @@ class ControladorPagos
     }
 
     /*=============================================
+    Registro de Pagos Extras
+    =============================================*/
+
+    public static function ctrRegistrarPagosExtras($id_usuario, $id_campana)
+    {
+
+        $tabla = "pagos_extras";
+        $datos = array("id_usuario" => $id_usuario,"id_campana" => $id_campana,
+        "estado" => 0);
+
+        $respuesta = ModeloPagos::mdlRegistrarPagosExtras($tabla, $datos);   
+
+    }
+
+     /*=============================================
+    Registro de Bonos Extras
+    =============================================*/
+
+    public static function ctrRegistrarBonosExtras($id_pago_extra, $id_uninivel)
+    {
+
+        $tabla = "bonos_extras";
+        $datos = array("id_pago_extra" => $id_pago_extra,"id_uninivel" => $id_uninivel,
+        "estado" => 0);
+
+        $respuesta = ModeloPagos::mdlRegistrarBonosExtras($tabla, $datos);   
+
+    }
+
+    /*=============================================
     Mostrar Pagos
     =============================================*/
 
@@ -35,6 +65,38 @@ class ControladorPagos
 
 
     /*=============================================
+    Mostrar Pagos Extras
+    =============================================*/
+
+    public static function ctrMostrarPagosExtras($item, $valor)
+    {
+
+        $tabla = "pagos_extras";
+
+        $respuesta = ModeloPagos::mdlMostrarPagosExtras($tabla, $item, $valor);
+
+        return $respuesta;
+
+    }
+
+
+     /*=============================================
+    Mostrar Pagos Extras 2 parametros
+    =============================================*/
+
+    public static function ctrMostrarPagosExtras2($item, $valor, $item2, $valor2)
+    {
+
+        $tabla = "pagos_extras";
+
+        $respuesta = ModeloPagos::mdlMostrarPagosExtras2($tabla, $item, $valor, $item2, $valor2);
+
+        return $respuesta;
+
+    }
+
+
+    /*=============================================
     Mostrar Pagos
     =============================================*/
 
@@ -44,6 +106,38 @@ class ControladorPagos
         $tabla = "pagos_inversiones";
 
         $respuesta = ModeloPagos::mdlMostrarPagosAll($tabla, $item, $valor);
+
+        return $respuesta;
+
+    }
+
+
+    /*=============================================
+    Mostrar Pagos Extras All
+    =============================================*/
+
+    public static function ctrMostrarPagosExtrasAll($item, $valor)
+    {
+
+        $tabla = "pagos_extras";
+
+        $respuesta = ModeloPagos::mdlMostrarPagosExtrasAll($tabla, $item, $valor);
+
+        return $respuesta;
+
+    }
+
+
+     /*=============================================
+    Mostrar Bonos Extras All
+    =============================================*/
+
+    public static function ctrMostrarBonosExtrasAll($item, $valor)
+    {
+
+        $tabla = "bonos_extras";
+
+        $respuesta = ModeloPagos::mdlMostrarBonosExtrasAll($tabla, $item, $valor);
 
         return $respuesta;
 
@@ -137,6 +231,22 @@ class ControladorPagos
         $tabla = "pagos_inversiones";
 
         $respuesta = ModeloPagos::mdlActualizarPagoInversion($tabla, $id, $item, $valor);
+
+        echo $respuesta;
+
+    }
+
+
+    /*=============================================
+    Actualizar Estado Pago Extra
+    =============================================*/
+
+    public static function ctrActualizarPagoExtra($id, $item, $valor)
+    {
+
+        $tabla = "pagos_extras";
+
+        $respuesta = ModeloPagos::mdlActualizarPagoExtra($tabla, $id, $item, $valor);
 
         echo $respuesta;
 

@@ -28,6 +28,57 @@ class ModeloPagos
         $stmt = null;
     }
 
+
+     /*=============================================
+    Registro de Pagos Extras
+    =============================================*/
+
+    public static function mdlRegistrarPagosExtras($tabla, $datos)
+    {
+        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(id_usuario, id_campana, estado) VALUES (:id_usuario, :id_campana, :estado)");
+
+        $stmt->bindParam(":id_usuario", $datos["id_usuario"], PDO::PARAM_INT);
+        $stmt->bindParam(":id_campana", $datos["id_campana"], PDO::PARAM_INT);
+        $stmt->bindParam(":estado", $datos["estado"], PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+
+            return "ok";
+        } else {
+
+            return print_r(Conexion::conectar()->errorInfo());
+        }
+
+        $stmt->close();
+        $stmt = null;
+    }
+
+
+
+     /*=============================================
+    Registro de Bonos Extras
+    =============================================*/
+
+    public static function mdlRegistrarBonosExtras($tabla, $datos)
+    {
+        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(id_pago_extra, id_uninivel) VALUES (:id_pago_extra, :id_uninivel)");
+
+        $stmt->bindParam(":id_pago_extra", $datos["id_pago_extra"], PDO::PARAM_INT);
+        $stmt->bindParam(":id_uninivel", $datos["id_uninivel"], PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+
+            return "ok";
+        } else {
+
+            return print_r(Conexion::conectar()->errorInfo());
+        }
+
+        $stmt->close();
+        $stmt = null;
+    }
+
+
     /*=============================================
     Mostrar Pagos
     =============================================*/
@@ -60,11 +111,129 @@ class ModeloPagos
     }
 
 
+     /*=============================================
+    Mostrar Pagos Extras
+    =============================================*/
+
+    public static function mdlMostrarPagosExtras($tabla, $item, $valor)
+    {
+
+        if ($item != null && $valor !=null) {
+
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item");
+
+            $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
+
+            $stmt->execute();
+
+            return $stmt->fetch();
+
+        } else {
+
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
+
+            $stmt->execute();
+
+            return $stmt->fetchAll();
+        }
+
+        $stmt->close();
+
+        $stmt = null;
+    }
+
+
+       /*=============================================
+    Mostrar Pagos Extras 2 parametros
+    =============================================*/
+
+    public static function mdlMostrarPagosExtras2($tabla, $item, $valor, $item2, $valor2)
+    {
+
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item AND $item2 = :$item2");
+
+        $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
+        $stmt->bindParam(":" . $item2, $valor2, PDO::PARAM_STR);
+
+        $stmt->execute();
+
+        return $stmt->fetch();
+
+        $stmt->close();
+
+        $stmt = null;
+    }
+
+
     /*=============================================
     Mostrar Pagos
     =============================================*/
 
     public static function mdlMostrarPagosAll($tabla, $item, $valor)
+    {
+
+        if ($item != null && $valor !=null) {
+
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item");
+
+            $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
+
+            $stmt->execute();
+
+            return $stmt->fetchAll();
+
+        } else {
+
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
+
+            $stmt->execute();
+
+            return $stmt->fetchAll();
+        }
+
+        $stmt->close();
+
+        $stmt = null;
+    }
+
+
+    /*=============================================
+    Mostrar Pagos Extras All
+    =============================================*/
+
+    public static function mdlMostrarPagosExtrasAll($tabla, $item, $valor)
+    {
+
+        if ($item != null && $valor !=null) {
+
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item");
+
+            $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
+
+            $stmt->execute();
+
+            return $stmt->fetchAll();
+
+        } else {
+
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
+
+            $stmt->execute();
+
+            return $stmt->fetchAll();
+        }
+
+        $stmt->close();
+
+        $stmt = null;
+    }
+
+
+    /*=============================================
+    Mostrar Bonos Extras All
+    =============================================*/
+
+    public static function mdlMostrarBonosExtrasAll($tabla, $item, $valor)
     {
 
         if ($item != null && $valor !=null) {
@@ -257,6 +426,32 @@ class ModeloPagos
     =============================================*/
 
     public static function mdlActualizarPagoInversion($tabla, $id, $item, $valor)
+    {
+
+        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET $item = :$item WHERE id = :id");
+
+        $stmt->bindParam(":" . $item, $valor, PDO::PARAM_INT);
+        $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+
+            return "ok";
+        } else {
+
+            return print_r(Conexion::conectar()->errorInfo());
+        }
+
+        $stmt->close();
+
+        $stmt = null;
+    }
+
+
+    /*=============================================
+    Actualizar Estado Pago Extra
+    =============================================*/
+
+    public static function mdlActualizarPagoExtra($tabla, $id, $item, $valor)
     {
 
         $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET $item = :$item WHERE id = :id");
