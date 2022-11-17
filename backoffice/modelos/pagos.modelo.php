@@ -112,6 +112,28 @@ class ModeloPagos
 
 
      /*=============================================
+    Mostrar Pagos
+    =============================================*/
+
+    public static function mdlMostrarPagosInversionesxEstado($tabla, $item, $valor, $item2, $valor2)
+    {
+
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item AND $item2 = :$item2");
+
+        $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
+        $stmt->bindParam(":" . $item2, $valor2, PDO::PARAM_STR);
+
+        $stmt->execute();
+
+        return $stmt->fetch();
+
+        $stmt->close();
+
+        $stmt = null;
+    }
+
+
+     /*=============================================
     Mostrar Pagos Extras
     =============================================*/
 
@@ -525,6 +547,58 @@ class ModeloPagos
 
         $stmt = null;
     }
+
+
+     /*=============================================
+    Eliminar pago extra
+    =============================================*/
+
+    public static function mdlEliminarPagoExtra($tabla, $id)
+    {
+
+        $stmt = Conexion::conectar()->prepare("DELETE FROM $tabla WHERE id = :id");
+
+        $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+
+            return "ok";
+        } else {
+
+            return print_r(Conexion::conectar()->errorInfo());
+        }
+
+        $stmt->close();
+
+        $stmt = null;
+    }
+
+
+     /*=============================================
+    Eliminar bono extra
+    =============================================*/
+
+    public static function mdlEliminarBonoExtra($tabla, $item, $id)
+    {
+
+        $stmt = Conexion::conectar()->prepare("DELETE FROM $tabla WHERE $item = :$item");
+
+        $stmt->bindParam(":".$item, $id, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+
+            return "ok";
+        } else {
+
+            return print_r(Conexion::conectar()->errorInfo());
+        }
+
+        $stmt->close();
+
+        $stmt = null;
+    }
+
+
 
     public static function mdlRegistroReferido($tabla, $datos)
     {

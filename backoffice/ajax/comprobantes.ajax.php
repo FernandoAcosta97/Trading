@@ -66,23 +66,28 @@ class AjaxComprobantes{
 
 		$comprobantesUsuario = ControladorComprobantes::ctrMostrarComprobantesxEstado("doc_usuario",$doc_usuario,"estado",1);
 		
-		if($usuario["operando"]==0 && count($comprobantesUsuario)>0){
+		if($usuario["operando"]==0 && $comprobantesUsuario!=""){
 			$operando = ControladorUsuarios::ctrActualizarUsuario($usuario["id_usuario"],"operando",1);
 		}else if($usuario["operando"]==1 && count($comprobantesUsuario)==0){
 			$operando = ControladorUsuarios::ctrActualizarUsuario($usuario["id_usuario"],"operando",0);
 		}
         
-		if($valor==1){
+	if($valor==1){
 		$bono_extra = ControladorCampanas::ctrMostrarCampanasxEstado("nombre","Bono Extra","estado","1");
 
 		// print_r($bono_extra);
 
-		if($bono_extra!=""){
-			$totalComprobantesUsuario = ControladorComprobantes::ctrMostrarComprobantes("doc_usuario",$doc_usuario);
+	   if($bono_extra!=""){
+			$totalComprobantesUsuario = ControladorComprobantes::ctrMostrarComprobantesxEstado("doc_usuario",$doc_usuario,"estado",1);
 			$total = count($totalComprobantesUsuario);
+
+			$comprobanteFechaBono = ControladorComprobantes::ctrMostrarComprobantesxEstadoyFechaBono("id", $id,$bono_extra["fecha_inicio"],$bono_extra["fecha_fin"]);
+
+			// print_r($comprobanteFechaBono);
 			// print_r($total);
-			if($total==1){
-				$patrocinador=ControladorUsuarios::ctrMostrarUsuarios("enlace_afiliado",$usuario["patrocinador"]);
+		if($total==1 && $comprobanteFechaBono!=""){
+
+			$patrocinador=ControladorUsuarios::ctrMostrarUsuarios("enlace_afiliado",$usuario["patrocinador"]);
 
 			if($patrocinador["perfil"]!="admin"){
 
@@ -103,6 +108,33 @@ class AjaxComprobantes{
 				}
 			}
 		}
+	  }else{
+
+		$campana = ControladorCampanas::ctrMostrarCampanasxEstado("nombre","Bono Extra","estado","1");
+
+		$comprobantesFechaBono = ControladorComprobantes::ctrMostrarComprobantesxEstadoyFechaBonoUsuario("doc_usuario", $usuario["doc_usuario"],"estado",1,$campana["fecha_inicio"],$campana["fecha_fin"]);
+
+		$patrocinador=ControladorUsuarios::ctrMostrarUsuarios("enlace_afiliado",$usuario["patrocinador"]);
+
+		$pago_extra=ControladorPagos::ctrMostrarPagosExtras2("id_usuario",$patrocinador["id_usuario"],"id_campana",$campana["id"]);
+
+        $bonos_extras = ControladorPagos::ctrMostrarBonosExtrasAll("id_pago_extra",$pago_extra["id"]);	
+
+		print_r($comprobantesFechaBono);
+
+		if(count($bonos_extras)==1 && count($comprobantesFechaBono)==0){
+
+		ControladorPagos::ctrEliminarBonoExtra("id", $bonos_extras[0]["id"]);
+		ControladorPagos::ctrEliminarPagoExtra($pago_extra["id"]);
+    
+		}else if(count($comprobantesFechaBono)==0){
+
+			$red=ControladorMultinivel::ctrMostrarRedUninivel("red_uninivel","usuario_red",$usuario["id_usuario"]);
+
+			ControladorPagos::ctrEliminarBonoExtra("id_uninivel", $red[0]["id_uninivel"]);
+
+		}
+		
 	  }
 
 	}

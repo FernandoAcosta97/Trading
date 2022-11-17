@@ -65,6 +65,22 @@ class ControladorPagos
 
 
     /*=============================================
+    Mostrar Pagos Inversiones x estado
+    =============================================*/
+
+    public static function ctrMostrarPagosInversionesxEstado($item, $valor, $item2, $valor2)
+    {
+
+        $tabla = "pagos_inversiones";
+
+        $respuesta = ModeloPagos::mdlMostrarPagosInversionesxEstado($tabla, $item, $valor, $item2, $valor2);
+
+        return $respuesta;
+
+    }
+
+
+    /*=============================================
     Mostrar Pagos Extras
     =============================================*/
 
@@ -422,6 +438,38 @@ class ControladorPagos
         $tabla = "pagos_inversiones";
 
         $respuesta = ModeloPagos::mdlEliminarPagos($tabla, $id);
+
+        return $respuesta;
+
+    }
+
+
+     /*=============================================
+    Eliminar Pago Extra
+    =============================================*/
+
+    public static function ctrEliminarPagoExtra($id)
+    {
+
+        $tabla = "pagos_extras";
+
+        $respuesta = ModeloPagos::mdlEliminarPagoExtra($tabla, $id);
+
+        return $respuesta;
+
+    }
+
+
+     /*=============================================
+    Eliminar Pago Bono Extra
+    =============================================*/
+
+    public static function ctrEliminarBonoExtra($item,$id)
+    {
+
+        $tabla = "bonos_extras";
+
+        $respuesta = ModeloPagos::mdlEliminarBonoExtra($tabla, $item, $id);
 
         return $respuesta;
 

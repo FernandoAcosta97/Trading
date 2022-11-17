@@ -131,7 +131,7 @@ class ModeloComprobantes
 
         if ($item != null && $valor != null && $item2 != null && $valor2 != null && $fechaInicial != null && $fechaFinal != null) {
 
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item AND $item2 = :$item2 AND (fecha BETWEEN :fechaInicial AND :fechaFinal) ");
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item AND $item2 = :$item2 AND fecha >= :fechaInicial AND fecha <= :fechaFinal");
 
             $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
             $stmt->bindParam(":" . $item2, $valor2, PDO::PARAM_STR);
@@ -144,7 +144,7 @@ class ModeloComprobantes
 
         } else if($item2 != null && $valor2 != null && $fechaInicial != null && $fechaFinal != null){
 
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item2 = :$item2 AND fecha BETWEEN :fechaInicial AND :fechaFinal");
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item2 = :$item2 AND fecha >= :fechaInicial AND fecha <= :fechaFinal");
 
             $stmt->bindParam(":" . $item2, $valor2, PDO::PARAM_STR);
             $stmt->bindParam(":fechaInicial", $fechaInicial, PDO::PARAM_STR);
@@ -153,41 +153,77 @@ class ModeloComprobantes
             $stmt->execute();
 
             return $stmt->fetchAll();
-        }else if($item != null && $valor != null && $fechaInicial != null && $fechaFinal != null){
+        }else{
 
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item AND (fecha BETWEEN :fechaInicial AND :fechaFinal)");
-
-            $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
-            $stmt->bindParam(":fechaInicial", $fechaInicial, PDO::PARAM_STR);
-            $stmt->bindParam(":fechaFinal", $fechaFinal,  PDO::PARAM_STR);
-
-            $stmt->execute();
-
-            return $stmt->fetchAll();
-           
-        }else if($fechaInicial != null && $fechaFinal != null){
-
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE (fecha BETWEEN :fechaInicial AND :fechaFinal)");
-
-            $stmt->bindParam(":fechaInicial", $fechaInicial, PDO::PARAM_STR);
-            $stmt->bindParam(":fechaFinal", $fechaFinal,  PDO::PARAM_STR);
-
-            $stmt->execute();
-
-            return $stmt->fetchAll();
-
-        }else if($item != null && $valor != null && $item2 != null && $valor2){
-
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item AND $item2 = :$item2 ORDER BY fecha");
-
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item AND $item2 = :$item2");
+    
             $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
             $stmt->bindParam(":" . $item2, $valor2, PDO::PARAM_STR);
-
+    
             $stmt->execute();
-
+    
             return $stmt->fetchAll();
-
         }
+
+        $stmt->close();
+
+        $stmt = null;
+    }
+
+     /*=============================================
+    Mostrar Comprobantes
+    =============================================*/
+
+    public static function mdlMostrarComprobantesxEstadoyFechaBono($tabla, $item, $valor, $fechaInicio, $fechaFin)
+    {
+
+        if ($item != null && $valor != null && $fechaInicio != null && $fechaFin != null) {
+
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $tabla.$item = :$item AND $tabla.fecha >= :fechaInicio AND $tabla.fecha <= :fechaFin");
+
+            $stmt->bindParam(":" . $item, $valor, PDO::PARAM_INT);
+            $stmt->bindParam(":fechaInicio",$fechaInicio, PDO::PARAM_STR);
+            $stmt->bindParam(":fechaFin",$fechaFin, PDO::PARAM_STR);
+
+            $stmt->execute();
+
+            return $stmt->fetch();
+
+        } else if($fechaInicio != null && $fechaFin != null){
+
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $tabla.fecha >= :fechaInicio AND $tabla.fecha <= :fechaFin");
+
+            $stmt->bindParam(":fechaInicio", $fechaInicio, PDO::PARAM_STR);
+            $stmt->bindParam(":fechaFin", $fechaFin,  PDO::PARAM_STR);
+
+            $stmt->execute();
+
+            return $stmt->fetchAll();
+        }
+
+        $stmt->close();
+
+        $stmt = null;
+    }
+
+
+      /*=============================================
+    Mostrar Comprobantes
+    =============================================*/
+
+    public static function mdlMostrarComprobantesxEstadoyFechaBonoUsuario($tabla, $item, $valor, $item2, $valor2, $fechaInicio, $fechaFin)
+    {
+
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item AND $item2 = :$item2 AND fecha >= :fechaInicio AND fecha <= :fechaFin");
+
+        $stmt->bindParam(":" . $item, $valor, PDO::PARAM_INT);
+        $stmt->bindParam(":" . $item2, $valor2, PDO::PARAM_INT);
+        $stmt->bindParam(":fechaInicio",$fechaInicio, PDO::PARAM_STR);
+        $stmt->bindParam(":fechaFin",$fechaFin, PDO::PARAM_STR);
+
+        $stmt->execute();
+
+        return $stmt->fetchAll();   
 
         $stmt->close();
 

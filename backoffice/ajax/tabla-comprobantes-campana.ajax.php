@@ -6,6 +6,8 @@ require_once '../controladores/usuarios.controlador.php';
 require_once '../modelos/usuarios.modelo.php';
 require_once '../controladores/campanas.controlador.php';
 require_once '../modelos/campanas.modelo.php';
+require_once '../controladores/pagos.controlador.php';
+require_once '../modelos/pagos.modelo.php';
 
 class TablaComprobantes {
 
@@ -75,20 +77,30 @@ class TablaComprobantes {
             }
 
             $usuarios = ControladorUsuarios::ctrMostrarUsuarios("doc_usuario",$value["doc_usuario"]);
-                //ESTADO COMPROBANTES
-    
-                if ( $value["estado"] == 1 ) {
-    
-                    $estado = "<select class='form-control selectAprobado' estadoComprobante=0 idComprobante='".$value["id"]."'><option value='1' selected>Aprobado</option><option value='0'>Rechazado</option><option value='2'>Pendiente</option></select>";
-    
-                } else if($value["estado"] == 0){
-    
-                    $estado = "<select class='form-control selectAprobado' estadoComprobante=1 idComprobante='".$value["id"]."'><option value='1'>Aprobado</option><option value='0' selected>Rechazado</option><option value='2'>Pendiente</option></select>";
-    
-                }else if($value["estado"] == 2){
-    
-                    $estado = "<select class='form-control selectAprobado' estadoComprobante=2 idComprobante='".$value["id"]."'><option value='1'>Aprobado</option><option value='0'>Rechazado</option><option value='2' selected>Pendiente</option></select>";
-    
+
+            $comprobante_pagado = ControladorPagos::ctrMostrarPagosInversionesxEstado("id_comprobante",$value["id"],"estado",1);
+
+                if($comprobante_pagado!=""){
+
+                    $estado = "<h5><span class='badge badge-success'>Aprobado</span></h5>";
+
+                }else{
+
+                    //ESTADO COMPROBANTES
+        
+                    if ( $value["estado"] == 1 ) {
+        
+                        $estado = "<select class='form-control selectAprobado' estadoComprobante=0 idComprobante='".$value["id"]."'><option value='1' selected>Aprobado</option><option value='0'>Rechazado</option><option value='2'>Pendiente</option></select>";
+        
+                    } else if($value["estado"] == 0){
+        
+                        $estado = "<select class='form-control selectAprobado' estadoComprobante=1 idComprobante='".$value["id"]."'><option value='1'>Aprobado</option><option value='0' selected>Rechazado</option><option value='2'>Pendiente</option></select>";
+        
+                    }else if($value["estado"] == 2){
+        
+                        $estado = "<select class='form-control selectAprobado' estadoComprobante=2 idComprobante='".$value["id"]."'><option value='1'>Aprobado</option><option value='0'>Rechazado</option><option value='2' selected>Pendiente</option></select>";
+        
+                    }
                 }
 // print_r($campanas);
                 if($campana["estado"]==1 || $campana["estado"]==0){

@@ -212,6 +212,38 @@ class ControladorComprobantes
 
     }
 
+
+    /*=============================================
+    Mostrar Comprobantes x Estado Y Fecha Campaña
+    =============================================*/
+
+    public static function ctrMostrarComprobantesxEstadoyFechaBono($item, $valor, $fechaInicio, $fechaFin)
+    {
+
+        $tabla = "comprobantes";
+
+        $respuesta = ModeloComprobantes::mdlMostrarComprobantesxEstadoyFechaBono($tabla, $item, $valor, $fechaInicio, $fechaFin);
+
+        return $respuesta;
+
+    }
+
+
+      /*=============================================
+    Mostrar Comprobantes x Estado Y Fecha Campaña
+    =============================================*/
+
+    public static function ctrMostrarComprobantesxEstadoyFechaBonoUsuario($item, $valor, $item2, $valor2, $fechaInicio, $fechaFin)
+    {
+
+        $tabla = "comprobantes";
+
+        $respuesta = ModeloComprobantes::mdlMostrarComprobantesxEstadoyFechaBonoUsuario($tabla, $item, $valor, $item2, $valor2, $fechaInicio, $fechaFin);
+
+        return $respuesta;
+
+    }
+
     /*=============================================
     Total Usuarios
     =============================================*/
