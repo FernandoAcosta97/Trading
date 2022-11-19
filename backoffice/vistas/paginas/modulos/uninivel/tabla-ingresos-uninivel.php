@@ -15,21 +15,20 @@
 
 	<div class="card-body">
 		
-		<table class="table table-bordered table-striped dt-responsive tablaIngresos-uninivel" width="100%">
+		<table class="table table-bordered table-striped dt-responsive tabla-ingresos-inversiones" width="100%">
 			
 			<thead>
 
 				<tr>
 
 					<th style="width:10px">#</th> 
-					<th>ID Pago Paypal</th>
-					<th>Nombre</th>
-					<th>Email Paypal</th>
-					<th>Periodo</th>
-					<th>Comisiones</th>				   
-					<th>Ventas</th>					
-					<th>Fecha de pago</th>
-					<th>Notas</th>
+					<th>Estado</th>
+					<th>ID</th>
+					<th>Entidad cuenta</th>
+					<th>Número cuenta</th>
+					<th>Tipo cuenta</th>	
+					<th>Fecha inversion</th>				   
+					<th>Fecha pago</th>					
 
 				</tr>   
 

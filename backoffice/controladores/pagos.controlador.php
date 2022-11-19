@@ -18,6 +18,39 @@ class ControladorPagos
 
     }
 
+
+    /*=============================================
+    Registro de Pagos Comisiones
+    =============================================*/
+
+    public static function ctrRegistrarPagosComisiones($id_usuario)
+    {
+
+        $tabla = "pagos_comisiones";
+        $datos = array("id_usuario" => $id_usuario,
+        "estado" => 0);
+
+        return $respuesta = ModeloPagos::mdlRegistrarPagosComisiones($tabla, $datos);   
+
+    }
+
+
+     /*=============================================
+    Registro de Comisiones
+    =============================================*/
+
+    public static function ctrRegistrarComisiones($id_pago_comision, $id_comprobante, $nivel)
+    {
+
+        $tabla = "comisiones";
+        $datos = array("id_pago_comision" => $id_pago_comision,
+        "id_comprobante" => $id_comprobante,
+        "nivel" => $nivel);
+
+        $respuesta = ModeloPagos::mdlRegistrarComisiones($tabla, $datos);   
+
+    }
+
     /*=============================================
     Registro de Pagos Extras
     =============================================*/
@@ -49,7 +82,7 @@ class ControladorPagos
     }
 
     /*=============================================
-    Mostrar Pagos
+    Mostrar Pagos Inversiones
     =============================================*/
 
     public static function ctrMostrarPagos($item, $valor)
@@ -64,6 +97,85 @@ class ControladorPagos
     }
 
 
+     /*=============================================
+    Mostrar Pagos Comisiones
+    =============================================*/
+
+    public static function ctrMostrarPagosComisiones($item, $valor)
+    {
+
+        $tabla = "pagos_comisiones";
+
+        $respuesta = ModeloPagos::mdlMostrarPagosComisiones($tabla, $item, $valor);
+
+        return $respuesta;
+
+    }
+
+    /*=============================================
+    Mostrar Comisiones
+    =============================================*/
+
+    public static function ctrMostrarComisionesAll($item, $valor)
+    {
+
+        $tabla = "comisiones";
+
+        $respuesta = ModeloPagos::mdlMostrarComisionesAll($tabla, $item, $valor);
+
+        return $respuesta;
+
+    }
+
+    /*=============================================
+    Mostrar Pagos Comisiones x estado
+    =============================================*/
+
+    public static function ctrMostrarPagosComisionesxEstado($item, $valor, $item2, $valor2)
+    {
+
+        $tabla = "pagos_comisiones";
+
+        $respuesta = ModeloPagos::mdlMostrarPagosComisionesxEstado($tabla, $item, $valor, $item2, $valor2);
+
+        return $respuesta;
+
+    }
+
+     /*=============================================
+    Mostrar Pagos Comisiones x estado All
+    =============================================*/
+
+    public static function ctrMostrarPagosComisionesxEstadoAll($item, $valor, $item2, $valor2)
+    {
+
+        $tabla = "pagos_comisiones";
+
+        $respuesta = ModeloPagos::mdlMostrarPagosComisionesxEstado($tabla, $item, $valor, $item2, $valor2);
+
+        return $respuesta;
+
+    }
+
+
+     /*=============================================
+    Mostrar Pagos Inversiones x Usuario
+    =============================================*/
+
+    public static function ctrMostrarPagosInversionesxUsuario($item, $valor)
+    {
+
+        $tabla = "pagos_inversiones";
+        $tabla2 = "comprobantes";
+
+        $respuesta = ModeloPagos::mdlMostrarPagosInversionesxUsuario($tabla, $tabla2, $item, $valor);
+
+        return $respuesta;
+
+    }
+
+
+
     /*=============================================
     Mostrar Pagos Inversiones x estado
     =============================================*/
@@ -74,6 +186,22 @@ class ControladorPagos
         $tabla = "pagos_inversiones";
 
         $respuesta = ModeloPagos::mdlMostrarPagosInversionesxEstado($tabla, $item, $valor, $item2, $valor2);
+
+        return $respuesta;
+
+    }
+
+
+     /*=============================================
+    Mostrar Pagos Inversiones x estado All
+    =============================================*/
+
+    public static function ctrMostrarPagosInversionesxEstadoAll($item, $valor, $item2, $valor2)
+    {
+
+        $tabla = "pagos_inversiones";
+
+        $respuesta = ModeloPagos::mdlMostrarPagosInversionesxEstadoAll($tabla, $item, $valor, $item2, $valor2);
 
         return $respuesta;
 
@@ -126,6 +254,24 @@ class ControladorPagos
         return $respuesta;
 
     }
+
+
+     /*=============================================
+    Mostrar Pagos Comisiones All
+    =============================================*/
+
+    public static function ctrMostrarPagosComisionesAll($item, $valor)
+    {
+
+        $tabla = "pagos_comisiones";
+
+        $respuesta = ModeloPagos::mdlMostrarPagosComisionesAll($tabla, $item, $valor);
+
+        return $respuesta;
+
+    }
+
+
 
 
     /*=============================================
@@ -247,6 +393,22 @@ class ControladorPagos
         $tabla = "pagos_inversiones";
 
         $respuesta = ModeloPagos::mdlActualizarPagoInversion($tabla, $id, $item, $valor);
+
+        echo $respuesta;
+
+    }
+
+
+     /*=============================================
+    Actualizar Estado Pago
+    =============================================*/
+
+    public static function ctrActualizarPagoComision($id, $item, $valor, $item2, $valor2)
+    {
+
+        $tabla = "pagos_comisiones";
+
+        $respuesta = ModeloPagos::mdlActualizarPagoComision($tabla, $id, $item, $valor, $item2, $valor2);
 
         echo $respuesta;
 

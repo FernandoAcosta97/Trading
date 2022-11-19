@@ -46,11 +46,12 @@ class AjaxComprobantes{
 
 		$id = $this->aprobadoIdComprobante;
 
+        //Actualizar estado del comprobante
 		$respuesta = ModeloComprobantes::mdlActualizarComprobante($tabla, $id, $item, $valor);
 
 		$comprobante = ControladorComprobantes::ctrMostrarComprobantes("id",$id);
-		// print_r($comprobante);
 
+		//Registrar pago inversión
 		if($valor==1){
 			$pago=ControladorPagos::ctrRegistrarPagos($comprobante[0]["id"]);
 		}else{
@@ -65,17 +66,17 @@ class AjaxComprobantes{
 		$usuario = ControladorUsuarios::ctrMostrarUsuarios("doc_usuario",$doc_usuario);
 
 		$comprobantesUsuario = ControladorComprobantes::ctrMostrarComprobantesxEstado("doc_usuario",$doc_usuario,"estado",1);
-		
-		if($usuario["operando"]==0 && $comprobantesUsuario!=""){
+
+		//Cambiar estado operando usuario
+		if($usuario["operando"]==0 && count($comprobantesUsuario)>0){
 			$operando = ControladorUsuarios::ctrActualizarUsuario($usuario["id_usuario"],"operando",1);
 		}else if($usuario["operando"]==1 && count($comprobantesUsuario)==0){
 			$operando = ControladorUsuarios::ctrActualizarUsuario($usuario["id_usuario"],"operando",0);
 		}
-        
+
+    // Registrar pago bono extra    
 	if($valor==1){
 		$bono_extra = ControladorCampanas::ctrMostrarCampanasxEstado("nombre","Bono Extra","estado","1");
-
-		// print_r($bono_extra);
 
 	   if($bono_extra!=""){
 			$totalComprobantesUsuario = ControladorComprobantes::ctrMostrarComprobantesxEstado("doc_usuario",$doc_usuario,"estado",1);
@@ -120,8 +121,6 @@ class AjaxComprobantes{
 
         $bonos_extras = ControladorPagos::ctrMostrarBonosExtrasAll("id_pago_extra",$pago_extra["id"]);	
 
-		print_r($comprobantesFechaBono);
-
 		if(count($bonos_extras)==1 && count($comprobantesFechaBono)==0){
 
 		ControladorPagos::ctrEliminarBonoExtra("id", $bonos_extras[0]["id"]);
@@ -136,6 +135,51 @@ class AjaxComprobantes{
 		}
 		
 	  }
+
+
+	  //Registrar pago comisión de acuerdo a los niveles del árbol
+	  if($valor==1){
+
+		$hijo = ControladorUsuarios::ctrMostrarUsuarios("doc_usuario", $doc_usuario);
+
+		$padre = ControladorUsuarios::ctrMostrarUsuarios("enlace_afiliado", $hijo["patrocinador"]);
+
+		$niveles=5;
+		$n=1;
+
+		while($n<=$niveles){
+
+		if($padre["perfil"]=="admin") break;
+
+		$existe_pago = ControladorPagos::ctrMostrarPagosComisionesxEstado("id_usuario", $padre["id_usuario"], "estado",0);
+
+		if($existe_pago!=""){
+
+			$comision = ControladorPagos::ctrRegistrarComisiones($existe_pago["id"],$comprobante[0]["id"],$n);
+
+		}else{
+
+			$pago_comision = ControladorPagos::ctrRegistrarPagosComisiones($padre["id_usuario"]);
+	
+			$comision = ControladorPagos::ctrRegistrarComisiones($pago_comision,$comprobante[0]["id"],$n);
+		}
+
+          $n=$n+1;
+		  $hijo = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $padre["id_usuario"]);
+
+		  $padre = ControladorUsuarios::ctrMostrarUsuarios("enlace_afiliado", $hijo["patrocinador"]);
+		}
+
+		
+
+
+	  }else{
+
+       
+
+	  }
+
+
 
 	}
 

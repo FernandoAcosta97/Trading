@@ -1,4 +1,4 @@
-<input type="hidden" value="<?php echo $usuario["enlace_afiliado"]; ?>" id="enlace_afiliado">
+<!-- <input type="hidden" value="<?php echo $usuario["enlace_afiliado"]; ?>" id="enlace_afiliado"> -->
 <input type="hidden" value="<?php echo $usuario["id_usuario"]; ?>" id="id_usuario">
 
 
@@ -15,21 +15,19 @@
 
 	<div class="card-body">
 		
-		<table class="table table-bordered table-striped dt-responsive tablaIngresos-binaria" width="100%">
+		<table class="table table-bordered table-striped dt-responsive tabla-ingresos-comisiones" width="100%">
 			
 			<thead>
 
 				<tr>
 
 					<th style="width:10px">#</th> 
-					<th>ID Pago Paypal</th>
-					<th>Nombre</th>
-					<th>Email Paypal</th>
-					<th>Periodo</th>
-					<th>Comisiones</th>				   
-					<th>Ventas</th>					
-					<th>Fecha de pago</th>
-					<th>Notas</th>
+					<th>Estado</th>
+					<th>ID</th>
+					<th>Entidad cuenta</th>
+					<th>Número cuenta</th>
+					<th>Tipo Cuenta</th>				
+					<th>Fecha pago</th>
 
 				</tr>   
 

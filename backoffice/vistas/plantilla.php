@@ -214,6 +214,7 @@ if (isset($_GET["pagina"])) {
         $_GET["pagina"] == "binaria" ||
         $_GET["pagina"] == "matriz" ||
 		$_GET["pagina"] == "pagos-comisiones" ||
+		$_GET["pagina"] == "comisiones-pagadas" ||
 		$_GET["pagina"] == "pagos-inversiones" ||
 		$_GET["pagina"] == "inversiones-pagadas" ||
 		$_GET["pagina"] == "pagos-extras" ||
@@ -265,8 +266,8 @@ include "paginas/modulos/footer.php";
 <script src="vistas/js/campanas.js"></script>
 <script src="vistas/js/cuentas.js"></script>
 <script src="vistas/js/multinivel.js"></script>
-<script src="vistas/js/ingresos.js"></script>
 <script src="vistas/js/pagos.js"></script>
+<script src="vistas/js/ingresos.js"></script>
 <script src="vistas/js/soporte.js"></script>
 
 </body>

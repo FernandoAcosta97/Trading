@@ -22,14 +22,17 @@
 				<tr>
 
 					<th style="width:10px">#</th> 
-					<th>ID Pago</th>
+					<th>Estado</th>
+					<th>ID</th>
+					<th>Documento</th>
 					<th>Nombre</th>
-					<th>Email</th>
-					<th>Periodo</th>
-					<th>Comisiones</th>				   
-					<th>Ventas</th>					
-					<th>Fecha de pago</th>
-					<th>Notas</th>
+					<th>País</th>
+					<th>Teléfono</th>
+					<th>Referidos</th>
+					<th>Entidad Bancaria</th>				
+					<th>Cuenta Bancaria</th>   
+					<th>Tipo Cuenta</th>		
+					<th>Fecha Pago</th>
 
 				</tr>   
 

@@ -1,41 +1,42 @@
-<?php 
+<?php
 
-$red = ControladorMultinivel::ctrMostrarRed("usuarios", "red_uninivel", "patrocinador_red",	$usuario["enlace_afiliado"]);
+$pagos = ControladorPagos::ctrMostrarPagosComisionesAll("id_usuario", $usuario["id_usuario"]);
+$total_a_pagar=0;
+$total_pagos=0;
 
-/*=============================================
-Limpinado el array de tipo Objeto de valores repetidos
-=============================================*/
 
-$resultado = array();
+foreach ($pagos as $key => $value) {
+	$total=0;
+	$comisiones = ControladorPagos::ctrMostrarComisionesAll("id_pago_comision",$value["id"]);
 
-foreach ($red as $value) {
-	
-	$resultado[$value["id_usuario"]]= $value;
-	
-}
+		foreach($comisiones as $key2 => $value2){
+           
+				$porcentaje=0;
+				if($value2["nivel"]==1){
+					$porcentaje=5;
+				}
+				if($value2["nivel"]==2){
+					$porcentaje=4;
+				}
+				if($value2["nivel"]==3){
+					$porcentaje=3;
+				}
+				if($value2["nivel"]==4){
+					$porcentaje=2;
+				}
+				if($value2["nivel"]==5){
+					$porcentaje=1;
+				}
+				$comprobante = ControladorComprobantes::ctrMostrarComprobantes("id",$value2["id_comprobante"]);
+				$ganancia = ($comprobante[0]["valor"]*$porcentaje)/100;
+				$total=$total+$ganancia;
+			}
 
-$red = array_values($resultado);
-
-$comisiones = 0;
-$ventas = 0;
-
-if(count($red) != 0){
-
-	foreach ($red as $key => $value) {
-
-		if($value["estado"] != ""){
-		
-			$comisiones += $value["periodo_venta"];
-			$ventas += $value["periodo_venta"];
-
-		}
+	if($value["estado"]==0){
+		$total_a_pagar+=$total;
+	}else{
+		$total_pagos+=$total;
 	}
-
-
-}else{
-
-	$comisiones = 0;
-	$ventas = 0;
 
 }
 
@@ -49,7 +50,7 @@ if(count($red) != 0){
 
 			<div class="inner">
 
-				<h3>$ <?php echo number_format($comisiones, 2, ",", "."); ?></h3>
+				<h3>$ <?php echo number_format($total_a_pagar); ?></h3>
 
 				<p class="text-uppercase">Comisiones de este período</p>
 
@@ -73,10 +74,10 @@ if(count($red) != 0){
 
 			<div class="inner">
 
-				<h3>$ <?php echo number_format($ventas, 2, ",", "."); ?></h3>
+				<h3>$ <?php echo number_format($total_pagos); ?></h3>
 
-				<p class="text-uppercase">Ventas de este período</p>
-
+				<p class="text-uppercase">Comisiones recibidas</p>
+				
 			</div>
 
 			<div class="icon">

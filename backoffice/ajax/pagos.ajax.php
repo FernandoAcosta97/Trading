@@ -47,6 +47,27 @@ class AjaxPagos{
 
 
 	/*=============================================
+	Cambiar estado pago Comision
+	=============================================*/	
+
+	public $idPagoComision;
+	public $totalComision;
+
+	public function ajaxEstadoPagoComision(){
+
+		$item = "estado";
+		$valor = 1;
+
+		$id = $this->idPagoComision;
+		$item2 = "valor";
+		$valor2 = $this->totalComision;
+
+		return $respuesta = ControladorPagos::ctrActualizarPagoComision($id, $item, $valor, $item2, $valor2);
+
+	}
+
+
+	/*=============================================
 	Cambiar estado pago Extra
 	=============================================*/	
 
@@ -98,6 +119,20 @@ if(isset($_POST["idPagoInversion"])){
 	$pagoInversion = new AjaxPagos();
 	$pagoInversion -> idPagoInversion = $_POST["idPagoInversion"];
 	$pagoInversion -> ajaxEstadoPagoInversion();
+
+}
+
+
+/*=============================================
+Cambiar estado pago Comision
+=============================================*/	
+
+if(isset($_POST["idPagoComision"])){
+
+	$pagoComision = new AjaxPagos();
+	$pagoComision -> idPagoComision = $_POST["idPagoComision"];
+	$pagoComision -> totalComision = $_POST["totalComision"];
+	$pagoComision -> ajaxEstadoPagoComision();
 
 }
 

@@ -3,7 +3,7 @@
 $red = ControladorMultinivel::ctrMostrarRed("usuarios", "red_uninivel", "patrocinador_red",	$usuario["enlace_afiliado"]);
 
            /*=============================================
-			Limpinado el array de tipo Objeto de valores repetidos
+			Limpiando el array de tipo Objeto de valores repetidos
 			=============================================*/
 
 			$resultado = array();

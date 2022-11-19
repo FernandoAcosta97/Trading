@@ -23,7 +23,7 @@ require_once "../modelos/campanas.modelo.php";
 class TablaPagos{
 
 	/*=============================================
-	ACTIVAR TABLA PAGOS
+	ACTIVAR TABLA COMISIONES
 	=============================================*/ 
 
 	public function mostrarTabla(){
@@ -33,15 +33,15 @@ class TablaPagos{
 		$ruta = ControladorGeneral::ctrRuta();
 		$patrocinador = ControladorGeneral::ctrPatrocinador();
 
-		$red = ControladorMultinivel::ctrMostrarUsuarioRed("red_binaria", null, null);
+		$usuario = ControladorUsuarios::ctrMostrarUsuarios("id_usuario",$_GET["usuario"]);
 
-		$pagos = ControladorPagos::ctrMostrarPagosAll("estado","0");
+		$pagos = ControladorPagos::ctrMostrarPagosInversionesxUsuario("doc_usuario",$usuario["doc_usuario"]);
 
 		$periodo_comision = 0;
 		$periodo_venta = 0;
 		$totalAfiliadosActivos=0;
 
-		if(count($pagos) < 1 ){
+		if($pagos=="" || count($pagos) < 1){
 
 			echo '{ "data":[]}';
 
@@ -89,11 +89,7 @@ class TablaPagos{
 
 		foreach ($pagos as $key => $value) {
 			
-			$comprobante=ControladorComprobantes::ctrMostrarComprobantes("id",$value["id_comprobante"]);
-
-			$campana=ControladorCampanas::ctrMostrarCampanas("id",$comprobante[0]["campana"]);
-
-  			$usuario = ControladorUsuarios::ctrMostrarUsuarios("doc_usuario", $comprobante[0] ["doc_usuario"]);
+  			$usuario = ControladorUsuarios::ctrMostrarUsuarios("doc_usuario", $value ["doc_usuario"]);
 
 			$cuentaBancaria = ControladorCuentas::ctrMostrarCuentas("usuario",$usuario["id_usuario"]);
 
@@ -122,45 +118,37 @@ class TablaPagos{
 
 			// 	$notas = "<h5><span class='badge badge-success'>Pagada $".number_format($value["periodo_comision"])."</span></h5>";
 			// }	
-			
-            $ganancia = ($comprobante[0]['valor']*$campana['retorno'])/100;
-            $total = $comprobante[0]['valor']+$ganancia;
+			$total=0;
+
+			$campana = ControladorCampanas::ctrMostrarCampanas("id",$value["campana"]);  
+	
+			$ganancia = round(($value["valor"]*$campana["retorno"])/100);		
+		
+			$total+=$value["valor"]+$ganancia;	
 
 			if($cuentaBancaria==""){
                 $numero_cuenta = "X";
 				$entidad_cuenta = "X";
 				$tipo_cuenta = "X";
 
-				$acciones = "<button class='btn btn-info' disabled>PAGAR</button>";
             }else{
 				$numero_cuenta = $cuentaBancaria["numero"];
 				$entidad_cuenta = $cuentaBancaria["entidad"];
 				$tipo_cuenta = $cuentaBancaria["tipo"];
-
-				$acciones = "<button class='btn btn-info btnPagarInversion' idPagoInversion='".$value["id"]."'>PAGAR</button>";
 			}
 
+			$acciones = "<h5><span class='badge badge-success'>Pago $".number_format($total)."</span></h5>";
 
 
 			$datosJson	 .= '[
 				    "'.($key+1).'",
-				    "'.$acciones.'",
+					"'.$acciones.'",
 					"'.$value["id"].'",
-					"'.$usuario["doc_usuario"].'",
-					"'.$usuario["nombre"].'",
-					"'.$usuario["pais"].'",
-					"'.$usuario["telefono_movil"].'",
-					"'.$totalAfiliadosActivos.'",
 					"'.$entidad_cuenta.'",
 					"'.$numero_cuenta.'",
 					"'.$tipo_cuenta.'",
-					"'.$campana["nombre"].'",
-					"'.$comprobante[0]["fecha"].'",
-					"'.$campana["fecha_retorno"].'",
-					"$ '.number_format($comprobante[0]["valor"]).'",
-					"'.$campana["retorno"].' %",
-					"$ '.number_format($ganancia).'",
-					"$ '.number_format($total).'"
+					"'.$value["fecha_inversion"].'",
+					"'.$value["fecha_pago"].'"
 
 			],';
 

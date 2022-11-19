@@ -1,37 +1,18 @@
 <?php
 
-if($usuario["enlace_afiliado"] != $patrocinador){
-
-	$pagos = ControladorMultinivel::ctrMostrarPagosRed("pagos_uninivel", "usuario_pago", $usuario["id_usuario"]);
-
-}else{
-
-	$pagos = ControladorMultinivel::ctrMostrarPagosRed("pagos_uninivel", null, null);
-	
-
-}
-
-$totalComisiones = 0;
-$totalVentas = 0;
-
+$pagos = ControladorPagos::ctrMostrarPagosInversionesxUsuario("doc_usuario", $usuario["doc_usuario"]);
+$total_pagos=0;
 
 foreach ($pagos as $key => $value) {
 
-	if($usuario["enlace_afiliado"] != $patrocinador || $value["periodo_comision"] == $value["periodo_venta"]){
-
-		$totalComisiones += $value["periodo_comision"];
-
-	}else{
-
-		$totalComisiones += $value["periodo_venta"]-$value["periodo_comision"];
-		
-
-	}
-
-	$totalVentas += $value["periodo_venta"];
+	$campana = ControladorCampanas::ctrMostrarCampanas("id",$value["campana"]);  
 	
-}
+	$ganancia = round(($value["valor"]*$campana["retorno"])/100);	
+	$total = $value["valor"];	
 
+	$total_pagos+=$total+$ganancia;
+
+}
 
 ?>
 
@@ -43,11 +24,11 @@ foreach ($pagos as $key => $value) {
 			
 			<i class="fas fa-chart-pie mr-1"></i>
 
-			Ganacias históricas: US$ <?php echo number_format($totalComisiones, 2, ",", "."); ?>
+			Ganacias históricas: US$ <?php echo number_format($total_pagos); ?>
 
 		</h3>
 
-		<h6 class="pl-3">Total ventas históricas: US$ <?php echo number_format($totalVentas, 2, ",", "."); ?></h6>
+		<h6 class="pl-3">Total ventas históricas: US$ <?php echo number_format($total_pagos, 2, ",", "."); ?></h6>
 
 	</div>
 
@@ -78,15 +59,9 @@ data      : [
 
 foreach ($pagos as $key => $value) {
 	
-	if($usuario["enlace_afiliado"] != $patrocinador || $value["periodo_comision"] == $value["periodo_venta"]){
+	echo "{y: '".substr($value["fecha"],0,-9)."', item1: ".$value["valor"].", item2: ".$ganancia."},";
 
-		echo "{y: '".substr($value["fecha_pago"],0,-9)."', item1: ".$value["periodo_comision"].", item2: ".$value["periodo_venta"]."},";
-
-	}else{
-
-		echo "{y: '".substr($value["fecha_pago"],0,-9)."', item1: ".($value["periodo_venta"]-$value["periodo_comision"]).", item2: ".$value["periodo_venta"]."},";
-
-	}
+	
 }
 
 ?>
@@ -94,7 +69,7 @@ foreach ($pagos as $key => $value) {
 ],
 xkey      : 'y',
 ykeys     : ['item1', 'item2'],
-labels    : ['Comisiones', 'Ventas'],
+labels    : ['Inversión', 'Ganancia'],
 lineColors: ['#17a2b8', '#727cb6'],
 hideHover : 'auto'
 

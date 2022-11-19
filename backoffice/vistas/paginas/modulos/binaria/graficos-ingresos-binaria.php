@@ -1,45 +1,40 @@
 <?php
 
-
-if($usuario["enlace_afiliado"] != $patrocinador){
-	
-	$pagos = ControladorMultinivel::ctrMostrarPagosRed("pagos_binaria", "usuario_pago", $usuario["id_usuario"]);
-
-}else{
-
-	$pagos = ControladorMultinivel::ctrMostrarPagosRed("pagos_binaria", null, null);
-}
-
-$totalComisiones = 0;
-$totalVentas = 0;
+$pagos = ControladorPagos::ctrMostrarPagosComisionesxEstadoAll("id_usuario", $usuario["id_usuario"],"estado",1);
+$total_pagos=0;
+if($pagos!=""){
 
 foreach ($pagos as $key => $value) {
+	$total=0;
+	$comisiones = ControladorPagos::ctrMostrarComisionesAll("id_pago_comision",$value["id"]);
 
-	if($usuario["enlace_afiliado"] != $patrocinador || $value["usuario_pago"] == $usuario["id_usuario"]){
+		foreach($comisiones as $key2 => $value2){
+           
+				$porcentaje=0;
+				if($value2["nivel"]==1){
+					$porcentaje=5;
+				}
+				if($value2["nivel"]==2){
+					$porcentaje=4;
+				}
+				if($value2["nivel"]==3){
+					$porcentaje=3;
+				}
+				if($value2["nivel"]==4){
+					$porcentaje=2;
+				}
+				if($value2["nivel"]==5){
+					$porcentaje=1;
+				}
+				$comprobante = ControladorComprobantes::ctrMostrarComprobantes("id",$value2["id_comprobante"]);
+				$ganancia = ($comprobante[0]["valor"]*$porcentaje)/100;
+				$total=$total+$ganancia;
+			}
 
-		$totalComisiones += $value["periodo_comision"];
+	$total_pagos+=$total;
+	
 
-	}else{
-
-		$totalComisiones += $value["periodo_venta"]-$value["periodo_comision"];
-
-	}
-
-
-	if($usuario["enlace_afiliado"] != $patrocinador){
-
-		$totalVentas += $value["periodo_venta"];
-		
-	}else{
-
-		if($value["usuario_pago"] == $usuario["id_usuario"]){
-
-			$totalVentas += $value["periodo_venta"];
-
-		}
-
-	}	
-
+}
 }
 
 ?>
@@ -52,11 +47,11 @@ foreach ($pagos as $key => $value) {
 			
 			<i class="fas fa-chart-pie mr-1"></i>
 
-			Ganacias históricas: US$ <?php echo number_format($totalComisiones, 2, ",", "."); ?>
+			Comisiones históricas: COP$ <?php echo number_format($total_pagos); ?>
 
 		</h3>
 
-		<h6 class="pl-3">Total ventas históricas: US$ <?php echo number_format($totalVentas, 2, ",", "."); ?></h6>
+		<h6 class="pl-3">Total comisiones históricas: US$ <?php echo number_format($total_pagos, 2, ",", "."); ?></h6>
 
 	</div>
 
@@ -87,18 +82,8 @@ data      : [
 
 	foreach ($pagos as $key => $value) {
 
-		if($usuario["enlace_afiliado"] != $patrocinador){
-
-				echo "{y: '".substr($value["fecha_pago"],0,-9)."', item1: ".$value["periodo_comision"].", item2: ".$value["periodo_venta"]."},";
+	    echo "{y: '".substr($value["fecha"],0,-9)."', item1: ".$value["valor"]."},";		
 		
-		}else{
-
-			if($value["usuario_pago"] != $usuario["id_usuario"]){
-	
-				echo "{y: '".substr($value["fecha_pago"],0,-9)."', item1: ".($value["periodo_venta"]-$value["periodo_comision"]).", item2: ".$value["periodo_venta"]."},";
-
-			}
-		}
 	}
 
   ?>
@@ -106,8 +91,8 @@ data      : [
 
 ],
 xkey      : 'y',
-ykeys     : ['item1', 'item2'],
-labels    : ['Comisiones', 'Ventas'],
+ykeys     : ['item1'],
+labels    : ['Comisiones'],
 lineColors: ['#17a2b8', '#727cb6'],
 hideHover : 'auto'
 
