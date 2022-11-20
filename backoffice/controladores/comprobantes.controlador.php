@@ -11,7 +11,7 @@ class ControladorComprobantes
     {
 
         if (isset($_POST["id_campana"])) {
-
+            
 
             if (preg_match('/^[0-9]+$/', $_POST["registrarValor"])) {
 

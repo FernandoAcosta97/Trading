@@ -62,7 +62,7 @@ class ControladorPagos
         $datos = array("id_usuario" => $id_usuario,"id_campana" => $id_campana,
         "estado" => 0);
 
-        $respuesta = ModeloPagos::mdlRegistrarPagosExtras($tabla, $datos);   
+        return $respuesta = ModeloPagos::mdlRegistrarPagosExtras($tabla, $datos);   
 
     }
 
@@ -70,11 +70,11 @@ class ControladorPagos
     Registro de Bonos Extras
     =============================================*/
 
-    public static function ctrRegistrarBonosExtras($id_pago_extra, $id_uninivel)
+    public static function ctrRegistrarBonosExtras($id_pago_extra, $id_usuario)
     {
 
         $tabla = "bonos_extras";
-        $datos = array("id_pago_extra" => $id_pago_extra,"id_uninivel" => $id_uninivel,
+        $datos = array("id_pago_extra" => $id_pago_extra,"id_usuario" => $id_usuario,
         "estado" => 0);
 
         $respuesta = ModeloPagos::mdlRegistrarBonosExtras($tabla, $datos);   
@@ -151,7 +151,7 @@ class ControladorPagos
 
         $tabla = "pagos_comisiones";
 
-        $respuesta = ModeloPagos::mdlMostrarPagosComisionesxEstado($tabla, $item, $valor, $item2, $valor2);
+        $respuesta = ModeloPagos::mdlMostrarPagosComisionesxEstadoAll($tabla, $item, $valor, $item2, $valor2);
 
         return $respuesta;
 
@@ -600,6 +600,39 @@ class ControladorPagos
         $tabla = "pagos_inversiones";
 
         $respuesta = ModeloPagos::mdlEliminarPagos($tabla, $id);
+
+        return $respuesta;
+
+    }
+
+
+     /*=============================================
+    Eliminar Pagos Comisiones
+    =============================================*/
+
+    public static function ctrEliminarPagosComisiones($id)
+    {
+
+        $tabla = "pagos_comisiones";
+
+        $respuesta = ModeloPagos::mdlEliminarPagosComisiones($tabla, $id);
+
+        return $respuesta;
+
+    }
+
+
+    
+    /*=============================================
+    Eliminar Comisiones
+    =============================================*/
+
+    public static function ctrEliminarComisiones($id_pago_comision, $id_comprobante)
+    {
+
+        $tabla = "comisiones";
+
+        $respuesta = ModeloPagos::mdlEliminarComisiones($tabla, $id_pago_comision, $id_comprobante);
 
         return $respuesta;
 

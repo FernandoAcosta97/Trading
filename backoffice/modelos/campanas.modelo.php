@@ -12,11 +12,12 @@ class ModeloCampanas
     public static function mdlRegistroCampana($tabla, $datos)
     {
 
-        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(nombre, retorno, cupos, fecha_inicio, fecha_fin, fecha_retorno, estado) VALUES (:nombre, :retorno, :cupos, :fecha_inicio, :fecha_fin, :fecha_retorno, :estado)");
+        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(nombre, retorno, cupos, tipo,  fecha_inicio, fecha_fin, fecha_retorno, estado) VALUES (:nombre, :retorno, :cupos, :tipo, :fecha_inicio, :fecha_fin, :fecha_retorno, :estado)");
 
         $stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
         $stmt->bindParam(":retorno", $datos["retorno"], PDO::PARAM_STR);
         $stmt->bindParam(":cupos", $datos["cupos"], PDO::PARAM_INT);
+        $stmt->bindParam(":tipo", $datos["tipo"], PDO::PARAM_INT);
         $stmt->bindParam(":fecha_inicio", $datos["fecha_inicio"], PDO::PARAM_STR);
         $stmt->bindParam(":fecha_fin", $datos["fecha_fin"], PDO::PARAM_STR);
         $stmt->bindParam(":fecha_retorno", $datos["fecha_retorno"], PDO::PARAM_STR);

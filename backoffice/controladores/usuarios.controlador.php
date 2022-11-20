@@ -1274,6 +1274,32 @@ Class ControladorUsuarios{
 	}
 
 
+
+	/*=============================================
+	Cambiar Patrocinador
+	=============================================*/
+
+	static public function ctrCambiarPatrocinador($item, $valor){
+	
+		$tablaRedBinaria = "red_binaria";
+		$nombreUsuario = "julian";
+		$nombreNuevoPatrocinador = "gabriel";
+
+		$usuario = ModeloUsuarios::mdlMostrarUsuarios("usuarios", "nombre", $nombreUsuario);
+
+		$patrocinador = ModeloUsuarios::mdlMostrarUsuarios("usuarios", "enlace_afiliado", $usuario["patrocinador"]);
+
+		$nuevoPatrocinador = ModeloUsuarios::mdlMostrarUsuarios("usuarios", "nombre", $nombreNuevoPatrocinador);
+
+		$redBinaria = ModeloMultinivel::mdlMostrarRedBinaria($tablaRedBinaria, "usuario_red", $usuario["id"]);
+
+		$redBinaria["id_binaria"];
+
+		return $respuesta;
+
+	}
+
+
 	
 
 

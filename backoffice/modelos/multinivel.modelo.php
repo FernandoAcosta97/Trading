@@ -192,6 +192,26 @@ class ModeloMultinivel{
 
 	}
 
+
+	/*=============================================
+	MOSTRAR RED BINARIA
+	=============================================*/
+
+	static public function mdlMostrarRedBinaria($tabla, $item, $valor){
+
+		$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item");
+
+		$stmt -> bindParam(":".$item, $valor, PDO::PARAM_STR);
+
+		$stmt -> execute();
+
+		return $stmt -> fetch();
+
+		$stmt-> close();
+		$stmt = null;
+
+	}
+
 	/*=============================================
 	ACTUALIZAR VENTAS Y COMISIONES RED
 	=============================================*/

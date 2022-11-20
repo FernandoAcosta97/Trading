@@ -13,7 +13,7 @@ class TablaCampanas{
 		$ruta = ControladorGeneral::ctrRuta();
 
 		$item = "tipo";
-		$valor = 1;
+		$valor = 2;
 		$campanas = ControladorCampanas::ctrMostrarCampanasAll($item, $valor);
 		$usuario = ControladorUsuarios::ctrMostrarUsuarios("doc_usuario",$_GET["doc_usuario"]);
 
@@ -113,10 +113,8 @@ class TablaCampanas{
 
 				$datosJson .= '[
 					"'.$acciones.'",
-					"'.$value["nombre"].'",
 					"'.number_format($value["retorno"]).' COP",
 					"'.$estado.'", 
-					"'.number_format($cupos_disponibles).'", 
 					"'.$value["fecha_inicio"].'",
 					"'.$value["fecha_fin"].'",
 					"'.$value["fecha_retorno"].'"
@@ -126,10 +124,8 @@ class TablaCampanas{
 
 				$datosJson .= '[
 					"'.$acciones.'",
-					"'.$value["nombre"].'",
 					"'.$value["retorno"].' %",
-					"'.$estado.'", 
-					"'.number_format($cupos_disponibles).'", 
+					"'.$estado.'",  
 					"'.$value["fecha_inicio"].'",
 					"'.$value["fecha_fin"].'",
 					"'.$value["fecha_retorno"].'"

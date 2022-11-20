@@ -95,14 +95,13 @@ class AjaxComprobantes{
 				$existe_pago_extra=ControladorPagos::ctrMostrarPagosExtras2("id_usuario",$patrocinador["id_usuario"],"id_campana",$bono_extra["id"]);
 
 				if($existe_pago_extra==""){
-					ControladorPagos::ctrRegistrarPagosExtras($patrocinador["id_usuario"], $bono_extra["id"]);
-					$p = ControladorPagos::ctrMostrarPagosExtras2("id_usuario",$patrocinador["id_usuario"],"id_campana",$bono_extra["id"]);
-					$red = ControladorMultinivel::ctrMostrarRedUninivel("red_uninivel","usuario_red",$usuario["id_usuario"]);
+					$pago_extra=ControladorPagos::ctrRegistrarPagosExtras($patrocinador["id_usuario"], $bono_extra["id"]);
+					// $red = ControladorMultinivel::ctrMostrarRedUninivel("red_uninivel","usuario_red",$usuario["id_usuario"]);
 					// print_r($red);
-					ControladorPagos::ctrRegistrarBonosExtras($p["id"], $red[0]["id_uninivel"]);
+					ControladorPagos::ctrRegistrarBonosExtras($pago_extra, $usuario["id_usuario"]);
 				}else{
-					$red = ControladorMultinivel::ctrMostrarRedUninivel("red_uninivel","usuario_red",$usuario["id_usuario"]);
-					ControladorPagos::ctrRegistrarBonosExtras($existe_pago_extra["id"], $red[0]["id_uninivel"]);
+					// $red = ControladorMultinivel::ctrMostrarRedUninivel("red_uninivel","usuario_red",$usuario["id_usuario"]);
+					ControladorPagos::ctrRegistrarBonosExtras($existe_pago_extra["id"], $usuario["id_usuario"]);
 
 				}
 
@@ -128,17 +127,17 @@ class AjaxComprobantes{
     
 		}else if(count($comprobantesFechaBono)==0){
 
-			$red=ControladorMultinivel::ctrMostrarRedUninivel("red_uninivel","usuario_red",$usuario["id_usuario"]);
+			// $red=ControladorMultinivel::ctrMostrarRedUninivel("red_uninivel","usuario_red",$usuario["id_usuario"]);
 
-			ControladorPagos::ctrEliminarBonoExtra("id_uninivel", $red[0]["id_uninivel"]);
+			ControladorPagos::ctrEliminarBonoExtra("id_usuario", $usuario["id_usuario"]);
 
 		}
 		
 	  }
 
 
-	  //Registrar pago comisión de acuerdo a los niveles del árbol
-	  if($valor==1){
+	//Registrar pago comisión de acuerdo a los niveles del árbol
+	if($valor==1){
 
 		$hijo = ControladorUsuarios::ctrMostrarUsuarios("doc_usuario", $doc_usuario);
 
@@ -170,14 +169,43 @@ class AjaxComprobantes{
 		  $padre = ControladorUsuarios::ctrMostrarUsuarios("enlace_afiliado", $hijo["patrocinador"]);
 		}
 
-		
+	}else{
 
+		$hijo = ControladorUsuarios::ctrMostrarUsuarios("doc_usuario", $doc_usuario);
 
-	  }else{
+		$padre = ControladorUsuarios::ctrMostrarUsuarios("enlace_afiliado", $hijo["patrocinador"]);
 
+		$niveles=5;
+		$n=1;
+
+		while($n<=$niveles){
+
+		if($padre["perfil"]=="admin") break;
+
+		$existe_pago = ControladorPagos::ctrMostrarPagosComisionesxEstado("id_usuario", $padre["id_usuario"], "estado",0);
+
+		if($existe_pago!=""){
+
+			$comision = ControladorPagos::ctrEliminarComisiones($existe_pago["id"],$comprobante[0]["id"],$n);
+
+			$comisiones = ControladorPagos::ctrMostrarComisionesAll("id_pago_comision", $existe_pago["id"]);
+
+			if(count($comisiones)==0){
+
+				$pago_comision = ControladorPagos::ctrEliminarPagosComisiones($existe_pago["id"]);
+
+			}
+
+		}
+
+          $n=$n+1;
+		  $hijo = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $padre["id_usuario"]);
+
+		  $padre = ControladorUsuarios::ctrMostrarUsuarios("enlace_afiliado", $hijo["patrocinador"]);
+		}
        
 
-	  }
+	}
 
 
 

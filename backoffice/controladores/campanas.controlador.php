@@ -12,17 +12,18 @@ Class ControladorCampanas{
 
 	public function ctrRegistroCampana(){
 
-		if(isset($_POST["selectTipoCampana"])){
-			if($_POST["selectTipoCampana"]==1){
+		if(isset($_POST["tipoCampana"])){
+			if($_POST["tipoCampana"]==1){
 
-			if(preg_match('/^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["registroNombre"]) &&
+			if(preg_match('/^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["registroNombreCampana"]) &&
 			    preg_match('/^[0-9]+$/', $_POST["registroCupos"]) &&
 			    preg_match('/^[0-9.]+$/', $_POST["registroRetorno"])){
 
 				$tabla = "campanas";
-				$datos = array("nombre" => $_POST["registroNombre"],
+				$datos = array("nombre" => $_POST["registroNombreCampana"],
 				               "retorno" => $_POST["registroRetorno"],
 							   "cupos" => $_POST["registroCupos"],
+							   "tipo" => $_POST["tipoCampana"],
 							   "fecha_inicio" => $_POST["registroFechaInicio"],
 							   "fecha_fin" => $_POST["registroFechaFinal"],
 							   "fecha_retorno" => $_POST["registroFechaRetorno"],
@@ -112,7 +113,7 @@ Class ControladorCampanas{
 
 			}
 
-		}else if($_POST["selectTipoCampana"]==2){
+		}else if($_POST["tipoCampana"]==2){
 
 			if(preg_match('/^[0-9.]+$/', $_POST["registroRetorno"])){
 
@@ -120,6 +121,7 @@ Class ControladorCampanas{
 				$datos = array("nombre" => "Bono Extra",
 				               "retorno" => $_POST["registroRetorno"],
 							   "cupos" => "0",
+							   "tipo" => $_POST["tipoCampana"],
 							   "fecha_inicio" => $_POST["registroFechaInicio"],
 							   "fecha_fin" => $_POST["registroFechaFinal"],
 							   "fecha_retorno" => $_POST["registroFechaRetorno"],
@@ -145,7 +147,7 @@ Class ControladorCampanas{
 
 								if(result.value){
 
-									window.location = "campanas";
+									window.location = "bonos-extras";
 
 								}
 
@@ -354,7 +356,9 @@ Class ControladorCampanas{
 
 		$tabla = "campanas";
 
-		if(isset($_POST["editarNombre"])){
+		if(isset($_POST["idCampanaEditar"])){
+
+			if($_POST["tipoCampanaEditar"]==1){
 
 			if(preg_match('/^[0-9]+$/', $_POST["editarCupos"]) &&
 			preg_match('/^[0-9a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["editarNombre"]) &&
@@ -366,7 +370,7 @@ Class ControladorCampanas{
 				"fecha_inicio" => $_POST["editarFechaInicio"],
 				"fecha_fin" => $_POST["editarFechaFinal"],
 				"fecha_retorno" => $_POST["editarFechaRetorno"],
-				"id" => $_POST["idCampana"]);
+				"id" => $_POST["idCampanaEditar"]);
 
 				
 		$respuesta = ModeloCampanas::mdlEditarCampana($tabla, $datos);
@@ -423,7 +427,78 @@ Class ControladorCampanas{
 	
 	
 				}
+				
+			}else if($_POST["tipoCampanaEditar"]==2){
+
+			if(preg_match('/^[0-9]+$/', $_POST["editarRetorno"])){
+
+				$datos = array(	"nombre" => "Bono Extra",
+				"retorno" => $_POST["editarRetorno"],
+				"cupos" => "0",
+				"fecha_inicio" => $_POST["editarFechaInicio"],
+				"fecha_fin" => $_POST["editarFechaFinal"],
+				"fecha_retorno" => $_POST["editarFechaRetorno"],
+				"id" => $_POST["idCampanaEditar"]);
+
+				
+		$respuesta = ModeloCampanas::mdlEditarCampana($tabla, $datos);
+
+		if($respuesta == "ok"){
+			echo '<script>
+
+							swal({
+
+								type:"success",
+								title: "ACTUALIZACIÓN EXITOSA",
+								text: "¡EL BONO EXTRA HA SIDO ACTUALIZADO CORRECTAMENTE!",
+								showConfirmButton: true,
+								confirmButtonText: "Cerrar"
+
+							}).then(function(result){
+
+								if(result.value){
+
+									window.location = "bonos-extras";
+
+								}
+
+
+							});	
+
+						</script>';
+		}
+
+				}else{
+
+					echo '<script>
+	
+						swal({
+	
+							type:"error",
+							title: "¡CORREGIR!",
+							text: "¡No se permiten caracteres especiales en ninguno de los campos!",
+							showConfirmButton: true,
+							confirmButtonText: "Cerrar"
+	
+						}).then(function(result){
+	
+							if(result.value){
+	
+								history.back();
+	
+							}
+	
+	
+						});	
+	
+					</script>';
+	
+	
+				}
+
 			}
+
+		}
 
 
 

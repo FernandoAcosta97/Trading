@@ -59,7 +59,7 @@ data      : [
 
 foreach ($pagos as $key => $value) {
 	
-	echo "{y: '".substr($value["fecha"],0,-9)."', item1: ".$value["valor"].", item2: ".$ganancia."},";
+	echo "{y: '".substr($value["fecha_pago"],0,-9)."', item1: ".$value["valor"].", item2: ".$ganancia."},";
 
 	
 }

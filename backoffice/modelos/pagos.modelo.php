@@ -71,7 +71,7 @@ class ModeloPagos
             return "ok";
         } else {
 
-            return print_r(Conexion::conectar()->errorInfo());
+            return print_r($con->errorInfo());
         }
 
         $stmt->close();
@@ -85,7 +85,8 @@ class ModeloPagos
 
     public static function mdlRegistrarPagosExtras($tabla, $datos)
     {
-        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(id_usuario, id_campana, estado) VALUES (:id_usuario, :id_campana, :estado)");
+        $con = Conexion::conectar();
+        $stmt = $con->prepare("INSERT INTO $tabla(id_usuario, id_campana, estado) VALUES (:id_usuario, :id_campana, :estado)");
 
         $stmt->bindParam(":id_usuario", $datos["id_usuario"], PDO::PARAM_INT);
         $stmt->bindParam(":id_campana", $datos["id_campana"], PDO::PARAM_INT);
@@ -93,10 +94,10 @@ class ModeloPagos
 
         if ($stmt->execute()) {
 
-            return "ok";
+            return $con->lastInsertId();
         } else {
 
-            return print_r(Conexion::conectar()->errorInfo());
+            return print_r($con->errorInfo());
         }
 
         $stmt->close();
@@ -111,10 +112,10 @@ class ModeloPagos
 
     public static function mdlRegistrarBonosExtras($tabla, $datos)
     {
-        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(id_pago_extra, id_uninivel) VALUES (:id_pago_extra, :id_uninivel)");
+        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(id_pago_extra, id_usuario) VALUES (:id_pago_extra, :id_usuario)");
 
         $stmt->bindParam(":id_pago_extra", $datos["id_pago_extra"], PDO::PARAM_INT);
-        $stmt->bindParam(":id_uninivel", $datos["id_uninivel"], PDO::PARAM_INT);
+        $stmt->bindParam(":id_usuario", $datos["id_usuario"], PDO::PARAM_INT);
 
         if ($stmt->execute()) {
 
@@ -344,7 +345,7 @@ class ModeloPagos
     public static function mdlMostrarPagosExtras2($tabla, $item, $valor, $item2, $valor2)
     {
 
-        $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item AND $item2 = :$item2");
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $tabla.estado = 0 AND $item = :$item AND $item2 = :$item2");
 
         $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
         $stmt->bindParam(":" . $item2, $valor2, PDO::PARAM_STR);
@@ -811,6 +812,58 @@ class ModeloPagos
 
         $stmt = null;
     }
+
+
+     /*=============================================
+    Eliminar pago comisiones
+    =============================================*/
+
+    public static function mdlEliminarPagosComisiones($tabla, $id)
+    {
+
+        $stmt = Conexion::conectar()->prepare("DELETE FROM $tabla WHERE id = :id");
+
+        $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+
+            return "ok";
+        } else {
+
+            return print_r(Conexion::conectar()->errorInfo());
+        }
+
+        $stmt->close();
+
+        $stmt = null;
+    }
+
+
+     /*=============================================
+    Eliminar comisiones
+    =============================================*/
+
+    public static function mdlEliminarComisiones($tabla, $id_pago_comision, $id_comprobante)
+    {
+
+        $stmt = Conexion::conectar()->prepare("DELETE FROM $tabla WHERE id_pago_comision = :$id_pago_comision AND id_comprobante = :$id_comprobante");
+
+        $stmt->bindParam(":".$id_pago_comision, $id_pago_comision, PDO::PARAM_INT);
+        $stmt->bindParam(":".$id_comprobante, $id_comprobante, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+
+            return "ok";
+        } else {
+
+            return print_r(Conexion::conectar()->errorInfo());
+        }
+
+        $stmt->close();
+
+        $stmt = null;
+    }
+
 
 
      /*=============================================

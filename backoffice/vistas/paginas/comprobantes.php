@@ -377,7 +377,7 @@ REGISTRAR COMPROBANTE
 
 
 <!--=====================================
-EDITAR COMPROBANTE
+VER FOTO COMPROBANTE
 ======================================-->
 
 <!-- The Modal -->

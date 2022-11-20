@@ -206,6 +206,7 @@ if (isset($_GET["pagina"])) {
         $_GET["pagina"] == "usuarios" ||
 		$_GET["pagina"] == "usuario" ||
 		$_GET["pagina"] == "campanas" ||
+		$_GET["pagina"] == "bonos-extras" ||
         $_GET["pagina"] == "cuentas-bancarias" ||
         $_GET["pagina"] == "comprobantes" ||
 		$_GET["pagina"] == "comprobantes-campana" ||
@@ -222,6 +223,7 @@ if (isset($_GET["pagina"])) {
         $_GET["pagina"] == "ingresos-uninivel" ||
         $_GET["pagina"] == "ingresos-binaria" ||
         $_GET["pagina"] == "ingresos-matriz" ||
+		$_GET["pagina"] == "cambiar-patrocinador" ||
         $_GET["pagina"] == "plan-compensacion" ||
         $_GET["pagina"] == "soporte" ||
         $_GET["pagina"] == "salir") {

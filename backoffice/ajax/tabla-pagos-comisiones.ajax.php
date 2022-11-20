@@ -121,10 +121,10 @@ class TablaPagos{
 			$comisiones = ControladorPagos::ctrMostrarComisionesAll("id_pago_comision",$value["id"]);
 
 			$total = 0;
-
 			foreach($comisiones as $key2 => $value2){
            
 				$porcentaje=0;
+				$ganancia=0;
 				if($value2["nivel"]==1){
 					$porcentaje=5;
 				}
@@ -141,6 +141,7 @@ class TablaPagos{
 					$porcentaje=1;
 				}
 				$comprobante = ControladorComprobantes::ctrMostrarComprobantes("id",$value2["id_comprobante"]);
+
 				$ganancia = ($comprobante[0]["valor"]*$porcentaje)/100;
 				$total=$total+$ganancia;
 			}
@@ -151,13 +152,13 @@ class TablaPagos{
 				$entidad_cuenta = "X";
 				$tipo_cuenta = "X";
 
-				$acciones = "<button class='btn btn-info' disabled>PAGAR</button>";
+				$acciones = "<div class='btn-group'><button class='btn btn-info' disabled>PAGAR</button><button type='button' class='btn btn-success btn-xs btnVerUsuario' idUsuario='".$value["id_usuario"]."'><i class='fa fa-eye'></i></button></div>";
             }else{
 				$numero_cuenta = $cuentaBancaria["numero"];
 				$entidad_cuenta = $cuentaBancaria["entidad"];
 				$tipo_cuenta = $cuentaBancaria["tipo"];
 
-				$acciones = "<button class='btn btn-info btnPagarComision' idPagoComision='".$value["id"]."' totalComision='".$total."'>PAGAR</button>";
+				$acciones = "<div class='btn-group'><button class='btn btn-info btnPagarComision' idPagoComision='".$value["id"]."' totalComision='".$total."'>PAGAR</button><button type='button' class='btn btn-success btn-xs btnVerComisiones' data-toggle='modal' data-target='#modalVerComisiones' idPagoComision='".$value["id"]."'><i class='fa fa-eye'></i></button></div>";
 			}
 
 

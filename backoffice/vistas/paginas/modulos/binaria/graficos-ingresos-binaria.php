@@ -2,6 +2,7 @@
 
 $pagos = ControladorPagos::ctrMostrarPagosComisionesxEstadoAll("id_usuario", $usuario["id_usuario"],"estado",1);
 $total_pagos=0;
+
 if($pagos!=""){
 
 foreach ($pagos as $key => $value) {

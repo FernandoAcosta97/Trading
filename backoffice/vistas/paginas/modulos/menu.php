@@ -79,12 +79,37 @@
       Botón Campañas
       ======================================-->
 
-      <li class="nav-item">
+      <!-- <li class="nav-item">
           <a href="campanas" class="nav-link">
             <i class="nav-icon fas fa-money-bill"></i>
             <p>Campañas</p>
           </a>
-        </li>
+        </li> -->
+
+        <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-money-bill"></i>
+              <p>
+              Campañas
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="campanas" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Inversiones</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="bonos-extras" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Bonos extras</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+
 
       <?php if ($usuario["perfil"] != "admin") : ?>
 
@@ -170,13 +195,13 @@
               <li class="nav-item">
                 <a href="ingresos-uninivel" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Ingresos uninivel</p>
+                  <p>Ingresos inversiones</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="ingresos-binaria" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Ingresos binaria</p>
+                  <p>Ingresos comisiones</p>
                 </a>
               </li>
             </ul>
@@ -217,6 +242,17 @@
             </ul>
           </li>
           <?php endif ?>
+
+       <!--=====================================
+        Botón Cambio patrocinador
+        ======================================-->
+
+        <li class="nav-item">
+          <a href="cambiar-patrocinador" class="nav-link">
+            <i class="nav-icon fas fa-wrench"></i>
+            <p>Cambio patrocinador</p>
+          </a>
+        </li>
 
         <!--=====================================
         Botón Plan de compensación
