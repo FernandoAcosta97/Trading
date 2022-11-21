@@ -33,11 +33,18 @@ $(".tabla-pagar-comisiones").DataTable({
   
   });
 
-  $(".tabla-pagar-comisiones tbody").on("click", "button.btnVerComisiones", function () {
+
+
+$(".tabla-pagar-comisiones tbody").on("click", "button.btnVerComisiones", function () {
 
     var idPago = $(this).attr("idPagoComision");
 
-    $(".tabla-detalles-comisiones").DataTable({
+    tabla = $(".tabla-detalles-comisiones");
+    tbody = $(".tabla-detalles-comisiones tbody");
+    tbody.empty();
+    tabla = tabla.dataTable().fnDestroy();
+
+    tabla = $(".tabla-detalles-comisiones").DataTable({
       "ajax":"ajax/tabla-detalles-comisiones.ajax.php?pago="+idPago,
       "deferRender": true,
       "retrieve": true,
@@ -362,7 +369,89 @@ $(".tabla-pagar-comisiones").DataTable({
     
         })
       
+    });
+
+
+
+$(".btnPagosComisiones").click(function () {
+
+      var idsPagosComisiones= $(this).attr("idPagos");
+
+      if(idsPagosComisiones!=""){
+
+        var datos = new FormData();
+        datos.append("idsPagosComisiones", idsPagosComisiones);
+      
+          $.ajax({
+      
+          url:"ajax/pagos.ajax.php",
+          method: "POST",
+          data: datos,
+          cache: false,
+          contentType: false,
+          processData: false,
+          success: function(respuesta){
+  
+          var conjunto = new Set(respuesta.split(""));
+          var arreglo = Array.from(conjunto);
+          var res = arreglo.join("");
+      
+              if (res == "ok") {
+            
+                swal({
+                  type: "success",
+                  title: "¡Los pagos de la comisiones seleccionadas se ha realizado correctamente!",
+                  allowOutsideClick: false,
+                  showConfirmButton: true,
+                  confirmButtonText: "Cerrar",
+                }).then(function (result) {
+                  if (result.value) {
+                    window.location = "pagos-comisiones";
+                  }
+                });
+            
+              }else{
+      
+                swal({
+                  type: "error",
+                  title: "¡Ha ocurrido un error!",
+                  text: "¡Contacte con el administrador o vuelve a intentarlo mas tarde!",
+                  showConfirmButton: true,
+                  confirmButtonText: "Cerrar",
+                }).then(function (result) {
+                  if (result.value) {
+                    // window.location = "pagos-inversiones";
+                    
+                  }
+                });
+            
+      
+              }
+      
+            }
+      
+          })
+
+
+      }else{
+
+        swal({
+          type: "warning",
+          title: "¡Advertencia!",
+          text: "¡No ha seleccionado ningún pago!",
+          showConfirmButton: true,
+          confirmButtonText: "Cerrar",
+        }).then(function (result) {
+          if (result.value) {
+            // window.location = "pagos-inversiones";
+            
+          }
         });
+
+      }
+    
+      
+    });
 
 
 
@@ -422,5 +511,99 @@ $(".tabla-pagar-comisiones").DataTable({
         });
 
 
+/*=============================================
+PLUGIN ICHECK
+=============================================*/
+
+$(".tabla-pagar-comisiones").on("draw.dt", function(){
+
+	$(".seleccionarPagosComisiones input[type='checkbox']").iCheck({
+		checkboxClass: "icheckbox_flat-blue",
+		radioClass: "iradio_flat-blue"
+	});
+
+	/*=============================================
+	ENVIAR TICKETS DE FORMA MASIVA A LA PAPELERA
+	=============================================*/
+
+	var pagoCheckbox = $(".seleccionarPagoComision");
+
+	var idPagos = [];
+
+	for(var i = 0; i < pagoCheckbox.length; i++){
+
+    	/*=============================================
+    	Checkear para realizar pago
+    	=============================================*/
+
+    	$(pagoCheckbox[i]).on("ifChecked", function(event){
+
+    		idPagos.push($(this).attr("idPagoComision"));
+
+    		if($(".btnPagosComisiones").attr("idPagos") != ""){
+
+    			pagos = $(".btnPagosComisiones").attr("idPagos").split(",");
+
+    			pagos.push($(this).attr("idPagoComision"));
+
+    			$(".btnPagosComisiones").attr("idPagos", pagos.toString());
+
+    		}else{
+
+    			$(".btnPagosComisiones").attr("idPagos", idPagos.toString());
+
+    		}
+
+    	})
+
+    	/*=============================================
+    	Quitar el Check para enviar a la papelera
+    	=============================================*/
+
+    	$(pagoCheckbox[i]).on("ifUnchecked", function(event){
+
+    		var quitarPagos = $(".btnPagosComisiones").attr("idPagos").split(",");
+
+    		for(var f = 0; f < quitarPagos.length; f++){
+
+    			if(quitarPagos[f] == $(this).attr("idPagoComision")){
+
+    				quitarPagos.splice(f, 1);
+
+    				idPagos.splice(f, 1);
+
+    				$(".btnPagosComisiones").attr("idPagos", quitarPagos.toString());
+
+    			}
+
+    		}
+
+    	})
+		
+
+	}
+
+
+})
 
     
+
+$(".checkbox-toggle2").click(function(){
+
+	var clicks = $(this).data('clicks');
+
+	if(clicks){
+
+		$(".seleccionarPagosComisiones input[type='checkbox']").iCheck("uncheck");
+		$(".far", this).removeClass("fa-check-square").addClass("fa-square");
+
+	}else{
+
+		$(".seleccionarPagosComisiones input[type='checkbox']").iCheck("check");
+		$(".far", this).removeClass("fa-square").addClass("fa-check-square");
+
+	}
+
+	$(this).data("clicks", !clicks);
+
+})

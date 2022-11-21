@@ -415,6 +415,22 @@ class ControladorPagos
     }
 
 
+       /*=============================================
+    Actualizar Estado de varios pagos de comisiones
+    =============================================*/
+
+    public static function ctrActualizarPagosComisiones($id, $item, $valor)
+    {
+
+        $tabla = "pagos_comisiones";
+
+        $respuesta = ModeloPagos::mdlActualizarPagosComisiones($tabla, $id, $item, $valor);
+
+        echo $respuesta;
+
+    }
+
+
     /*=============================================
     Actualizar Estado Pago Extra
     =============================================*/

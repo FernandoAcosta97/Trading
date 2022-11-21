@@ -162,9 +162,11 @@ class TablaPagos{
 			}
 
 
+			$seleccionar = "<center><input type='checkbox' class='seleccionarPagoComision' idPagoComision='".$value["id"]."'></input></center>";
 
 			$datosJson	 .= '[
 				    "'.($key+1).'",
+					"'.$seleccionar.'",
 				    "'.$acciones.'",
 					"'.$value["id"].'",
 					"'.$usuario["doc_usuario"].'",

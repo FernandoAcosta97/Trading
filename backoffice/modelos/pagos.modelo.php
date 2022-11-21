@@ -735,6 +735,32 @@ class ModeloPagos
 
 
     /*=============================================
+    Actualizar Estado de varios pagos de comisiones
+    =============================================*/
+
+    public static function mdlActualizarPagosComisiones($tabla, $id, $item, $valor)
+    {
+
+        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET $item = :$item WHERE id = :id");
+
+        $stmt->bindParam(":" . $item, $valor, PDO::PARAM_INT);
+        $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+
+            return "ok";
+        } else {
+
+            return print_r(Conexion::conectar()->errorInfo());
+        }
+
+        $stmt->close();
+
+        $stmt = null;
+    }
+
+
+    /*=============================================
     Actualizar Estado Pago Extra
     =============================================*/
 
