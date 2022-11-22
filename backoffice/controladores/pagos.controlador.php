@@ -225,6 +225,22 @@ class ControladorPagos
 
 
      /*=============================================
+    Mostrar Pagos Extras x Etado All
+    =============================================*/
+
+    public static function ctrMostrarPagosExtrasxEstadoAll($item, $valor, $item2, $valor2)
+    {
+
+        $tabla = "pagos_extras";
+
+        $respuesta = ModeloPagos::mdlMostrarPagosExtrasxEstadoAll($tabla, $item, $valor, $item2, $valor2);
+
+        return $respuesta;
+
+    }
+
+
+     /*=============================================
     Mostrar Pagos Extras 2 parametros
     =============================================*/
 

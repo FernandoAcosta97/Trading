@@ -38,7 +38,7 @@
 
         </div>
 
-        <?php endif?>
+        <?php endif ?>
 
         <div class="card-tools">
           <button type="button" class="btn btn-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -209,10 +209,10 @@ EDITAR CAMPAÑA
 
 		<?php
 
-$editarCampana = new ControladorCampanas();
-$editarCampana->ctrEditarCampana();
+    $editarCampana = new ControladorCampanas();
+    $editarCampana->ctrEditarCampana();
 
-?>
+    ?>
 
 
       </form>
@@ -347,10 +347,10 @@ REGISTRAR CAMPAÑA
 
 		<?php
 
-$registrarCampanas = new ControladorCampanas();
-$registrarCampanas->ctrRegistroCampana();
+    $registrarCampanas = new ControladorCampanas();
+    $registrarCampanas->ctrRegistroCampana();
 
-?>
+    ?>
 
 
       </form>
@@ -358,7 +358,7 @@ $registrarCampanas->ctrRegistroCampana();
     </div>
   </div>
 </div>
-
+        </div>
 
 
 
@@ -443,12 +443,12 @@ REGISTRAR COMPROBANTE
 
 	      </div>
 
-		<?php
+		  <?php
 
-$registrarComprobantes = new ControladorComprobantes();
-$registrarComprobantes->ctrRegistrarComprobantes();
+      $registrarComprobantes = new ControladorComprobantes();
+      $registrarComprobantes->ctrRegistrarComprobantes();
 
-?>
+      ?>
 
 
       </form>

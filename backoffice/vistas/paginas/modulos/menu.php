@@ -78,6 +78,7 @@
       <!--=====================================
       Botón Campañas
       ======================================-->
+    
 
       <!-- <li class="nav-item">
           <a href="campanas" class="nav-link">
@@ -85,6 +86,9 @@
             <p>Campañas</p>
           </a>
         </li> -->
+  
+
+
 
         <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
@@ -109,7 +113,7 @@
               </li>
             </ul>
           </li>
-
+     
 
       <?php if ($usuario["perfil"] != "admin") : ?>
 
@@ -124,7 +128,7 @@
           </a>
         </li>
 
-        <?php endif?>
+        <?php endif ?>
 
       <!--=====================================
       Botón Cuentas

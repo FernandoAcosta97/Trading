@@ -171,6 +171,10 @@ $usuario = ControladorUsuarios::ctrMostrarUsuarios($item, $valor);
 	<script src="vistas/js/plugins/raphael-min.js"></script>
 	<script src="vistas/js/plugins/morris.min.js"></script>
 
+		<!-- Chart.js charts -->
+	<!-- https://www.chartjs.org/ -->
+	<script src="vistas/js/plugins/chart.min.js"></script>
+
 	<!-- https://ckeditor.com/ckeditor-5/#classic -->
 	<script src="vistas/js/plugins/ckeditor.js"></script>
 
