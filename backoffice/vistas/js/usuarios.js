@@ -36,6 +36,57 @@ PLUGIN SELECT 2
 
 $(".select2").select2();
 
+
+/*=============================================
+PLUGIN SELECT 2 BUSCAR USUARIO POR NOMBRE O NÚMERO DE DOCUMENTO
+=============================================*/
+
+$(".selectBuscar").select2({
+  placeholder: "Ingrese el nombre o número de documento a buscar",
+  minimumInputLength: 3,
+  ajax:{
+    url: "ajax/buscarUsuario.ajax.php",
+    type: "POST",
+    dataType: "json",
+    delay: 250,
+    data: function(params){
+      return {
+        buscarUsuario: params.term
+      }
+    },
+    processResults: function (response) {
+      return {
+      results: response.items
+      };
+      },
+      cache: true
+    // success: function (respuesta) {
+    //   // console.log(respuesta);
+    //   respuesta["results"].forEach(buscar);
+      
+    //   function buscar(item, index) {
+    //     console.log(item);
+    //     var id_usuario = item.id_usuario;
+    //     var usuario = item.nombre;
+    //     var doc_usuario = item.doc_usuario;
+    //     console.log($(".selectBuscar")[0]);
+
+    //     $(".selectBuscar").append(
+    //       `<option value="` +
+    //         id_usuario +
+    //         `">` +
+    //         usuario +
+    //         ` - ` +
+    //         doc_usuario +
+    //         `</option>`
+    //     );
+    //   }
+    // },
+  }
+});
+
+
+
 /*=============================================
 AGREGAR DIAL CODE DEL PAIS
 =============================================*/

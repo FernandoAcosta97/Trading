@@ -361,6 +361,20 @@ Class ControladorUsuarios{
 
 	}
 
+	/*=============================================
+	Buscar Usuarios
+	=============================================*/
+
+	static public function ctrBuscarUsuarios($valor){
+	
+		$tabla = "usuarios";
+
+		$respuesta = ModeloUsuarios::mdlBuscarUsuarios($tabla, $valor);
+
+		return $respuesta;
+
+	}
+
 
 	/*=============================================
 	Mostrar Usuarios FetchAll
@@ -1279,23 +1293,48 @@ Class ControladorUsuarios{
 	Cambiar Patrocinador
 	=============================================*/
 
-	static public function ctrCambiarPatrocinador($item, $valor){
+	static public function ctrCambiarPatrocinador(){
+
+		if(isset($_POST["cambioPatrocinador"])){
+
+			// $trasladar_comisiones = ControladorPagos::ctrTrasladarComisionesUsuarioArbol($_POST["cambioPatrocinador"], $_POST["nuevoPatrocinador"], 5);
+
+			$pasar_comisiones_padre = ControladorPagos::ctrPasarComisionesPadreArbol($_POST["cambioPatrocinador"], $_POST["nuevoPatrocinador"], 5);
+
+			$pasar_comisiones_hijo = ControladorPagos::ctrPasarComisionesHijoArbol($_POST["cambioPatrocinador"], $_POST["nuevoPatrocinador"], 5);
+
+			$cambiar_patrocinador = ControladorPagos::ctrCambiarPatrocinadorBinaria($_POST["cambioPatrocinador"], $_POST["nuevoPatrocinador"]);
+
+			// $registrar_comisiones = ControladorPagos::ctrRegistrarComisionesUsuarioArbol($_POST["cambioPatrocinador"], 5);
+
+			if($cambiar_patrocinador=="ok"){
+
+				echo '<script>
+
+							swal({
+
+								type:"success",
+								title: "CAMBIO EXITOSO",
+								text: "¡EL PATROCINADOR SE HA CAMBIADO CORRECTAMENTE!",
+								showConfirmButton: true,
+								confirmButtonText: "Cerrar"
+
+							}).then(function(result){
+
+								if(result.value){
+
+									window.location = "cambiar-patrocinador";
+
+								}
+
+
+							});	
+
+						</script>';
+
+			}
 	
-		$tablaRedBinaria = "red_binaria";
-		$nombreUsuario = "julian";
-		$nombreNuevoPatrocinador = "gabriel";
-
-		$usuario = ModeloUsuarios::mdlMostrarUsuarios("usuarios", "nombre", $nombreUsuario);
-
-		$patrocinador = ModeloUsuarios::mdlMostrarUsuarios("usuarios", "enlace_afiliado", $usuario["patrocinador"]);
-
-		$nuevoPatrocinador = ModeloUsuarios::mdlMostrarUsuarios("usuarios", "nombre", $nombreNuevoPatrocinador);
-
-		$redBinaria = ModeloMultinivel::mdlMostrarRedBinaria($tablaRedBinaria, "usuario_red", $usuario["id"]);
-
-		$redBinaria["id_binaria"];
-
-		return $respuesta;
+		}
 
 	}
 

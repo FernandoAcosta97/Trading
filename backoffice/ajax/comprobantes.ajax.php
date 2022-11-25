@@ -170,7 +170,7 @@ class AjaxComprobantes{
 		}
 
 	}else{
-
+        //Borrar pagos comisiones de acuerdo al arbol cuando se rechaza el comprobante
 		$hijo = ControladorUsuarios::ctrMostrarUsuarios("doc_usuario", $doc_usuario);
 
 		$padre = ControladorUsuarios::ctrMostrarUsuarios("enlace_afiliado", $hijo["patrocinador"]);

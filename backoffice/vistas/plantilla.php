@@ -248,7 +248,7 @@ if (isset($_GET["pagina"])) {
 }
 }else{
 	if (isset($_GET["pagina"])){
-	if ($_GET["pagina"] == "perfil" || $_GET["pagina"] == "salir"){
+	if ($_GET["pagina"] == "perfil" || $_GET["pagina"] == "plan-compensacion" || $_GET["pagina"] == "salir"){
 		include "paginas/" . $_GET["pagina"] . ".php";
 	}else {
 

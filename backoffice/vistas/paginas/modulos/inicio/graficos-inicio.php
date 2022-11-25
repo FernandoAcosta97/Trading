@@ -1,6 +1,6 @@
 <?php
 
-$pagos = ControladorPagos::ctrMostrarPagosInversionesxUsuario("doc_usuario", $usuario["doc_usuario"]);
+$pagos = ControladorPagos::ctrMostrarPagosInversionesxUsuario("doc_usuario", $usuario["doc_usuario"], "estado", 1);
 $total=0;
 
 if($pagos!=""){

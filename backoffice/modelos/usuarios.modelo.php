@@ -103,6 +103,29 @@ class ModeloUsuarios
         $stmt = null;
     }
 
+
+    /*=============================================
+    Buscar Usuarios
+    =============================================*/
+
+    public static function mdlBuscarUsuarios($tabla, $valor)
+    {
+        $nombre = "%".$valor."%";
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE doc_usuario = :valor OR nombre like :nombre");
+
+        $stmt->bindParam(":valor", $valor, PDO::PARAM_STR);
+        $stmt->bindParam(":nombre", $nombre, PDO::PARAM_STR);
+
+        $stmt->execute();
+
+        return $stmt->fetchAll();   
+
+        $stmt->close();
+        $stmt = null;
+    }
+
+
+
     public static function mdlMostrarUsuariosFetchAll($tabla, $item, $valor)
     {
 
@@ -119,6 +142,8 @@ class ModeloUsuarios
 
         $stmt = null;
     }
+    
+    
 
 
     /*=============================================
@@ -299,7 +324,7 @@ class ModeloUsuarios
         $stmt->bindParam(":firma", $datos["firma"], PDO::PARAM_STR);
         $stmt->bindParam(":fecha_contrato", $datos["fecha_contrato"], PDO::PARAM_STR);
         $stmt->bindParam(":id_usuario", $datos["id_usuario"], PDO::PARAM_INT);
-
+        
         if ($stmt->execute()) {
 
             return "ok";

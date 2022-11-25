@@ -177,8 +177,7 @@ class AjaxUsuarios
             "fecha_contrato" => $fecha);
 
         $datosUninivel = array("usuario_red" => $this->id_usuario,
-            "patrocinador_red" => $confimarPatrocinador,
-            "periodo_venta" => 10);
+            "patrocinador_red" => $confimarPatrocinador);
 
         $datosArbol = array("usuario_red" => $this->id_usuario,
             "patrocinador_red" => $confimarPatrocinador);

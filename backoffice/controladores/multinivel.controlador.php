@@ -31,6 +31,21 @@ class ControladorMultinivel{
 
 	}
 
+
+	/*=============================================
+	MOSTRAR RED BINARIA
+	=============================================*/
+
+	static public function ctrMostrarBinaria($item, $valor){
+
+		$tabla = "red_binaria";
+
+		$respuesta = ModeloMultinivel::mdlMostrarBinaria($tabla, $item, $valor);
+
+		return $respuesta;
+
+	}
+
 	/*=============================================
 	MOSTRAR RED SIN INNER JOIN
 	=============================================*/
@@ -250,11 +265,11 @@ class ControladorMultinivel{
 	ACTUALIZAR BINARIA
 	=============================================*/
 	
-	static public function ctrActualizarBinaria($datos){
+	static public function ctrActualizarBinaria($id_usuario, $derrame, $patrocinador){
 
 		$tabla = "red_binaria";
 
-		$respuesta = ModeloMultinivel::mdlActualizarVentasComisiones($tabla, $datos);
+		$respuesta = ModeloMultinivel::mdlActualizarBinaria($tabla, $id_usuario, $derrame, $patrocinador);
 
 		return $respuesta;
 

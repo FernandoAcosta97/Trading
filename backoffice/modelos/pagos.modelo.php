@@ -221,11 +221,12 @@ class ModeloPagos
     Mostrar Pagos Inversiones x Usuario
     =============================================*/
 
-    public static function mdlMostrarPagosInversionesxUsuario($tabla, $tabla2, $item, $valor)
+    public static function mdlMostrarPagosInversionesxUsuario($tabla, $tabla2, $item, $valor, $item2, $valor2)
     {
-        $stmt = Conexion::conectar()->prepare("SELECT $tabla.id, $tabla2.valor, $tabla2.doc_usuario, $tabla2.campana, $tabla.fecha as fecha_pago, $tabla2.fecha as fecha_inversion FROM $tabla INNER JOIN $tabla2 ON $tabla.id_comprobante = $tabla2.id WHERE $tabla.estado=1 AND $tabla2.$item = :$item");
+        $stmt = Conexion::conectar()->prepare("SELECT $tabla.id, $tabla2.valor, $tabla2.id as comprobante, $tabla2.doc_usuario, $tabla2.campana, $tabla.fecha as fecha_pago, $tabla2.fecha as fecha_inversion FROM $tabla INNER JOIN $tabla2 ON $tabla.id_comprobante = $tabla2.id WHERE $tabla.$item2 = :$item2 AND $tabla2.$item = :$item");
 
-        $stmt->bindParam(":" . $item, $valor, PDO::PARAM_INT);
+        $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
+        $stmt->bindParam(":" . $item2, $valor2, PDO::PARAM_INT);
 
         $stmt->execute();
 
@@ -283,7 +284,7 @@ class ModeloPagos
     }
 
 
-      /*=============================================
+    /*=============================================
     Mostrar Pagos Comisiones x Estado All
     =============================================*/
 
@@ -305,8 +306,29 @@ class ModeloPagos
     }
 
 
+    /*=============================================
+    Mostrar si ya hay un pago de comision relacionado con un comprobante y un usuario 
+    =============================================*/
 
-     /*=============================================
+    public static function mdlMostrarPagosComisionComprobante($id_usuario, $id_comprobante)
+    {
+        $stmt = Conexion::conectar()->prepare("SELECT pc.id FROM comisiones as c INNER JOIN pagos_comisiones as pc ON pc.id=c.id_pago_comision WHERE pc.id_usuario=:$id_usuario AND c.id_comprobante=:$id_comprobante AND pc.estado=1");
+
+        $stmt->bindParam(":".$id_usuario, $id_usuario, PDO::PARAM_STR);
+        $stmt->bindParam(":".$id_comprobante, $id_comprobante, PDO::PARAM_STR);
+
+        $stmt->execute();
+
+        return $stmt->fetch();
+
+        $stmt->close();
+
+        $stmt = null;
+    }
+
+
+
+    /*=============================================
     Mostrar Pagos Extras
     =============================================*/
 
@@ -338,7 +360,7 @@ class ModeloPagos
     }
 
 
-       /*=============================================
+    /*=============================================
     Mostrar Pagos Extras 2 parametros
     =============================================*/
 
@@ -430,6 +452,38 @@ class ModeloPagos
     =============================================*/
 
     public static function mdlMostrarComisionesAll($tabla, $item, $valor)
+    {
+
+        if ($item != null && $valor !=null) {
+
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item");
+
+            $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
+
+            $stmt->execute();
+
+            return $stmt->fetchAll();
+
+        } else {
+
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
+
+            $stmt->execute();
+
+            return $stmt->fetchAll();
+        }
+
+        $stmt->close();
+
+        $stmt = null;
+    }
+
+
+    /*=============================================
+    Mostrar Comisiones All
+    =============================================*/
+
+    public static function mdlMostrarPagosComisionesComprobante($tabla, $item, $valor)
     {
 
         if ($item != null && $valor !=null) {

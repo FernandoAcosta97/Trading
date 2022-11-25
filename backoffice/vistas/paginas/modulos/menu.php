@@ -73,7 +73,7 @@
 
         <?php endif ?>
 
-        <?php if ($usuario["firma"] != null) : ?>
+      <?php if ($usuario["firma"] != null) : ?>
 
       <!--=====================================
       Botón Campañas
@@ -117,11 +117,11 @@
 
       <?php if ($usuario["perfil"] != "admin") : ?>
 
-      <!--=====================================
-      Botón Inversiones
-      ======================================-->
+       <!--=====================================
+       Botón Inversiones
+       ======================================-->
 
-      <li class="nav-item">
+       <li class="nav-item">
           <a href="inversiones" class="nav-link">
             <i class="nav-icon fas fa-money-bill"></i>
             <p>Inversiones</p>
@@ -130,9 +130,9 @@
 
         <?php endif ?>
 
-      <!--=====================================
-      Botón Cuentas
-      ======================================-->
+       <!--=====================================
+       Botón Cuentas
+       ======================================-->
 
           <li class="nav-item">
             <a href="cuentas-bancarias" class="nav-link">
@@ -142,11 +142,11 @@
           </li>
 
 
-      <!--=====================================
-      Botón Comprobantes
-      ======================================-->
+       <!--=====================================
+       Botón Comprobantes
+       ======================================-->
 
-      <li class="nav-item">
+       <li class="nav-item">
             <a href="comprobantes" class="nav-link">
               <i class="nav-icon fa fa-file-invoice"></i>
               <p>Comprobantes</p>
@@ -154,8 +154,8 @@
           </li>
 
         <!--=====================================
-      Botón Redes Multinivel
-      ======================================-->
+       Botón Redes Multinivel
+       ======================================-->
 
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
@@ -245,7 +245,7 @@
               </li>
             </ul>
           </li>
-          <?php endif ?>
+          
 
        <!--=====================================
         Botón Cambio patrocinador
@@ -258,6 +258,10 @@
           </a>
         </li>
 
+        <?php endif ?>
+
+        <?php endif ?>
+
         <!--=====================================
         Botón Plan de compensación
         ======================================-->
@@ -268,6 +272,8 @@
             <p>Plan de compensación</p>
           </a>
         </li>
+
+        <?php if ($usuario["firma"] != null) : ?>
 
         <!--=====================================
         Botón Soporte

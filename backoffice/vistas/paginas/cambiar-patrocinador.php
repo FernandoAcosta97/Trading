@@ -43,21 +43,33 @@
 
           </div>
 
+        <form method="post">
+
           <div class="card-body">
 
-      <form method="post">
+           <!-- <div class="form-group">
 
-          <div class="form-group">
-
-              <label for="antiguoPatrocinador" class="control-label">USUARIO</label>
+              <label for="cambioPatrocinador" class="control-label">USUARIO</label>
 
               <div>
 
-                <input type="text" class="form-control" id="antiguoPatrocinador" name="antiguoPatrocinador" required>
+                <input type="text" class="form-control" id="cambioPatrocinador" name="cambioPatrocinador" required>
 
               </div>
 
-              </div>
+              </div> -->
+
+              <div class="form-group">
+
+                <label for="cambioPatrocinador" class="control-label">BUSCAR</label>
+
+                <div>
+                  <select class="form-control py-4 selectBuscar" id="cambioPatrocinador" name="cambioPatrocinador" required>
+                  </select>
+
+                </div>
+
+              </div> 
 
               <div class="form-group">
 
@@ -65,7 +77,11 @@
 
                 <div>
 
-                  <input type="text" class="form-control" id="nuevoPatrocinador" name="nuevoPatrocinador" required>
+                <div>
+                  <select class="form-control py-4 selectBuscar" id="nuevoPatrocinador" name="nuevoPatrocinador" required>
+                  </select>
+
+                </div>
 
                 </div>
 
@@ -77,6 +93,13 @@
           <!-- /.card-body -->
 
       </form>
+      
+
+      <?php
+
+      $cambio_patrocinador = ControladorUsuarios::ctrCambiarPatrocinador();
+
+      ?>
 
           <div class="card-footer">
             

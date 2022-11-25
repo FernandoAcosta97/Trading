@@ -10,11 +10,10 @@ class ModeloMultinivel{
 
 	static public function mdlRegistroUninivel($tabla, $datos){
 
-		$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla (usuario_red, patrocinador_red, periodo_venta) VALUES (:usuario_red, :patrocinador_red, :periodo_venta)");
+		$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla (usuario_red, patrocinador_red) VALUES (:usuario_red, :patrocinador_red)");
 
 		$stmt -> bindParam(":usuario_red", $datos["usuario_red"], PDO::PARAM_STR);
 		$stmt -> bindParam(":patrocinador_red", $datos["patrocinador_red"], PDO::PARAM_STR);
-		$stmt -> bindParam(":periodo_venta", $datos["periodo_venta"], PDO::PARAM_STR);
 
 		if($stmt -> execute()){
 
@@ -51,6 +50,39 @@ class ModeloMultinivel{
 		}else{
 
 			$stmt = Conexion::conectar()->prepare("SELECT $tabla1.*, $tabla2.* FROM $tabla1 INNER JOIN $tabla2 ON $tabla1.enlace_afiliado = $tabla2.patrocinador_red");
+
+			$stmt -> execute();
+
+			return $stmt -> fetchAll();
+
+		}
+
+		$stmt -> close();
+
+		$stmt = null;
+
+	}
+
+
+	/*=============================================
+	MOSTRAR RED BINARIA
+	=============================================*/
+
+	static public function mdlMostrarBinaria($tabla, $item, $valor){
+
+		if($item != null && $valor != null){
+
+			$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item");	
+
+			$stmt -> bindParam(":".$item, $valor, PDO::PARAM_STR);
+
+			$stmt -> execute();
+
+			return $stmt -> fetch();
+
+		}else{
+
+			$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
 
 			$stmt -> execute();
 
@@ -213,16 +245,16 @@ class ModeloMultinivel{
 	}
 
 	/*=============================================
-	ACTUALIZAR VENTAS Y COMISIONES RED
+	ACTUALIZAR BINARIA
 	=============================================*/
 
-	static public function mdlActualizarVentasComisiones($tabla, $datos){
+	static public function mdlActualizarBinaria($tabla, $id_usuario, $derrame, $patrocinador){
 
-		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET periodo_comision =:periodo_comision, periodo_venta = :periodo_venta WHERE usuario_red = :usuario_red");
+		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET derrame_binaria =:derrame_binaria, patrocinador_red = :patrocinador_red WHERE usuario_red = :usuario_red");
 
-		$stmt -> bindParam(":periodo_comision", $datos["periodo_comision"], PDO::PARAM_STR);
-		$stmt -> bindParam(":periodo_venta", $datos["periodo_venta"], PDO::PARAM_STR);
-		$stmt -> bindParam(":usuario_red", $datos["usuario_red"], PDO::PARAM_STR);
+		$stmt -> bindParam(":derrame_binaria", $derrame, PDO::PARAM_STR);
+		$stmt -> bindParam(":patrocinador_red", $patrocinador, PDO::PARAM_STR);
+		$stmt -> bindParam(":usuario_red", $id_usuario, PDO::PARAM_STR);
 
 		if($stmt -> execute()){
 
