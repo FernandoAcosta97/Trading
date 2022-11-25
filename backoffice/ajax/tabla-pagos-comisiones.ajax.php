@@ -160,9 +160,9 @@ class TablaPagos{
 
 				$acciones = "<div class='btn-group'><button class='btn btn-info btnPagarComision' idPagoComision='".$value["id"]."' totalComision='".$total."'>PAGAR</button><button type='button' class='btn btn-success btn-xs btnVerComisiones' data-toggle='modal' data-target='#modalVerComisiones' idPagoComision='".$value["id"]."'><i class='fa fa-eye'></i></button></div>";
 			}
+			
 
-
-			$seleccionar = "<center><input type='checkbox' class='seleccionarPagoComision' idPagoComision='".$value["id"]."'></input></center>";
+			$seleccionar = "<center><input type='checkbox' class='seleccionarPago' idPago='".$value["id"]."'></input></center>";
 
 			$datosJson	 .= '[
 				    "'.($key+1).'",

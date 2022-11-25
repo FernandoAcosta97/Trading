@@ -11,16 +11,25 @@
 			Tabla inversiones por pagar
 		</h3>
 
+		<button type="button" class="btn btn-default btn-sm checkbox-toggle3">
+                	<i class="far fa-square"></i>
+        	</button>
+
+			<button type="button" class="btn btn-default btn-sm btnPagos" data-toggle="tooltip" idPagos tipoPago="inversiones">
+							 PAGAR SELECCIONADOS
+		    </button>
+
 	</div>
 
-	<div class="card-body">
+	<div class="card-body p-3 seleccionarPagos">
 		
 		<table class="table table-bordered table-striped dt-responsive tabla-pagar-inversiones" width="100%">
 			
 			<thead>
 
 				<tr> 
-				    <th style="width:10px">#</th> 
+				    <th style="width:10px">#</th>
+					<th>Seleccionar</th> 
 				    <th>Acciones</th>
 					<th>ID</th>
 					<th>Documento</th>

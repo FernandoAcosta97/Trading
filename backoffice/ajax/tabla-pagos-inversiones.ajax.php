@@ -140,10 +140,11 @@ class TablaPagos{
 				$acciones = "<button class='btn btn-info btnPagarInversion' idPagoInversion='".$value["id"]."'>PAGAR</button>";
 			}
 
-
+			$seleccionar = "<center><input type='checkbox' class='seleccionarPago' idPago='".$value["id"]."'></input></center>";
 
 			$datosJson	 .= '[
 				    "'.($key+1).'",
+					"'.$seleccionar.'",
 				    "'.$acciones.'",
 					"'.$value["id"].'",
 					"'.$usuario["doc_usuario"].'",

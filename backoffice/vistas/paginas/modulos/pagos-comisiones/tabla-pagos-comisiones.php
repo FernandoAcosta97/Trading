@@ -11,24 +11,24 @@
 			Tabla comisiones por pagar
 		</h3>
 
-		<button type="button" class="btn btn-default btn-sm checkbox-toggle2">
+			<button type="button" class="btn btn-default btn-sm checkbox-toggle2">
                 	<i class="far fa-square"></i>
-              	</button>
+        	</button>
 
-				  <button type="button" class="btn btn-default btn-sm btnPagosComisiones" data-toggle="tooltip" idPagos tipoTickets="comision">
+			<button type="button" class="btn btn-default btn-sm btnPagos" data-toggle="tooltip" idPagos tipoPago="comisiones">
 							 PAGAR SELECCIONADOS
-						 </button>
+		    </button>
 
 	</div>
 
-	<div class="card-body p-3 seleccionarPagosComisiones">
+	<div class="card-body p-3 seleccionarPagos">
 		
 		<table class="table table-bordered table-striped dt-responsive tabla-pagar-comisiones" width="100%">
 			
 			<thead>
 
 				<tr>
-
+					
 					<th style="width:10px">#</th> 
 					<th>Seleccionar</th>
 					<th>Acciones</th> 

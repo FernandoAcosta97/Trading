@@ -82,6 +82,53 @@ $(".tabla-pagar-comisiones tbody").on("click", "button.btnVerComisiones", functi
 
 
 
+  $(".tabla-pagar-extras tbody").on("click", "button.btnVerBonos", function () {
+
+    var idPago = $(this).attr("idPagoBono");
+
+    tabla = $(".tabla-detalles-extras");
+    tbody = $(".tabla-detalles-extras tbody");
+    tbody.empty();
+    tabla = tabla.dataTable().fnDestroy();
+
+    tabla = $(".tabla-detalles-bonos").DataTable({
+      "ajax":"ajax/tabla-detalles-bonos.ajax.php?pago="+idPago,
+      "deferRender": true,
+      "retrieve": true,
+      "processing": true,
+      "language": {
+    
+         "sProcessing":     "Procesando...",
+        "sLengthMenu":     "Mostrar _MENU_ registros",
+        "sZeroRecords":    "No se encontraron resultados",
+        "sEmptyTable":     "Ningún dato disponible en esta tabla",
+        "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
+        "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0",
+        "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+        "sInfoPostFix":    "",
+        "sSearch":         "Buscar:",
+        "sUrl":            "",
+        "sInfoThousands":  ",",
+        "sLoadingRecords": "Cargando...",
+        "oPaginate": {
+          "sFirst":    "Primero",
+          "sLast":     "Último",
+          "sNext":     "Siguiente",
+          "sPrevious": "Anterior"
+        },
+        "oAria": {
+            "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+        }
+    
+       }
+    
+    });
+
+  });
+
+
+
   $(".tabla-comisiones-pagadas").DataTable({
     "ajax":"ajax/tabla-pagos-comisiones-pagadas.ajax.php",
     "deferRender": true,
@@ -373,16 +420,29 @@ $(".tabla-pagar-comisiones tbody").on("click", "button.btnVerComisiones", functi
 
 
 
-$(".btnPagosComisiones").click(function () {
+$(".btnPagos").click(function () {
 
-      var idsPagosComisiones= $(this).attr("idPagos");
+      var idsPagos= $(this).attr("idPagos");
+      var tipoPago= $(this).attr("tipoPago");
+      var direccion = "";
 
-      if(idsPagosComisiones!=""){
+      if(tipoPago == "comisiones"){
+        direccion="pagos-comisiones";
+      }
+      if(tipoPago == "inversiones"){
+        direccion="pagos-inversiones";
+      }
+      if(tipoPago == "bonos"){
+        direccion="pagos-extras";
+      }
+
+      if(idsPagos!=""){
 
         var datos = new FormData();
-        datos.append("idsPagosComisiones", idsPagosComisiones);
+        datos.append("idsPagos", idsPagos);
+        datos.append("tipoPago", tipoPago);
       
-          $.ajax({
+        $.ajax({
       
           url:"ajax/pagos.ajax.php",
           method: "POST",
@@ -400,13 +460,13 @@ $(".btnPagosComisiones").click(function () {
             
                 swal({
                   type: "success",
-                  title: "¡Los pagos de la comisiones seleccionadas se ha realizado correctamente!",
+                  title: "¡Los pagos de "+tipoPago+" seleccionados se han realizado correctamente!",
                   allowOutsideClick: false,
                   showConfirmButton: true,
                   confirmButtonText: "Cerrar",
                 }).then(function (result) {
                   if (result.value) {
-                    window.location = "pagos-comisiones";
+                    window.location = direccion;
                   }
                 });
             
@@ -517,7 +577,7 @@ PLUGIN ICHECK
 
 $(".tabla-pagar-comisiones").on("draw.dt", function(){
 
-	$(".seleccionarPagosComisiones input[type='checkbox']").iCheck({
+	$(".seleccionarPagos input[type='checkbox']").iCheck({
 		checkboxClass: "icheckbox_flat-blue",
 		radioClass: "iradio_flat-blue"
 	});
@@ -526,7 +586,7 @@ $(".tabla-pagar-comisiones").on("draw.dt", function(){
 	ENVIAR TICKETS DE FORMA MASIVA A LA PAPELERA
 	=============================================*/
 
-	var pagoCheckbox = $(".seleccionarPagoComision");
+	var pagoCheckbox = $(".seleccionarPago");
 
 	var idPagos = [];
 
@@ -538,19 +598,19 @@ $(".tabla-pagar-comisiones").on("draw.dt", function(){
 
     	$(pagoCheckbox[i]).on("ifChecked", function(event){
 
-    		idPagos.push($(this).attr("idPagoComision"));
+    		idPagos.push($(this).attr("idPago"));
 
-    		if($(".btnPagosComisiones").attr("idPagos") != ""){
+    		if($(".btnPagos").attr("idPagos") != ""){
 
-    			pagos = $(".btnPagosComisiones").attr("idPagos").split(",");
+    			pagos = $(".btnPagos").attr("idPagos").split(",");
 
-    			pagos.push($(this).attr("idPagoComision"));
+    			pagos.push($(this).attr("idPago"));
 
-    			$(".btnPagosComisiones").attr("idPagos", pagos.toString());
+    			$(".btnPagos").attr("idPagos", pagos.toString());
 
     		}else{
 
-    			$(".btnPagosComisiones").attr("idPagos", idPagos.toString());
+    			$(".btnPagos").attr("idPagos", idPagos.toString());
 
     		}
 
@@ -562,17 +622,17 @@ $(".tabla-pagar-comisiones").on("draw.dt", function(){
 
     	$(pagoCheckbox[i]).on("ifUnchecked", function(event){
 
-    		var quitarPagos = $(".btnPagosComisiones").attr("idPagos").split(",");
+    		var quitarPagos = $(".btnPagos").attr("idPagos").split(",");
 
     		for(var f = 0; f < quitarPagos.length; f++){
 
-    			if(quitarPagos[f] == $(this).attr("idPagoComision")){
+    			if(quitarPagos[f] == $(this).attr("idPago")){
 
     				quitarPagos.splice(f, 1);
 
     				idPagos.splice(f, 1);
 
-    				$(".btnPagosComisiones").attr("idPagos", quitarPagos.toString());
+    				$(".btnPagos").attr("idPagos", quitarPagos.toString());
 
     			}
 
@@ -594,12 +654,214 @@ $(".checkbox-toggle2").click(function(){
 
 	if(clicks){
 
-		$(".seleccionarPagosComisiones input[type='checkbox']").iCheck("uncheck");
+		$(".seleccionarPagos input[type='checkbox']").iCheck("uncheck");
 		$(".far", this).removeClass("fa-check-square").addClass("fa-square");
 
 	}else{
 
-		$(".seleccionarPagosComisiones input[type='checkbox']").iCheck("check");
+		$(".seleccionarPagos input[type='checkbox']").iCheck("check");
+		$(".far", this).removeClass("fa-square").addClass("fa-check-square");
+
+	}
+
+	$(this).data("clicks", !clicks);
+
+})
+
+
+
+/*=============================================
+PLUGIN ICHECK
+=============================================*/
+
+$(".tabla-pagar-inversiones").on("draw.dt", function(){
+
+	$(".seleccionarPagos input[type='checkbox']").iCheck({
+		checkboxClass: "icheckbox_flat-blue",
+		radioClass: "iradio_flat-blue"
+	});
+
+	/*=============================================
+	ENVIAR TICKETS DE FORMA MASIVA A LA PAPELERA
+	=============================================*/
+
+	var pagoCheckbox = $(".seleccionarPago");
+
+	var idPagos = [];
+
+	for(var i = 0; i < pagoCheckbox.length; i++){
+
+    	/*=============================================
+    	Checkear para realizar pago
+    	=============================================*/
+
+    	$(pagoCheckbox[i]).on("ifChecked", function(event){
+
+    		idPagos.push($(this).attr("idPago"));
+
+    		if($(".btnPagos").attr("idPagos") != ""){
+
+    			pagos = $(".btnPagos").attr("idPagos").split(",");
+
+    			pagos.push($(this).attr("idPago"));
+
+    			$(".btnPagos").attr("idPagos", pagos.toString());
+
+    		}else{
+
+    			$(".btnPagos").attr("idPagos", idPagos.toString());
+
+    		}
+
+    	})
+
+    	/*=============================================
+    	Quitar el Check para enviar a la papelera
+    	=============================================*/
+
+    	$(pagoCheckbox[i]).on("ifUnchecked", function(event){
+
+    		var quitarPagos = $(".btnPagos").attr("idPagos").split(",");
+
+    		for(var f = 0; f < quitarPagos.length; f++){
+
+    			if(quitarPagos[f] == $(this).attr("idPago")){
+
+    				quitarPagos.splice(f, 1);
+
+    				idPagos.splice(f, 1);
+
+    				$(".btnPagos").attr("idPagos", quitarPagos.toString());
+
+    			}
+
+    		}
+
+    	})
+		
+
+	}
+
+
+})
+
+
+
+
+$(".checkbox-toggle3").click(function(){
+
+	var clicks = $(this).data('clicks');
+
+	if(clicks){
+
+		$(".seleccionarPagos input[type='checkbox']").iCheck("uncheck");
+		$(".far", this).removeClass("fa-check-square").addClass("fa-square");
+
+	}else{
+
+		$(".seleccionarPagos input[type='checkbox']").iCheck("check");
+		$(".far", this).removeClass("fa-square").addClass("fa-check-square");
+
+	}
+
+	$(this).data("clicks", !clicks);
+
+})
+
+
+
+
+/*=============================================
+PLUGIN ICHECK
+=============================================*/
+
+$(".tabla-pagar-extras").on("draw.dt", function(){
+
+	$(".seleccionarPagos input[type='checkbox']").iCheck({
+		checkboxClass: "icheckbox_flat-blue",
+		radioClass: "iradio_flat-blue"
+	});
+
+	/*=============================================
+	ENVIAR TICKETS DE FORMA MASIVA A LA PAPELERA
+	=============================================*/
+
+	var pagoCheckbox = $(".seleccionarPago");
+
+	var idPagos = [];
+
+	for(var i = 0; i < pagoCheckbox.length; i++){
+
+    	/*=============================================
+    	Checkear para realizar pago
+    	=============================================*/
+
+    	$(pagoCheckbox[i]).on("ifChecked", function(event){
+
+    		idPagos.push($(this).attr("idPago"));
+
+    		if($(".btnPagos").attr("idPagos") != ""){
+
+    			pagos = $(".btnPagos").attr("idPagos").split(",");
+
+    			pagos.push($(this).attr("idPago"));
+
+    			$(".btnPagos").attr("idPagos", pagos.toString());
+
+    		}else{
+
+    			$(".btnPagos").attr("idPagos", idPagos.toString());
+
+    		}
+
+    	})
+
+    	/*=============================================
+    	Quitar el Check para enviar a la papelera
+    	=============================================*/
+
+    	$(pagoCheckbox[i]).on("ifUnchecked", function(event){
+
+    		var quitarPagos = $(".btnPagos").attr("idPagos").split(",");
+
+    		for(var f = 0; f < quitarPagos.length; f++){
+
+    			if(quitarPagos[f] == $(this).attr("idPago")){
+
+    				quitarPagos.splice(f, 1);
+
+    				idPagos.splice(f, 1);
+
+    				$(".btnPagos").attr("idPagos", quitarPagos.toString());
+
+    			}
+
+    		}
+
+    	})
+		
+
+	}
+
+
+})
+
+
+
+
+
+$(".checkbox-toggle4").click(function(){
+
+	var clicks = $(this).data('clicks');
+
+	if(clicks){
+
+		$(".seleccionarPagos input[type='checkbox']").iCheck("uncheck");
+		$(".far", this).removeClass("fa-check-square").addClass("fa-square");
+
+	}else{
+
+		$(".seleccionarPagos input[type='checkbox']").iCheck("check");
 		$(".far", this).removeClass("fa-square").addClass("fa-check-square");
 
 	}

@@ -60,28 +60,6 @@ $(".selectBuscar").select2({
       };
       },
       cache: true
-    // success: function (respuesta) {
-    //   // console.log(respuesta);
-    //   respuesta["results"].forEach(buscar);
-      
-    //   function buscar(item, index) {
-    //     console.log(item);
-    //     var id_usuario = item.id_usuario;
-    //     var usuario = item.nombre;
-    //     var doc_usuario = item.doc_usuario;
-    //     console.log($(".selectBuscar")[0]);
-
-    //     $(".selectBuscar").append(
-    //       `<option value="` +
-    //         id_usuario +
-    //         `">` +
-    //         usuario +
-    //         ` - ` +
-    //         doc_usuario +
-    //         `</option>`
-    //     );
-    //   }
-    // },
   }
 });
 

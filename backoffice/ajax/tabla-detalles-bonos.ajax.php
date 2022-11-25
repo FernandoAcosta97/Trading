@@ -31,17 +31,15 @@ class TablaPagos{
 		date_default_timezone_set('America/Bogota');
 
 		$ruta = ControladorGeneral::ctrRuta();
-		$patrocinador = ControladorGeneral::ctrPatrocinador();
 
-		$red = ControladorMultinivel::ctrMostrarUsuarioRed("red_binaria", null, null);
+		$pago = ControladorPagos::ctrMostrarPagosExtras("id", $_GET["pago"]);
 
-		$pagos = ControladorPagos::ctrMostrarPagosExtrasAll("estado","0");
+		$campana = ControladorCampanas::ctrMostrarCampanas("id", $pago["id_campana"]);
 
-		$periodo_comision = 0;
-		$periodo_venta = 0;
-		$totalAfiliadosActivos=0;
+		$bonos = ControladorPagos::ctrMostrarBonosExtrasAll("id_pago_extra", $_GET["pago"]);
 
-		if(count($pagos) < 1 ){
+
+		if(count($bonos) < 1 ){
 
 			echo '{ "data":[]}';
 
@@ -87,66 +85,25 @@ class TablaPagos{
 
 		// }
 
-		foreach ($pagos as $key => $value) {
-
-			$campana=ControladorCampanas::ctrMostrarCampanas("id",$value["id_campana"]);
+		foreach ($bonos as $key => $value) {
+			
 
   			$usuario = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $value["id_usuario"]);
-
-			$cuenta = ControladorCuentas::ctrMostrarCuentas("usuario",$usuario["id_usuario"]);
-
-			// $red = ControladorMultinivel::ctrMostrarRedUninivel("red_uninivel", "patrocinador_red", $usuario["enlace_afiliado"]);
-
-			// if(count($red)>0){
-			// 	foreach ($red as $key2 => $value2){
-			// 		$usuarioRedOperando = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $value2["usuario_red"]);
 	
-			// 		if($usuarioRedOperando["operando"]==1){
-			// 			++$totalAfiliadosActivos;
-			// 		}
-	
-			// 	}
-			// }
-	
-			/*=============================================
-			NOTAS
-			=============================================*/
 
-			// if($_GET["enlace_afiliado"] != $patrocinador){			
+			$total=$campana["retorno"];
 
-			// 	$notas = "<h5><span class='badge badge-success'>Pagada</span></h5>";
-
-			// }else{
-
-			// 	$notas = "<h5><span class='badge badge-success'>Pagada $".number_format($value["periodo_comision"])."</span></h5>";
-			// }	
-			
-			$bonos_extras = ControladorPagos::ctrMostrarBonosExtrasAll("id_pago_extra",$value["id"]);
-            $total = count($bonos_extras)*$campana["retorno"];
-			$totalAfiliadosObtenidos=count($bonos_extras);
-
-			$acciones = "<div class='btn-group'><button class='btn btn-info btnPagarExtra' idPagoExtra='".$value["id"]."'>PAGAR</button><button type='button' class='btn btn-success btn-xs btnVerBonos' data-toggle='modal' data-target='#modalVerBonos' idPagoBono='".$value["id"]."'><i class='fa fa-eye'></i></button></div>";
-
-			$seleccionar = "<center><input type='checkbox' class='seleccionarPago' idPago='".$value["id"]."'></input></center>";
 
 			$datosJson	 .= '[
 				    "'.($key+1).'",
-					"'.$seleccionar.'",
-				    "'.$acciones.'",
-					"'.$value["id"].'",
 					"'.$usuario["doc_usuario"].'",
 					"'.$usuario["nombre"].'",
 					"'.$usuario["pais"].'",
 					"'.$usuario["telefono_movil"].'",
-					"'.$totalAfiliadosObtenidos.'",
-					"'.$cuenta["entidad"].'",
-					"'.$cuenta["numero"].'",
-					"'.$cuenta["tipo"].'",
 					"$ '.number_format($total).'"
 
 			],';
 
-			$totalAfiliadosActivos=0;
 
 		}
 

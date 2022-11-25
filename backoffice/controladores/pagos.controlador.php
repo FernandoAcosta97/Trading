@@ -883,6 +883,31 @@ class ControladorPagos
 
     }
 
+
+    /*=============================================
+    Actualizar Estado Pagos
+    =============================================*/
+
+    public static function ctrActualizarPagos($id, $item, $valor, $tipoPago)
+    {
+
+        if($tipoPago == "comisiones"){
+            $tabla = "pagos_comisiones";
+        }
+        if($tipoPago == "inversiones"){
+            $tabla = "pagos_inversiones";
+        }
+        if($tipoPago == "bonos"){
+            $tabla = "pagos_extras";
+        }
+
+
+        $respuesta = ModeloPagos::mdlActualizarPagos($tabla, $id, $item, $valor);
+
+        echo $respuesta;
+
+    }
+
     /*=============================================
     EDITAR COMPROBANTES
     =============================================*/
