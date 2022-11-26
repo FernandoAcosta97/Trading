@@ -35,7 +35,7 @@ class TablaPagos{
 
 		$usuario = ControladorUsuarios::ctrMostrarUsuarios("id_usuario",$_GET["usuario"]);
 
-		$pagos = ControladorPagos::ctrMostrarPagosInversionesxUsuario("doc_usuario",$usuario["doc_usuario"]);
+		$pagos = ControladorPagos::ctrMostrarPagosInversionesxUsuario("doc_usuario",$usuario["doc_usuario"],"estado",1);
 
 		$periodo_comision = 0;
 		$periodo_venta = 0;

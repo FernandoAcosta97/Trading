@@ -164,7 +164,7 @@ class ModeloPagos
 
 
      /*=============================================
-    Mostrar Pagos Inversiones
+    Mostrar Pagos Comisiones
     =============================================*/
 
     public static function mdlMostrarPagosComisiones($tabla, $item, $valor)

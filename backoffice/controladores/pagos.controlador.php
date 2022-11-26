@@ -122,6 +122,225 @@ class ControladorPagos
 
 
     /*=============================================
+    prueba comisiones registrar
+    =============================================*/
+
+    public static function ctrPruebaComisionesRegistrar($id_usuario, $id_nuevo_patrocinador)
+    {
+
+        $hijo = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $id_usuario); //Julian 30
+
+		$padre = ControladorUsuarios::ctrMostrarUsuarios("enlace_afiliado", $hijo["patrocinador"]); //Mateo 26
+
+        $nuevo_patrocinador = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $id_nuevo_patrocinador);
+
+        //Registrar comision nuevo patrocinador.
+        $pagos_comisiones = ControladorPagos::ctrMostrarPagosComisionesxEstado("id_usuario", $padre["id_usuario"],"estado",0);
+
+        if($pagos_comisiones!=""){
+            $comisiones = ControladorPagos::ctrMostrarComisionesAll("id_pago_comision", $pagos_comisiones["id"]);
+
+            foreach($comisiones as $key => $value){
+                $comprobante = ControladorComprobantes::ctrMostrarComprobantes("id",$value["id_comprobante"]);
+               if($comprobante[0]["doc_usuario"]==$hijo["doc_usuario"]){
+
+                $existe_pago_patrocinador = ControladorPagos::ctrMostrarPagosComisionesxEstado("id_usuario", $id_nuevo_patrocinador, "estado",0);
+
+                if($existe_pago_patrocinador!=""){
+
+                    $comision = ControladorPagos::ctrRegistrarComisiones($existe_pago_patrocinador["id"],$comprobante[0]["id"],1);
+
+                }else{
+
+                    $pago_comision = ControladorPagos::ctrRegistrarPagosComisiones($id_nuevo_patrocinador);
+
+                    $comision = ControladorPagos::ctrRegistrarComisiones($pago_comision,$comprobante[0]["id"],1);
+
+                }
+
+               }
+            }
+        }
+
+    }
+
+    /*=============================================
+    prueba comisiones eliminar
+    =============================================*/
+
+    public static function ctrPruebaComisiones($id_usuario, $id_nuevo_patrocinador, $niveles_arbol)
+    {
+
+        $niveles=$niveles_arbol;
+		$n=1;
+
+        $objetivo = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $id_usuario); //Julian 30
+
+        $hijo = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $id_usuario); //Julian 30
+
+		$padre = ControladorUsuarios::ctrMostrarUsuarios("enlace_afiliado", $hijo["patrocinador"]); //Mateo 26
+
+        $nuevo_patrocinador = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $id_nuevo_patrocinador);
+
+    //Borrar comisiones del antiguo patrocinador y todos los patrocinadores hacia arriba de acuerdo a los niveles del arbol.
+    while($n <= $niveles_arbol && $padre["perfil"]!="admin"){
+
+        $pagos_comisiones = ControladorPagos::ctrMostrarPagosComisionesxEstado("id_usuario", $padre["id_usuario"],"estado",0);
+
+        if($pagos_comisiones!=""){
+            $comisiones = ControladorPagos::ctrMostrarComisionesAll("id_pago_comision", $pagos_comisiones["id"]);
+
+            foreach($comisiones as $key => $value){
+                $comprobante = ControladorComprobantes::ctrMostrarComprobantes("id",$value["id_comprobante"]);
+               if($comprobante[0]["doc_usuario"]==$hijo["doc_usuario"]){
+
+                $comision = ControladorPagos::ctrEliminarComisiones($pagos_comisiones["id"],$comprobante[0]["id"]);
+
+               }
+            }
+            $comisiones = ControladorPagos::ctrMostrarComisionesAll("id_pago_comision", $pagos_comisiones["id"]);
+            if(count($comisiones)==0){
+
+                $pago_comision = ControladorPagos::ctrEliminarPagosComisiones($pagos_comisiones["id"]);
+
+            }
+        }
+
+        $n=$n+1;
+        $padre = ControladorUsuarios::ctrMostrarUsuarios("enlace_afiliado", $padre["patrocinador"]); 
+    }
+
+
+    }
+
+
+
+    /*=============================================
+    prueba registrar despues del cambio
+    =============================================*/
+
+    public static function ctrPruebaRegistrarDespues($id_usuario, $id_nuevo_patrocinador, $niveles_arbol)
+    {
+
+        $niveles=$niveles_arbol;
+		$n=1;
+
+        $objetivo = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $id_usuario); //Julian 30
+
+        $hijo = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $id_usuario); //Julian 30
+
+		$padre = ControladorUsuarios::ctrMostrarUsuarios("enlace_afiliado", $hijo["patrocinador"]); //Mateo 26
+
+        $nuevo_patrocinador = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $id_nuevo_patrocinador);
+
+    //Registrar comisiones al nuevi patrocinador y todos los patrocinadores hacia arriba de acuerdo a los niveles del arbol.
+    while($n <= $niveles_arbol && $padre["perfil"]!="admin"){
+
+        $inversiones_hijo = ControladorPagos::ctrMostrarPagosInversionesxUsuario("doc_usuario", $hijo["doc_usuario"],"estado",0);
+
+        if(count($inversiones_hijo)>0){
+
+            foreach($inversiones_hijo as $key => $value){
+                $comprobante = ControladorComprobantes::ctrMostrarComprobantes("id",$value["comprobante"]);
+
+                $existe_comision_pagada = ControladorPagos::ctrMostrarPagosComisionComprobante($padre["id_usuario"], $value["comprobante"]);
+
+                if($existe_comision_pagada==""){
+
+                $existe_pago_padre = ControladorPagos::ctrMostrarPagosComisionesxEstado("id_usuario", $padre["id_usuario"], "estado",0);
+
+                if($existe_pago_padre!=""){
+
+                    $comision = ControladorPagos::ctrRegistrarComisiones($existe_pago_padre["id"],$comprobante[0]["id"],$n);
+
+                }else{
+
+                    $pago_comision = ControladorPagos::ctrRegistrarPagosComisiones($padre["id_usuario"]);
+
+                    $comision = ControladorPagos::ctrRegistrarComisiones($pago_comision,$comprobante[0]["id"],$n);
+
+                }
+            }
+
+         
+            }
+            
+        }
+
+        $n=$n+1;
+        $padre = ControladorUsuarios::ctrMostrarUsuarios("enlace_afiliado", $padre["patrocinador"]); 
+    }
+
+
+
+    }
+
+
+
+
+     /*=============================================
+    Registrar comisiones nuevos patrocinadores hacia arriba en el árbol de acuerdo a los niveles.
+    =============================================*/
+
+    public static function ctrPruebaComisionesRegistrarNuevosPatrocinadores($id_usuario, $id_nuevo_patrocinador, $niveles_arbol)
+    {
+
+        $niveles=$niveles_arbol;
+		$n=1;
+
+        $hijo = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $id_usuario);
+
+		$padre = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $id_nuevo_patrocinador);
+
+        $pagos_comisiones_hijo = ControladorPagos::ctrMostrarPagosComisionesxEstado("id_usuario", $hijo["id_usuario"],"estado",0);
+
+        if($pagos_comisiones_hijo!=""){
+
+            $comisiones_hijo = ControladorPagos::ctrMostrarComisionesAll("id_pago_comision", $pagos_comisiones_hijo["id"]);
+
+        }
+
+    //Registrar comisiones del nuevo patrocinador y todos los patrocinadores hacia arriba de acuerdo a los niveles del arbol.
+    while($n <= $niveles_arbol && $padre["perfil"]!="admin"){
+
+        if($pagos_comisiones_hijo=="") break;
+
+        $pagos_comisiones = ControladorPagos::ctrMostrarPagosComisionesxEstado("id_usuario", $padre["id_usuario"],"estado",0);
+
+        if($pagos_comisiones!=""){
+
+            foreach($comisiones_hijo as $key => $value){
+                $comprobante = ControladorComprobantes::ctrMostrarComprobantes("id",$value["id_comprobante"]);
+
+                $comision = ControladorPagos::ctrRegistrarComisiones($pagos_comisiones["id"],$comprobante[0]["id"], $n);
+               
+            }
+
+        }else{
+
+            $pago_comision = ControladorPagos::ctrRegistrarPagosComisiones($padre["id_usuario"]);
+
+            foreach($comisiones_hijo as $key => $value){
+
+            $comprobante = ControladorComprobantes::ctrMostrarComprobantes("id",$value["id_comprobante"]);
+
+            $comision = ControladorPagos::ctrRegistrarComisiones($pago_comision,$comprobante[0]["id"],$n);
+
+            }
+
+        }
+        $n=$n+1;
+        $padre = ControladorUsuarios::ctrMostrarUsuarios("enlace_afiliado", $padre["patrocinador"]); 
+    }
+
+
+
+    }
+
+
+
+
+    /*=============================================
     comisiones arbol del padre de acuerdo al hijo
     =============================================*/
 
@@ -133,7 +352,10 @@ class ControladorPagos
 
         $hijo = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $id_usuario); //Julian 30
 
+
 		$padre = ControladorUsuarios::ctrMostrarUsuarios("enlace_afiliado", $hijo["patrocinador"]); //Mateo 26
+
+        $nuevo_patrocinador = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $id_nuevo_patrocinador);
 
         $existe_pago = ControladorPagos::ctrMostrarPagosComisionesxEstado("id_usuario", $padre["id_usuario"], "estado",0);
 
@@ -151,11 +373,11 @@ class ControladorPagos
 
                 $existe_pago_patrocinador = ControladorPagos::ctrMostrarPagosComisionesxEstado("id_usuario", $id_nuevo_patrocinador, "estado",0);
  
-                $existe_comision_pagada = ControladorPagos::ctrMostrarPagosComisionComprobante($patrocinador["id_usuario"], $value["id_comprobante"]);
+                $existe_comision_pagada = ControladorPagos::ctrMostrarPagosComisionComprobante($padre["id_usuario"], $value["id_comprobante"]);
 
                 $existe_comision_pagada2 = ControladorPagos::ctrMostrarPagosComisionComprobante($id_nuevo_patrocinador, $value["id_comprobante"]);
 
-                if($existe_comision_pagada=="" && $existe_comision_pagada2 == ""){
+                if($existe_comision_pagada=="" && $existe_comision_pagada2 == "" && $nuevo_patrocinador["perfil"] != "admin"){
 
                 if($existe_pago_patrocinador!=""){
 
@@ -186,7 +408,34 @@ class ControladorPagos
             $pago_comision = ControladorPagos::ctrEliminarPagosComisiones($existe_pago["id"]);
 
         }
-    }
+     }
+
+    }else if($padre["perfil"]=="admin"){
+
+        $existe_pago_patrocinador = ControladorPagos::ctrMostrarPagosComisionesxEstado("id_usuario", $id_nuevo_patrocinador, "estado",0);
+
+        $inversiones_hijo = ControladorPagos::ctrMostrarPagosInversionesxUsuario("doc_usuario",$hijo["doc_usuario"],"estado",0);
+
+
+        if(count($inversiones_hijo)>0){
+
+         foreach($inversiones_hijo as $key => $value){
+
+            if($existe_pago_patrocinador!=""){
+
+            $comision = ControladorPagos::ctrRegistrarComisiones($existe_pago_patrocinador["id"],$value["comprobante"],1);
+
+            }else{
+
+            $pago_comision = ControladorPagos::ctrRegistrarPagosComisiones($id_nuevo_patrocinador);
+
+            $comision = ControladorPagos::ctrRegistrarComisiones($pago_comision,$value["comprobante"],1);
+
+          }
+         }
+                
+        }
+
 
     }
 
@@ -203,6 +452,8 @@ class ControladorPagos
 		$padre = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $id_usuario); //Julian 30
 
         $patrocinador = ControladorUsuarios::ctrMostrarUsuarios("enlace_afiliado", $padre["patrocinador"]);
+
+        $nuevo_patrocinador = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $id_nuevo_patrocinador);
 
         $existe_pago = ControladorPagos::ctrMostrarPagosComisionesxEstado("id_usuario", $padre["id_usuario"], "estado",0);
 
@@ -228,7 +479,7 @@ class ControladorPagos
 
             $existe_comision_pagada2 = ControladorPagos::ctrMostrarPagosComisionComprobante($id_nuevo_patrocinador, $value["id_comprobante"]);
 
-           if($existe_comision_pagada == "" && $existe_comision_pagada2 == ""){
+           if($existe_comision_pagada == "" && $existe_comision_pagada2 == "" && $nuevo_patrocinador["perfil"] != "admin"){
             if($existe_pago_patrocinador!=""){
 
                 $comision = ControladorPagos::ctrRegistrarComisiones($existe_pago_patrocinador["id"],$comprobante[0]["id"],($value["nivel"]+1));

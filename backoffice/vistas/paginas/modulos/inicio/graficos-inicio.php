@@ -113,6 +113,7 @@ $total_inversiones = 0;
 
 	$bonos = ControladorPagos::ctrMostrarPagosExtrasxEstadoAll("id_usuario", $usuario["id_usuario"],"estado",1);
 
+
 	$total_bonos = 0;
 	foreach ($bonos as $key3 => $value3) {
 

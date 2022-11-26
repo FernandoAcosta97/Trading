@@ -1297,15 +1297,51 @@ Class ControladorUsuarios{
 
 		if(isset($_POST["cambioPatrocinador"])){
 
-			// $trasladar_comisiones = ControladorPagos::ctrTrasladarComisionesUsuarioArbol($_POST["cambioPatrocinador"], $_POST["nuevoPatrocinador"], 5);
+			// $pasar_comisiones_padre = ControladorPagos::ctrPasarComisionesPadreArbol($_POST["cambioPatrocinador"], $_POST["nuevoPatrocinador"], 5);
 
-			$pasar_comisiones_padre = ControladorPagos::ctrPasarComisionesPadreArbol($_POST["cambioPatrocinador"], $_POST["nuevoPatrocinador"], 5);
+			// $pasar_comisiones_hijo = ControladorPagos::ctrPasarComisionesHijoArbol($_POST["cambioPatrocinador"], $_POST["nuevoPatrocinador"], 5);
 
-			$pasar_comisiones_hijo = ControladorPagos::ctrPasarComisionesHijoArbol($_POST["cambioPatrocinador"], $_POST["nuevoPatrocinador"], 5);
+			//Registrar Comisiones solo del hijo al nuevo padre(patrocinador).
+			// $prueba_registrar = ControladorPagos::ctrPruebaComisionesRegistrar($_POST["cambioPatrocinador"], $_POST["nuevoPatrocinador"]);
+
+			//Eliminar comisiones antiguos patrocinadores hacia arriba en el árbol de acruerdo a los niveles.
+			//$prueba_eliminar = ControladorPagos::ctrPruebaComisiones($_POST["cambioPatrocinador"], $_POST["nuevoPatrocinador"], 5, false);
+
+			$niveles_arbol=5;
+			$n=1;
+			$padre=ControladorUsuarios::ctrMostrarUsuarios("id_usuario",$_POST["cambioPatrocinador"]);
+
+			while($n <= $niveles_arbol &&  $padre!=""){
+                
+				$prueba_eliminar = ControladorPagos::ctrPruebaComisiones($padre["id_usuario"], $_POST["nuevoPatrocinador"], 5);
+
+				$hijo = ControladorUsuarios::ctrMostrarUsuarios("patrocinador",$padre["enlace_afiliado"]);
+
+				$padre=$hijo;
+				$n=$n+1;
+
+			}
 
 			$cambiar_patrocinador = ControladorPagos::ctrCambiarPatrocinadorBinaria($_POST["cambioPatrocinador"], $_POST["nuevoPatrocinador"]);
 
-			// $registrar_comisiones = ControladorPagos::ctrRegistrarComisionesUsuarioArbol($_POST["cambioPatrocinador"], 5);
+			$padre=ControladorUsuarios::ctrMostrarUsuarios("id_usuario",$_POST["cambioPatrocinador"]);
+
+			$n=1;
+
+			while($n <= $niveles_arbol &&  $padre!=""){
+                
+				$prueba_registrar = ControladorPagos::ctrPruebaRegistrarDespues($padre["id_usuario"], $_POST["nuevoPatrocinador"], 5);
+
+				$hijo = ControladorUsuarios::ctrMostrarUsuarios("patrocinador",$padre["enlace_afiliado"]);
+
+				$padre=$hijo;
+				$n=$n+1;
+
+			}
+
+			// $prueba_registrar_comisiones = ControladorPagos::ctrPruebaComisionesRegistrarNuevosPatrocinadores($_POST["cambioPatrocinador"], $_POST["nuevoPatrocinador"], 5);
+
+			// $cambiar_patrocinador="ok";
 
 			if($cambiar_patrocinador=="ok"){
 
@@ -1323,7 +1359,7 @@ Class ControladorUsuarios{
 
 								if(result.value){
 
-									window.location = "cambiar-patrocinador";
+									
 
 								}
 
