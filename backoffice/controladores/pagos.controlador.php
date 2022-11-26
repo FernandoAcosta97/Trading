@@ -688,7 +688,7 @@ class ControladorPagos
 
     public static function ctrCambiarPatrocinadorBinaria($id_usuario, $id_nuevo_patrocinador)
     {
-        
+        $respuesta="";
         $usuario = ModeloUsuarios::mdlMostrarUsuarios("usuarios", "id_usuario", $id_usuario);
 
 		$patrocinador = ModeloUsuarios::mdlMostrarUsuarios("usuarios", "enlace_afiliado", $usuario["patrocinador"]);
@@ -700,10 +700,13 @@ class ControladorPagos
 		//Actualización usuario
 		$actualizar_usuario = ControladorUsuarios::ctrActualizarUsuario($usuario["id_usuario"], "patrocinador", $nuevoPatrocinador["enlace_afiliado"]);
 
+        //Actualización red uninivel
+        $actualizar_uninivel = ControladorMultinivel::ctrActualizarUninivel($usuario["id_usuario"], $nuevoPatrocinador["enlace_afiliado"]);
+
 		//Actualización árbol binario
 		$actualizar_binaria = ControladorMultinivel::ctrActualizarBinaria($usuario["id_usuario"], $binaria_nuevo_patrocinador["orden_binaria"],$nuevoPatrocinador["enlace_afiliado"]);
 
-        $respuesta=$actualizar_binaria;
+        if($actualizar_binaria=="ok" && $actualizar_uninivel) $respuesta="ok";
 
 		return $respuesta;
 

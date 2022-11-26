@@ -49,7 +49,6 @@ class ControladorMultinivel{
 	/*=============================================
 	MOSTRAR RED SIN INNER JOIN
 	=============================================*/
-
 	static public function ctrMostrarRedUninivel($tabla, $item, $valor){
 
 		$respuesta = ModeloMultinivel::mdlMostrarRedUninivel($tabla, $item, $valor);
@@ -270,6 +269,21 @@ class ControladorMultinivel{
 		$tabla = "red_binaria";
 
 		$respuesta = ModeloMultinivel::mdlActualizarBinaria($tabla, $id_usuario, $derrame, $patrocinador);
+
+		return $respuesta;
+
+	}
+
+
+	/*=============================================
+	ACTUALIZAR UNINIVEL
+	=============================================*/
+	
+	static public function ctrActualizarUninivel($id_usuario, $patrocinador){
+
+		$tabla = "red_uninivel";
+
+		$respuesta = ModeloMultinivel::mdlActualizarUninivel($tabla, $id_usuario, $patrocinador);
 
 		return $respuesta;
 

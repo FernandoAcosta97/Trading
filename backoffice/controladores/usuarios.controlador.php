@@ -1322,7 +1322,7 @@ Class ControladorUsuarios{
 
 			}
 
-			$cambiar_patrocinador = ControladorPagos::ctrCambiarPatrocinadorBinaria($_POST["cambioPatrocinador"], $_POST["nuevoPatrocinador"]);
+			$cambiar_patrocinador_binaria = ControladorPagos::ctrCambiarPatrocinadorBinaria($_POST["cambioPatrocinador"], $_POST["nuevoPatrocinador"]);
 
 			$padre=ControladorUsuarios::ctrMostrarUsuarios("id_usuario",$_POST["cambioPatrocinador"]);
 
@@ -1343,7 +1343,7 @@ Class ControladorUsuarios{
 
 			// $cambiar_patrocinador="ok";
 
-			if($cambiar_patrocinador=="ok"){
+			if($cambiar_patrocinador_binaria=="ok"){
 
 				echo '<script>
 

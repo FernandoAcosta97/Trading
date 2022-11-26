@@ -103,7 +103,6 @@ class ModeloMultinivel{
 
 	static public function mdlMostrarRedUninivel($tabla, $item, $valor){
 
-
 		$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item");	
 
 		$stmt -> bindParam(":".$item, $valor, PDO::PARAM_STR);
@@ -194,7 +193,7 @@ class ModeloMultinivel{
 	}
 
 	/*=============================================
-	REGISTRO BINARIA
+	REGISTRO z
 	=============================================*/
 
 	static public function mdlRegistroBinaria($tabla, $datos){
@@ -253,6 +252,34 @@ class ModeloMultinivel{
 		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET derrame_binaria =:derrame_binaria, patrocinador_red = :patrocinador_red WHERE usuario_red = :usuario_red");
 
 		$stmt -> bindParam(":derrame_binaria", $derrame, PDO::PARAM_STR);
+		$stmt -> bindParam(":patrocinador_red", $patrocinador, PDO::PARAM_STR);
+		$stmt -> bindParam(":usuario_red", $id_usuario, PDO::PARAM_STR);
+
+		if($stmt -> execute()){
+
+			return "ok";
+
+		}else{
+
+    		return print_r(Conexion::conectar()->errorInfo());
+
+		}
+
+		$stmt-> close();
+
+		$stmt = null;
+
+	}
+
+
+	/*=============================================
+	ACTUALIZAR UNINIVEL
+	=============================================*/
+
+	static public function mdlActualizarUninivel($tabla, $id_usuario, $patrocinador){
+
+		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET patrocinador_red = :patrocinador_red WHERE usuario_red = :usuario_red");
+
 		$stmt -> bindParam(":patrocinador_red", $patrocinador, PDO::PARAM_STR);
 		$stmt -> bindParam(":usuario_red", $id_usuario, PDO::PARAM_STR);
 

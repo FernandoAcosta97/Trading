@@ -94,6 +94,8 @@ class TablaPagos{
 
 			$red = ControladorMultinivel::ctrMostrarRedUninivel("red_uninivel", "patrocinador_red", $usuario["enlace_afiliado"]);
 
+			// print_r($red);
+
 			if(count($red)>0){
 				foreach ($red as $key2 => $value2){
 					$usuarioRedOperando = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $value2["usuario_red"]);
