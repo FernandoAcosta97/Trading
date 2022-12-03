@@ -1311,8 +1311,10 @@ Class ControladorUsuarios{
 			$n=1;
 			$padre=ControladorUsuarios::ctrMostrarUsuarios("id_usuario",$_POST["cambioPatrocinador"]);
 
+			$prueba_bonos = ControladorPagos::ctrPruebaBonos($_POST["cambioPatrocinador"], $_POST["nuevoPatrocinador"]);
+
 			while($n <= $niveles_arbol &&  $padre!=""){
-                
+            
 				$prueba_eliminar = ControladorPagos::ctrPruebaComisiones($padre["id_usuario"], $_POST["nuevoPatrocinador"], 5);
 
 				$hijo = ControladorUsuarios::ctrMostrarUsuarios("patrocinador",$padre["enlace_afiliado"]);

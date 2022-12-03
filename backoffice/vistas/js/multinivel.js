@@ -70,11 +70,14 @@ $("#tree_view").jOrgChart({
 	dragAndDrop: false
 })
 
+
+
 $(".verGanancias").click(function(){
 
 	$(".tablaGanancias").toggle();
 
 })
+
 
 /*=============================================
 TABLA GANANCIAS RED BINARIA

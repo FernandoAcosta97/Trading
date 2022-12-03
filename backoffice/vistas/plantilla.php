@@ -158,6 +158,10 @@ $usuario = ControladorUsuarios::ctrMostrarUsuarios($item, $valor);
 	<!-- https://github.com/wesnolte/jOrgChart-->
     <script src="vistas/js/plugins/jquery.jOrgChart.js"></script>
 
+	<!-- Org Chart Js-->
+	<!-- https://balkan.app/OrgChartJS/-->
+    <!-- <script src="vistas/js/plugins/orgchart.js"></script> -->
+
     <!-- jQuery Number-->
     <!-- https://plugins.jquery.com/df-number-format/ -->
 	<script src="vistas/js/plugins/jquerynumber.min.js"></script>
@@ -185,6 +189,7 @@ $usuario = ControladorUsuarios::ctrMostrarUsuarios($item, $valor);
 	<!-- daterangepicker http://www.daterangepicker.com/-->
     <script src="vistas/js/plugins/moment.min.js"></script>
     <script src="vistas/js/plugins/daterangepicker.js"></script>
+
 
 </head>
 

@@ -34,8 +34,6 @@ class TablaPagos{
 
 		$pago = ControladorPagos::ctrMostrarPagosExtras("id", $_GET["pago"]);
 
-		$campana = ControladorCampanas::ctrMostrarCampanas("id", $pago["id_campana"]);
-
 		$bonos = ControladorPagos::ctrMostrarBonosExtrasAll("id_pago_extra", $_GET["pago"]);
 
 
@@ -51,45 +49,11 @@ class TablaPagos{
 
 	 	"data": [ ';
 
-	 	// if(count($red) != 0){
-
- 	
-		// 	$periodo_venta =0; 
-		
-		// 	$usuario = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", "43");
-
-			
-
-		// 		$fechaPago = date('Y-m-d');
-			
-
-		// 	/*=============================================
-		// 	NOTAS
-		// 	=============================================*/			
-
-		// 	$notas = "<h5><a href='".$ruta."backoffice/binaria' class='btn btn-purple btn-sm'>Actualizar</a></h5>";		
-
-		// 	$datosJson	 .= '[
-						
-		// 			"1",
-		// 			"En proceso...",
-		// 			"En proceso...",
-		// 			"En proceso...",
-		// 			"'.$periodo_comision.'",
-		// 			"$ '.number_format($periodo_comision, 2, ",", ".").'",
-		// 			"$ '.number_format($periodo_venta, 2, ",", ".").'",
-		// 			"'.$fechaPago.'",
-		// 			"'.$notas.'"
-
-		// 	],';
-
-		// }
-
 		foreach ($bonos as $key => $value) {
 			
-
   			$usuario = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $value["id_usuario"]);
-	
+
+			$campana=ControladorCampanas::ctrMostrarCampanas("id",$value["id_campana"]);
 
 			$total=$campana["retorno"];
 

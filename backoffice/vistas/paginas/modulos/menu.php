@@ -78,16 +78,18 @@
       <!--=====================================
       Botón Campañas
       ======================================-->
+
+      <?php if ($usuario["perfil"] != "admin") : ?>
     
 
-      <!-- <li class="nav-item">
+      <li class="nav-item">
           <a href="campanas" class="nav-link">
             <i class="nav-icon fas fa-money-bill"></i>
             <p>Campañas</p>
           </a>
-        </li> -->
+        </li>
   
-
+<?php else: ?>
 
 
         <li class="nav-item has-treeview">
@@ -113,6 +115,8 @@
               </li>
             </ul>
           </li>
+
+          <?php endif ?>
      
 
       <?php if ($usuario["perfil"] != "admin") : ?>
@@ -186,7 +190,7 @@
         <!--=====================================
         Botón Ingresos
         ======================================-->
-
+<?php if($usuario["perfil"]!="admin"): ?>
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-money-check-alt"></i>
@@ -210,6 +214,8 @@
               </li>
             </ul>
           </li>
+
+          <?php endif ?>
 
         <!--=====================================
         Botón Pagos

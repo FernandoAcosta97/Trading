@@ -89,39 +89,14 @@ class TablaPagos{
 
 		foreach ($pagos as $key => $value) {
 
-			$campana=ControladorCampanas::ctrMostrarCampanas("id",$value["id_campana"]);
-
   			$usuario = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $value["id_usuario"]);
 
-			$cuenta = ControladorCuentas::ctrMostrarCuentas("usuario",$usuario["id_usuario"]);
-
-			// $red = ControladorMultinivel::ctrMostrarRedUninivel("red_uninivel", "patrocinador_red", $usuario["enlace_afiliado"]);
-
-			// if(count($red)>0){
-			// 	foreach ($red as $key2 => $value2){
-			// 		$usuarioRedOperando = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $value2["usuario_red"]);
-	
-			// 		if($usuarioRedOperando["operando"]==1){
-			// 			++$totalAfiliadosActivos;
-			// 		}
-	
-			// 	}
-			// }
-	
-			/*=============================================
-			NOTAS
-			=============================================*/
-
-			// if($_GET["enlace_afiliado"] != $patrocinador){			
-
-			// 	$notas = "<h5><span class='badge badge-success'>Pagada</span></h5>";
-
-			// }else{
-
-			// 	$notas = "<h5><span class='badge badge-success'>Pagada $".number_format($value["periodo_comision"])."</span></h5>";
-			// }	
+			$cuenta = ControladorCuentas::ctrMostrarCuentas("usuario",$usuario["id_usuario"]);	
 			
 			$bonos_extras = ControladorPagos::ctrMostrarBonosExtrasAll("id_pago_extra",$value["id"]);
+
+			$campana=ControladorCampanas::ctrMostrarCampanas("id",$bonos_extras[0]["id_campana"]);
+
             $total = count($bonos_extras)*$campana["retorno"];
 			$totalAfiliadosObtenidos=count($bonos_extras);
 

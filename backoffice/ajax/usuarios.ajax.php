@@ -184,6 +184,7 @@ class AjaxUsuarios
 
         $registroUninivel = ControladorMultinivel::ctrRegistroUninivel($datosUninivel);
         $registroArbol = ControladorMultinivel::ctrRegistroBinaria($datosArbol);
+        $registroPatrocinador = ControladorUsuarios::ctrActualizarUsuario($this->id_usuario, "patrocinador", $confimarPatrocinador);
 
         $respuesta = "error";
 

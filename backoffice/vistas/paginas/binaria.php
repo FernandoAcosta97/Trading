@@ -28,9 +28,12 @@
 
         include "modulos/binaria/analitica-binaria.php";
 
+        // include "modulos/binaria/arbol.php";
+
         include "modulos/binaria/red-binaria.php";
 
         include "modulos/binaria/mapa-binaria.php";
+        
 
       ?>
 

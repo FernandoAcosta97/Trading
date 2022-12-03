@@ -70,7 +70,7 @@
 
 				<div>
 
-					<input type="text" class="form-control" id="inputPatrocinador" value="<?php echo $usuario["patrocinador"] ?>" readonly>
+					<input type="text" class="form-control" id="inputPatrocinador" value="<?php echo $usuario["patrocinador"] ?>" required>
 
 				</div>
 

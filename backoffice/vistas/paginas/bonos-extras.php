@@ -1,4 +1,18 @@
 
+<?php
+
+if ($usuario["perfil"] != "admin") {
+
+    echo '<script>
+
+  window.location = "campanas";
+
+  </script>';
+
+    return;
+}
+
+?>
 <div class="content-wrapper" style="min-height: 1058.31px;">
 
   <!-- Content Header (Page header) -->

@@ -7,10 +7,13 @@ $pagos = ControladorPagos::ctrMostrarPagosExtras(null,null);
 
 foreach ($pagos as $key => $value) {
 
-	$campana=ControladorCampanas::ctrMostrarCampanas("id",$value["id_campana"]);
-
 	$bonos_extras = ControladorPagos::ctrMostrarBonosExtrasAll("id_pago_extra",$value["id"]);
-	$total = count($bonos_extras)*$campana["retorno"];
+
+	foreach($bonos_extras as $key2 => $value2){
+		$campana=ControladorCampanas::ctrMostrarCampanas("id",$value2["id_campana"]);
+		$total = count($bonos_extras)*$campana["retorno"];
+
+	}
 
 	if($value["estado"]==0){
 		$total_a_pagar+=$total;

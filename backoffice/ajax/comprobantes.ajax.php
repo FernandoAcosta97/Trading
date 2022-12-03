@@ -92,16 +92,15 @@ class AjaxComprobantes{
 
 			if($patrocinador["perfil"]!="admin"){
 
-				$existe_pago_extra=ControladorPagos::ctrMostrarPagosExtras2("id_usuario",$patrocinador["id_usuario"],"id_campana",$bono_extra["id"]);
+				$existe_pago_extra=ControladorPagos::ctrMostrarPagosExtras2("id_usuario",$patrocinador["id_usuario"],"estado",0);
 
 				if($existe_pago_extra==""){
-					$pago_extra=ControladorPagos::ctrRegistrarPagosExtras($patrocinador["id_usuario"], $bono_extra["id"]);
-					// $red = ControladorMultinivel::ctrMostrarRedUninivel("red_uninivel","usuario_red",$usuario["id_usuario"]);
-					// print_r($red);
-					ControladorPagos::ctrRegistrarBonosExtras($pago_extra, $usuario["id_usuario"]);
+					$pago_extra=ControladorPagos::ctrRegistrarPagosExtras($patrocinador["id_usuario"]);
+
+					ControladorPagos::ctrRegistrarBonosExtras($pago_extra, $usuario["id_usuario"], $bono_extra["id"]);
 				}else{
-					// $red = ControladorMultinivel::ctrMostrarRedUninivel("red_uninivel","usuario_red",$usuario["id_usuario"]);
-					ControladorPagos::ctrRegistrarBonosExtras($existe_pago_extra["id"], $usuario["id_usuario"]);
+					
+					ControladorPagos::ctrRegistrarBonosExtras($existe_pago_extra["id"], $usuario["id_usuario"], $bono_extra["id"]);
 
 				}
 
@@ -109,14 +108,19 @@ class AjaxComprobantes{
 			}
 		}
 	  }else{
+        //Eliminar Bono extra
 
 		$campana = ControladorCampanas::ctrMostrarCampanasxEstado("nombre","Bono Extra","estado","1");
+
+		if($campana!=""){
 
 		$comprobantesFechaBono = ControladorComprobantes::ctrMostrarComprobantesxEstadoyFechaBonoUsuario("doc_usuario", $usuario["doc_usuario"],"estado",1,$campana["fecha_inicio"],$campana["fecha_fin"]);
 
 		$patrocinador=ControladorUsuarios::ctrMostrarUsuarios("enlace_afiliado",$usuario["patrocinador"]);
 
-		$pago_extra=ControladorPagos::ctrMostrarPagosExtras2("id_usuario",$patrocinador["id_usuario"],"id_campana",$campana["id"]);
+		$pago_extra=ControladorPagos::ctrMostrarPagosExtras2("id_usuario",$patrocinador["id_usuario"],"estado",0);
+
+		if($pago_extra!=""){
 
         $bonos_extras = ControladorPagos::ctrMostrarBonosExtrasAll("id_pago_extra",$pago_extra["id"]);	
 
@@ -125,13 +129,14 @@ class AjaxComprobantes{
 		ControladorPagos::ctrEliminarBonoExtra("id", $bonos_extras[0]["id"]);
 		ControladorPagos::ctrEliminarPagoExtra($pago_extra["id"]);
     
-		}else if(count($comprobantesFechaBono)==0){
+		}
+		if(count($comprobantesFechaBono)==0){
 
-			// $red=ControladorMultinivel::ctrMostrarRedUninivel("red_uninivel","usuario_red",$usuario["id_usuario"]);
-
-			ControladorPagos::ctrEliminarBonoExtra("id_usuario", $usuario["id_usuario"]);
+			ControladorPagos::ctrEliminarPagoExtra("id", $pago_extra["id"]);
 
 		}
+	}
+	}
 		
 	  }
 

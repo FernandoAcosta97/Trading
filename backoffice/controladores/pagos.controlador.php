@@ -213,6 +213,54 @@ class ControladorPagos
 
     }
 
+    /*=============================================
+    prueba bonos eliminar del antiguo patrocinador y registrar al nuevo patrocinador
+    =============================================*/
+
+    public static function ctrPruebaBonos($id_usuario, $id_nuevo_patrocinador)
+    {
+
+        $hijo = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $id_usuario);
+
+		$padre = ControladorUsuarios::ctrMostrarUsuarios("enlace_afiliado", $hijo["patrocinador"]);
+
+        $nuevo_patrocinador = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $id_nuevo_patrocinador);
+
+        $pago_bono_extra = ControladorPagos::ctrMostrarPagosExtras2("id_usuario", $padre["id_usuario"], "estado", 0);
+
+        if($pago_bono_extra!=""){
+
+           $pago_bono_nuevo = ControladorPagos::ctrMostrarPagosExtras2("id_usuario", $id_nuevo_patrocinador, "estado", 0);
+
+           $bonos = ControladorPagos::ctrMostrarBonosExtrasAll("id_pago_extra", $pago_bono_extra["id"]);
+
+           foreach($bonos as $key => $value){
+
+            if($value["id_usuario"]==$hijo["id_usuario"]){
+
+                if($pago_bono_nuevo!=""){
+                    $registrar_bono = ControladorPagos::ctrRegistrarBonosExtras($pago_bono_nuevo["id"], $hijo["id_usuario"], $value["id_campana"]);
+                }else{
+           
+                    $registrar_pago_nuevo = ControladorPagos::ctrRegistrarPagosExtras($id_nuevo_patrocinador);
+                    $registrar_bono = ControladorPagos::ctrRegistrarBonosExtras($registrar_pago_nuevo, $hijo["id_usuario"], $value["id_campana"]);
+                    
+                }
+                $eliminar_bono_extra = ControladorPagos::ctrEliminarBonoExtra("id", $value["id"]);
+            }
+
+           }
+
+           $bonos = ControladorPagos::ctrMostrarBonosExtrasAll("id_pago_extra", $pago_bono_extra["id"]);
+
+           if(count($bonos)==0){
+            $eliminar_pago_extra = ControladorPagos::ctrEliminarPagoExtra($pago_bono_extra["id"]);
+           }
+
+        }
+
+    }
+
 
 
     /*=============================================
@@ -730,11 +778,11 @@ class ControladorPagos
     Registro de Pagos Extras
     =============================================*/
 
-    public static function ctrRegistrarPagosExtras($id_usuario, $id_campana)
+    public static function ctrRegistrarPagosExtras($id_usuario)
     {
 
         $tabla = "pagos_extras";
-        $datos = array("id_usuario" => $id_usuario,"id_campana" => $id_campana,
+        $datos = array("id_usuario" => $id_usuario,
         "estado" => 0);
 
         return $respuesta = ModeloPagos::mdlRegistrarPagosExtras($tabla, $datos);   
@@ -745,11 +793,12 @@ class ControladorPagos
     Registro de Bonos Extras
     =============================================*/
 
-    public static function ctrRegistrarBonosExtras($id_pago_extra, $id_usuario)
+    public static function ctrRegistrarBonosExtras($id_pago_extra, $id_usuario, $id_campana)
     {
 
         $tabla = "bonos_extras";
         $datos = array("id_pago_extra" => $id_pago_extra,"id_usuario" => $id_usuario,
+        "id_campana" => $id_campana,
         "estado" => 0);
 
         $respuesta = ModeloPagos::mdlRegistrarBonosExtras($tabla, $datos);   
