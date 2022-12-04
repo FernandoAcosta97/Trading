@@ -138,11 +138,18 @@ if ($usuario["perfil"] != "admin") {
 
 ?>
 
-   <?php
+<?php
 
 include "modulos/inicio/recuadros-superiores.php";
 
-include "modulos/inicio/graficos-inicio.php";
+if($usuario["perfil"]=="admin"){
+include "modulos/inicio/tabla-ultimos-registrados.php";
+
+}else{
+
+  include "modulos/inicio/graficos-inicio.php";
+
+}
 
 ?>
 

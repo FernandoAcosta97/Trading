@@ -4,15 +4,9 @@
 HISTÓRICO DE COMISIONES
 =============================================*/
 
-if ($usuario["enlace_afiliado"] != $patrocinador) {
+$pagos = ControladorPagos::ctrMostrarPagosComisionesxEstadoAll("id_usuario", $usuario["id_usuario"], "estado", 1);
 
-    $pagos = ControladorMultinivel::ctrMostrarPagosRed("pagos_uninivel", "usuario_pago", $usuario["id_usuario"]);
 
-} else {
-
-    $pagos = ControladorMultinivel::ctrMostrarPagosRed("pagos_uninivel", null, null);
-
-}
 
 /*=============================================
 TOTAL USUARIOS
@@ -28,15 +22,7 @@ $totalComisiones = 0;
 
 foreach ($pagos as $key => $value) {
 
-    if ($usuario["enlace_afiliado"] != $patrocinador || $value["periodo_comision"] == $value["periodo_venta"]) {
-
-        $totalComisiones += $value["periodo_comision"];
-
-    } else {
-
-        $totalComisiones += $value["periodo_venta"] - $value["periodo_comision"];
-
-    }
+        $totalComisiones += $value["valor"];
 
 }
 
@@ -243,6 +229,7 @@ if ($usuario["operando"] == 1):?>
 <?php endif?>
 <?php endif?>
 
+<?php if($usuario["perfil"]!="admin"): ?>
 
 	<div class="col-12 col-sm-6 col-lg-3">
 
@@ -256,10 +243,11 @@ if ($usuario["operando"] == 1):?>
 			<div class="icon">
 				<i class="fas fa-dollar-sign"></i>
 			</div>
-			<a href="ingresos-uninivel" class="small-box-footer">Más información <i class="fas fa-arrow-circle-right"></i></a>
+			<a href="ingresos-binaria" class="small-box-footer">Más información <i class="fas fa-arrow-circle-right"></i></a>
 		</div>
 	</div>
 	<!-- ./col -->
+	<?php  endif ?>
 
 	<div class="col-12 col-sm-6 col-lg-3">
 		<!-- small box -->

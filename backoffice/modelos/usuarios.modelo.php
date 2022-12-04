@@ -105,6 +105,23 @@ class ModeloUsuarios
 
 
     /*=============================================
+    Mostrar Ultimos Usuarios Registrados con contrato
+    =============================================*/
+
+    public static function mdlMostrarMostrarUltimosUsuariosRegistrados($tabla)
+    {
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla ORDER BY fecha_contrato DESC LIMIT 10");
+
+        $stmt->execute();
+
+        return $stmt->fetchAll();   
+
+        $stmt->close();
+        $stmt = null;
+    }
+
+
+    /*=============================================
     Buscar Usuarios
     =============================================*/
 

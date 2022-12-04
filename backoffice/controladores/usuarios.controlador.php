@@ -361,6 +361,21 @@ Class ControladorUsuarios{
 
 	}
 
+
+	/*=============================================
+	Mostrar Ultimos Usuarios Registrados con contrato
+	=============================================*/
+
+	static public function ctrMostrarUltimosUsuariosRegistrados(){
+	
+		$tabla = "usuarios";
+
+		$respuesta = ModeloUsuarios::mdlMostrarMostrarUltimosUsuariosRegistrados($tabla);
+
+		return $respuesta;
+
+	}
+
 	/*=============================================
 	Buscar Usuarios
 	=============================================*/
