@@ -95,7 +95,7 @@ if ($usuario["firma"] != "") {
 
 // print_r($afiliadosNecesarios);
 
-$bono_extra = ControladorCampanas::ctrMostrarCampanas("nombre","Bono Extra");
+$bono_extra = ControladorCampanas::ctrMostrarCampanasxEstado("nombre","Bono Extra","estado",1);
 
 if($usuario["perfil"] != "admin" && $bono_extra){
 

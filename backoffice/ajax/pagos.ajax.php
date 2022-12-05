@@ -6,6 +6,8 @@ require_once "../controladores/pagos.controlador.php";
 require_once "../modelos/pagos.modelo.php";
 require_once "../controladores/usuarios.controlador.php";
 require_once "../modelos/usuarios.modelo.php";
+require_once "../controladores/cuentas.controlador.php";
+require_once "../modelos/cuentas.modelo.php";
 require_once "../controladores/pagos.controlador.php";
 require_once "../modelos/pagos.modelo.php";
 
@@ -41,7 +43,18 @@ class AjaxPagos{
 
 		$id = $this->idPagoInversion;
 
-		return $respuesta = ControladorPagos::ctrActualizarPagoInversion($id, $item, $valor);
+		$pago = ControladorPagos::ctrMostrarPagos("id", $id);
+
+		$comprobante = ControladorComprobantes::ctrMostrarComprobantes("id", $pago["id_comprobante"]);
+
+		$usuario = ControladorUsuarios::ctrMostrarUsuarios("doc_usuario", $comprobante[0]["doc_usuario"]);
+
+		$cuenta = ControladorCuentas::ctrMostrarCuentasxEstado("usuario",$usuario["id_usuario"],"estado",1);
+
+		$item2 = "id_cuenta";
+		$valor2 = $cuenta["id"];
+
+		return $respuesta = ControladorPagos::ctrActualizarPagoInversionCuenta($id, $item, $valor, $item2, $valor2);
 
 	}
 

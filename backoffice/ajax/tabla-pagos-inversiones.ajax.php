@@ -95,7 +95,7 @@ class TablaPagos{
 
   			$usuario = ControladorUsuarios::ctrMostrarUsuarios("doc_usuario", $comprobante[0] ["doc_usuario"]);
 
-			$cuentaBancaria = ControladorCuentas::ctrMostrarCuentas("usuario",$usuario["id_usuario"]);
+			$cuentaBancaria = ControladorCuentas::ctrMostrarCuentasxEstado("usuario",$usuario["id_usuario"],"estado",1);
 
 			$red = ControladorMultinivel::ctrMostrarRedUninivel("red_uninivel", "patrocinador_red", $usuario["enlace_afiliado"]);
 
@@ -132,15 +132,18 @@ class TablaPagos{
 				$tipo_cuenta = "X";
 
 				$acciones = "<button class='btn btn-info' disabled>PAGAR</button>";
+				$seleccionar = "";
             }else{
 				$numero_cuenta = $cuentaBancaria["numero"];
 				$entidad_cuenta = $cuentaBancaria["entidad"];
 				$tipo_cuenta = $cuentaBancaria["tipo"];
 
 				$acciones = "<button class='btn btn-info btnPagarInversion' idPagoInversion='".$value["id"]."'>PAGAR</button>";
+
+				$seleccionar = "<center><input type='checkbox' class='seleccionarPago' idPago='".$value["id"]."'></input></center>";
 			}
 
-			$seleccionar = "<center><input type='checkbox' class='seleccionarPago' idPago='".$value["id"]."'></input></center>";
+
 
 			$datosJson	 .= '[
 				    "'.($key+1).'",

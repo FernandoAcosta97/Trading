@@ -42,7 +42,7 @@ PLUGIN SELECT 2 BUSCAR USUARIO POR NOMBRE O NÚMERO DE DOCUMENTO
 =============================================*/
 
 $(".selectBuscar").select2({
-  placeholder: "Ingrese el nombre o número de documento a buscar",
+  placeholder: "Ingrese el nombre o número de documento del usuario a buscar",
   minimumInputLength: 3,
   ajax:{
     url: "ajax/buscarUsuario.ajax.php",

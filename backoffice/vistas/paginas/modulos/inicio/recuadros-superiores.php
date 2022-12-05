@@ -6,6 +6,11 @@ HISTÓRICO DE COMISIONES
 
 $pagos = ControladorPagos::ctrMostrarPagosComisionesxEstadoAll("id_usuario", $usuario["id_usuario"], "estado", 1);
 
+$pagosInversiones = ControladorPagos::ctrMostrarPagosInversionesxUsuario("doc_usuario", $usuario["doc_usuario"], "estado", 1);
+
+
+$pagosExtras = ControladorPagos::ctrMostrarPagosExtrasxEstadoAll("id_usuario", $usuario["id_usuario"], "estado", 1);
+
 
 
 /*=============================================
@@ -23,6 +28,33 @@ $totalComisiones = 0;
 foreach ($pagos as $key => $value) {
 
         $totalComisiones += $value["valor"];
+
+}
+
+/*=============================================
+TOTAL INVERSIONES
+=============================================*/
+
+$totalInversiones = 0;
+
+foreach ($pagosInversiones as $key => $value) {
+
+		$campana = ControladorCampanas::ctrMostrarCampanas("id", $value["campana"]);
+		$ganancia = ($value["valor"]*$campana["retorno"])/100;
+		$totalInversiones+=$value["valor"]+$ganancia;
+
+}
+
+
+/*=============================================
+TOTAL BONOS EXTRAS
+=============================================*/
+
+$totalBonos = 0;
+
+foreach ($pagosExtras as $key => $value) {
+
+        $totalBonos += $value["valor"];
 
 }
 
@@ -236,7 +268,7 @@ if ($usuario["operando"] == 1):?>
 		<!-- small box -->
 		<div class="small-box bg-info">
 			<div class="inner">
-				<h3>$ <?php echo number_format($totalComisiones, 2, ",", "."); ?></h3>
+				<h3>$ <?php echo number_format($totalComisiones); ?></h3>
 
 				<p>Mis comisiones</p>
 			</div>
@@ -247,6 +279,43 @@ if ($usuario["operando"] == 1):?>
 		</div>
 	</div>
 	<!-- ./col -->
+
+
+	<div class="col-12 col-sm-6 col-lg-3">
+
+<!-- small box -->
+<div class="small-box bg-info">
+	<div class="inner">
+		<h3>$ <?php echo number_format($totalInversiones); ?></h3>
+
+		<p>Mis inversiones</p>
+	</div>
+	<div class="icon">
+		<i class="fas fa-dollar-sign"></i>
+	</div>
+	<a href="ingresos-uninivel" class="small-box-footer">Más información <i class="fas fa-arrow-circle-right"></i></a>
+</div>
+</div>
+<!-- ./col -->
+
+
+<div class="col-12 col-sm-6 col-lg-3">
+
+<!-- small box -->
+<div class="small-box bg-info">
+	<div class="inner">
+		<h3>$ <?php echo number_format($totalBonos); ?></h3>
+
+		<p>Mis bonos extras</p>
+	</div>
+	<div class="icon">
+		<i class="fas fa-dollar-sign"></i>
+	</div>
+	<a href="ingresos-binaria" class="small-box-footer">Más información <i class="fas fa-arrow-circle-right"></i></a>
+</div>
+</div>
+<!-- ./col -->
+
 	<?php  endif ?>
 
 	<div class="col-12 col-sm-6 col-lg-3">

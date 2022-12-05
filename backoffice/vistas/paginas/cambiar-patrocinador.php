@@ -61,7 +61,7 @@
 
               <div class="form-group">
 
-                <label for="cambioPatrocinador" class="control-label">BUSCAR</label>
+                <label for="cambioPatrocinador" class="control-label">BUSCAR USUARIO (HIJO)</label>
 
                 <div>
                   <select class="form-control py-4 selectBuscar" id="cambioPatrocinador" name="cambioPatrocinador" required>
@@ -73,7 +73,7 @@
 
               <div class="form-group">
 
-                <label for="nuevoPatrocinador" class="control-label">NUEVO PATROCINADOR</label>
+                <label for="nuevoPatrocinador" class="control-label">NUEVO PATROCINADOR (PADRE)</label>
 
                 <div>
 

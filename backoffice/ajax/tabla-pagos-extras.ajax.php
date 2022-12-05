@@ -87,11 +87,14 @@ class TablaPagos{
 
 		// }
 
+
+		
+
 		foreach ($pagos as $key => $value) {
 
   			$usuario = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $value["id_usuario"]);
 
-			$cuenta = ControladorCuentas::ctrMostrarCuentas("usuario",$usuario["id_usuario"]);
+			$cuentaBancaria = ControladorCuentas::ctrMostrarCuentas("usuario",$usuario["id_usuario"]);
 
 			$bonos_extras = ControladorPagos::ctrMostrarBonosExtrasAll("id_pago_extra",$value["id"]);
 
@@ -100,9 +103,25 @@ class TablaPagos{
             $total = count($bonos_extras)*$campana["retorno"];
 			$totalAfiliadosObtenidos=count($bonos_extras);
 
-			$acciones = "<div class='btn-group'><button class='btn btn-info btnPagarExtra' idPagoExtra='".$value["id"]."'>PAGAR</button><button type='button' class='btn btn-success btn-xs btnVerBonos' data-toggle='modal' data-target='#modalVerBonos' idPagoBono='".$value["id"]."'><i class='fa fa-eye'></i></button></div>";
+			if($cuentaBancaria==""){
+				$numero_cuenta = "X";
+				$entidad_cuenta = "X";
+				$tipo_cuenta = "X";
+	
+				$acciones = "<div class='btn-group'><button class='btn btn-info' disabled>PAGAR</button><button type='button' class='btn btn-success btn-xs btnVerUsuario' idUsuario='".$value["id_usuario"]."'><i class='fa fa-eye'></i></button></div>";
+				$seleccionar = "";
+			}else{
+				$numero_cuenta = $cuentaBancaria["numero"];
+				$entidad_cuenta = $cuentaBancaria["entidad"];
+				$tipo_cuenta = $cuentaBancaria["tipo"];
+	
+				$acciones = "<div class='btn-group'><button class='btn btn-info btnPagarExtra' idPagoExtra='".$value["id"]."'>PAGAR</button><button type='button' class='btn btn-success btn-xs btnVerBonos' data-toggle='modal' data-target='#modalVerBonos' idPagoBono='".$value["id"]."'><i class='fa fa-eye'></i></button></div>";
 
+				
 			$seleccionar = "<center><input type='checkbox' class='seleccionarPago' idPago='".$value["id"]."'></input></center>";
+			}
+	
+
 
 			$datosJson	 .= '[
 				    "'.($key+1).'",
@@ -114,9 +133,9 @@ class TablaPagos{
 					"'.$usuario["pais"].'",
 					"'.$usuario["telefono_movil"].'",
 					"'.$totalAfiliadosObtenidos.'",
-					"'.$cuenta["entidad"].'",
-					"'.$cuenta["numero"].'",
-					"'.$cuenta["tipo"].'",
+					"'.$entidad_cuenta.'",
+					"'.$numero_cuenta.'",
+					"'.$tipo_cuenta.'",
 					"$ '.number_format($total).'"
 
 			],';

@@ -792,7 +792,33 @@ class ModeloPagos
 
         $stmt = null;
     }
+    
 
+     /*=============================================
+    Actualizar Estado y Cuenta Pago Inversion
+    =============================================*/
+
+    public static function mdlActualizarPagoInversionCuenta($tabla, $id, $item, $valor, $item2, $valor2)
+    {
+
+        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET $item = :$item, $item2 = :$item2 WHERE id = :id");
+
+        $stmt->bindParam(":" . $item, $valor, PDO::PARAM_INT);
+        $stmt->bindParam(":" . $item2, $valor2, PDO::PARAM_INT);
+        $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+
+            return "ok";
+        } else {
+
+            return print_r(Conexion::conectar()->errorInfo());
+        }
+
+        $stmt->close();
+
+        $stmt = null;
+    }
 
      /*=============================================
     Actualizar Estado Pago Comision

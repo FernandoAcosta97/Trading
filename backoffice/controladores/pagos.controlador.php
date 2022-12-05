@@ -1140,6 +1140,22 @@ class ControladorPagos
 
 
      /*=============================================
+    Actualizar Estado y Cuenta Pago
+    =============================================*/
+
+    public static function ctrActualizarPagoInversionCuenta($id, $item, $valor, $item2, $valor2)
+    {
+
+        $tabla = "pagos_inversiones";
+
+        $respuesta = ModeloPagos::mdlActualizarPagoInversionCuenta($tabla, $id, $item, $valor, $item2, $valor2);
+
+        echo $respuesta;
+
+    }
+
+
+     /*=============================================
     Actualizar Estado Pago
     =============================================*/
 

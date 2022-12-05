@@ -97,7 +97,7 @@ class TablaPagos{
 
   			$usuario = ControladorUsuarios::ctrMostrarUsuarios("doc_usuario", $comprobante[0] ["doc_usuario"]);
 
-			$cuenta = ControladorCuentas::ctrMostrarCuentas("usuario",$usuario["id_usuario"]);
+			$cuenta = ControladorCuentas::ctrMostrarCuentas("id",$value["id_cuenta"]);
 	
 			/*=============================================
 			NOTAS

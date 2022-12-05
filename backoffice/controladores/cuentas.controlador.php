@@ -25,6 +25,15 @@ Class ControladorCuentas{
 				"numero" => $_POST["registrarNumeroCuenta"]);
 
 				
+		$cuentas = ControladorCuentas::ctrMostrarCuentasAll("usuario",$_POST["idUsuarioCuentaRegistrar"]);
+
+		foreach($cuentas as $key => $value){
+			if($value["estado"]==1){
+				$actualizar_cuentas = ControladorCuentas::ctrActualizarCuenta( $value["id"] ,"estado", 0);
+				break;
+			}
+		}
+
 		$respuesta = ModeloUsuarios::mdlRegistrarCuentaBancaria($tabla, $datos);
 
 		if($respuesta == "ok"){
@@ -76,6 +85,22 @@ Class ControladorCuentas{
 
 	}
 
+
+	/*=============================================
+	Mostrar Cuentas
+	=============================================*/
+
+	static public function ctrMostrarCuentasxEstado($item, $valor,$item2, $valor2){
+	
+		$tabla = "cuentas_bancarias";
+
+		$respuesta = ModeloCuentas::mdlMostrarCuentasxEstado($tabla, $item, $valor, $item2, $valor2);
+
+		return $respuesta;
+
+	}
+
+
 	/*=============================================
 	Mostrar Cuentas All
 	=============================================*/
@@ -84,11 +109,27 @@ Class ControladorCuentas{
 	
 		$tabla = "cuentas_bancarias";
 
-		$respuesta = ModeloCuentas::mdlMostrarCuentas($tabla, $item, $valor);
+		$respuesta = ModeloCuentas::mdlMostrarCuentasAll($tabla, $item, $valor);
 
 		return $respuesta;
 
 	}
+
+
+	/*=============================================
+	Actualizar Cuenta
+	=============================================*/
+
+	static public function ctrActualizarCuenta($id, $item, $valor){
+
+		$tabla = "cuentas_bancarias";
+
+		$respuesta = ModeloCuentas::mdlActualizarCuenta($tabla, $id, $item, $valor);
+
+		return $respuesta;
+
+	}
+
 
 
 

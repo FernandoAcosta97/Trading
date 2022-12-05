@@ -593,7 +593,7 @@ Class ControladorUsuarios{
 							swal({
 									type:"error",
 								  	title: "¡ERROR!",
-								  	text: "¡El correo electrónico aún no ha sido verificado, por favor revise la bandeja de entrada o la carpeta SPAM de su correo electrónico para verificar la cuenta, o contáctese con nuestro soporte admin@trading.com!",
+								  	text: "¡El correo electrónico aún no ha sido verificado, por favor revise la bandeja de entrada o la carpeta SPAM de su correo electrónico para verificar la cuenta, o contáctese con nuestro soporte whatsapp: 3125698783 -  correo: admin@trading.com!",
 								  	showConfirmButton: true,
 									confirmButtonText: "Cerrar"
 								  
@@ -615,7 +615,7 @@ Class ControladorUsuarios{
 						   swal({
 								   type:"warning",
 									 title: "¡Advertencia!",
-									 text: "¡Su cuenta se encuentra desactivada, contáctese con nuestro soporte admin@trading.com!",
+									 text: "¡Su cuenta se encuentra desactivada , contáctese con nuestro soporte whatsapp: 3125698783 -  correo: admin@trading.com!",
 									 showConfirmButton: true,
 								   confirmButtonText: "Cerrar"
 								 
@@ -1312,6 +1312,31 @@ Class ControladorUsuarios{
 
 		if(isset($_POST["cambioPatrocinador"])){
 
+			if($_POST["cambioPatrocinador"] ==  $_POST["nuevoPatrocinador"] || $_POST["cambioPatrocinador"]==1){
+				echo '<script>
+
+							swal({
+
+								type:"warning",
+								title: "Atención",
+								text: "¡Ha seleccionado erroneamente, vuelve a intentarlo!",
+								showConfirmButton: true,
+								confirmButtonText: "Cerrar"
+
+							}).then(function(result){
+
+								if(result.value){
+
+									window.location = "cambiar-patrocinador";
+
+								}
+
+
+							});	
+
+						</script>';
+			}else{
+
 			// $pasar_comisiones_padre = ControladorPagos::ctrPasarComisionesPadreArbol($_POST["cambioPatrocinador"], $_POST["nuevoPatrocinador"], 5);
 
 			// $pasar_comisiones_hijo = ControladorPagos::ctrPasarComisionesHijoArbol($_POST["cambioPatrocinador"], $_POST["nuevoPatrocinador"], 5);
@@ -1376,7 +1401,7 @@ Class ControladorUsuarios{
 
 								if(result.value){
 
-									
+									window.location = "cambiar-patrocinador";
 
 								}
 
@@ -1386,6 +1411,7 @@ Class ControladorUsuarios{
 						</script>';
 
 			}
+		}
 	
 		}
 

@@ -2,7 +2,7 @@
 
 $red = ControladorMultinivel::ctrMostrarRed("usuarios", "red_uninivel", "patrocinador_red",	$usuario["enlace_afiliado"]);
 
-$cuentas = ControladorCuentas::ctrMostrarCuentas("usuario",$usuario["id_usuario"]);
+$cuentas = ControladorCuentas::ctrMostrarCuentasAll("usuario",$usuario["id_usuario"]);
 
            /*=============================================
 			Limpinado el array de tipo Objeto de valores repetidos
@@ -70,6 +70,13 @@ if(count($red) > 0){
 
 		</div>
 
+		
+        <div style="margin:1em auto auto auto">
+
+            <button class="btn btn-primary" data-toggle="modal" data-target="#registrarCuenta">Registrar Cuenta</button>
+
+        </div>
+
 		<div class="card-body">
 
 			<table class="table table-bordered table-striped dt-responsive tablaCuentasDetalles" width="100%">
@@ -94,34 +101,37 @@ if(count($red) > 0){
 
 				if(is_array($cuentas) && count($cuentas)>0){
 
-					if ( $cuentas["estado"] == 1 ) {
+					foreach ($cuentas as $key => $value) {
+
+					if ( $value["estado"] == 1 ) {
     
-						$estado = "<select class='form-control selectAprobado' idCuenta='".$cuentas["id"]."'><option value='1' selected>Aprobada</option><option value='0'>Rechazada</option><option value='2'>Pendiente</option></select>";
+						$estado = "<select class='form-control selectAprobado' idCuenta='".$value["id"]."'><option value='1' selected>Aprobada</option><option value='0'>Rechazada</option><option value='2'>Pendiente</option></select>";
 		
-					} else if($cuentas["estado"] == 0){
+					} else if($value["estado"] == 0){
 		
-						$estado = "<select class='form-control selectAprobado' idCuenta='".$cuentas["id"]."'><option value='1'>Aprobada</option><option value='0' selected>Rechazada</option><option value='2'>Pendiente</option></select>";
+						$estado = "<select class='form-control selectAprobado' idCuenta='".$value["id"]."'><option value='1'>Aprobada</option><option value='0' selected>Rechazada</option><option value='2'>Pendiente</option></select>";
 		
-					}else if($cuentas["estado"] == 2){
+					}else if($value["estado"] == 2){
 		
-						$estado = "<select class='form-control selectAprobado' idCuenta='".$cuentas["id"]."'><option value='1'>Aprobada</option><option value='0'>Rechazada</option><option value='2' selected>Pendiente</option></select>";
+						$estado = "<select class='form-control selectAprobado' idCuenta='".$value["id"]."'><option value='1'>Aprobada</option><option value='0'>Rechazada</option><option value='2' selected>Pendiente</option></select>";
 		
 					}
 
-					$acciones = "<div class='btn-group'><button class='btn btn-warning btn-xs btnEditarCuenta' idCuenta= '" . $cuentas["id"] . "' idUsuarioCuenta='" . $cuentas["titular"] . "' data-toggle='modal' data-target='#modalEditarCuenta'><i class='fa fa-pen' style='color:white'></i></button></div>";
+					$acciones = "<div class='btn-group'><button class='btn btn-warning btn-xs btnEditarCuenta' idCuenta= '" . $value["id"] . "' idUsuarioCuenta='" . $value["titular"] . "' data-toggle='modal' data-target='#modalEditarCuenta'><i class='fa fa-pen' style='color:white'></i></button></div>";
 
 
 					echo '<tr>
 					
 						<td>'.$acciones.'</td> 
-						<td>'.$cuentas["numero"].'</td> 
-						<td>'.$cuentas["titular"].'</td> 
+						<td>'.$value["numero"].'</td> 
+						<td>'.$value["titular"].'</td> 
 						<td>'.$estado.'</td> 		  
-						<td>'.$cuentas["entidad"].'</td>		
-						<td>'.$cuentas["fecha"].'</td>	
+						<td>'.$value["entidad"].'</td>		
+						<td>'.$value["fecha"].'</td>	
 
 					</tr>';
 				}
+			}
 
 					
 				 ?>

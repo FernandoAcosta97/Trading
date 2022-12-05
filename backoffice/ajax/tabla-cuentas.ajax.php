@@ -25,20 +25,10 @@ class TablaCuentas
                 $usuario = null;
             }
         }
-        $cuentas = ControladorCuentas::ctrMostrarCuentas("usuario", $valor);
+        $cuentas = ControladorCuentas::ctrMostrarCuentasAll("usuario", $valor);
         if(is_array($cuentas)){
 
             if (count($cuentas) == 0) {
-
-                echo '{ "data":[]}';
-    
-                return;
-    
-            }
-
-        }else{
-
-            if ($cuentas=="") {
 
                 echo '{ "data":[]}';
     
@@ -56,30 +46,34 @@ class TablaCuentas
 
                   //ESTADO CUENTAS
 
-            if ($cuentas["estado"] == 0) {
+        foreach ($cuentas as $key => $value) {
 
-                $estado = "<button type='button' class='btn btn-danger btn-sm btnActivar' idUsuarioCuenta='" . $cuentas["titular"] . "' estadoCuentaUsuario='1'>RECHAZADA</button>";
+            if ($value["estado"] == 0) {
 
-            } else if($cuentas["estado"] == 1){
+                $estado = "<button type='button' class='btn btn-danger btn-sm btnActivar' idUsuarioCuenta='" . $value["titular"] . "' estadoCuentaUsuario='1'>RECHAZADA</button>";
 
-                $estado = "<button type='button' class='btn btn-success btn-sm btnActivar' idUsuarioCuenta='" . $cuentas["titular"] . "' estadoCuentaUsuario='0'>ACTIVADA</button>";
-            }else if($cuentas["estado"] == 2){
-                $estado = "<button type='button' class='btn btn-warning btn-sm btnActivar' idUsuarioCuenta='" . $cuentas["titular"] . "' estadoCuentaUsuario='0'>PENDIENTE</button>";
+            } else if($value["estado"] == 1){
+
+                $estado = "<button type='button' class='btn btn-success btn-sm btnActivar' idUsuarioCuenta='" . $value["titular"] . "' estadoCuentaUsuario='0'>ACTIVADA</button>";
+            }else if($value["estado"] == 2){
+                $estado = "<button type='button' class='btn btn-warning btn-sm btnActivar' idUsuarioCuenta='" . $value["titular"] . "' estadoCuentaUsuario='0'>PENDIENTE</button>";
             }
 
             $acciones="<button type='button' class='btn btn-primary btn-xs btnSoporte'><i class='fa fa-envelope'></i></button>";
 
             $datosJson .= '[
                 "' . $acciones . '",
-                "' . $cuentas["numero"] . '",
+                "' . $value["numero"] . '",
                 "' . $usuario["nombre"] . '",
                 "' . $usuario["doc_usuario"] . '",
-                "' . $cuentas["titular"] . '",
+                "' . $value["titular"] . '",
                 "' . $estado . '",
-                "' . $cuentas["entidad"] . '",
-                "' . $cuentas["tipo"] . '",
-                "' . $cuentas["fecha"] . '"
+                "' . $value["entidad"] . '",
+                "' . $value["tipo"] . '",
+                "' . $value["fecha"] . '"
          ],';
+
+        }
 
               }else{
 

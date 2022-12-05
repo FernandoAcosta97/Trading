@@ -2,7 +2,7 @@
 
 $item = "usuario";
 $valor = $usuario["id_usuario"];
-$cuentas = ControladorCuentas::ctrMostrarCuentas($item, $valor);
+$cuentas = ControladorCuentas::ctrMostrarCuentasAll($item, $valor);
 
 ?>
 <div class="content-wrapper" style="min-height: 1058.31px;">

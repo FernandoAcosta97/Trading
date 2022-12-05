@@ -345,30 +345,32 @@
     if ($usuario) {
 		if($usuario["perfil"]!="admin"){
 
-        $cuenta = ControladorCuentas::ctrMostrarCuentas("usuario", $usuario["id_usuario"]);
+        $cuenta = ControladorCuentas::ctrMostrarCuentasAll("usuario", $usuario["id_usuario"]);
 
         // $total_cuentas = count($cuentas_bancarias);
-        $cuenta_bancaria = "";
-			if($cuenta!=""){
-                    $cuenta_bancaria = $cuenta["numero"];   
-			}
-    //     if ($total_cuentas > 1) {
+        // $cuenta_bancaria = "";
+		// 	if($cuenta!=""){
+        //             $cuenta_bancaria = $cuenta["numero"];   
+		// 	}
+		$cuenta_bancaria = "Cuenta no registrada";
 
-    //         foreach ($cuentas_bancarias as $key => $value) {
-    //             if ($value["estado"] == 1) {
-    //                 $cuenta_bancaria = $value["numero"];
-    //                 break;
-    //             }
-    //         }
-    //     } elseif ($cuentas_bancarias) {
-    //     $cuenta_bancaria = $cuentas_bancarias[0]["numero"];
-    // }
+		if(count($cuenta)>0){
 
-    if ($cuenta_bancaria == "") {
-        $cuenta_bancaria = "Cuenta no registrada";
+        foreach ($cuenta as $key => $value) {
+                if ($value["estado"] == 1) {
+                    $cuenta_bancaria = $value["numero"];
+                    break;
+                }
+            }
+		}
+        } 
     }
-}
-}
+
+    // if (count($cuenta) == 0) {
+    //     $cuenta_bancaria = "Cuenta no registrada";
+    // }
+// }
+// }
 ?>
 
 <div class="col-12 col-md-8">

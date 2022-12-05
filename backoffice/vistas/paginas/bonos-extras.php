@@ -69,7 +69,7 @@ if ($usuario["perfil"] != "admin") {
           <thead>
             <tr>
               <th>Acciones</th>
-              <th>Retorno</th>
+              <th>Valor</th>
               <th>Estado</th>
               <th>Fecha Inicio</th>
               <th>Fecha Fin</th>
@@ -235,11 +235,11 @@ REGISTRAR CAMPAÑA
 
             <div class="form-group">
 
-              <label for="registroRetorno" class="control-label">Retorno</label>
+              <label for="registroRetorno" class="control-label">Valor</label>
 
               <div>
 
-              <input type="number" class="form-control" id="registroRetorno" name="registroRetorno" placeholder="Retorno bono extra" required>
+              <input type="number" class="form-control" id="registroRetorno" name="registroRetorno" placeholder="Valor Monetario" required>
 
               </div>
 
