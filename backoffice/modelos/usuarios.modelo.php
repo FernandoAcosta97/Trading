@@ -110,7 +110,7 @@ class ModeloUsuarios
 
     public static function mdlMostrarMostrarUltimosUsuariosRegistrados($tabla)
     {
-        $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla ORDER BY fecha_contrato DESC LIMIT 10");
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla ORDER BY fecha_contrato DESC LIMIT 5");
 
         $stmt->execute();
 

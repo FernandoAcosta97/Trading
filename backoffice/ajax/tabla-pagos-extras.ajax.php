@@ -62,39 +62,14 @@ class TablaPagos{
 
 			
 
-		// 		$fechaPago = date('Y-m-d');
-			
+		// 		$fechaPago = date('Y-m-d');		
 
-		// 	/*=============================================
-		// 	NOTAS
-		// 	=============================================*/			
-
-		// 	$notas = "<h5><a href='".$ruta."backoffice/binaria' class='btn btn-purple btn-sm'>Actualizar</a></h5>";		
-
-		// 	$datosJson	 .= '[
-						
-		// 			"1",
-		// 			"En proceso...",
-		// 			"En proceso...",
-		// 			"En proceso...",
-		// 			"'.$periodo_comision.'",
-		// 			"$ '.number_format($periodo_comision, 2, ",", ".").'",
-		// 			"$ '.number_format($periodo_venta, 2, ",", ".").'",
-		// 			"'.$fechaPago.'",
-		// 			"'.$notas.'"
-
-		// 	],';
-
-		// }
-
-
-		
 
 		foreach ($pagos as $key => $value) {
 
   			$usuario = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $value["id_usuario"]);
 
-			$cuentaBancaria = ControladorCuentas::ctrMostrarCuentas("usuario",$usuario["id_usuario"]);
+			$cuentaBancaria = ControladorCuentas::ctrMostrarCuentasxEstado("usuario",$usuario["id_usuario"],"estado",1);
 
 			$bonos_extras = ControladorPagos::ctrMostrarBonosExtrasAll("id_pago_extra",$value["id"]);
 

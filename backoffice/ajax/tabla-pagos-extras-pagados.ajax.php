@@ -65,40 +65,17 @@ class TablaPagos{
 		// 		$fechaPago = date('Y-m-d');
 			
 
-		// 	/*=============================================
-		// 	NOTAS
-		// 	=============================================*/			
-
-		// 	$notas = "<h5><a href='".$ruta."backoffice/binaria' class='btn btn-purple btn-sm'>Actualizar</a></h5>";		
-
-		// 	$datosJson	 .= '[
-						
-		// 			"1",
-		// 			"En proceso...",
-		// 			"En proceso...",
-		// 			"En proceso...",
-		// 			"'.$periodo_comision.'",
-		// 			"$ '.number_format($periodo_comision, 2, ",", ".").'",
-		// 			"$ '.number_format($periodo_venta, 2, ",", ".").'",
-		// 			"'.$fechaPago.'",
-		// 			"'.$notas.'"
-
-		// 	],';
-
-		// }
-
 		foreach ($pagos as $key => $value) {
 
   			$usuario = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $value["id_usuario"]);
 
-			$cuenta = ControladorCuentas::ctrMostrarCuentas("usuario",$usuario["id_usuario"]);	
+			$cuenta = ControladorCuentas::ctrMostrarCuentasxEstado("usuario",$value["id_cuenta"],"estado",1);
 			
 			$bonos_extras = ControladorPagos::ctrMostrarBonosExtrasAll("id_pago_extra",$value["id"]);
 
 			$campana=ControladorCampanas::ctrMostrarCampanas("id",$bonos_extras[0]["id_campana"]);
 
             $total = count($bonos_extras)*$campana["retorno"];
-			$totalAfiliadosObtenidos=count($bonos_extras);
 
 			$acciones = "<h5><span class='badge badge-success'>Pago $".number_format($total)."</span></h5>";
 
@@ -110,7 +87,7 @@ class TablaPagos{
 					"'.$usuario["nombre"].'",
 					"'.$usuario["pais"].'",
 					"'.$usuario["telefono_movil"].'",
-					"'.$totalAfiliadosObtenidos.'",
+					"'.$value["referidos_obtenidos"].'",
 					"'.$cuenta["entidad"].'",
 					"'.$cuenta["numero"].'",
 					"'.$cuenta["tipo"].'",

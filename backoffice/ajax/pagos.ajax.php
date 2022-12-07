@@ -10,6 +10,8 @@ require_once "../controladores/cuentas.controlador.php";
 require_once "../modelos/cuentas.modelo.php";
 require_once "../controladores/pagos.controlador.php";
 require_once "../modelos/pagos.modelo.php";
+require_once "../controladores/campanas.controlador.php";
+require_once "../modelos/campanas.modelo.php";
 
 class AjaxPagos{
 
@@ -38,8 +40,7 @@ class AjaxPagos{
 
 	public function ajaxEstadoPagoInversion(){
 
-		$item = "estado";
-		$valor = 1;
+		$estado = 1;
 
 		$id = $this->idPagoInversion;
 
@@ -51,10 +52,13 @@ class AjaxPagos{
 
 		$cuenta = ControladorCuentas::ctrMostrarCuentasxEstado("usuario",$usuario["id_usuario"],"estado",1);
 
-		$item2 = "id_cuenta";
-		$valor2 = $cuenta["id"];
+		$id_cuenta = $cuenta["id"];
 
-		return $respuesta = ControladorPagos::ctrActualizarPagoInversionCuenta($id, $item, $valor, $item2, $valor2);
+		$datos = array("id" => $id,
+		"estado" => $estado,
+		"id_cuenta" => $cuenta["id"]);
+
+		return $respuesta = ControladorPagos::ctrActualizarPagoInversion($datos);
 
 	}
 
@@ -64,18 +68,52 @@ class AjaxPagos{
 	=============================================*/	
 
 	public $idPagoComision;
-	public $totalComision;
 
 	public function ajaxEstadoPagoComision(){
 
-		$item = "estado";
-		$valor = 1;
-
+		$estado = 1;
 		$id = $this->idPagoComision;
-		$item2 = "valor";
-		$valor2 = $this->totalComision;
+		
+		$pago = ControladorPagos::ctrMostrarPagosComisiones("id", $id);
 
-		return $respuesta = ControladorPagos::ctrActualizarPagoComision($id, $item, $valor, $item2, $valor2);
+		$usuario = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $pago["id_usuario"]);
+
+		$cuenta = ControladorCuentas::ctrMostrarCuentasxEstado("usuario",$usuario["id_usuario"],"estado",1);
+
+		$comisiones = ControladorPagos::ctrMostrarComisionesAll("id_pago_comision",$pago["id"]);
+
+		$total = 0;
+		foreach($comisiones as $key => $value){
+	   
+			$porcentaje=0;
+			$ganancia=0;
+			if($value["nivel"]==1){
+				$porcentaje=5;
+			}
+			if($value["nivel"]==2){
+				$porcentaje=4;
+			}
+			if($value["nivel"]==3){
+				$porcentaje=3;
+			}
+			if($value["nivel"]==4){
+				$porcentaje=2;
+			}
+			if($value["nivel"]==5){
+				$porcentaje=1;
+			}
+			$comprobante = ControladorComprobantes::ctrMostrarComprobantes("id",$value["id_comprobante"]);
+
+			$ganancia = ($comprobante[0]["valor"]*$porcentaje)/100;
+			$total=$total+$ganancia;
+		}
+
+		$datos = array("id" => $id,
+	                   "estado" => $estado,
+					   "valor" => $total,
+					   "id_cuenta" => $cuenta["id"]);
+
+		return $respuesta = ControladorPagos::ctrActualizarPagoComision($datos);
 
 	}
 
@@ -89,16 +127,84 @@ class AjaxPagos{
 
 	public function ajaxEstadoPagos(){
 
-		$item = "estado";
-		$valor = 1;
-		$item2 = "valor";
+		$estado = 1;
 		$tipoPago=$this->tipoPago;
+		$total = 0;
+		$referidos_obtenidos = 0;
 
 		$arrayPagos = explode(",", $this->idsPagos);
 
 		for($i=0; $i<count($arrayPagos); $i++){
 
-			$respuesta = ControladorPagos::ctrActualizarPagos($arrayPagos[$i], $item, $valor, $tipoPago);
+			if($tipoPago=="comisiones"){
+				$comisiones = ControladorPagos::ctrMostrarComisionesAll("id_pago_comision",$arrayPagos[$i]);
+
+				$pago = ControladorPagos::ctrMostrarPagosComisiones("id", $arrayPagos[$i]);
+	
+				foreach($comisiones as $key => $value){
+			   
+					$porcentaje=0;
+					$ganancia=0;
+					if($value["nivel"]==1){
+						$porcentaje=5;
+					}
+					if($value["nivel"]==2){
+						$porcentaje=4;
+					}
+					if($value["nivel"]==3){
+						$porcentaje=3;
+					}
+					if($value["nivel"]==4){
+						$porcentaje=2;
+					}
+					if($value["nivel"]==5){
+						$porcentaje=1;
+					}
+					$comprobante = ControladorComprobantes::ctrMostrarComprobantes("id",$value["id_comprobante"]);
+		
+					$ganancia = ($comprobante[0]["valor"]*$porcentaje)/100;
+					$total=$total+$ganancia;
+				}
+				$id_usuario=$pago["id_usuario"];
+
+			}else if($tipoPago=="inversiones"){
+				$pago = ControladorPagos::ctrMostrarPagos("id",$arrayPagos[$i]);
+
+				$comprobante = ControladorComprobantes::ctrMostrarComprobantes("id",$pago["id_comprobante"]);
+
+				$usuario=ControladorUsuarios::ctrMostrarUsuarios("doc_usuario", $comprobante[0]["doc_usuario"]);
+
+				$id_usuario=$usuario["id_usuario"];
+				
+			}else if($tipoPago=="bonos"){	
+
+				$pago = ControladorPagos::ctrMostrarPagosExtras("id", $arrayPagos[$i]);
+
+				$bonos = ControladorPagos::ctrMostrarBonosExtrasAll("id_pago_extra",$arrayPagos[$i]);
+
+				foreach($bonos as $key => $value){
+
+					$campana = ControladorCampanas::ctrMostrarCampanas("id", $value["id_campana"]);
+		
+					$total=$total+$campana["retorno"];
+				}
+
+				$id_usuario=$pago["id_usuario"];
+				$referidos_obtenidos=count($bonos);
+
+			}
+
+			$cuenta = ControladorCuentas::ctrMostrarCuentasxEstado("usuario",$id_usuario,"estado",1);
+	
+			$datos = array("id" => $arrayPagos[$i],
+						   "estado" => $estado,
+						   "valor" => $total,
+						   "id_cuenta" => $cuenta["id"],
+						   "tipoPago" => $tipoPago,
+						   "referidos_obtenidos" => $referidos_obtenidos);
+
+			$respuesta = ControladorPagos::ctrActualizarPagos($datos);
+			$total=0;
 		}
 
 		return $respuesta;
@@ -115,12 +221,33 @@ class AjaxPagos{
 
 	public function ajaxEstadoPagoExtra(){
 
-		$item = "estado";
-		$valor = 1;
-
+		$estado = 1;
 		$id = $this->idPagoExtra;
+		$total=0;
 
-		return $respuesta = ControladorPagos::ctrActualizarPagoExtra($id, $item, $valor);
+		$pago = ControladorPagos::ctrMostrarPagosExtras("id", $id);
+
+		$bonos = ControladorPagos::ctrMostrarBonosExtrasAll("id_pago_extra",$id);
+
+			foreach($bonos as $key => $value){
+
+				$campana = ControladorCampanas::ctrMostrarCampanas("id", $value["id_campana"]);
+		
+				$total=$total+$campana["retorno"];
+			}
+
+			$id_usuario=$pago["id_usuario"];
+			$referidos_obtenidos=count($bonos);
+
+			$cuenta = ControladorCuentas::ctrMostrarCuentasxEstado("usuario",$id_usuario,"estado",1);
+
+		$datos = array("id" => $id,
+		"estado" => $estado,
+		"valor" => $total,
+		"id_cuenta" => $cuenta["id"],
+		"referidos_obtenidos" => $referidos_obtenidos);
+
+		return $respuesta = ControladorPagos::ctrActualizarPagoExtra($datos);
 
 	}
 
@@ -171,7 +298,6 @@ if(isset($_POST["idPagoComision"])){
 
 	$pagoComision = new AjaxPagos();
 	$pagoComision -> idPagoComision = $_POST["idPagoComision"];
-	$pagoComision -> totalComision = $_POST["totalComision"];
 	$pagoComision -> ajaxEstadoPagoComision();
 
 }

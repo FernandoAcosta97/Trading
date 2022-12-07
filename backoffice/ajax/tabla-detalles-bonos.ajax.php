@@ -21,7 +21,7 @@ require_once "../controladores/campanas.controlador.php";
 require_once "../modelos/campanas.modelo.php";
 
 class TablaPagos{
-
+	
 	/*=============================================
 	ACTIVAR TABLA PAGOS
 	=============================================*/ 

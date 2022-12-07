@@ -86,8 +86,8 @@ $(".tabla-pagar-comisiones tbody").on("click", "button.btnVerComisiones", functi
 
     var idPago = $(this).attr("idPagoBono");
 
-    tabla = $(".tabla-detalles-extras");
-    tbody = $(".tabla-detalles-extras tbody");
+    tabla = $(".tabla-detalles-bonos");
+    tbody = $(".tabla-detalles-bonos tbody");
     tbody.empty();
     tabla = tabla.dataTable().fnDestroy();
 
@@ -364,11 +364,9 @@ $(".tabla-pagar-comisiones tbody").on("click", "button.btnVerComisiones", functi
     $(".tabla-pagar-comisiones tbody").on("click", "button.btnPagarComision", function () {
 
       var idPagoComision= $(this).attr("idPagoComision");
-      var totalComision= $(this).attr("totalComision");
     
       var datos = new FormData();
       datos.append("idPagoComision", idPagoComision);
-      datos.append("totalComision", totalComision);
     
         $.ajax({
     

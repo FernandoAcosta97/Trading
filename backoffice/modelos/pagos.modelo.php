@@ -337,7 +337,7 @@ class ModeloPagos
 
         if ($item != null && $valor !=null) {
 
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item");
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item AND id_usuario != 1 ");
 
             $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
 
@@ -347,7 +347,7 @@ class ModeloPagos
 
         } else {
 
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE id_usuario != 1");
 
             $stmt->execute();
 
@@ -520,7 +520,7 @@ class ModeloPagos
 
         if ($item != null && $valor !=null) {
 
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item");
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item AND id_usuario != 1 ");
 
             $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
 
@@ -772,13 +772,14 @@ class ModeloPagos
     Actualizar Estado Pago Inversion
     =============================================*/
 
-    public static function mdlActualizarPagoInversion($tabla, $id, $item, $valor)
+    public static function mdlActualizarPagoInversion($tabla, $datos)
     {
 
-        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET $item = :$item WHERE id = :id");
+        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET estado = :estado, id_cuenta = :id_cuenta WHERE id = :id");
 
-        $stmt->bindParam(":" . $item, $valor, PDO::PARAM_INT);
-        $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+        $stmt->bindParam(":estado", $datos["estado"], PDO::PARAM_INT);
+        $stmt->bindParam(":id_cuenta", $datos["id_cuenta"], PDO::PARAM_INT);
+        $stmt->bindParam(":id", $datos["id"], PDO::PARAM_INT);
 
         if ($stmt->execute()) {
 
@@ -824,14 +825,14 @@ class ModeloPagos
     Actualizar Estado Pago Comision
     =============================================*/
 
-    public static function mdlActualizarPagoComision($tabla, $id, $item, $valor, $item2, $valor2)
+    public static function mdlActualizarPagoComision($tabla, $datos)
     {
+        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET estado = :estado, valor = :valor, id_cuenta = :id_cuenta WHERE id = :id");
 
-        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET $item = :$item, $item2 = :$item2 WHERE id = :id");
-
-        $stmt->bindParam(":" . $item, $valor, PDO::PARAM_INT);
-        $stmt->bindParam(":" . $item2, $valor2, PDO::PARAM_INT);
-        $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+        $stmt->bindParam(":estado", $datos["estado"], PDO::PARAM_INT);
+        $stmt->bindParam(":valor", $datos["valor"], PDO::PARAM_INT);
+        $stmt->bindParam(":id_cuenta", $datos["id_cuenta"], PDO::PARAM_INT);
+        $stmt->bindParam(":id", $datos["id"], PDO::PARAM_INT);
 
         if ($stmt->execute()) {
 
@@ -873,17 +874,41 @@ class ModeloPagos
     }
 
 
-      /*=============================================
+    /*=============================================
     Actualizar Estado de varios pagos
     =============================================*/
 
-    public static function mdlActualizarPagos($tabla, $id, $item, $valor)
+    public static function mdlActualizarPagos($tabla, $datos)
     {
 
-        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET $item = :$item WHERE id = :id");
+        if($datos["tipoPago"]=="comisiones"){
 
-        $stmt->bindParam(":" . $item, $valor, PDO::PARAM_INT);
-        $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET valor = :valor, estado = :estado, id_cuenta = :id_cuenta WHERE id = :id");
+
+        $stmt->bindParam(":valor", $datos["valor"], PDO::PARAM_INT);
+        $stmt->bindParam(":estado", $datos["estado"], PDO::PARAM_INT);
+        $stmt->bindParam(":id_cuenta", $datos["id_cuenta"], PDO::PARAM_INT);
+        $stmt->bindParam(":id", $datos["id"], PDO::PARAM_INT);
+
+        }else if($datos["tipoPago"]=="inversiones"){
+
+        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET estado = :estado, id_cuenta = :id_cuenta WHERE id = :id");
+
+        $stmt->bindParam(":estado", $datos["estado"], PDO::PARAM_INT);
+        $stmt->bindParam(":id_cuenta", $datos["id_cuenta"], PDO::PARAM_INT);
+        $stmt->bindParam(":id", $datos["id"], PDO::PARAM_INT);
+
+     }else if($datos["tipoPago"]=="bonos"){
+
+        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET valor = :valor, estado = :estado, referidos_obtenidos = :referidos_obtenidos, id_cuenta = :id_cuenta WHERE id = :id");
+
+        $stmt->bindParam(":valor", $datos["valor"], PDO::PARAM_INT);
+        $stmt->bindParam(":estado", $datos["estado"], PDO::PARAM_INT);
+        $stmt->bindParam(":referidos_obtenidos", $datos["referidos_obtenidos"], PDO::PARAM_INT);
+        $stmt->bindParam(":id_cuenta", $datos["id_cuenta"], PDO::PARAM_INT);
+        $stmt->bindParam(":id", $datos["id"], PDO::PARAM_INT);
+
+     }
 
         if ($stmt->execute()) {
 
@@ -903,13 +928,16 @@ class ModeloPagos
     Actualizar Estado Pago Extra
     =============================================*/
 
-    public static function mdlActualizarPagoExtra($tabla, $id, $item, $valor)
+    public static function mdlActualizarPagoExtra($tabla, $datos)
     {
 
-        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET $item = :$item WHERE id = :id");
+        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET estado = :estado, valor = :valor, referidos_obtenidos = :referidos_obtenidos, id_cuenta = :id_cuenta WHERE id = :id");
 
-        $stmt->bindParam(":" . $item, $valor, PDO::PARAM_INT);
-        $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+        $stmt->bindParam(":estado", $datos["estado"], PDO::PARAM_INT);
+        $stmt->bindParam(":valor", $datos["valor"], PDO::PARAM_INT);
+        $stmt->bindParam(":referidos_obtenidos", $datos["referidos_obtenidos"], PDO::PARAM_INT);
+        $stmt->bindParam(":id_cuenta", $datos["id_cuenta"], PDO::PARAM_INT);
+        $stmt->bindParam(":id", $datos["id"], PDO::PARAM_INT);
 
         if ($stmt->execute()) {
 

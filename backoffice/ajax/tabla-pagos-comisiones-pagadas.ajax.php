@@ -87,10 +87,9 @@ class TablaPagos{
 
 		foreach ($pagos as $key => $value) {
 			
-
   			$usuario = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $value ["id_usuario"]);
 
-			$cuentaBancaria = ControladorCuentas::ctrMostrarCuentas("usuario",$usuario["id_usuario"]);
+			$cuentaBancaria = ControladorCuentas::ctrMostrarCuentas("id",$value["id_cuenta"]);
 
 			$red = ControladorMultinivel::ctrMostrarRedUninivel("red_uninivel", "patrocinador_red", $usuario["enlace_afiliado"]);
 
@@ -104,19 +103,7 @@ class TablaPagos{
 	
 				}
 			}
-	
-			/*=============================================
-			NOTAS
-			=============================================*/
-
-			// if($_GET["enlace_afiliado"] != $patrocinador){			
-
-			// 	$notas = "<h5><span class='badge badge-success'>Pagada</span></h5>";
-
-			// }else{
-
-			// 	$notas = "<h5><span class='badge badge-success'>Pagada $".number_format($value["periodo_comision"])."</span></h5>";
-			// }	
+		
 
 			$comisiones = ControladorPagos::ctrMostrarComisionesAll("id_pago_comision",$value["id"]);
 

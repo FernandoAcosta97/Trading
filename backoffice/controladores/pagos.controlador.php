@@ -244,8 +244,8 @@ class ControladorPagos
            
                     $registrar_pago_nuevo = ControladorPagos::ctrRegistrarPagosExtras($id_nuevo_patrocinador);
                     $registrar_bono = ControladorPagos::ctrRegistrarBonosExtras($registrar_pago_nuevo, $hijo["id_usuario"], $value["id_campana"]);
-                    
                 }
+            
                 $eliminar_bono_extra = ControladorPagos::ctrEliminarBonoExtra("id", $value["id"]);
             }
 
@@ -1127,12 +1127,12 @@ class ControladorPagos
     Actualizar Estado Pago
     =============================================*/
 
-    public static function ctrActualizarPagoInversion($id, $item, $valor)
+    public static function ctrActualizarPagoInversion($datos)
     {
 
         $tabla = "pagos_inversiones";
 
-        $respuesta = ModeloPagos::mdlActualizarPagoInversion($tabla, $id, $item, $valor);
+        $respuesta = ModeloPagos::mdlActualizarPagoInversion($tabla, $datos);
 
         echo $respuesta;
 
@@ -1155,23 +1155,20 @@ class ControladorPagos
     }
 
 
-     /*=============================================
+    /*=============================================
     Actualizar Estado Pago
     =============================================*/
-
-    public static function ctrActualizarPagoComision($id, $item, $valor, $item2, $valor2)
+    public static function ctrActualizarPagoComision($datos)
     {
-
         $tabla = "pagos_comisiones";
 
-        $respuesta = ModeloPagos::mdlActualizarPagoComision($tabla, $id, $item, $valor, $item2, $valor2);
+        $respuesta = ModeloPagos::mdlActualizarPagoComision($tabla, $datos);
 
         echo $respuesta;
-
     }
 
 
-       /*=============================================
+    /*=============================================
     Actualizar Estado de varios pagos de comisiones
     =============================================*/
 
@@ -1191,12 +1188,12 @@ class ControladorPagos
     Actualizar Estado Pago Extra
     =============================================*/
 
-    public static function ctrActualizarPagoExtra($id, $item, $valor)
+    public static function ctrActualizarPagoExtra($datos)
     {
 
         $tabla = "pagos_extras";
 
-        $respuesta = ModeloPagos::mdlActualizarPagoExtra($tabla, $id, $item, $valor);
+        $respuesta = ModeloPagos::mdlActualizarPagoExtra($tabla, $datos);
 
         echo $respuesta;
 
@@ -1204,24 +1201,24 @@ class ControladorPagos
 
 
     /*=============================================
-    Actualizar Estado Pagos
+    Actualizar Estado Varios Pagos
     =============================================*/
 
-    public static function ctrActualizarPagos($id, $item, $valor, $tipoPago)
+    public static function ctrActualizarPagos($datos)
     {
 
-        if($tipoPago == "comisiones"){
+        if($datos["tipoPago"] == "comisiones"){
             $tabla = "pagos_comisiones";
         }
-        if($tipoPago == "inversiones"){
+        if($datos["tipoPago"] == "inversiones"){
             $tabla = "pagos_inversiones";
         }
-        if($tipoPago == "bonos"){
+        if($datos["tipoPago"] == "bonos"){
             $tabla = "pagos_extras";
         }
 
 
-        $respuesta = ModeloPagos::mdlActualizarPagos($tabla, $id, $item, $valor);
+        $respuesta = ModeloPagos::mdlActualizarPagos($tabla, $datos);
 
         echo $respuesta;
 
