@@ -12,10 +12,11 @@ class ModeloUsuarios
     public static function mdlRegistroUsuario($tabla, $datos)
     {
 
-        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(perfil, doc_usuario, nombre, email, password, verificacion, email_encriptado, patrocinador) VALUES (:perfil, :doc_usuario, :nombre, :email, :password, :verificacion, :email_encriptado, :patrocinador)");
+        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(perfil, doc_usuario, usuario, nombre, email, password, verificacion, email_encriptado, patrocinador) VALUES (:perfil, :doc_usuario, :usuario, :nombre, :email, :password, :verificacion, :email_encriptado, :patrocinador)");
 
         $stmt->bindParam(":perfil", $datos["perfil"], PDO::PARAM_STR);
         $stmt->bindParam(":doc_usuario", $datos["doc_usuario"], PDO::PARAM_INT);
+        $stmt->bindParam(":usuario", $datos["usuario"], PDO::PARAM_STR);
         $stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
         $stmt->bindParam(":email", $datos["email"], PDO::PARAM_STR);
         $stmt->bindParam(":password", $datos["password"], PDO::PARAM_STR);
@@ -44,10 +45,11 @@ class ModeloUsuarios
     public static function mdlRegistroUsuarioManual($tabla, $datos)
     {
 
-        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(perfil, doc_usuario, nombre, email, password, verificacion, email_encriptado, patrocinador, pais, codigo_pais, telefono_movil, fecha_contrato, firma) VALUES (:perfil, :doc_usuario, :nombre, :email, :password, :verificacion, :email_encriptado, :patrocinador, :pais, :codigo_pais, :telefono_movil, :fecha_contrato, :firma)");
+        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(perfil, doc_usuario, usuario, nombre, email, password, verificacion, email_encriptado, patrocinador, pais, codigo_pais, telefono_movil, fecha_contrato, firma) VALUES (:perfil, :doc_usuario, :usuario, :nombre, :email, :password, :verificacion, :email_encriptado, :patrocinador, :pais, :codigo_pais, :telefono_movil, :fecha_contrato, :firma)");
 
         $stmt->bindParam(":perfil", $datos["perfil"], PDO::PARAM_STR);
         $stmt->bindParam(":doc_usuario", $datos["doc_usuario"], PDO::PARAM_INT);
+        $stmt->bindParam(":usuario", $datos["usuario"], PDO::PARAM_STR);
         $stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
         $stmt->bindParam(":email", $datos["email"], PDO::PARAM_STR);
         $stmt->bindParam(":password", $datos["password"], PDO::PARAM_STR);

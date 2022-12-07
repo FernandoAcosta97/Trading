@@ -12,11 +12,11 @@ Class ControladorUsuarios{
 
 	public function ctrRegistroUsuario(){
 
-		if(isset($_POST["registroNombre"])){
+		if(isset($_POST["registroUsuario"])){
 
 			$ruta = ControladorRuta::ctrRuta();
 
-			if(preg_match('/^[-_a-zA-ZñÑáéíóúÁÉÍÓÚ0-9. ]+$/', $_POST["registroNombre"]) &&
+			if(preg_match('/^[-_a-zA-ZñÑáéíóúÁÉÍÓÚ0-9. ]+$/', $_POST["registroUsuario"]) && preg_match('/^[-_a-zA-ZñÑáéíóúÁÉÍÓÚ0-9. ]+$/', $_POST["registroNombre"]) &&
 			   preg_match('/^[^0-9][a-zA-Z0-9_-]+([.][a-zA-Z0-9_]+)*[@][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,4}$/', $_POST["registroEmail"]) &&
 			    preg_match('/^[a-zA-Z0-9-@.]+$/', $_POST["registroPassword"])){
 
@@ -28,6 +28,7 @@ Class ControladorUsuarios{
 				$tabla = "usuarios";
 				$datos = array("perfil" => "usuario",
 				               "doc_usuario" => $aleatorio,
+							   "usuario" => $_POST["registroUsuario"],
 							   "nombre" => $_POST["registroNombre"],
 							   "email" => $_POST["registroEmail"],
 							   "password" => $encriptar,
@@ -36,14 +37,9 @@ Class ControladorUsuarios{
 							   "email_encriptado" => $encriptarEmail,
 							   "patrocinador" => $_POST["patrocinador"]); 
 
-				//$respuesta_usuario = ModeloUsuarios::mdlMostrarUsuarios($tabla,"enlace_afiliado",$_POST["patrocinador"]);
-
-				//$datos2 = array("patrocinador" => $respuesta_usuario["doc_usuario"], "referido" => 109486498);
 
 
 				$respuesta = ModeloUsuarios::mdlRegistroUsuario($tabla, $datos);
-
-				//$respuesta2 = ModeloUsuarios::mdlRegistroReferido("referidos", $datos2);
 				
 
 				if($respuesta == "ok"){
@@ -204,9 +200,9 @@ Class ControladorUsuarios{
 
 	public function ctrRegistroUsuarioManual(){
 
-		if(isset($_POST["registroNombre"])){
+		if(isset($_POST["registroUsuario"])){
 
-			if(preg_match('/^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["registroNombre"]) &&
+			if(preg_match('/^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["registroUsuario"]) && preg_match('/^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["registroNombre"]) &&
 			   preg_match('/^[^0-9][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[@][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,4}$/', $_POST["registroEmail"]) &&
 			    preg_match('/^[a-zA-Z0-9]+$/', $_POST["registroPassword"]) &&
 			    preg_match('/^[0-9]+$/', $_POST["registroDoc"])){
@@ -226,6 +222,7 @@ Class ControladorUsuarios{
 				$tabla = "usuarios";
 				$datos = array("perfil" => "usuario",
 				               "doc_usuario" => $_POST["registroDoc"],
+							   "usuario" => $_POST["registroUsuario"],
 							   "nombre" => $_POST["registroNombre"],
 							   "email" => $_POST["registroEmail"],
 							   "password" => $encriptar,
@@ -275,7 +272,7 @@ Class ControladorUsuarios{
 
 							if(result.value){
 
-								
+								window.location="uusarios";
 
 							}
 

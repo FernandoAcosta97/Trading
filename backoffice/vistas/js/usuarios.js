@@ -480,13 +480,13 @@ $(".tablaUltimosUsuarios").DataTable({
 BORRAR ALERTAS
 =============================================*/
 
-$("input[id='inputDoc'], input[id='inputPatrocinador'], input[name='registroNombre'], input[name='registroEmail']").change(function(){
+$("input[id='inputDoc'], input[id='inputPatrocinador'], input[name='registroUsuario'], input[name='registroEmail']").change(function(){
 
 	$(".alert").remove();
 
 })
 
-$("input[id='inputDoc'], input[id='inputPatrocinador'], input[name='registroNombre'], input[name='registroEmail']").click(function(){
+$("input[id='inputDoc'], input[id='inputPatrocinador'], input[name='registroUsuario'], input[name='registroEmail']").click(function(){
 
 	$(".alert").remove();
 
@@ -547,7 +547,7 @@ $("#inputDoc").change(function(){
 VALIDAR USUARIO REPETIDO
 =============================================*/
 
-$("input[name='registroNombre']").change(function(){
+$("input[name='registroUsuario']").change(function(){
 
 	var usuario = $(this).val();
 	
@@ -567,9 +567,9 @@ $("input[name='registroNombre']").change(function(){
 			
 			if(respuesta){
 
-				$("input[name='registroNombre']").val("");
+				$("input[name='registroUsuario']").val("");
 
-				$("input[name='registroNombre']").after(`
+				$("input[name='registroUsuario']").after(`
 
 						<div class="alert alert-warning">
 							<strong>ERROR:</strong>

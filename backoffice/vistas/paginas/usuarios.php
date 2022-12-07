@@ -116,6 +116,7 @@ if ($usuario["perfil"] != "admin") {
               <!-- <th style="width:10px">#</th> -->
               <th>Acciones</th>
               <th>CC</th>
+              <th>Usuario</th>
               <th>Nombre</th>
               <th>Email</th>
               <th>País</th>
@@ -322,9 +323,22 @@ REGISTRO USUARIO MANUAL
 
             </div>
 
+
+            <div class="form-group">
+
+            <label for="inputUsuario" class="control-label">Usuario</label>
+
+            <div>
+
+              <input type="text" class="form-control" id="inputUsuario" name="registroUsuario" required>
+
+            </div>
+
+            </div>
+
 			<div class="form-group">
 
-				<label for="inputName" class="control-label">Nombre usuario</label>
+				<label for="inputName" class="control-label">Nombre Completo</label>
 
 				<div>
 

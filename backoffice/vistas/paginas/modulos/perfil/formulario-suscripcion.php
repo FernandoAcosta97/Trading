@@ -42,6 +42,18 @@
 
 			<div class="form-group">
 
+			<label for="inputUsuario" class="control-label">Usuario</label>
+
+			<div>
+
+				<input type="text" class="form-control" id="inputUsuario" value="<?php echo $usuario["usuario"] ?>" readonly>
+
+			</div>
+
+			</div>
+
+			<div class="form-group">
+
 				<label for="inputName" class="control-label">Nombre completo</label>
 
 				<div>
@@ -66,7 +78,7 @@
 
 			<div class="form-group">
 
-				<label for="inputPatrocinador" class="control-label">Patrocinador</label>
+				<label for="inputPatrocinador" class="control-label">Código Patrocinador</label>
 
 				<div>
 

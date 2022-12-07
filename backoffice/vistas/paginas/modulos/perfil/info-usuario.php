@@ -22,6 +22,12 @@
 
 			<h3 class="profile-username text-center">
 				
+				<?php echo $usuario["usuario"] ?>
+
+			</h3>
+
+			<h3 class="profile-username text-center">
+				
 				<?php echo $usuario["nombre"] ?>
 
 			</h3>

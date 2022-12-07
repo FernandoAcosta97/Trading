@@ -156,6 +156,7 @@ class TablaUsuarios{
 
 					   "'.$acciones.'",
 					   "'.$docUsuario.'",
+					   "'.$value["usuario"].'",
 				       "'.$value["nombre"].'",
 				       "'.$value["email"].'",
 				       "'.$pais.'",

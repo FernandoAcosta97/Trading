@@ -37,7 +37,7 @@ class AjaxUsuarios
     public function ajaxValidarUsuario()
     {
 
-        $item = "nombre";
+        $item = "usuario";
         $valor = $this->validarUsuario;
 
         $respuesta = ControladorUsuarios::ctrMostrarUsuarios($item, $valor);

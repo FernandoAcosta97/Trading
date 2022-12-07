@@ -169,7 +169,7 @@ $(".fotoIngreso, .fotoRegistro").css({"height":$(".formulario").height()+"px"})
 BORRAR ALERTAS
 =============================================*/
 
-$("input[name='registroEmail'], input[name='registroNombre'],input[id='registroPassword2'], #politicas").change(function(){
+$("input[name='registroEmail'], input[name='registroUsuario'],input[id='registroPassword2'], #politicas").change(function(){
 
 	$(".alert").remove();
 
@@ -272,7 +272,7 @@ VALIDAR USUARIO REPETIDO
 
 var ruta = $("#ruta").val();
 
-$("input[name='registroNombre']").change(function(){
+$("input[name='registroUsuario']").change(function(){
 
 	var usuario = $(this).val();
 	
@@ -292,9 +292,9 @@ $("input[name='registroNombre']").change(function(){
 			
 			if(respuesta){
 
-				$("input[name='registroNombre']").val("");
+				$("input[name='registroUsuario']").val("");
 
-				$("input[name='registroNombre']").after(`
+				$("input[name='registroUsuario']").after(`
 
 						<div class="alert alert-warning">
 							<strong>ERROR:</strong>

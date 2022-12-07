@@ -7,7 +7,9 @@
       <div class="row mb-2">
         <div class="col-sm-6">
           <h1>Plan de compensación</h1>
+          <?php if($usuario["perfil"]=="admin"): ?>
           <button class="btn btn-primary" data-toggle="modal" data-target="#modalCambiarNiveles">NIVELES COMISIONES(ÁRBOL)</button>
+          <?php endif ?>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
@@ -60,6 +62,7 @@ Cambiar Niveles Comisiones
 
 	      <!-- Modal Header -->
 	      <div class="modal-header">
+
 	        <h4 class="modal-title">Cambiar niveles</h4>
 	        <button type="button" class="close" data-dismiss="modal">&times;</button>
 	      </div>
