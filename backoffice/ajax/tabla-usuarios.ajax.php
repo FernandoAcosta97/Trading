@@ -122,6 +122,20 @@ class TablaUsuarios{
 					$estado = "<button type='button' class='btn btn-success btn-sm btnActivar' idUsuario='".$value["id_usuario"]."' estadoUsuario='0'>Activado</button>";
 				}
 
+
+				/*=============================================
+				VERIFICACION CORREO
+				=============================================*/	
+
+				if($value["verificacion"] == 0){
+
+					$verificacion = "<button type='button' class='btn btn-danger btn-sm btnVerificar' idUsuario='".$value["id_usuario"]."' verificacionUsuario='1'>No</button>";
+
+				}else{
+
+					$verificacion = "<button type='button' class='btn btn-success btn-sm btnVerificar' idUsuario='".$value["id_usuario"]."' verificacionUsuario='0'>Si</button>";
+				}
+
 				if($value["firma"]!=NULL){
 
 				if($value["operando"] == 0){
@@ -159,6 +173,7 @@ class TablaUsuarios{
 					   "'.$value["usuario"].'",
 				       "'.$value["nombre"].'",
 				       "'.$value["email"].'",
+					   "'.$verificacion.'",
 				       "'.$pais.'",
 				       "'.$estado.'",
 				       "'.$operando.'",

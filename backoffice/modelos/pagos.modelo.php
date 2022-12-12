@@ -111,10 +111,11 @@ class ModeloPagos
 
     public static function mdlRegistrarBonosExtras($tabla, $datos)
     {
-        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(id_pago_extra, id_usuario, id_campana) VALUES (:id_pago_extra, :id_usuario, :id_campana)");
+        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(id_pago_extra, id_usuario, id_comprobante, id_campana) VALUES (:id_pago_extra, :id_usuario, :id_comprobante, :id_campana)");
 
         $stmt->bindParam(":id_pago_extra", $datos["id_pago_extra"], PDO::PARAM_INT);
         $stmt->bindParam(":id_usuario", $datos["id_usuario"], PDO::PARAM_INT);
+        $stmt->bindParam(":id_comprobante", $datos["id_comprobante"], PDO::PARAM_INT);
         $stmt->bindParam(":id_campana", $datos["id_campana"], PDO::PARAM_INT);
 
         if ($stmt->execute()) {

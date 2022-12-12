@@ -118,7 +118,8 @@ if ($usuario["perfil"] != "admin") {
               <th>CC</th>
               <th>Usuario</th>
               <th>Nombre</th>
-              <th>Email</th>
+              <th>Correo</th>
+              <th>Verificado</th>
               <th>País</th>
               <th>Estado</th>
               <th>Operando</th>

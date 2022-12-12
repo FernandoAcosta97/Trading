@@ -239,11 +239,11 @@ class ControladorPagos
             if($value["id_usuario"]==$hijo["id_usuario"]){
 
                 if($pago_bono_nuevo!=""){
-                    $registrar_bono = ControladorPagos::ctrRegistrarBonosExtras($pago_bono_nuevo["id"], $hijo["id_usuario"], $value["id_campana"]);
+                    $registrar_bono = ControladorPagos::ctrRegistrarBonosExtras($pago_bono_nuevo["id"], $hijo["id_usuario"], $value["id_comprobante"], $value["id_campana"]);
                 }else{
            
                     $registrar_pago_nuevo = ControladorPagos::ctrRegistrarPagosExtras($id_nuevo_patrocinador);
-                    $registrar_bono = ControladorPagos::ctrRegistrarBonosExtras($registrar_pago_nuevo, $hijo["id_usuario"], $value["id_campana"]);
+                    $registrar_bono = ControladorPagos::ctrRegistrarBonosExtras($registrar_pago_nuevo, $hijo["id_usuario"], $value["id_comprobante"], $value["id_campana"]);
                 }
             
                 $eliminar_bono_extra = ControladorPagos::ctrEliminarBonoExtra("id", $value["id"]);
@@ -793,11 +793,12 @@ class ControladorPagos
     Registro de Bonos Extras
     =============================================*/
 
-    public static function ctrRegistrarBonosExtras($id_pago_extra, $id_usuario, $id_campana)
+    public static function ctrRegistrarBonosExtras($id_pago_extra, $id_usuario, $id_comprobante, $id_campana)
     {
 
         $tabla = "bonos_extras";
         $datos = array("id_pago_extra" => $id_pago_extra,"id_usuario" => $id_usuario,
+        "id_comprobante" => $id_comprobante,
         "id_campana" => $id_campana,
         "estado" => 0);
 

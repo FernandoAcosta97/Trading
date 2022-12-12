@@ -28,6 +28,7 @@
 
 						<th style="width:10px">#</th> 
 						<th>Foto</th>
+						<th>Usuario</th>	
 						<th>Nombre</th>				   
 						<th>Pais</th>					
 						<th>Fecha Contrato</th>

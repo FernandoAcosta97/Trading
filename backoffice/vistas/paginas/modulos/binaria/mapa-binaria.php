@@ -13,7 +13,6 @@ $listaPaises="";
 function completarReferidos($ordenBinaria){
 
 	$red = ControladorMultinivel::ctrMostrarUsuarioRed("red_binaria", "derrame_binaria", $ordenBinaria);
-
 	
 	foreach($red as $key => $value) {
 

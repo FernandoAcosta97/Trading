@@ -99,10 +99,10 @@ class AjaxComprobantes{
 				if($existe_pago_extra==""){
 					$pago_extra=ControladorPagos::ctrRegistrarPagosExtras($patrocinador["id_usuario"]);
 
-					ControladorPagos::ctrRegistrarBonosExtras($pago_extra, $usuario["id_usuario"], $bono_extra["id"]);
+					ControladorPagos::ctrRegistrarBonosExtras($pago_extra, $usuario["id_usuario"], $comprobante[0]["id"], $bono_extra["id"]);
 				}else{
 					
-					ControladorPagos::ctrRegistrarBonosExtras($existe_pago_extra["id"], $usuario["id_usuario"], $bono_extra["id"]);
+					ControladorPagos::ctrRegistrarBonosExtras($existe_pago_extra["id"], $usuario["id_usuario"], $comprobante[0]["id"], $bono_extra["id"]);
 
 				}
 

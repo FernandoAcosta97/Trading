@@ -127,6 +127,27 @@ class AjaxUsuarios
     }
 
     /*=============================================
+    VERIFICAR USUARIO
+    =============================================*/
+
+    public $verificacionUsuario;
+    public $verificacionId;
+
+    public function ajaxVerificarUsuario()
+    {
+
+        $tabla = "usuarios";
+
+        $item = "verificacion";
+        $valor = $this->verificacionUsuario;
+
+        $id = $this->verificacionId;
+
+        $respuesta = ModeloUsuarios::mdlActualizarUsuario($tabla, $id, $item, $valor);
+
+    }
+
+    /*=============================================
     Contrato
     =============================================*/
     public $aceptar;
@@ -389,6 +410,20 @@ if (isset($_POST["operarUsuario"])) {
     $operarUsuario->operarUsuario = $_POST["operarUsuario"];
     $operarUsuario->operarId = $_POST["operarId"];
     $operarUsuario->ajaxOperarUsuario();
+
+}
+
+
+/*=============================================
+VERIFICAR USUARIO
+=============================================*/
+
+if (isset($_POST["verificacionUsuario"])) {
+
+    $verificacionUsuario = new AjaxUsuarios();
+    $verificacionUsuario->verificacionUsuario = $_POST["verificacionUsuario"];
+    $verificacionUsuario->verificacionId = $_POST["verificacionId"];
+    $verificacionUsuario->ajaxVerificarUsuario();
 
 }
 

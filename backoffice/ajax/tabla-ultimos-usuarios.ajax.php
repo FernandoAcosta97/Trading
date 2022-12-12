@@ -59,6 +59,7 @@ class TablaUltimosUsuariosRegistrados{
 						
 					"'.($key+1).'",
 					"'.$foto.'",
+					"'.$value["usuario"].'",
 					"'.$value["nombre"].'",
 					"'.$value["pais"].'",
 					"'.$value["fecha_contrato"].'",

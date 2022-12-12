@@ -271,6 +271,7 @@ function generarLineasDescendientesAdmin($ordenBinaria, $lado)
 				// print_r($afiliado);
 
 				// VALIDAMOS LA FOTO
+				if(is_array($afiliado)){
 
 				if($afiliado["foto"] == ""){
 
@@ -281,6 +282,7 @@ function generarLineasDescendientesAdmin($ordenBinaria, $lado)
 					$foto = $afiliado["foto"];
 
 				}
+			
 
 				// AUMENTAMOS EL DERRAME
 
@@ -299,6 +301,7 @@ function generarLineasDescendientesAdmin($ordenBinaria, $lado)
 
 					$arbol .= '<p class="demo_name_style bg-danger">'.$afiliado["nombre"].'</p></a>';
 				}
+			}
 
 	      $arbol .= generarLineasDescendientesAdmin($value["orden_binaria"], $lado).'</li>';
 

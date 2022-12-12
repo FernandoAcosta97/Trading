@@ -15,7 +15,7 @@ Class ControladorCampanas{
 		if(isset($_POST["tipoCampana"])){
 			if($_POST["tipoCampana"]==1){
 
-			if(preg_match('/^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["registroNombreCampana"]) &&
+			if(preg_match('/^[0-9a-zA-ZñÑáéíóúÁÉÍÓÚ_/- ]+$/', $_POST["registroNombreCampana"]) &&
 			    preg_match('/^[0-9]+$/', $_POST["registroCupos"]) &&
 			    preg_match('/^[0-9.]+$/', $_POST["registroRetorno"])){
 

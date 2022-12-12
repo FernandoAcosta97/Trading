@@ -799,6 +799,41 @@ $(".tablaUsuarios tbody").on("click", "button.btnOperar", function () {
   }
 });
 
+
+/*=============================================
+VERIFICAR USUARIO
+=============================================*/
+$(".tablaUsuarios tbody").on("click", "button.btnVerificar", function () {
+  var idUsuario = $(this).attr("idUsuario");
+  var verificacionUsuario = $(this).attr("verificacionUsuario");
+
+  var datos = new FormData();
+  datos.append("verificacionId", idUsuario);
+  datos.append("verificacionUsuario", verificacionUsuario);
+
+  $.ajax({
+    url: "ajax/usuarios.ajax.php",
+    method: "POST",
+    data: datos,
+    cache: false,
+    contentType: false,
+    processData: false,
+    success: function (respuesta) {},
+  });
+
+  if (verificacionUsuario == 0) {
+    $(this).removeClass("btn-success");
+    $(this).addClass("btn-danger");
+    $(this).html("No");
+    $(this).attr("verificacionUsuario", 1);
+  } else {
+    $(this).addClass("btn-success");
+    $(this).removeClass("btn-danger");
+    $(this).html("Si");
+    $(this).attr("verificacionUsuario", 0);
+  }
+});
+
 /*=============================================
 EDITAR USUARIO
 =============================================*/

@@ -129,6 +129,8 @@ class TablaComprobantes {
                 }
 
 // print_r($campanas);
+
+            if($comprobante_pagado==""){
                 if($campana["estado"]==1 || $campana["estado"]==0){
 
                 $selectCampanas="<div><select class='form-control select2 selectCampana' idComprobante='".$value['id']."'>";
@@ -152,6 +154,9 @@ class TablaComprobantes {
             }else{
                 $selectCampanas = $campana["nombre"];
             }
+        }else{
+            $selectCampanas = $campana["nombre"];
+        }
 
                 
             $acciones = "<div class='btn-group'><button class='btn btn-warning btn-xs btnEditarComprobante' idComprobante='".$value["id"]."' data-toggle='modal' data-target='#modalEditarComprobante'><i class='fa fa-pen' style='color:white'></i></button></div>";

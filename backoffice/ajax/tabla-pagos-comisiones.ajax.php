@@ -142,16 +142,17 @@ class TablaPagos{
 				$tipo_cuenta = "X";
 
 				$acciones = "<div class='btn-group'><button class='btn btn-info' disabled>PAGAR</button><button type='button' class='btn btn-success btn-xs btnVerUsuario' idUsuario='".$value["id_usuario"]."'><i class='fa fa-eye'></i></button></div>";
+
+				$seleccionar = "";
             }else{
 				$numero_cuenta = $cuentaBancaria["numero"];
 				$entidad_cuenta = $cuentaBancaria["entidad"];
 				$tipo_cuenta = $cuentaBancaria["tipo"];
 
 				$acciones = "<div class='btn-group'><button class='btn btn-info btnPagarComision' idPagoComision='".$value["id"]."'>PAGAR</button><button type='button' class='btn btn-success btn-xs btnVerComisiones' data-toggle='modal' data-target='#modalVerComisiones' idPagoComision='".$value["id"]."'><i class='fa fa-eye'></i></button></div>";
+				
+				$seleccionar = "<center><input type='checkbox' class='seleccionarPago' idPago='".$value["id"]."'></input></center>";
 			}
-			
-
-			$seleccionar = "<center><input type='checkbox' class='seleccionarPago' idPago='".$value["id"]."'></input></center>";
 
 			$datosJson	 .= '[
 				    "'.($key+1).'",
