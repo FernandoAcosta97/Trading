@@ -103,9 +103,13 @@ class TablaComprobantes {
 
                 $usuarios = ControladorUsuarios::ctrMostrarUsuarios("doc_usuario",$value["doc_usuario"]);
 
-                $comprobante_pagado = ControladorPagos::ctrMostrarPagosInversionesxEstado("id_comprobante",$value["id"],"estado",1);
+                $inversion_pagada = ControladorPagos::ctrMostrarPagosInversionesxEstado("id_comprobante",$value["id"],"estado",1);
 
-                if($comprobante_pagado!=""){
+                $comision_pagada = ControladorPagos::ctrMostrarPagosComisionesxComprobante("id_comprobante",$value["id"],"estado",1);
+
+                $bono_pagado = ControladorPagos::ctrMostrarPagosExtrasxComprobante("id_comprobante",$value["id"],"estado",1);
+
+                if($inversion_pagada!="" || $bono_pagado!="" || $comision_pagada!=""){
 
                     $estado = "<h5><span class='badge badge-success'>Aprobado</span></h5>";
 
@@ -130,7 +134,7 @@ class TablaComprobantes {
 
 // print_r($campanas);
 
-            if($comprobante_pagado==""){
+            if($inversion_pagada==""){
                 if($campana["estado"]==1 || $campana["estado"]==0){
 
                 $selectCampanas="<div><select class='form-control select2 selectCampana' idComprobante='".$value['id']."'>";

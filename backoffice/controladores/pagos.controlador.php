@@ -949,8 +949,37 @@ class ControladorPagos
     }
 
 
+    /*=============================================
+    Mostrar Pagos Extras x Comprobante
+    =============================================*/
+
+    public static function ctrMostrarPagosExtrasxComprobante($item, $valor, $item2, $valor2)
+    {
+        $respuesta = ModeloPagos::mdlMostrarPagosExtrasxComprobante($item, $valor, $item2, $valor2);
+
+        return $respuesta;
+    }
+
+
+    /*=============================================
+    Mostrar Pagos Extras x Estado
+    =============================================*/
+
+    public static function ctrMostrarPagosExtrasxEstado($item, $valor, $item2, $valor2)
+    {
+
+        $tabla = "pagos_extras";
+
+        $respuesta = ModeloPagos::mdlMostrarPagosExtrasxEstado($tabla, $item, $valor, $item2, $valor2);
+
+        return $respuesta;
+
+    }
+    
+
+
      /*=============================================
-    Mostrar Pagos Extras x Etado All
+    Mostrar Pagos Extras x Estado All
     =============================================*/
 
     public static function ctrMostrarPagosExtrasxEstadoAll($item, $valor, $item2, $valor2)
@@ -997,7 +1026,7 @@ class ControladorPagos
     }
 
 
-     /*=============================================
+    /*=============================================
     Mostrar Pagos Comisiones All
     =============================================*/
 
@@ -1013,6 +1042,16 @@ class ControladorPagos
     }
 
 
+    /*=============================================
+    Mostrar Pagos Comisiones x Comprobante
+    =============================================*/
+
+    public static function ctrMostrarPagosComisionesxComprobante($item, $valor, $item2, $valor2)
+    {
+        $respuesta = ModeloPagos::mdlMostrarPagosComisionesxComprobante($item, $valor, $item2, $valor2);
+
+        return $respuesta;
+    }
 
 
     /*=============================================

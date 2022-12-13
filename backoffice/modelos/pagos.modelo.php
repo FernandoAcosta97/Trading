@@ -196,6 +196,29 @@ class ModeloPagos
     }
 
 
+    /*=============================================
+    Mostrar Pagos Comisiones x Comprobante
+    =============================================*/
+
+    public static function mdlMostrarPagosComisionesxComprobante($item, $valor, $item2, $valor2)
+    {
+
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM comisiones as c INNER JOIN pagos_comisiones as pc ON c.id_pago_comision=pc.id WHERE c.$item = :$item AND pc.$item2 = :$item2");
+
+        $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
+        $stmt->bindParam(":" . $item2, $valor2, PDO::PARAM_STR);
+
+        $stmt->execute();
+
+        return $stmt->fetch();
+      
+
+        $stmt->close();
+
+        $stmt = null;
+    }
+
+
      /*=============================================
     Mostrar Pagos Inversiones x Estado
     =============================================*/
@@ -544,7 +567,66 @@ class ModeloPagos
     }
 
 
-     /*=============================================
+    /*=============================================
+    Mostrar Pagos Extras x Estado
+    =============================================*/
+
+    public static function mdlMostrarPagosExtrasxEstado($tabla, $item, $valor, $item2, $valor2)
+    {
+
+        if ($item != null && $valor !=null && $item2 != null && $valor2 !=null) {
+
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item AND $item2 = :$item2");
+
+            $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
+            $stmt->bindParam(":" . $item2, $valor2, PDO::PARAM_STR);
+
+            $stmt->execute();
+
+            return $stmt->fetch();
+
+        } else {
+
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
+
+            $stmt->execute();
+
+            return $stmt->fetchAll();
+        }
+
+        $stmt->close();
+
+        $stmt = null;
+    }
+
+
+
+    /*=============================================
+    Mostrar Pagos Extras x Comprobante
+    =============================================*/
+
+    public static function mdlMostrarPagosExtrasxComprobante($item, $valor, $item2, $valor2)
+    {
+
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM bonos_extras as b INNER JOIN pagos_extras as pe ON b.id_pago_extra=pe.id WHERE b.$item = :$item AND pe.$item2 = :$item2");
+
+        $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
+        $stmt->bindParam(":" . $item2, $valor2, PDO::PARAM_STR);
+
+        $stmt->execute();
+
+        return $stmt->fetch();
+      
+
+        $stmt->close();
+
+        $stmt = null;
+    }
+
+
+
+
+    /*=============================================
     Mostrar Pagos Extras x Estado All
     =============================================*/
 

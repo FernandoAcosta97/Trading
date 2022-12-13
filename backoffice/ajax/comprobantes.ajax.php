@@ -48,6 +48,14 @@ class AjaxComprobantes{
 
 		$id = $this->aprobadoIdComprobante;
 
+		$inversion_pagada = ControladorPagos::ctrMostrarPagosInversionesxEstado("id_comprobante",$id,"estado",1);
+
+		$comision_pagada = ControladorPagos::ctrMostrarPagosComisionesxComprobante("id_comprobante",$id,"estado",1);
+
+		$bono_pagado = ControladorPagos::ctrMostrarPagosExtrasxComprobante("id_comprobante",$id,"estado",1);
+
+		if($inversion_pagada=="" && $bono_pagado=="" && $comision_pagada==""){
+
         //Actualizar estado del comprobante
 		$respuesta = ModeloComprobantes::mdlActualizarComprobante($tabla, $id, $item, $valor);
 
@@ -62,7 +70,7 @@ class AjaxComprobantes{
             $eliminar=ControladorPagos::ctrEliminarPagos($pago["id"]);
 			}
 		}
-		
+	
 		$doc_usuario = $comprobante[0]["doc_usuario"];
 
 		$usuario = ControladorUsuarios::ctrMostrarUsuarios("doc_usuario",$doc_usuario);
@@ -214,7 +222,22 @@ class AjaxComprobantes{
 
 	}
 
+   }else{
+	echo '<script>
 
+	swal({
+		  type: "error",
+		  title: "El comprobante tiene pagos asociados",
+		  showConfirmButton: true,
+		  confirmButtonText: "Cerrar"
+		  }).then(function(result){
+					if (result.value) {
+
+					}
+				})
+
+	</script>';	
+   }
 
 	}
 
@@ -235,6 +258,14 @@ class AjaxComprobantes{
 
 		$id = $this->idComprobateCampana;
 
+		$inversion_pagada = ControladorPagos::ctrMostrarPagosInversionesxEstado("id_comprobante",$id,"estado",1);
+
+		$comision_pagada = ControladorPagos::ctrMostrarPagosComisionesxComprobante("id_comprobante",$id,"estado",1);
+
+		$bono_pagado = ControladorPagos::ctrMostrarPagosExtrasxComprobante("id_comprobante",$id,"estado",1);
+
+		if($inversion_pagada=="" && $bono_pagado=="" && $comision_pagada==""){
+
 		$respuesta = ModeloComprobantes::mdlActualizarComprobante($tabla, $id, $item, $valor);
 
 		// $comprobante = ControladorComprobantes::ctrMostrarComprobantes("id",$id);
@@ -252,7 +283,7 @@ class AjaxComprobantes{
 		// 	$operando = ControladorUsuarios::ctrActualizarUsuario($usuario["id_usuario"],"operando",0);
 		// }
 
-
+		}
 
 	}
 
