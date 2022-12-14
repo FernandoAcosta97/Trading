@@ -7,11 +7,12 @@ class ControladorPagos
     Registro de Pagos
     =============================================*/
 
-    public static function ctrRegistrarPagos($id_comprobante)
+    public static function ctrRegistrarPagos($id_usuario, $id_comprobante)
     {
 
         $tabla = "pagos_inversiones";
-        $datos = array("id_comprobante" => $id_comprobante,
+        $datos = array("id_usuario" => $id_usuario,
+        "id_comprobante" => $id_comprobante,
         "estado" => 0);
 
         $respuesta = ModeloPagos::mdlRegistrarPagos($tabla, $datos);   

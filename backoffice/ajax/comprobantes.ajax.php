@@ -63,7 +63,8 @@ class AjaxComprobantes{
 
 		//Registrar pago inversión
 		if($valor==1){
-			$pago=ControladorPagos::ctrRegistrarPagos($comprobante[0]["id"]);
+			$usu = ControladorUsuarios::ctrMostrarUsuarios("doc_usuario",$comprobante[0]["doc_usuario"]);
+			$pago=ControladorPagos::ctrRegistrarPagos($usu["id_usuario"],$comprobante[0]["id"]);
 		}else{
 			$pago=ControladorPagos::ctrMostrarPagos("id_comprobante",$comprobante[0]["id"]);
 			if($pago!=""){

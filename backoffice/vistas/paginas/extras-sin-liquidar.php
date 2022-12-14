@@ -1,3 +1,5 @@
+
+
 <div class="content-wrapper" style="min-height: 1058.31px;">
   
   <!-- Content Header (Page header) -->
@@ -6,12 +8,12 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>Ingresos Comisiones</h1>
+          <h1>Bonos Extras sin liquidar</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="inicio">Inicio</a></li>
-            <li class="breadcrumb-item active">Ingresos Comisiones</li>
+            <li class="breadcrumb-item active"> Bonos Extras sin liquidar</li>
           </ol>
         </div>
       </div>
@@ -23,12 +25,13 @@
     
     <div class="container-fluid">
 
+    <input type="hidden" value="<?php echo $usuario["id_usuario"]; ?>" id="id_usuario">
+
       <?php  
-      include "modulos/binaria/analitica-sin-liquidar.php";
 
-      include "modulos/binaria/graficos-ingresos-binaria.php"; 
+      include "modulos/extras/analitica-sin-liquidar.php"; 
 
-      include "modulos/binaria/tabla-ingresos-binaria.php"; 
+      include "modulos/extras/tabla-extras-sin-liquidar.php"; 
 
       ?>
 

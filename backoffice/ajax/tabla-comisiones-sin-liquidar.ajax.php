@@ -33,11 +33,7 @@ class TablaPagos{
 		$ruta = ControladorGeneral::ctrRuta();
 		$patrocinador = ControladorGeneral::ctrPatrocinador();
 
-		$pagos = ControladorPagos::ctrMostrarPagosComisionesAll("estado","0");
-
-		$periodo_comision = 0;
-		$periodo_venta = 0;
-		$totalAfiliadosActivos=0;
+		$pagos = ControladorPagos::ctrMostrarPagosComisionesxEstadoAll("id_usuario",$_GET["usuario"],"estado","0");
 
 		if(count($pagos) < 1 ){
 
@@ -51,40 +47,6 @@ class TablaPagos{
 
 	 	"data": [ ';
 
-	 	// if(count($red) != 0){
-
- 	
-		// 	$periodo_venta =0; 
-		
-		// 	$usuario = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", "43");
-
-			
-
-		// 		$fechaPago = date('Y-m-d');
-			
-
-		// 	/*=============================================
-		// 	NOTAS
-		// 	=============================================*/			
-
-		// 	$notas = "<h5><a href='".$ruta."backoffice/binaria' class='btn btn-purple btn-sm'>Actualizar</a></h5>";		
-
-		// 	$datosJson	 .= '[
-						
-		// 			"1",
-		// 			"En proceso...",
-		// 			"En proceso...",
-		// 			"En proceso...",
-		// 			"'.$periodo_comision.'",
-		// 			"$ '.number_format($periodo_comision, 2, ",", ".").'",
-		// 			"$ '.number_format($periodo_venta, 2, ",", ".").'",
-		// 			"'.$fechaPago.'",
-		// 			"'.$notas.'"
-
-		// 	],';
-
-		// }
-
 		foreach ($pagos as $key => $value) {
 			
   			$usuario = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $value ["id_usuario"]);
@@ -92,19 +54,6 @@ class TablaPagos{
 			$cuentaBancaria = ControladorCuentas::ctrMostrarCuentasxEstado("usuario",$usuario["id_usuario"],"estado",1);
 
 			$red = ControladorMultinivel::ctrMostrarRedUninivel("red_uninivel", "patrocinador_red", $usuario["enlace_afiliado"]);
-
-			// print_r($red);
-
-			if(count($red)>0){
-				foreach ($red as $key2 => $value2){
-					$usuarioRedOperando = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $value2["usuario_red"]);
-	
-					if($usuarioRedOperando["operando"]==1){
-						++$totalAfiliadosActivos;
-					}
-	
-				}
-			}
 
 			$comisiones = ControladorPagos::ctrMostrarComisionesAll("id_pago_comision",$value["id"]);
 
@@ -130,48 +79,25 @@ class TablaPagos{
 				}
 				$comprobante = ControladorComprobantes::ctrMostrarComprobantes("id",$value2["id_comprobante"]);
 
+				$usuario = ControladorUsuarios::ctrMostrarUsuarios("doc_usuario", $comprobante[0]["doc_usuario"]);
+
 				$ganancia = ($comprobante[0]["valor"]*$porcentaje)/100;
 				$total=$total+$ganancia;
-			}
-			
 
-			if($cuentaBancaria==""){
-                $numero_cuenta = "X";
-				$entidad_cuenta = "X";
-				$tipo_cuenta = "X";
-
-				$acciones = "<div class='btn-group'><button class='btn btn-info' disabled>PAGAR</button><button type='button' class='btn btn-success btn-xs btnVerUsuario' idUsuario='".$value["id_usuario"]."'><i class='fa fa-eye'></i></button></div>";
-
-				$seleccionar = "";
-            }else{
-				$numero_cuenta = $cuentaBancaria["numero"];
-				$entidad_cuenta = $cuentaBancaria["entidad"];
-				$tipo_cuenta = $cuentaBancaria["tipo"];
-
-				$acciones = "<div class='btn-group'><button class='btn btn-info btnPagarComision' idPagoComision='".$value["id"]."'>PAGAR</button><button type='button' class='btn btn-success btn-xs btnVerComisiones' data-toggle='modal' data-target='#modalVerComisiones' idPagoComision='".$value["id"]."'><i class='fa fa-eye'></i></button></div>";
-				
-				$seleccionar = "<center><input type='checkbox' class='seleccionarPago' idPago='".$value["id"]."'></input></center>";
-			}
-
-			$datosJson	 .= '[
+				$datosJson	 .= '[
 				    "'.($key+1).'",
-					"'.$seleccionar.'",
-				    "'.$acciones.'",
-					"'.$value["id"].'",
+					"'.$value2["id"].'",
 					"'.$usuario["doc_usuario"].'",
 					"'.$usuario["nombre"].'",
 					"'.$usuario["pais"].'",
-					"'.$usuario["telefono_movil"].'",
-					"'.$totalAfiliadosActivos.'",
-					"'.$entidad_cuenta.'",
-					"'.$numero_cuenta.'",
-					"'.$tipo_cuenta.'",
-					"$ '.number_format($total).'",
-					"'.$value["fecha"].'"
-
+					"'.$value2["nivel"].'",
+					"$ '.number_format($total).'"
 			],';
 
-			$totalAfiliadosActivos=0;
+			$total=0;
+
+			}
+			
 
 		}
 

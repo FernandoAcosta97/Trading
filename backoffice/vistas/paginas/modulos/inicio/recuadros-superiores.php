@@ -12,6 +12,14 @@ $pagosInversiones = ControladorPagos::ctrMostrarPagosInversionesxUsuario("doc_us
 $pagosExtras = ControladorPagos::ctrMostrarPagosExtrasxEstadoAll("id_usuario", $usuario["id_usuario"], "estado", 1);
 
 
+$comisionesApagar = ControladorPagos::ctrMostrarPagosComisionesxEstadoAll("id_usuario", $usuario["id_usuario"], "estado", 0);
+
+$inversionesApagar = ControladorPagos::ctrMostrarPagosInversionesxUsuario("doc_usuario", $usuario["doc_usuario"], "estado", 0);
+
+
+$bonosApagar = ControladorPagos::ctrMostrarPagosExtrasxEstadoAll("id_usuario", $usuario["id_usuario"], "estado", 0);
+
+
 
 /*=============================================
 TOTAL USUARIOS
@@ -20,7 +28,7 @@ $totalUsuarios = 0;
 $totalUsuarios = ControladorUsuarios::ctrTotalUsuarios();
 
 /*=============================================
-TOTAL COMISIONES
+TOTAL COMISIONES LIQUIDADAS
 =============================================*/
 
 $totalComisiones = 0;
@@ -28,6 +36,50 @@ $totalComisiones = 0;
 foreach ($pagos as $key => $value) {
 
         $totalComisiones += $value["valor"];
+
+}
+
+
+/*=============================================
+TOTAL COMISIONES SIN LIQUIDAR
+=============================================*/
+
+$totalComisionesApagar = 0;
+
+foreach ($comisionesApagar as $key => $value) {
+
+	$comisiones = ControladorPagos::ctrMostrarComisionesAll("id_pago_comision",$value["id"]);
+
+
+	foreach($comisiones as $key2 => $value2){
+		$total=0;
+		$porcentaje=0;
+		$ganancia=0;
+		if($value2["nivel"]==1){
+			$porcentaje=5;
+		}
+		if($value2["nivel"]==2){
+			$porcentaje=4;
+		}
+		if($value2["nivel"]==3){
+			$porcentaje=3;
+		}
+		if($value2["nivel"]==4){
+			$porcentaje=2;
+		}
+		if($value2["nivel"]==5){
+			$porcentaje=1;
+		}
+		$comprobante = ControladorComprobantes::ctrMostrarComprobantes("id",$value2["id_comprobante"]);
+
+		$usuario = ControladorUsuarios::ctrMostrarUsuarios("doc_usuario", $comprobante[0]["doc_usuario"]);
+
+		$ganancia = ($comprobante[0]["valor"]*$porcentaje)/100;
+		$total=$total+$ganancia;
+
+        $totalComisionesApagar += $total;
+
+	}
 
 }
 
@@ -46,6 +98,22 @@ foreach ($pagosInversiones as $key => $value) {
 }
 
 
+
+/*=============================================
+TOTAL INVERSIONES SIN LIQUIDAR
+=============================================*/
+
+$totalInversionesApagar = 0;
+
+foreach ($inversionesApagar as $key => $value) {
+
+		$campana = ControladorCampanas::ctrMostrarCampanas("id", $value["campana"]);
+		$ganancia = ($value["valor"]*$campana["retorno"])/100;
+		$totalInversionesApagar+=$value["valor"]+$ganancia;
+
+}
+
+
 /*=============================================
 TOTAL BONOS EXTRAS
 =============================================*/
@@ -58,6 +126,28 @@ foreach ($pagosExtras as $key => $value) {
 
 }
 
+
+/*=============================================
+TOTAL BONOS EXTRAS SIN LIQUIDAR
+=============================================*/
+
+$totalBonosApagar = 0;
+
+if(count($bonosApagar)>0){
+
+foreach ($bonosApagar as $key => $value) {
+
+        $bonos = ControladorPagos::ctrMostrarBonosExtrasAll("id_pago_extra",$value["id"]);
+
+		foreach ($bonos as $key2 => $value2){
+
+			$campana=ControladorCampanas::ctrMostrarCampanas("id",$value2["id_campana"]);
+			$totalBonosApagar = $totalBonosApagar+$campana["retorno"];
+
+		}
+
+}
+}
 /*=============================================
 CANTIDAD DE PERSONAS EN LA RED
 =============================================*/
@@ -261,64 +351,7 @@ if ($usuario["operando"] == 1):?>
 <?php endif?>
 <?php endif?>
 
-<?php if($usuario["perfil"]!="admin"): ?>
-
-	<div class="col-12 col-sm-6 col-lg-3">
-
-		<!-- small box -->
-		<div class="small-box bg-info">
-			<div class="inner">
-				<h3>$ <?php echo number_format($totalComisiones); ?></h3>
-
-				<p>Mis comisiones</p>
-			</div>
-			<div class="icon">
-				<i class="fas fa-dollar-sign"></i>
-			</div>
-			<a href="ingresos-binaria" class="small-box-footer">Más información <i class="fas fa-arrow-circle-right"></i></a>
-		</div>
-	</div>
-	<!-- ./col -->
-
-
-	<div class="col-12 col-sm-6 col-lg-3">
-
-<!-- small box -->
-<div class="small-box bg-info">
-	<div class="inner">
-		<h3>$ <?php echo number_format($totalInversiones); ?></h3>
-
-		<p>Mis inversiones</p>
-	</div>
-	<div class="icon">
-		<i class="fas fa-dollar-sign"></i>
-	</div>
-	<a href="ingresos-uninivel" class="small-box-footer">Más información <i class="fas fa-arrow-circle-right"></i></a>
-</div>
-</div>
-<!-- ./col -->
-
-
 <div class="col-12 col-sm-6 col-lg-3">
-
-<!-- small box -->
-<div class="small-box bg-info">
-	<div class="inner">
-		<h3>$ <?php echo number_format($totalBonos); ?></h3>
-
-		<p>Mis bonos extras</p>
-	</div>
-	<div class="icon">
-		<i class="fas fa-dollar-sign"></i>
-	</div>
-	<a href="ingresos-binaria" class="small-box-footer">Más información <i class="fas fa-arrow-circle-right"></i></a>
-</div>
-</div>
-<!-- ./col -->
-
-	<?php  endif ?>
-
-	<div class="col-12 col-sm-6 col-lg-3">
 		<!-- small box -->
 		<div class="small-box bg-purple">
 			<div class="inner">
@@ -349,6 +382,127 @@ if ($usuario["operando"] == 1):?>
 		</div>
 	</div>
 	<!-- ./col -->
+
+<?php if($usuario["perfil"]!="admin"): ?>
+
+	<div class="col-12 col-sm-6 col-lg-3">
+	</div>
+
+	<div class="col-12 col-sm-6 col-lg-3">
+
+		<!-- small box -->
+		<div class="small-box bg-info">
+			<div class="inner">
+				<h3>$ <?php echo number_format($totalComisiones); ?></h3>
+
+				<p>COMISIONES LIQUIDADAS</p>
+			</div>
+			<div class="icon">
+				<i class="fas fa-dollar-sign"></i>
+			</div>
+			<a href="ingresos-binaria" class="small-box-footer">Más información <i class="fas fa-arrow-circle-right"></i></a>
+		</div>
+	</div>
+	<!-- ./col -->
+
+
+	<div class="col-12 col-sm-6 col-lg-3">
+
+<!-- small box -->
+<div class="small-box bg-info">
+	<div class="inner">
+		<h3>$ <?php echo number_format($totalInversiones); ?></h3>
+
+		<p>INVERSIONES LIQUIDADAS</p>
+	</div>
+	<div class="icon">
+		<i class="fas fa-dollar-sign"></i>
+	</div>
+	<a href="ingresos-uninivel" class="small-box-footer">Más información <i class="fas fa-arrow-circle-right"></i></a>
+</div>
+</div>
+<!-- ./col -->
+
+
+<div class="col-12 col-sm-6 col-lg-3">
+
+<!-- small box -->
+<div class="small-box bg-info">
+	<div class="inner">
+		<h3>$ <?php echo number_format($totalBonos); ?></h3>
+
+		<p>BONOS LIQUIDADOS</p>
+	</div>
+	<div class="icon">
+		<i class="fas fa-dollar-sign"></i>
+	</div>
+	<a href="ingresos-binaria" class="small-box-footer">Más información <i class="fas fa-arrow-circle-right"></i></a>
+</div>
+</div>
+<!-- ./col -->
+
+<div class="col-12 col-sm-6 col-lg-3">
+	</div>
+
+<div class="col-12 col-sm-6 col-lg-3">
+
+<!-- small box -->
+<div class="small-box bg-warning">
+	<div class="inner">
+		<h3>$ <?php echo number_format($totalComisionesApagar); ?></h3>
+
+		<p>COMISIONES SIN LIQUIDAR</p>
+	</div>
+	<div class="icon">
+		<i class="fas fa-dollar-sign"></i>
+	</div>
+	<a href="comisiones-sin-liquidar" class="small-box-footer">Más información <i class="fas fa-arrow-circle-right"></i></a>
+</div>
+
+</div>
+<!-- ./col -->
+
+
+
+<div class="col-12 col-sm-6 col-lg-3">
+
+<!-- small box -->
+<div class="small-box bg-warning">
+	<div class="inner">
+		<h3>$ <?php echo number_format($totalInversionesApagar); ?></h3>
+
+		<p>INVERSIONES SIN LIQUIDAR</p>
+	</div>
+	<div class="icon">
+		<i class="fas fa-dollar-sign"></i>
+	</div>
+	<a href="inversiones-sin-liquidar" class="small-box-footer">Más información <i class="fas fa-arrow-circle-right"></i></a>
+</div>
+
+</div>
+<!-- ./col -->
+
+
+
+<div class="col-12 col-sm-6 col-lg-3">
+
+<!-- small box -->
+<div class="small-box bg-warning">
+	<div class="inner">
+		<h3>$ <?php echo number_format($totalBonosApagar); ?></h3>
+
+		<p>BONOS SIN LIQUIDAR</p>
+	</div>
+	<div class="icon">
+		<i class="fas fa-dollar-sign"></i>
+	</div>
+	<a href="extras-sin-liquidar" class="small-box-footer">Más información <i class="fas fa-arrow-circle-right"></i></a>
+</div>
+
+</div>
+<!-- ./col -->
+
+	<?php  endif ?>
 
 	
 

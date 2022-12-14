@@ -230,7 +230,11 @@ if (isset($_GET["pagina"])) {
 		$_GET["pagina"] == "pagos-extras" ||
 		$_GET["pagina"] == "extras-pagados" ||
         $_GET["pagina"] == "ingresos-uninivel" ||
+		$_GET["pagina"] == "inversiones-sin-liquidar" ||
         $_GET["pagina"] == "ingresos-binaria" ||
+		$_GET["pagina"] == "ingresos-extras" ||
+		$_GET["pagina"] == "extras-sin-liquidar" ||
+		$_GET["pagina"] == "comisiones-sin-liquidar" ||
         $_GET["pagina"] == "ingresos-matriz" ||
 		$_GET["pagina"] == "cambiar-patrocinador" ||
         $_GET["pagina"] == "plan-compensacion" ||

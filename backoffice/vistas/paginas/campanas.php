@@ -157,7 +157,7 @@ EDITAR CAMPAÑA
 
             <div class="input-group">
 
-                <input type="date" name="editarFechaInicio" class="form-control" id="editarFechaInicio" required>
+                <input type="datetime-local" name="editarFechaInicio" class="form-control" id="editarFechaInicio" required>
 
             </div>
 
@@ -170,7 +170,7 @@ EDITAR CAMPAÑA
 
         <div class="input-group">
 
-            <input type="date" name="editarFechaFinal" class="form-control" id="editarFechaFinal" required>
+            <input type="datetime-local" name="editarFechaFinal" class="form-control" id="editarFechaFinal" required>
 
         </div>
 
@@ -293,7 +293,7 @@ REGISTRAR CAMPAÑA
 
                 <div class="input-group">
 
-                    <input type="date" name="registroFechaInicio" class="form-control" id="registroFechaInicio" required>
+                    <input type="datetime-local" name="registroFechaInicio" class="form-control" id="registroFechaInicio" required>
 
                 </div>
 
@@ -307,7 +307,7 @@ REGISTRAR CAMPAÑA
 
                 <div class="input-group">
 
-                    <input type="date" name="registroFechaFinal" class="form-control" id="registroFechaFinal" required>
+                    <input type="datetime-local" name="registroFechaFinal" class="form-control" id="registroFechaFinal" required>
 
                 </div>
 

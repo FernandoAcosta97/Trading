@@ -11,8 +11,9 @@ class ModeloPagos
 
     public static function mdlRegistrarPagos($tabla, $datos)
     {
-        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(id_comprobante, estado) VALUES (:id_comprobante, :estado)");
+        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(id_usuario, id_comprobante, estado) VALUES (:id_usuario, :id_comprobante, :estado)");
 
+        $stmt->bindParam(":id_usuario", $datos["id_usuario"], PDO::PARAM_INT);
         $stmt->bindParam(":id_comprobante", $datos["id_comprobante"], PDO::PARAM_INT);
         $stmt->bindParam(":estado", $datos["estado"], PDO::PARAM_INT);
 

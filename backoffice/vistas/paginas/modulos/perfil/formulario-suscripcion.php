@@ -493,9 +493,17 @@ Registar Cuenta
 
 			</div>
 
+			<div class="form-group">
+
+				<label for="nombreTitular">Nombre Titular:</label>
+
+				<input type="text" class="form-control" id="nombreTitular" placeholder="Nombre titular" name="registrarNombreTitular" required>
+
+			</div>
+
 				<div class="form-group">
 
-				<label for="titular">Titular:</label>
+				<label for="titular">Documento Titular:</label>
 
 				<input type="number" class="form-control" id="titular" placeholder="Número documento titular" name="registrarNumeroTitular" required>
 

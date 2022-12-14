@@ -185,8 +185,8 @@ $(".tablaCampanas").on("click","button.btnEditarCampana",function(){
       $("#editarNombre").val(respuesta["nombre"]);
 	  $("#editarRetorno").val(respuesta["retorno"]);
 	  $("#editarCupos").val(respuesta["cupos"]);
-	  $("#editarFechaInicio").val(respuesta["fecha_inicio"].split(" ")[0]);
-	  $("#editarFechaFinal").val(respuesta["fecha_fin"].split(" ")[0]);
+	  $("#editarFechaInicio").val(respuesta["fecha_inicio"]);
+	  $("#editarFechaFinal").val(respuesta["fecha_fin"]);
 	  $("#editarFechaRetorno").val(respuesta["fecha_retorno"]);
 	  
 	}
@@ -217,8 +217,8 @@ $(".tablaCampanasBonosExtras").on("click","button.btnEditarCampana",function(){
 
 	  $("#idCampana").val(idCampana);
 	  $("#editarRetorno").val(respuesta["retorno"]);
-	  $("#editarFechaInicio").val(respuesta["fecha_inicio"].split(" ")[0]);
-	  $("#editarFechaFinal").val(respuesta["fecha_fin"].split(" ")[0]);
+	  $("#editarFechaInicio").val(respuesta["fecha_inicio"]);
+	  $("#editarFechaFinal").val(respuesta["fecha_fin"]);
 	  $("#editarFechaRetorno").val(respuesta["fecha_retorno"]);
 	  
 	}

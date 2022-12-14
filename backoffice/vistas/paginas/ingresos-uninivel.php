@@ -25,6 +25,8 @@
 
       <?php  
 
+      include "modulos/uninivel/analitica-sin-liquidar.php"; 
+
       include "modulos/uninivel/graficos-ingresos-uninivel.php"; 
 
       include "modulos/uninivel/tabla-ingresos-uninivel.php"; 

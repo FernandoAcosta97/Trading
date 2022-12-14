@@ -8,7 +8,7 @@
 		
 		<h3 class="card-title p-3">
 			<i class="fas fa-table mr-1"></i>		
-			Tabla de Ingresos
+			Tabla de Ingresos comisiones
 		</h3>
 
 	</div>

@@ -212,6 +212,12 @@
                   <p>Ingresos comisiones</p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a href="ingresos-extras" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Ingresos extras</p>
+                </a>
+              </li>
             </ul>
           </li>
 

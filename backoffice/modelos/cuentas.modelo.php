@@ -96,10 +96,11 @@ class ModeloCuentas{
     public static function mdlRegistrarCuentaBancaria($tabla, $datos)
     {
 
-        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(numero, titular, entidad, estado, tipo) VALUES (:numero, :titular, :entidad, :estado, :tipo)");
+        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(numero, titular, nombre_titular, entidad, estado, tipo) VALUES (:numero, :titular, :nombre_titular, :entidad, :estado, :tipo)");
 
         $stmt->bindParam(":numero", $datos["numero"], PDO::PARAM_INT);
         $stmt->bindParam(":titular", $datos["titular"], PDO::PARAM_INT);
+        $stmt->bindParam(":nombre_titular", $datos["nombreTitular"], PDO::PARAM_STR);
         $stmt->bindParam(":entidad", $datos["entidad"], PDO::PARAM_STR);
         $stmt->bindParam(":estado", $datos["estado"], PDO::PARAM_STR);
         $stmt->bindParam(":tipo", $datos["tipo"], PDO::PARAM_STR);

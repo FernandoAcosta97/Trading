@@ -6,12 +6,12 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>Ingresos Comisiones</h1>
+          <h1>Ingresos Bonos Extras</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="inicio">Inicio</a></li>
-            <li class="breadcrumb-item active">Ingresos Comisiones</li>
+            <li class="breadcrumb-item active">Ingresos Bonos Extras</li>
           </ol>
         </div>
       </div>
@@ -24,11 +24,11 @@
     <div class="container-fluid">
 
       <?php  
-      include "modulos/binaria/analitica-sin-liquidar.php";
+      include "modulos/extras/analitica-sin-liquidar.php";
 
-      include "modulos/binaria/graficos-ingresos-binaria.php"; 
+      // include "modulos/extras/graficos-ingresos-extras.php"; 
 
-      include "modulos/binaria/tabla-ingresos-binaria.php"; 
+      include "modulos/extras/tabla-ingresos-extras.php"; 
 
       ?>
 
