@@ -22,8 +22,9 @@
 				<tr>
 
 					<th style="width:10px">#</th> 
-					<th>Estado</th>
-					<th>ID</th>th>				
+					<th>Valor pagado</th>
+					<th>ID</th>th>		
+					<th>Concepto</th>th>			
 					<th>Fecha pago</th>
 
 				</tr>   

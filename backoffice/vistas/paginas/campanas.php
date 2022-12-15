@@ -449,7 +449,7 @@ REGISTRAR COMPROBANTE
       $registrarComprobantes->ctrRegistrarComprobantes();
 
       ?>
-
+      
 
       </form>
 

@@ -69,6 +69,7 @@ class TablaPagos{
 					"'.$usuario["doc_usuario"].'",
 					"'.$usuario["nombre"].'",
 					"'.$usuario["pais"].'",
+					"Ganancia extra",
 					"$ '.number_format($total).'"
 			],';
 

@@ -94,6 +94,18 @@ class ControladorComprobantes
 
                 if ($respuesta == "ok") {
 
+                    $usuario = ControladorUsuarios::ctrMostrarUsuarios("doc_usuario", $_POST["doc_usuario"]);
+
+                    $cuentas = ControladorCuentas::ctrMostrarCuentasAll("usuario", $usuario["id_usuario"]);
+
+                    $dir = "comprobantes";
+
+                    if(count($cuentas)==0){
+
+                        $dir = "cuentas-bancarias";
+
+                    }
+
                         echo '<script>
 
 							swal({
@@ -107,7 +119,7 @@ class ControladorComprobantes
 
 								if(result.value){
 
-                                   window.location = "comprobantes";
+                                   window.location = "'.$dir.'";
 								}
 
 

@@ -34,9 +34,23 @@
 
       <?php if ($usuario["firma"] != null) : ?>
 
+        <?php
+
+        $inhabilitado_sin_cuenta=false;
+        	$cuentas = ControladorCuentas::ctrMostrarCuentasAll("usuario", $usuario["id_usuario"]);
+
+          if(count($cuentas)==0){
+            $comprobantesUsuario = ControladorComprobantes::ctrMostrarComprobantes("doc_usuario", $usuario["doc_usuario"]);
+            if(count($comprobantesUsuario)>0){
+              $inhabilitado_sin_cuenta=true;
+            }
+          }
+           ?>
+
       <!--=====================================
       Botón Inicio
       ======================================-->
+      <?php  if(!$inhabilitado_sin_cuenta): ?>
 
         <li class="nav-item">
           <a href="inicio" class="nav-link">
@@ -45,11 +59,15 @@
           </a>
         </li>
 
+  
+        <?php endif ?>
         <?php endif ?>
 
-        <!--=====================================
+      <!--=====================================
       Botón Mi Perfil
       ======================================-->
+
+      <?php  if(!$inhabilitado_sin_cuenta): ?>
 
         <li class="nav-item">
           <a href="perfil" class="nav-link">
@@ -57,7 +75,7 @@
             <p>Mi perfil</p>
           </a>
         </li>
-
+        <?php endif ?>
       <!--=====================================
       Botón Usuarios
       ======================================-->
@@ -80,6 +98,8 @@
       ======================================-->
 
       <?php if ($usuario["perfil"] != "admin") : ?>
+
+        <?php  if(!$inhabilitado_sin_cuenta): ?>
     
 
       <li class="nav-item">
@@ -88,6 +108,8 @@
             <p>Campañas</p>
           </a>
         </li>
+
+        <?php endif ?>
   
 <?php else: ?>
 
@@ -121,9 +143,12 @@
 
       <?php if ($usuario["perfil"] != "admin") : ?>
 
+        <?php  if(!$inhabilitado_sin_cuenta): ?>
+
        <!--=====================================
        Botón Inversiones
        ======================================-->
+       
 
        <li class="nav-item">
           <a href="inversiones" class="nav-link">
@@ -131,6 +156,8 @@
             <p>Inversiones</p>
           </a>
         </li>
+
+        <?php endif ?>
 
         <?php endif ?>
 
@@ -145,7 +172,7 @@
             </a>
           </li>
 
-
+          <?php  if(!$inhabilitado_sin_cuenta): ?>
        <!--=====================================
        Botón Comprobantes
        ======================================-->
@@ -156,6 +183,7 @@
               <p>Comprobantes</p>
             </a>
           </li>
+
 
         <!--=====================================
        Botón Redes Multinivel
@@ -221,6 +249,7 @@
             </ul>
           </li>
 
+          <?php endif ?>
           <?php endif ?>
 
         <!--=====================================

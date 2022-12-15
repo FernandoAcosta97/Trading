@@ -206,55 +206,139 @@ include "paginas/modulos/menu.php";
 /*=============================================
 Páginas del sitio
 =============================================*/
+
 if($usuario["firma"]!=null){
 
-if (isset($_GET["pagina"])) {
+	$cuentas = ControladorCuentas::ctrMostrarCuentasAll("usuario", $usuario["id_usuario"]);
 
-    if ($_GET["pagina"] == "inicio" ||
-        $_GET["pagina"] == "perfil" ||
-        $_GET["pagina"] == "usuarios" ||
-		$_GET["pagina"] == "usuario" ||
-		$_GET["pagina"] == "campanas" ||
-		$_GET["pagina"] == "bonos-extras" ||
-        $_GET["pagina"] == "cuentas-bancarias" ||
-        $_GET["pagina"] == "comprobantes" ||
-		$_GET["pagina"] == "comprobantes-campana" ||
-		$_GET["pagina"] == "inversiones" ||
-        $_GET["pagina"] == "uninivel" ||
-        $_GET["pagina"] == "binaria" ||
-        $_GET["pagina"] == "matriz" ||
-		$_GET["pagina"] == "pagos-comisiones" ||
-		$_GET["pagina"] == "comisiones-pagadas" ||
-		$_GET["pagina"] == "pagos-inversiones" ||
-		$_GET["pagina"] == "inversiones-pagadas" ||
-		$_GET["pagina"] == "pagos-extras" ||
-		$_GET["pagina"] == "extras-pagados" ||
-        $_GET["pagina"] == "ingresos-uninivel" ||
-		$_GET["pagina"] == "inversiones-sin-liquidar" ||
-        $_GET["pagina"] == "ingresos-binaria" ||
-		$_GET["pagina"] == "ingresos-extras" ||
-		$_GET["pagina"] == "extras-sin-liquidar" ||
-		$_GET["pagina"] == "comisiones-sin-liquidar" ||
-        $_GET["pagina"] == "ingresos-matriz" ||
-		$_GET["pagina"] == "cambiar-patrocinador" ||
-        $_GET["pagina"] == "plan-compensacion" ||
-        $_GET["pagina"] == "soporte" ||
-        $_GET["pagina"] == "salir") {
+	if(count($cuentas)==0){
+		$comprobantesUsuario = ControladorComprobantes::ctrMostrarComprobantes("doc_usuario", $usuario["doc_usuario"]);
+		if(count($comprobantesUsuario)>0){
 
-        include "paginas/" . $_GET["pagina"] . ".php";
+			if (isset($_GET["pagina"])) {
 
-    }  else {
+				if ($_GET["pagina"] == "cuentas-bancarias" ||
+					$_GET["pagina"] == "plan-compensacion" ||
+					$_GET["pagina"] == "soporte" ||
+					$_GET["pagina"] == "salir") {
+			
+					include "paginas/" . $_GET["pagina"] . ".php";
+			
+				}  else {
+			
+					include "paginas/error404.php";
+				}
+			
+			
+			
+			} else {
+			
+					include "paginas/inicio.php";
+				
+			}
 
-        include "paginas/error404.php";
-    }
+		}else{
+			if (isset($_GET["pagina"])) {
+
+				if ($_GET["pagina"] == "inicio" ||
+					$_GET["pagina"] == "perfil" ||
+					$_GET["pagina"] == "usuarios" ||
+					$_GET["pagina"] == "usuario" ||
+					$_GET["pagina"] == "campanas" ||
+					$_GET["pagina"] == "bonos-extras" ||
+					$_GET["pagina"] == "cuentas-bancarias" ||
+					$_GET["pagina"] == "comprobantes" ||
+					$_GET["pagina"] == "comprobantes-campana" ||
+					$_GET["pagina"] == "inversiones" ||
+					$_GET["pagina"] == "uninivel" ||
+					$_GET["pagina"] == "binaria" ||
+					$_GET["pagina"] == "matriz" ||
+					$_GET["pagina"] == "pagos-comisiones" ||
+					$_GET["pagina"] == "comisiones-pagadas" ||
+					$_GET["pagina"] == "pagos-inversiones" ||
+					$_GET["pagina"] == "inversiones-pagadas" ||
+					$_GET["pagina"] == "pagos-extras" ||
+					$_GET["pagina"] == "extras-pagados" ||
+					$_GET["pagina"] == "ingresos-uninivel" ||
+					$_GET["pagina"] == "inversiones-sin-liquidar" ||
+					$_GET["pagina"] == "ingresos-binaria" ||
+					$_GET["pagina"] == "ingresos-extras" ||
+					$_GET["pagina"] == "extras-sin-liquidar" ||
+					$_GET["pagina"] == "comisiones-sin-liquidar" ||
+					$_GET["pagina"] == "ingresos-matriz" ||
+					$_GET["pagina"] == "cambiar-patrocinador" ||
+					$_GET["pagina"] == "plan-compensacion" ||
+					$_GET["pagina"] == "soporte" ||
+					$_GET["pagina"] == "salir") {
+			
+					include "paginas/" . $_GET["pagina"] . ".php";
+			
+				}  else {
+			
+					include "paginas/error404.php";
+				}
+			
+			
+			
+			} else {
+			
+					include "paginas/inicio.php";
+				
+			}
+		}
+	}else{
+
+		if (isset($_GET["pagina"])) {
+
+			if ($_GET["pagina"] == "inicio" ||
+				$_GET["pagina"] == "perfil" ||
+				$_GET["pagina"] == "usuarios" ||
+				$_GET["pagina"] == "usuario" ||
+				$_GET["pagina"] == "campanas" ||
+				$_GET["pagina"] == "bonos-extras" ||
+				$_GET["pagina"] == "cuentas-bancarias" ||
+				$_GET["pagina"] == "comprobantes" ||
+				$_GET["pagina"] == "comprobantes-campana" ||
+				$_GET["pagina"] == "inversiones" ||
+				$_GET["pagina"] == "uninivel" ||
+				$_GET["pagina"] == "binaria" ||
+				$_GET["pagina"] == "matriz" ||
+				$_GET["pagina"] == "pagos-comisiones" ||
+				$_GET["pagina"] == "comisiones-pagadas" ||
+				$_GET["pagina"] == "pagos-inversiones" ||
+				$_GET["pagina"] == "inversiones-pagadas" ||
+				$_GET["pagina"] == "pagos-extras" ||
+				$_GET["pagina"] == "extras-pagados" ||
+				$_GET["pagina"] == "ingresos-uninivel" ||
+				$_GET["pagina"] == "inversiones-sin-liquidar" ||
+				$_GET["pagina"] == "ingresos-binaria" ||
+				$_GET["pagina"] == "ingresos-extras" ||
+				$_GET["pagina"] == "extras-sin-liquidar" ||
+				$_GET["pagina"] == "comisiones-sin-liquidar" ||
+				$_GET["pagina"] == "ingresos-matriz" ||
+				$_GET["pagina"] == "cambiar-patrocinador" ||
+				$_GET["pagina"] == "plan-compensacion" ||
+				$_GET["pagina"] == "soporte" ||
+				$_GET["pagina"] == "salir") {
+		
+				include "paginas/" . $_GET["pagina"] . ".php";
+		
+			}  else {
+		
+				include "paginas/error404.php";
+			}
+		
+		
+		
+		} else {
+		
+				include "paginas/inicio.php";
+			
+		}
+
+	}
 
 
-
-} else {
-
-		include "paginas/inicio.php";
-	
-}
 }else{
 	if (isset($_GET["pagina"])){
 	if ($_GET["pagina"] == "perfil" || $_GET["pagina"] == "plan-compensacion" || $_GET["pagina"] == "salir"){

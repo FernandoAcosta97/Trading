@@ -65,13 +65,14 @@ class TablaPagos{
 			}
 			
 
-			$acciones = "<h5><span class='badge badge-success'>Pago $".number_format($total)."</span></h5>";
+			$acciones = "<h5><span class='badge badge-success'>$".number_format($total)."</span></h5>";
 
 
 			$datosJson	 .= '[
 				    "'.($key+1).'",
 					"'.$acciones.'",
 					"'.$value["id"].'",
+					"Ganancia extra",
 					"'.$value["fecha"].'"
 			],';
 

@@ -7,7 +7,7 @@
 		
 		<h3 class="card-title p-3">
 			<i class="fas fa-table mr-1"></i>		
-			Tabla de comisiones sin liquidar
+			Tabla de bonos extras sin liquidar
 		</h3>
 
 	</div>
@@ -24,8 +24,9 @@
 					<th>ID</th>
 					<th>Documento</th>
 					<th>Nombre</th>
-					<th>País</th>			
-					<th>Total</th>
+					<th>País</th>	
+					<th>Concepto</th>		
+					<th>Valor a pagar</th>
 
 				</tr>   
 

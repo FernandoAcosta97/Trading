@@ -24,6 +24,16 @@ $cuentas = ControladorCuentas::ctrMostrarCuentasAll($item, $valor);
       </div>
     </div><!-- /.container-fluid -->
 
+    <?php
+    if(count($cuentas)==0){
+    echo '<div class="alert alert-warning alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <h5><i class="icon fas fa-exclamation-triangle"></i> Atención!</h5>
+    Recuerda que para recibir tu rendimiento necesitas tener registrada una cuenta bancaria, porfavor registre una en el boton registrar cuenta.
+    </div>';
+    }
+    ?>
+
   </section>
 
   <!-- Main content -->
