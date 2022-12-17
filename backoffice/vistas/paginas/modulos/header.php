@@ -26,10 +26,17 @@
       </a>
     </li>
 
+    <?php
+    $ticketRecibidos = ControladorSoporte::ctrMostrarTickets("receptor", $usuario["id_usuario"]);
+    $totalTicketsRecibidos = count($ticketRecibidos);
+    ?>
+
     <li class="nav-item">     
       <a class="nav-link" href="soporte">
         <i class="far fa-comments"></i>
-        <span class="badge badge-info navbar-badge">3</span>
+        <?php if($totalTicketsRecibidos>0): ?>
+        <span class="badge badge-info navbar-badge"><?php echo $totalTicketsRecibidos ?></span>
+        <?php endif ?>
       </a>
     </li>
 
