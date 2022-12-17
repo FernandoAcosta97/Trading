@@ -93,7 +93,7 @@ data      : [
 ],
 xkey      : 'y',
 ykeys     : ['item1'],
-labels    : ['Comisiones'],
+labels    : ['Total'],
 lineColors: ['#17a2b8', '#727cb6'],
 hideHover : 'auto'
 

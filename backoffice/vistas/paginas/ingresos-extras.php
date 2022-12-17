@@ -26,7 +26,7 @@
       <?php  
       include "modulos/extras/analitica-sin-liquidar.php";
 
-      // include "modulos/extras/graficos-ingresos-extras.php"; 
+      include "modulos/extras/graficos-ingresos-extras.php"; 
 
       include "modulos/extras/tabla-ingresos-extras.php"; 
 

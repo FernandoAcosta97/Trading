@@ -72,8 +72,6 @@ foreach ($comisionesApagar as $key => $value) {
 		}
 		$comprobante = ControladorComprobantes::ctrMostrarComprobantes("id",$value2["id_comprobante"]);
 
-		$usuario = ControladorUsuarios::ctrMostrarUsuarios("doc_usuario", $comprobante[0]["doc_usuario"]);
-
 		$ganancia = ($comprobante[0]["valor"]*$porcentaje)/100;
 		$total=$total+$ganancia;
 
@@ -118,35 +116,41 @@ foreach ($inversionesApagar as $key => $value) {
 TOTAL BONOS EXTRAS
 =============================================*/
 
-$totalBonos = 0;
+// $totalBonos = 0;
 
-foreach ($pagosExtras as $key => $value) {
+// foreach ($pagosExtras as $key => $value) {
 
-        $totalBonos += $value["valor"];
+//         $totalBonos += $value["valor"];
 
-}
+// }
 
 
 /*=============================================
-TOTAL BONOS EXTRAS SIN LIQUIDAR
+TOTAL BONOS EXTRAS LIQUIDADOS Y SIN LIQUIDAR
 =============================================*/
 
-$totalBonosApagar = 0;
+$pagos = ControladorPagos::ctrMostrarPagosExtrasAll("id_usuario",$usuario["id_usuario"]);
+$totalBonosApagar=0;
+$totalBonos=0;
 
-if(count($bonosApagar)>0){
 
-foreach ($bonosApagar as $key => $value) {
+foreach ($pagos as $key => $value) {
+	$total=0;
+	$bonos = ControladorPagos::ctrMostrarBonosExtrasAll("id_pago_extra",$value["id"]);
 
-        $bonos = ControladorPagos::ctrMostrarBonosExtrasAll("id_pago_extra",$value["id"]);
+		foreach($bonos as $key2 => $value2){
 
-		foreach ($bonos as $key2 => $value2){
+			$comprobante = ControladorComprobantes::ctrMostrarComprobantes("id",$value2["id_comprobante"]);
+			$campana = ControladorCampanas::ctrMostrarCampanas("id", $value2["id_campana"]);
+			$total=$total+$campana["retorno"];
+			}
 
-			$campana=ControladorCampanas::ctrMostrarCampanas("id",$value2["id_campana"]);
-			$totalBonosApagar = $totalBonosApagar+$campana["retorno"];
+	if($value["estado"]==0){
+		$totalBonosApagar+=$total;
+	}else{
+		$totalBonos+=$total;
+	}
 
-		}
-
-}
 }
 /*=============================================
 CANTIDAD DE PERSONAS EN LA RED
@@ -436,7 +440,7 @@ if ($usuario["operando"] == 1):?>
 	<div class="icon">
 		<i class="fas fa-dollar-sign"></i>
 	</div>
-	<a href="ingresos-binaria" class="small-box-footer">Más información <i class="fas fa-arrow-circle-right"></i></a>
+	<a href="ingresos-extras" class="small-box-footer">Más información <i class="fas fa-arrow-circle-right"></i></a>
 </div>
 </div>
 <!-- ./col -->

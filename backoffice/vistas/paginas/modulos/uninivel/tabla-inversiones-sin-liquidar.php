@@ -26,6 +26,7 @@
 					<th style="width:20px">Porcentaje ganancia</th>
 					<th>Ganancia</th>			
 					<th>Total</th>
+					<th>Fecha de pago</th>	
 
 				</tr>   
 

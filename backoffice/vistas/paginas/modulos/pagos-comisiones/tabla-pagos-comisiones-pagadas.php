@@ -23,6 +23,7 @@
 
 					<th style="width:10px">#</th> 
 					<th>Estado</th>
+					<th>Detalle</th>
 					<th>ID</th>
 					<th>Documento</th>
 					<th>Nombre</th>
@@ -40,22 +41,6 @@
 
 			<tbody>
 
-				<!-- <tr>
-					
-					<td>1</td> 
-					<td>LM46YZQVHWW74</td>
-					<td>Jaime Carrillo</td>
-					<td>tutorialesatualcance-buyer@hotmail.com</td>
-					<td>2019-06-19 a 2019-07-19</td> 
-					<td>$ 14,345</td>			  
-					<td>$ 16,300</td>			
-					<td>2019-07-19</td>
-					<td>
-						<h5><span class="badge badge-success">Pagada</span></h5>
-					</td>
-
-				</tr> -->
-
 
 			</tbody>
 
@@ -63,6 +48,70 @@
 
 	</div>
 
+</div>
 
 
+
+
+<!--=====================================
+VER DETALLES PAGO COMISIONES
+======================================-->
+
+<!-- The Modal -->
+<div class="modal" id="modalVerComisiones">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+	      <!-- Modal Header -->
+	      <div class="modal-header">
+	        <h4 class="modal-title">Detalles comisiones</h4>
+	        <button type="button" class="close" data-dismiss="modal">&times;</button>
+	      </div>
+
+	      <!-- Modal body -->
+	      <div class="modal-body">
+
+
+		  <table class="table table-bordered table-striped dt-responsive tabla-detalles-comisiones" width="100%">
+			
+			<thead>
+
+				<tr>
+
+					<th style="width:10px">#</th> 
+					<th>Documento</th>
+					<th>Nombre</th>
+					<th>País</th>
+					<th>Teléfono</th>
+					<th>Total</th>			
+					<th>Nivel</th>
+
+				</tr>   
+
+			</thead>
+
+			<tbody>
+
+			</tbody>
+
+		</table>
+
+
+
+
+	      </div>
+
+	      <!-- Modal footer -->
+	      <div class="modal-footer d-flex justify-content-between">
+
+	      	<div>
+
+	        	<button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+
+	        </div>
+
+	      </div>
+
+    </div>
+  </div>
 </div>

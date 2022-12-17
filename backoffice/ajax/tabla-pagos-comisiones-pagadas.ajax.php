@@ -51,40 +51,6 @@ class TablaPagos{
 
 	 	"data": [ ';
 
-	 	// if(count($red) != 0){
-
- 	
-		// 	$periodo_venta =0; 
-		
-		// 	$usuario = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", "43");
-
-			
-
-		// 		$fechaPago = date('Y-m-d');
-			
-
-		// 	/*=============================================
-		// 	NOTAS
-		// 	=============================================*/			
-
-		// 	$notas = "<h5><a href='".$ruta."backoffice/binaria' class='btn btn-purple btn-sm'>Actualizar</a></h5>";		
-
-		// 	$datosJson	 .= '[
-						
-		// 			"1",
-		// 			"En proceso...",
-		// 			"En proceso...",
-		// 			"En proceso...",
-		// 			"'.$periodo_comision.'",
-		// 			"$ '.number_format($periodo_comision, 2, ",", ".").'",
-		// 			"$ '.number_format($periodo_venta, 2, ",", ".").'",
-		// 			"'.$fechaPago.'",
-		// 			"'.$notas.'"
-
-		// 	],';
-
-		// }
-
 		foreach ($pagos as $key => $value) {
 			
   			$usuario = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $value ["id_usuario"]);
@@ -146,10 +112,13 @@ class TablaPagos{
 
 			$acciones = "<h5><span class='badge badge-success'>Pago $".number_format($total)."</span></h5>";
 
+			$detalle="<div><button type='button' class='btn btn-success btn-xs btnVerComisiones' data-toggle='modal' data-target='#modalVerComisiones' idPagoComision='".$value["id"]."'><i class='fa fa-eye'></i></button></div>";
+
 
 			$datosJson	 .= '[
 				    "'.($key+1).'",
 					"'.$acciones.'",
+					"'.$detalle.'",
 					"'.$value["id"].'",
 					"'.$usuario["doc_usuario"].'",
 					"'.$usuario["nombre"].'",

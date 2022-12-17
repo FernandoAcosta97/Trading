@@ -1,3 +1,22 @@
+<?php
+
+	$cuentas = ControladorCuentas::ctrMostrarCuentasAll("usuario", $usuario["id_usuario"]);
+
+	if(count($cuentas)==0){
+		$comprobantesUsuario = ControladorComprobantes::ctrMostrarComprobantes("doc_usuario", $usuario["doc_usuario"]);
+		if(count($comprobantesUsuario)>0){
+		        echo '<script>
+
+              window.location = "cuentas-bancarias";
+            
+              </script>';
+            
+                return;
+		}
+	}
+
+?>
+
 <div class="content-wrapper" style="min-height: 1058.31px;">
 
   <!-- Content Header (Page header) -->

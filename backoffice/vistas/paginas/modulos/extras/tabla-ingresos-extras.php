@@ -23,8 +23,8 @@
 
 					<th style="width:10px">#</th> 
 					<th>Valor pagado</th>
-					<th>ID</th>th>		
-					<th>Concepto</th>th>			
+					<th>ID</th>	
+					<th>Concepto</th>			
 					<th>Fecha pago</th>
 
 				</tr>   

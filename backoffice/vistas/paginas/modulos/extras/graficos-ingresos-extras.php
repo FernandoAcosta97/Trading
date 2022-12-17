@@ -1,40 +1,15 @@
 <?php
 
-$pagos = ControladorPagos::ctrMostrarPagosComisionesxEstadoAll("id_usuario", $usuario["id_usuario"],"estado",1);
+$pagos = ControladorPagos::ctrMostrarPagosExtrasxEstadoAll("id_usuario", $usuario["id_usuario"],"estado",1);
 $total_pagos=0;
 
 if($pagos!=""){
 
 foreach ($pagos as $key => $value) {
-	$total=0;
-	$comisiones = ControladorPagos::ctrMostrarComisionesAll("id_pago_comision",$value["id"]);
 
-		foreach($comisiones as $key2 => $value2){
-           
-				$porcentaje=0;
-				if($value2["nivel"]==1){
-					$porcentaje=5;
-				}
-				if($value2["nivel"]==2){
-					$porcentaje=4;
-				}
-				if($value2["nivel"]==3){
-					$porcentaje=3;
-				}
-				if($value2["nivel"]==4){
-					$porcentaje=2;
-				}
-				if($value2["nivel"]==5){
-					$porcentaje=1;
-				}
-				$comprobante = ControladorComprobantes::ctrMostrarComprobantes("id",$value2["id_comprobante"]);
-				$ganancia = ($comprobante[0]["valor"]*$porcentaje)/100;
-				$total=$total+$ganancia;
-			}
+	$bonos = ControladorPagos::ctrMostrarBonosExtrasAll("id_pago_extra", $value["id"]);
 
-	$total_pagos+=$total;
-	
-
+		$total_pagos+=$value["valor"];	
 }
 }
 
@@ -48,11 +23,10 @@ foreach ($pagos as $key => $value) {
 			
 			<i class="fas fa-chart-pie mr-1"></i>
 
-			Comisiones históricas: COP$ <?php echo number_format($total_pagos); ?>
+			Bonos Extras Liquidados: COP$ <?php echo number_format($total_pagos); ?>
 
 		</h3>
 
-		<h6 class="pl-3">Total comisiones históricas: US$ <?php echo number_format($total_pagos, 2, ",", "."); ?></h6>
 
 	</div>
 
@@ -83,7 +57,14 @@ data      : [
 
 	foreach ($pagos as $key => $value) {
 
-	    echo "{y: '".substr($value["fecha"],0,-9)."', item1: ".$value["valor"]."},";		
+		$bonos = ControladorPagos::ctrMostrarBonosExtrasAll("id_pago_extra", $value["id"]);
+
+		foreach ($bonos as $key2 => $value2) {
+
+			$campana=ControladorCampanas::ctrMostrarCampanas("id", $value2["id_campana"]);	
+
+			echo "{y: '".substr($value["fecha"],0,-9)."', item1: ".$campana["retorno"]."},";	
+		}	
 		
 	}
 
@@ -93,7 +74,7 @@ data      : [
 ],
 xkey      : 'y',
 ykeys     : ['item1'],
-labels    : ['Comisiones'],
+labels    : ['Bonos'],
 lineColors: ['#17a2b8', '#727cb6'],
 hideHover : 'auto'
 

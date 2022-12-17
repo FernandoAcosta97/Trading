@@ -99,18 +99,6 @@ class TablaPagos{
 
 			$cuenta = ControladorCuentas::ctrMostrarCuentas("id",$value["id_cuenta"]);
 	
-			/*=============================================
-			NOTAS
-			=============================================*/
-
-			// if($_GET["enlace_afiliado"] != $patrocinador){			
-
-			// 	$notas = "<h5><span class='badge badge-success'>Pagada</span></h5>";
-
-			// }else{
-
-			// 	$notas = "<h5><span class='badge badge-success'>Pagada $".number_format($value["periodo_comision"])."</span></h5>";
-			// }	
 			
             $ganancia = ($comprobante[0]['valor']*$campana['retorno'])/100;
             $total = $comprobante[0]['valor']+$ganancia;

@@ -19,7 +19,7 @@ foreach ($pagos as $key => $value) {
 	if($value["estado"]==0){
 		$total_a_pagar+=$total;
 	}else{
-		$total_pagos+=$total;
+		$total_pagos+=$value["valor"];
 	}
 
 }

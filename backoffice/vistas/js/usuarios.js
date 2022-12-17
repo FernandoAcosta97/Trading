@@ -1024,6 +1024,23 @@ $(".tablaUsuarios tbody").on("click", "button.btnVerUsuario", function () {
 });
 
 
+/*=============================================================
+VER NOMBRE AL COLOCAR EL CURSOR SOBRE EL USUARIO EN EL ÁRBOL
+===============================================================*/
+
+// $(document).ready(function () {
+//   $(".node").hover(function () {
+//       $(this).css("background-color", "green");
+//   }, function () {
+//       $(this).css("background-color", "yellow");
+//   });
+// });
+
+$(document).ready(function(){
+  $('[data-toggle="tooltip"]').tooltip();
+});
+
+
 /*=============================================
 PINTEREST GRID
 =============================================*/

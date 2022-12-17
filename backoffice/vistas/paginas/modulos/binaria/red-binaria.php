@@ -119,10 +119,11 @@ function generarArbol($ordenBinaria, $usuarioRed, $nombre, $foto, $patrocinador)
 
     // print_r($respuesta);
     echo '<ul id="tree_view" style="display:none">
-
 			       <li>
-						<img class="tree_icon rounded-circle" src="' . $foto . '">
-						<p class="demo_name_style bg-info">' . $nombre . '</p>';
+				   <span data-toggle="tooltip" data-placement="top" title="' . $nombre . '">
+				   <img class="tree_icon rounded-circle" src="' . $foto . '">
+					<p class="demo_name_style bg-info">' . $nombre . '</p></span>' ;
+
     // foreach ($respuesta as $key => $value) {
 
     //     $lado = generarLineasDescendientes($value["orden_binaria"], $lado);
@@ -133,7 +134,7 @@ function generarArbol($ordenBinaria, $usuarioRed, $nombre, $foto, $patrocinador)
 	//echo $lado;
 	if($usuario["perfil"]!="admin"){
 
-		echo generarLineasDescendientes($ordenBinaria, $lado,0,5);
+		echo generarLineasDescendientes($ordenBinaria, $lado,0,6);
 
 	}else{
 
@@ -143,7 +144,6 @@ function generarArbol($ordenBinaria, $usuarioRed, $nombre, $foto, $patrocinador)
 
 
     echo '</li>
-
 			</ul>';	
 
 } //FIN FUNCION generarArbol
@@ -159,24 +159,6 @@ function generarLineasDescendientes($ordenBinaria, $lado,$n,$niveles)
 
     $derrame = 0;
     $arbol .= '<ul>';
-
-    /*=============================================
-    CUANDO NO HAY LÍNEA DESCENDIENTE
-    =============================================*/
-
-    // if (!$respuesta) {
-
-    //     $arbol .= '<li>
-	// 							<img class="tree_icon rounded-circle" src="vistas/img/usuarios/default/default.png">
-	// 						</li>
-	// 						<li>
-	// 							<img class="tree_icon rounded-circle" src="vistas/img/usuarios/default/default.png">
-	// 						</li>
-	// 					</ul>';
-
-    //     return $arbol;
-
-    // }
 
 		/*=============================================
 			CUANDO SI HAY LÍNEA DESCENDIENTE
@@ -207,16 +189,17 @@ function generarLineasDescendientes($ordenBinaria, $lado,$n,$niveles)
 
 
 				$arbol .= '<li>
+				<span data-toggle="tooltip" data-placement="top" title="' . $afiliado["nombre"] . '">
 				<a href="index.php?pagina=binaria&id='.$afiliado["id_usuario"].'">
 				<img class="tree_icon rounded-circle" src="'.$foto.'" patrocinador="'.$afiliado["patrocinador"].'">';
 				
 				if($afiliado["operando"] == 1){
 
-					$arbol .= '<p class="demo_name_style bg-success">'.$afiliado["nombre"].'</p></a>';
+					$arbol .= '<p class="demo_name_style bg-success">'.$afiliado["nombre"].'</p></a></span>';
 
 				}else{
 
-					$arbol .= '<p class="demo_name_style bg-danger">'.$afiliado["nombre"].'</p></a>';
+					$arbol .= '<p class="demo_name_style bg-danger">'.$afiliado["nombre"].'</p></a></span>';
 				}
 		
 		  $n=$n+1;
@@ -290,16 +273,17 @@ function generarLineasDescendientesAdmin($ordenBinaria, $lado)
 
 
 				$arbol .= '<li>
+				<span data-toggle="tooltip" data-placement="top" title="' . $afiliado["nombre"] . '">
 				<a href="index.php?pagina=binaria&id='.$afiliado["id_usuario"].'">
 				<img class="tree_icon rounded-circle" src="'.$foto.'" patrocinador="'.$afiliado["patrocinador"].'">';
 				
 				if($afiliado["operando"] == 1){
 
-					$arbol .= '<p class="demo_name_style bg-success">'.$afiliado["nombre"].'</p></a>';
-
+					$arbol .= '<p class="demo_name_style bg-success">'.$afiliado["nombre"].'</p></a></span>';
+					
 				}else{
 
-					$arbol .= '<p class="demo_name_style bg-danger">'.$afiliado["nombre"].'</p></a>';
+					$arbol .= '<p class="demo_name_style bg-danger">'.$afiliado["nombre"].'</p></a></span>';
 				}
 			}
 

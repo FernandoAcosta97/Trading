@@ -69,15 +69,13 @@ class TablaPagos{
 
   			$usuario = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $value["id_usuario"]);
 
-			$cuenta = ControladorCuentas::ctrMostrarCuentasxEstado("usuario",$value["id_cuenta"],"estado",1);
+			$cuenta = ControladorCuentas::ctrMostrarCuentasxEstado("id",$value["id_cuenta"],"estado",1);
 			
 			$bonos_extras = ControladorPagos::ctrMostrarBonosExtrasAll("id_pago_extra",$value["id"]);
 
 			$campana=ControladorCampanas::ctrMostrarCampanas("id",$bonos_extras[0]["id_campana"]);
 
-            $total = count($bonos_extras)*$campana["retorno"];
-
-			$acciones = "<h5><span class='badge badge-success'>Pago $".number_format($total)."</span></h5>";
+			$acciones = "<h5><span class='badge badge-success'>Pago $".number_format($value["valor"])."</span></h5>";
 
 			$datosJson	 .= '[
 				    "'.($key+1).'",
@@ -92,7 +90,7 @@ class TablaPagos{
 					"'.$cuenta["numero"].'",
 					"'.$cuenta["tipo"].'",
 					"'.$value["fecha"].'",
-					"$ '.number_format($total).'"
+					"$ '.number_format($value["valor"]).'"
 
 			],';
 

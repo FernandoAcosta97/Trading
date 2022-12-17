@@ -65,7 +65,8 @@ class TablaPagos{
 				"$ '.number_format($comprobante[0]['valor']).'",
 				"'.$campana['retorno'].' %",
 				"$ '.number_format($ganancia).'",
-				"$ '.number_format($total).'"
+				"$ '.number_format($total).'",
+				"'.$campana['fecha_retorno'].'"
 		],';
 			
 
