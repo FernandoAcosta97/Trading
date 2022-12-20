@@ -76,6 +76,38 @@ class SoporteAjax{
 
 	}
 
+
+	public $ticketEliminar;
+	
+	public function ctrEliminarTicketsPapelera(){
+
+		$arrayTicketsPapelera = explode(",", $this->ticketEliminar);
+
+		for($i = 0; $i < count($arrayTicketsPapelera); $i ++){
+
+			$respuesta = ControladorSoporte::ctrEliminarTicket($arrayTicketsPapelera[$i]);
+		}
+
+		echo $respuesta;
+
+    }
+
+
+
+	public $vaciarPapelera;
+	
+	public function ctrVaciarPapelera(){
+
+		$papelera = $this->vaciarPapelera;
+
+		$respuesta = ControladorSoporte::ctrVaciarPapelera($papelera);
+		
+
+		echo $respuesta;
+
+    }
+
+
 }
 
 /*=============================================
@@ -89,5 +121,23 @@ if(isset($_POST["ticketPapelera"])){
 	$eliminar-> idUsuario = $_POST["idUsuario"];
 	$eliminar-> tipoTickets = $_POST["tipoTickets"];
 	$eliminar->ctrTicketsPapelera();
+
+}
+
+
+if(isset($_POST["ticketEliminar"])){
+
+	$eliminar = new SoporteAjax();
+	$eliminar-> ticketEliminar = $_POST["ticketEliminar"];
+	$eliminar->ctrEliminarTicketsPapelera();
+
+}
+
+
+if(isset($_POST["vaciarPapelera"])){
+
+	$eliminar = new SoporteAjax();
+	$eliminar-> vaciarPapelera = $_POST["vaciarPapelera"];
+	$eliminar->ctrVaciarPapelera();
 
 }

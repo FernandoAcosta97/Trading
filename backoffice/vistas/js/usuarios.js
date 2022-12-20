@@ -120,6 +120,7 @@ $(".suscribirse").click(function () {
   $(".alert").remove();
 
   var id_usuario = $("#inputId").val();
+  var usuario = $("#inputUsuario").val();
   var doc_usuario = $("#inputDoc").val();
   var nombre = $("#inputName").val();
   var email = $("#inputEmail").val();
@@ -129,6 +130,7 @@ $(".suscribirse").click(function () {
   var codigo_pais = $("#inputPais").val().split(",")[1];
   var telefono_movil =
     $("#inputPais").val().split(",")[2] + " " + $("#inputMovil").val();
+  var tel = $("#inputMovil").val();
   var aceptarTerminos = $("#aceptarTerminos:checked").val();
 
   if ($("#signatureparent").jSignature("isModified")) {
@@ -136,52 +138,157 @@ $(".suscribirse").click(function () {
   }
 
   /*=============================================
-   VALIDAR
+   VALIDAR DOCUMENTO
    =============================================*/
-  if (
-    doc_usuario == "" ||
-    nombre == "" ||
-    email == "" ||
-    patrocinador == "" ||
-    enlace_afiliado == "" ||
-    pais == "" ||
-    codigo_pais == "" ||
-    telefono_movil == "" ||
-    aceptarTerminos != "on" ||
-    !$("#signatureparent").jSignature("isModified")
-  ) {
+   if(doc_usuario == ""){
+
     $(".suscribirse").before(`
 
-			   <div class="alert alert-danger">Faltan datos, no ha aceptado o no ha firmado los términos y condiciones</div>
+    <div class="alert alert-danger">Falta llenar el número de documento</div>
+
+    `);
+
+   return;
+
+   }
 
 
-		   `);
+  /*=============================================
+   VALIDAR USUARIO
+   =============================================*/
+   if(usuario == ""){
 
-    return;
-  } else {
-    // crearCookie("doc_usuario", documento, 1);
-    //    crearCookie("enlace_afiliado", enlace_afiliado, 1);
-    //    crearCookie("patrocinador", patrocinador, 1);
-    //    crearCookie("pais", pais, 1);
-    //    crearCookie("codigo_pais", codigo_pais, 1);
-    //    crearCookie("telefono_movil", telefono_movil, 1);
-    //crearCookie("red", red, 1);
-    //    crearCookie("firma", firma[1], 1);
+    $(".suscribirse").before(`
 
-    //    var data = {"id_usuario": id_usuario,
-    //                "doc_usuario": documento,
-    //                "nombre": nombre,
-    // 			   "email": email,
-    // 			   "pais": pais,
-    // 			   "codigo_pais": codigo_pais,
-    // 			   "telefono_movil": telefono_movil,
-    // 			   "firma": firma[1],
-    // 			   "enlace_afiliado": enlace_afiliado};
+    <div class="alert alert-danger">Falta llenar el nombre de usuario</div>
+
+    `);
+
+   return;
+
+   }
+
+  /*=============================================
+   VALIDAR NOMBRE
+   =============================================*/
+   if(nombre == ""){
+
+    $(".suscribirse").before(`
+
+    <div class="alert alert-danger">Falta llenar el nombre completo</div>
+
+    `);
+
+   return;
+
+   }
+
+  /*=============================================
+   VALIDAR CORREO
+   =============================================*/
+   if(email == ""){
+
+    $(".suscribirse").before(`
+
+    <div class="alert alert-danger">Falta llenar el correo electrónico</div>
+
+    `);
+
+   return;
+
+   }
+
+  /*=============================================
+   VALIDAR PATROCINADOR
+   =============================================*/
+   if(patrocinador == ""){
+
+    $(".suscribirse").before(`
+
+    <div class="alert alert-danger">Falta llenar el código del patrocinador</div>
+
+    `);
+
+   return;
+
+   }
+
+  /*=============================================
+   VALIDAR PAIS
+   =============================================*/
+   if(pais == ""){
+
+    $(".suscribirse").before(`
+
+    <div class="alert alert-danger">Falta seleccionar el país</div>
+
+    `);
+
+   return;
+
+   }
+
+
+  /*=============================================
+   VALIDAR TELEFONO
+   =============================================*/
+   if(tel == ""){
+
+    $(".suscribirse").before(`
+
+    <div class="alert alert-danger">Falta llenar el número de teléfono</div>
+
+    `);
+
+   return;
+
+   }
+
+  /*=============================================
+   VALIDAR TERMINOS Y CONDICIONES
+   =============================================*/
+   if(aceptarTerminos != "on"){
+
+    $(".suscribirse").before(`
+
+    <div class="alert alert-danger">No ha aceptado los términos y condiciones</div>
+
+    `);
+
+   return;
+
+   }
+
+  /*=============================================
+   VALIDAR FIRMA
+   =============================================*/
+   if(!$("#signatureparent").jSignature("isModified")){
+
+    $(".suscribirse").before(`
+
+    <div class="alert alert-danger">No ha firmado el contrato</div>
+
+    `);
+
+   return;
+
+   }
+  // if (
+  //   doc_usuario == "" ||
+  //   nombre == "" ||
+  //   email == "" ||
+  //   patrocinador == "" ||
+  //   enlace_afiliado == "" ||
+  //   pais == "" ||
+  //   codigo_pais == "" ||
+  //   telefono_movil == "" ||
+  //   aceptarTerminos != "on" ||
+  //   !$("#signatureparent").jSignature("isModified")
+  // ) {}
+
 
     var datos = new FormData();
     datos.append("aceptar", "ok");
-    //    datos.append("nombre", nombre);
-    //    datos.append("email", email);
     datos.append("doc_usuario", doc_usuario);
     datos.append("id_usuario", id_usuario);
     datos.append("pais", pais);
@@ -245,7 +352,7 @@ $(".suscribirse").click(function () {
         //    window.location = respuesta;
       },
     });
-  }
+  
 });
 
 

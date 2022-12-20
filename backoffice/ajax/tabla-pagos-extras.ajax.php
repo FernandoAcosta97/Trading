@@ -83,7 +83,7 @@ class TablaPagos{
 				$entidad_cuenta = "X";
 				$tipo_cuenta = "X";
 	
-				$acciones = "<div class='btn-group'><button class='btn btn-info' disabled>PAGAR</button><button type='button' class='btn btn-success btn-xs btnVerUsuario' idUsuario='".$value["id_usuario"]."'><i class='fa fa-eye'></i></button></div>";
+				$acciones = "<div class='btn-group'><button class='btn btn-info' disabled>PAGAR</button><button type='button' class='btn btn-success btn-xs btnVerBonos' data-toggle='modal' data-target='#modalVerBonos' idPagoBono='".$value["id"]."'><i class='fa fa-eye'></i></button></div>";
 				$seleccionar = "";
 			}else{
 				$numero_cuenta = $cuentaBancaria["numero"];

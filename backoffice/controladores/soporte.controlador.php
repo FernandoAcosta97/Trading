@@ -291,4 +291,34 @@ class ControladorSoporte{
 	}
 
 
+	/*=============================================
+	Eliminar ticket
+	=============================================*/
+
+	static public function ctrEliminarTicket($id){
+
+		$tabla = "soporte";
+
+		$respuesta = ModeloSoporte::mdlEliminarTicket($tabla, $id);
+
+		return $respuesta;
+		
+	}
+
+
+	/*=============================================
+	VACIAR PAPELERA
+	=============================================*/
+
+	static public function ctrVaciarPapelera($tipo){
+
+		$tabla = "soporte";
+
+		$respuesta = ModeloSoporte::mdlVaciarPapelera($tabla, $tipo);
+
+		return $respuesta;
+		
+	}
+
+
 }

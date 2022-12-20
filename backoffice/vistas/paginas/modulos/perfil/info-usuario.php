@@ -22,13 +22,19 @@
 
 			<h3 class="profile-username text-center">
 				
-				<?php echo $usuario["usuario"] ?>
+				Documento: <?php echo $usuario["doc_usuario"] ?>
 
 			</h3>
 
 			<h3 class="profile-username text-center">
 				
-				<?php echo $usuario["nombre"] ?>
+				Usuario: <?php echo $usuario["usuario"] ?>
+
+			</h3>
+
+			<h3 class="profile-username text-center">
+				
+				Nombre: <?php echo $usuario["nombre"] ?>
 
 			</h3>
 

@@ -82,7 +82,7 @@ class TablaComprobantes {
 
                 if($comprobante_pagado!=""){
 
-                    $estado = "<h5><span class='badge badge-success'>Aprobado</span></h5>";
+                    $estado = "<h5><span class='badge badge-success'>Pagado</span></h5>";
 
                 }else{
 

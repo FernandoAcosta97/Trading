@@ -11,6 +11,22 @@
 		<div class="card-tools">
 			
 			<div class="mailbox-controls pb-4">
+
+			<?php if($usuario["perfil"]=="admin"): ?>
+
+			<div class="btn-group">
+              		
+					  <a href="#">
+						  
+						   <button type="button" class="btn btn-danger btn-sm btnVaciarPapelera" data-toggle="tooltip" title="Vaciar Papelera">
+							   VACIAR
+						   </button>
+  
+					  </a>
+  
+					</div>
+
+					<?php endif ?>
 				
 				<button type="button" class="btn btn-default btn-sm checkbox-toggle">
                 	<i class="far fa-square"></i>
@@ -27,6 +43,22 @@
 					</a>
 
               	</div>
+
+				  <?php if($usuario["perfil"]=="admin"): ?>
+
+				  <div class="btn-group">
+              		
+					  <a href="#">
+						  
+						   <button type="button" class="btn btn-default btn-sm btnEliminar" data-toggle="tooltip" title="Eliminar tickets">
+							   <i class="fas fa-times"></i>
+						   </button>
+  
+					  </a>
+  
+					</div>
+
+					<?php endif ?>
 
               	<a href="<?php echo $ruta ?>backoffice/index.php?pagina=soporte&soporte=papelera" class="btn btn-default btn-sm">
               		

@@ -11,8 +11,14 @@ class ControladorComprobantes
     {
 
         if (isset($_POST["id_campana"])) {
-            
 
+        // $usu = ControladorUsuarios::ctrMostrarUsuarios("doc_usuario", $_POST["doc_usuario"]);
+
+        // $cuenta = ControladorCuentas::ctrMostrarCuentasxEstado("usuario", $usu["id_usuario"], "estado", 1);
+
+        // $cuentas = ControladorCuentas::ctrMostrarCuentasAll("usuario", $usu["id_usuario"]);
+
+    
             if (preg_match('/^[0-9]+$/', $_POST["registrarValor"])) {
 
                 /*=============================================
@@ -156,6 +162,7 @@ class ControladorComprobantes
 				</script>';
 
             }
+
 
         }
 

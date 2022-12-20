@@ -110,7 +110,7 @@ class TablaPagos{
 				$tipo_cuenta = $cuentaBancaria["tipo"];
 			}
 
-			$acciones = "<h5><span class='badge badge-success'>Pago $".number_format($total)."</span></h5>";
+			$acciones = "<h5><span class='badge badge-success'>Pago $".number_format($value["valor"])."</span></h5>";
 
 			$detalle="<div><button type='button' class='btn btn-success btn-xs btnVerComisiones' data-toggle='modal' data-target='#modalVerComisiones' idPagoComision='".$value["id"]."'><i class='fa fa-eye'></i></button></div>";
 

@@ -2,6 +2,8 @@
 
 $regresar = false;
 
+$usu = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $usuario["id_usuario"]);
+
 if (isset($_GET["id"])) {
 
     $valor = $_GET["id"];
@@ -11,6 +13,7 @@ if (isset($_GET["id"])) {
 } else {
 
     $valor = $usuario["id_usuario"];
+
 }
 
 $red = ControladorMultinivel::ctrMostrarUsuarioRed("red_binaria", "usuario_red", $valor);
@@ -98,9 +101,13 @@ $ordenBinaria = $red[0]["orden_binaria"];
 
 		<?php
 
-	generarArbol($ordenBinaria, $usuario["id_usuario"], $usuario["nombre"], $usuario["foto"], $usuario["enlace_afiliado"]);
+		$usuAdmin = false;
 
-function generarArbol($ordenBinaria, $usuarioRed, $nombre, $foto, $patrocinador)
+		if($usu["perfil"]=="admin") $usuAdmin = true;
+
+	generarArbol($ordenBinaria, $usuario["id_usuario"], $usuario["nombre"], $usuario["foto"], $usuario["enlace_afiliado"], $usuAdmin);
+
+function generarArbol($ordenBinaria, $usuarioRed, $nombre, $foto, $patrocinador, $usuAdmin)
 {
 
 	$usuario=ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $usuarioRed);
@@ -124,17 +131,10 @@ function generarArbol($ordenBinaria, $usuarioRed, $nombre, $foto, $patrocinador)
 				   <img class="tree_icon rounded-circle" src="' . $foto . '">
 					<p class="demo_name_style bg-info">' . $nombre . '</p></span>' ;
 
-    // foreach ($respuesta as $key => $value) {
 
-    //     $lado = generarLineasDescendientes($value["orden_binaria"], $lado);
-
-
-    // }
-
-	//echo $lado;
 	if($usuario["perfil"]!="admin"){
 
-		echo generarLineasDescendientes($ordenBinaria, $lado,0,6);
+		echo generarLineasDescendientes($ordenBinaria, $lado,0,6,$usuAdmin);
 
 	}else{
 
@@ -148,7 +148,7 @@ function generarArbol($ordenBinaria, $usuarioRed, $nombre, $foto, $patrocinador)
 
 } //FIN FUNCION generarArbol
 
-function generarLineasDescendientes($ordenBinaria, $lado,$n,$niveles)
+function generarLineasDescendientes($ordenBinaria, $lado,$n,$niveles,$usuAdmin)
 {
 
 	$arbol="";
@@ -189,9 +189,11 @@ function generarLineasDescendientes($ordenBinaria, $lado,$n,$niveles)
 
 
 				$arbol .= '<li>
-				<span data-toggle="tooltip" data-placement="top" title="' . $afiliado["nombre"] . '">
-				<a href="index.php?pagina=binaria&id='.$afiliado["id_usuario"].'">
-				<img class="tree_icon rounded-circle" src="'.$foto.'" patrocinador="'.$afiliado["patrocinador"].'">';
+				<span data-toggle="tooltip" data-placement="top" title="' . $afiliado["nombre"] . '">';
+				if($usuAdmin){
+				$arbol .= '<a href="index.php?pagina=binaria&id='.$afiliado["id_usuario"].'">';
+				}
+				$arbol .= '<img class="tree_icon rounded-circle" src="'.$foto.'" patrocinador="'.$afiliado["patrocinador"].'">';
 				
 				if($afiliado["operando"] == 1){
 
@@ -203,7 +205,7 @@ function generarLineasDescendientes($ordenBinaria, $lado,$n,$niveles)
 				}
 		
 		  $n=$n+1;
-	      $arbol .= generarLineasDescendientes($value["orden_binaria"], $lado,$n,$niveles).'</li>';
+	      $arbol .= generarLineasDescendientes($value["orden_binaria"], $lado,$n,$niveles,$usuAdmin).'</li>';
 
 			}
 
@@ -224,24 +226,7 @@ function generarLineasDescendientesAdmin($ordenBinaria, $lado)
     $derrame = 0;
     $arbol = '<ul>';
 
-    /*=============================================
-    CUANDO NO HAY LÍNEA DESCENDIENTE
-    =============================================*/
-
-    // if (!$respuesta) {
-
-    //     $arbol .= '<li>
-	// 							<img class="tree_icon rounded-circle" src="vistas/img/usuarios/default/default.png">
-	// 						</li>
-	// 						<li>
-	// 							<img class="tree_icon rounded-circle" src="vistas/img/usuarios/default/default.png">
-	// 						</li>
-	// 					</ul>';
-
-    //     return $arbol;
-
-    // }
-
+    
 		/*=============================================
 			CUANDO SI HAY LÍNEA DESCENDIENTE
 			=============================================*/

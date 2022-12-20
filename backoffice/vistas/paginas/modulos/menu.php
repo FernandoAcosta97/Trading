@@ -11,6 +11,8 @@
     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
       <div class="image">
 
+      <?php $inhabilitado_sin_cuenta=false; ?>
+
         <?php if ($usuario["foto"] == "") : ?>
 
           <img src="vistas/img/usuarios/default/default.png" class="img-circle elevation-2" alt="User Image">
@@ -23,7 +25,7 @@
 
       </div>
       <div class="info">
-        <a href="perfil" class="d-block"><?php echo $usuario["nombre"] ?></a>
+        <a href="perfil" class="d-block"><?php echo $usuario["usuario"] ?></a>
       </div>
     </div>
 
@@ -36,7 +38,6 @@
 
         <?php
 
-        $inhabilitado_sin_cuenta=false;
         	$cuentas = ControladorCuentas::ctrMostrarCuentasAll("usuario", $usuario["id_usuario"]);
 
           if(count($cuentas)==0){

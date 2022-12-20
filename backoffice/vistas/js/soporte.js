@@ -339,6 +339,113 @@ $(".btnPapelera").click(function(){
 
 })
 
+
+/*=============================================
+ELIMINAR TICKETS DE LA PAPELERA
+=============================================*/
+
+$(".btnEliminar").click(function(){
+
+	var ticketPapelera = $(".btnPapelera").attr("idTickets");
+	
+	var datos = new FormData();
+	datos.append("ticketEliminar", ticketPapelera);
+
+	$.ajax({
+
+		url:"ajax/soporte.ajax.php",
+		method: "POST",
+	    data: datos,
+	    cache: false,
+	    contentType: false,
+	    processData: false,
+	    success:function(respuesta){
+
+			var conjunto = new Set(respuesta.split(""));
+			var arreglo = Array.from(conjunto);
+			var res = arreglo.join("");
+
+	    	if(res == "ok"){
+
+	    		swal({
+							type:"success",
+						  	title: "¡TICKETS ELIMINADOS CORRECTAMENTE!",
+						  	showConfirmButton: true,
+							confirmButtonText: "Cerrar"
+						  
+					}).then(function(result){
+
+							if(result.value){   
+							    window.location = "index.php?pagina=soporte&soporte=papelera";
+							  } 
+					});
+
+	    	}
+
+	    }
+
+	})
+
+})
+
+
+/*=============================================
+Vaciar papelera
+=============================================*/
+
+$(".btnVaciarPapelera").click(function(){
+
+	swal({
+		type:"warning",
+		  title: "¡ESTA SEGURO DE VACIAR LA PAPELERA, NO SE PUEDE DESHACER!",
+		  showConfirmButton: true,
+		  showCancelButton: true,
+		  confirmButtonText: "Vaciar Papelera"
+	  
+		}).then(function(result){
+
+				if(result.value){   
+
+			var datos = new FormData();
+	datos.append("vaciarPapelera", "papelera");
+
+	$.ajax({
+
+		url:"ajax/soporte.ajax.php",
+		method: "POST",
+		data: datos,
+	    cache: false,
+	    contentType: false,
+	    processData: false,
+	    success:function(respuesta){
+
+	    	if(respuesta == "ok"){
+
+	    		swal({
+							type:"success",
+						  	title: "¡LA PAPELERA SE HA VACIADO CORRECTAMENTE!",
+						  	showConfirmButton: true,
+							confirmButtonText: "Cerrar"
+						  
+					}).then(function(result){
+
+							if(result.value){   
+							    window.location = "index.php?pagina=soporte&soporte=papelera";
+							  } 
+					});
+
+	    	}
+
+	    }
+
+	})
+
+					
+				} 
+		});
+
+})
+
 /*=============================================
 PLUGIN ICHECK
 =============================================*/
@@ -411,6 +518,7 @@ $(".tablaTickets").on("draw.dt", function(){
 	}
 
 })
+
 
 $(".checkbox-toggle").click(function(){
 

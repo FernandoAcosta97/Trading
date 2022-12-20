@@ -46,6 +46,8 @@ class AjaxPagos{
 
 		$pago = ControladorPagos::ctrMostrarPagos("id", $id);
 
+		if($pago["estado"]==0){
+
 		$comprobante = ControladorComprobantes::ctrMostrarComprobantes("id", $pago["id_comprobante"]);
 
 		$usuario = ControladorUsuarios::ctrMostrarUsuarios("doc_usuario", $comprobante[0]["doc_usuario"]);
@@ -59,6 +61,10 @@ class AjaxPagos{
 		"id_cuenta" => $cuenta["id"]);
 
 		return $respuesta = ControladorPagos::ctrActualizarPagoInversion($datos);
+
+		}else{
+			echo "pagado";
+		}
 
 	}
 
@@ -75,6 +81,8 @@ class AjaxPagos{
 		$id = $this->idPagoComision;
 		
 		$pago = ControladorPagos::ctrMostrarPagosComisiones("id", $id);
+
+		if($pago["estado"]==0){
 
 		$usuario = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $pago["id_usuario"]);
 
@@ -114,6 +122,10 @@ class AjaxPagos{
 					   "id_cuenta" => $cuenta["id"]);
 
 		return $respuesta = ControladorPagos::ctrActualizarPagoComision($datos);
+
+	}else{
+		echo "pagado";
+	}
 
 	}
 
@@ -227,6 +239,12 @@ class AjaxPagos{
 
 		$pago = ControladorPagos::ctrMostrarPagosExtras("id", $id);
 
+	if($pago["estado"]==0){
+
+			$cuentaActiva = ControladorCuentas::ctrMostrarCuentasxEstado("usuario", $pago["id_usuario"], "estado", 1);
+
+		if($cuentaActiva!=""){
+
 		$bonos = ControladorPagos::ctrMostrarBonosExtrasAll("id_pago_extra",$id);
 
 			foreach($bonos as $key => $value){
@@ -248,6 +266,14 @@ class AjaxPagos{
 		"referidos_obtenidos" => $referidos_obtenidos);
 
 		return $respuesta = ControladorPagos::ctrActualizarPagoExtra($datos);
+
+		}else{
+			echo "cuenta-bancaria-inactiva";
+		}
+
+		}else{
+			echo "pagado";
+		}
 
 	}
 

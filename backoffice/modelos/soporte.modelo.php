@@ -93,4 +93,62 @@ class ModeloSoporte{
 
 	}
 
+
+	/*=============================================
+	Eliminar TICKET
+	=============================================*/
+
+	static public function mdlEliminarTicket($tabla, $id){
+
+		$stmt = Conexion::conectar()->prepare("DELETE FROM $tabla WHERE id_soporte = :id_soporte");
+
+		$stmt -> bindParam(":id_soporte", $id, PDO::PARAM_INT);
+
+		if($stmt -> execute()){
+
+			return "ok";
+
+		}else{
+
+			echo "\nPDO::errorInfo():\n";
+    		print_r(Conexion::conectar()->errorInfo());
+
+		}
+
+		$stmt-> close();
+
+		$stmt = null;
+
+
+	}
+
+
+	/*=============================================
+	VACIAR PAPELERA
+	=============================================*/
+
+	static public function mdlVaciarPapelera($tabla, $tipo){
+
+		$stmt = Conexion::conectar()->prepare("DELETE FROM $tabla WHERE tipo = :tipo");
+
+		$stmt -> bindParam(":tipo", $tipo, PDO::PARAM_STR);
+
+		if($stmt -> execute()){
+
+			return "ok";
+
+		}else{
+
+			echo "\nPDO::errorInfo():\n";
+    		print_r(Conexion::conectar()->errorInfo());
+
+		}
+
+		$stmt-> close();
+
+		$stmt = null;
+
+
+	}
+
 }

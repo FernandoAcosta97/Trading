@@ -474,34 +474,16 @@ $(".tabla-pagar-comisiones tbody").on("click", "button.btnVerComisiones", functi
     success: function(respuesta){
 
         if (respuesta == "ok") {
-			
-          swal({
-            type: "success",
-            title: "¡El pago se ha realizado correctamente!",
-			      allowOutsideClick: false,
-            showConfirmButton: true,
-            confirmButtonText: "Cerrar",
-          }).then(function (result) {
-            if (result.value) {
-              window.location = "pagos-inversiones";
-            }
-          });
+
+          alerta("success", "¡El pago se ha realizado correctamente!", null, "pagos-inversiones", false);
 		  
+        }else if(respuesta == "pagado"){
+
+          alerta("info", "¡Información!", "¡El pago ya se ha realizado!", "pagos-inversiones", false);
+
         }else{
 
-          swal({
-            type: "error",
-            title: "¡Ha ocurrido un error!",
-            text: "¡Contacte con el administrador o vuelve a intentarlo mas tarde!",
-            showConfirmButton: true,
-            confirmButtonText: "Cerrar",
-          }).then(function (result) {
-            if (result.value) {
-              // window.location = "pagos-inversiones";
-              
-            }
-          });
-		  
+          alerta("error", "¡Ha ocurrido un error!", "¡Contacte con el administrador o vuelve a intentarlo mas tarde!", null, true);
 
         }
 
@@ -528,38 +510,20 @@ $(".tabla-pagar-comisiones tbody").on("click", "button.btnVerComisiones", functi
         contentType: false,
         processData: false,
         success: function(respuesta){
-    
-            if (respuesta == "ok") {
-          
-              swal({
-                type: "success",
-                title: "¡El pago de la comisión se ha realizado correctamente!",
-                allowOutsideClick: false,
-                showConfirmButton: true,
-                confirmButtonText: "Cerrar",
-              }).then(function (result) {
-                if (result.value) {
-                  window.location = "pagos-comisiones";
-                }
-              });
-          
-            }else{
-    
-              swal({
-                type: "error",
-                title: "¡Ha ocurrido un error!",
-                text: "¡Contacte con el administrador o vuelve a intentarlo mas tarde!",
-                showConfirmButton: true,
-                confirmButtonText: "Cerrar",
-              }).then(function (result) {
-                if (result.value) {
-                  // window.location = "pagos-inversiones";
-                  
-                }
-              });
-          
-    
-            }
+
+          if (respuesta == "ok") {
+
+            alerta("success", "¡El pago se ha realizado correctamente!", null, "pagos-comisiones", false);
+        
+          }else if(respuesta == "pagado"){
+  
+            alerta("info", "¡Información!", "¡El pago ya se ha realizado!", "pagos-comisiones", false);
+  
+          }else{
+  
+            alerta("error", "¡Ha ocurrido un error!", "¡Contacte con el administrador o vuelve a intentarlo mas tarde!", null, true);
+  
+          }
     
           }
     
@@ -680,38 +644,25 @@ $(".btnPagos").click(function () {
         contentType: false,
         processData: false,
         success: function(respuesta){
-    
-            if (respuesta == "ok") {
-          
-              swal({
-                type: "success",
-                title: "¡El pago se ha realizado correctamente!",
-                allowOutsideClick: false,
-                showConfirmButton: true,
-                confirmButtonText: "Cerrar",
-              }).then(function (result) {
-                if (result.value) {
-                  window.location = "pagos-extras";
-                }
-              });
-          
-            }else{
-    
-              swal({
-                type: "error",
-                title: "¡Ha ocurrido un error!",
-                text: "¡Contacte con el administrador o vuelve a intentarlo mas tarde!",
-                showConfirmButton: true,
-                confirmButtonText: "Cerrar",
-              }).then(function (result) {
-                if (result.value) {
-                  // window.location = "pagos-inversiones";
-                  
-                }
-              });
-          
-    
-            }
+
+          if (respuesta == "ok") {
+
+            alerta("success", "¡El pago se ha realizado correctamente!", null, "pagos-extras", false);
+        
+          }else if(respuesta == "pagado"){
+  
+            alerta("info", "¡Información!", "¡El pago ya se ha realizado!", "pagos-extras", false);
+
+          }else if(respuesta == "cuenta-bancaria-inactiva"){
+
+            alerta("warning", "¡Advertencia!", "¡No se puede realizar el pago porque el usuario no tiene una cuenta activa!", "pagos-extras", false);
+  
+          }else{
+  
+            alerta("error", "¡Ha ocurrido un error!", "¡Contacte con el administrador o vuelve a intentarlo mas tarde!", null, true);
+  
+          }
+
     
           }
     
@@ -1018,3 +969,40 @@ $(".checkbox-toggle4").click(function(){
 	$(this).data("clicks", !clicks);
 
 })
+
+
+
+function alerta(tipo, titulo, mensaje, redireccion, cerrarClick){
+
+  if(mensaje!=null){
+
+  swal({
+    type: tipo,
+    title: titulo,
+    text: mensaje,
+    showConfirmButton: true,
+    allowOutsideClick: cerrarClick,
+    confirmButtonText: "Cerrar",
+  }).then(function (result) {
+    if (result.value) {
+      if(redireccion!=null) window.location = redireccion;
+    }
+  });
+
+}else{
+
+  swal({
+    type: tipo,
+    title: titulo,
+    showConfirmButton: true,
+    allowOutsideClick: cerrarClick,
+    confirmButtonText: "Cerrar",
+  }).then(function (result) {
+    if (result.value) {
+      if(redireccion!=null) window.location = redireccion;
+    }
+  });
+
+}
+
+}

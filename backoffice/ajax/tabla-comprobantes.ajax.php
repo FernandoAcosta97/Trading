@@ -111,7 +111,7 @@ class TablaComprobantes {
 
                 if($inversion_pagada!="" || $bono_pagado!="" || $comision_pagada!=""){
 
-                    $estado = "<h5><span class='badge badge-success'>Aprobado</span></h5>";
+                    $estado = "<h5><span class='badge badge-success'>Pagado</span></h5>";
 
                 }else{
 
