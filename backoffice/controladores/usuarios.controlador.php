@@ -20,7 +20,7 @@ Class ControladorUsuarios{
 
 			$ruta = ControladorRuta::ctrRuta();
 
-			if(preg_match('/^[-_a-zA-ZñÑáéíóúÁÉÍÓÚ0-9. ]+$/', $_POST["registroUsuario"]) && preg_match('/^[-_a-zA-ZñÑáéíóúÁÉÍÓÚ0-9. ]+$/', $_POST["registroNombre"]) &&
+			if(preg_match('/^[-_a-zA-ZñÑáéíóúÁÉÍÓÚ0-9._ ]+$/', $_POST["registroUsuario"]) && preg_match('/^[-_a-zA-ZñÑáéíóúÁÉÍÓÚ0-9 ]+$/', $_POST["registroNombre"]) &&
 			   preg_match('/^[^0-9][a-zA-Z0-9_-]+([.][a-zA-Z0-9_]+)*[@][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,4}$/', $_POST["registroEmail"]) &&
 			    preg_match('/^[a-zA-Z0-9-@.]+$/', $_POST["registroPassword"])){
 
@@ -460,7 +460,7 @@ Class ControladorUsuarios{
 
 		if(isset($_POST["editarUsuario"])){
 
-			if(preg_match('/^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["editarNombre"]) &&
+			if(preg_match('/^[a-zA-ZñÑáéíóúÁÉÍÓÚ0-9._ ]+$/', $_POST["editarNombre"]) &&
 			preg_match('/^[^0-9][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[@][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,4}$/', $_POST["editarEmail"])){
 
 				$tabla = "usuarios";
@@ -498,10 +498,12 @@ Class ControladorUsuarios{
 
 				}
 
+				$telefono = $_POST["indicativo"]." ".$_POST["editarMovil"];
+
 				$datos = array("nombre" => $_POST["editarNombre"],
 							   "email" => $_POST["editarEmail"],
 							   "password" => $encriptar,
-							   "telefono" => $_POST["editarMovil"],
+							   "telefono" => $telefono,
 							   "perfil" => $_POST["editarPerfil"],
 							   "id_usuario" => $_POST["editarUsuario"]);
 
@@ -577,7 +579,7 @@ Class ControladorUsuarios{
 
 		if(isset($_POST["ingresoEmail"])){
 
-			 if(preg_match('/^[^0-9][a-zA-Z0-9_-]+([.][a-zA-Z0-9_]+)*[@][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,4}$/', $_POST["ingresoEmail"]) && preg_match('/^[a-zA-Z0-9-@.]+$/', $_POST["ingresoPassword"])){
+			 if(preg_match('/^[^0-9][a-zA-Z0-9_-]+([.][a-zA-Z0-9_]+)*[@][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,4}$/', $_POST["ingresoEmail"]) && preg_match('/^[a-zA-Z0-9-.]+$/', $_POST["ingresoPassword"])){
 
 			 	$encriptar = crypt($_POST["ingresoPassword"], '$2a$07$asxx54ahjppf45sd87a5a4dDDGsystemdev$');
 
@@ -637,7 +639,7 @@ Class ControladorUsuarios{
 
 			 			$_SESSION["validarSesion"] = "ok";
 			 			$_SESSION["id"] = $respuesta["id_usuario"];
-
+						
 			 			$ruta = ControladorRuta::ctrRuta();
 
 			 			echo '<script>

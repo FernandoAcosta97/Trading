@@ -966,6 +966,7 @@ $(".tablaUsuarios tbody").on("click", "button.btnEditarUsuario", function () {
       $("#editarPerfil").val(respuesta["perfil"]);
       $("#editarMovil").val(tel);
       $(".dialCode").html(indicativo);
+      $("#indicativo").val(indicativo);
       $("#passwordActual").val(respuesta["password"]);
     },
   });

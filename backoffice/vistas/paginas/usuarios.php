@@ -210,7 +210,8 @@ EDITAR USUARIO
 
                       <div class="input-group-prepend">
                         <span class="p-2 bg-info rounded-left dialCode"></span>
-                          </div>
+						            <input id="indicativo" type="hidden" name="indicativo">
+                        </div>
 
                         <input type="text" name="editarMovil" class="form-control" id="editarMovil" data-inputmask="'mask':'(999) 999-9999'" data-mask>
 

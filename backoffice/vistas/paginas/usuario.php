@@ -89,7 +89,7 @@ Registar Cuenta
 <div class="modal" id="registrarCuenta">
   <div class="modal-dialog">
     <div class="modal-content">
-
+      
     	<form method="post">
 
 	      <!-- Modal Header -->

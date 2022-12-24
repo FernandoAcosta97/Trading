@@ -99,7 +99,7 @@ class ModeloCuentas{
         $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(usuario, numero, titular, tipo_documento, nombre_titular, entidad, estado, tipo) VALUES (:usuario, :numero, :titular, :tipo_documento, :nombre_titular, :entidad, :estado, :tipo)");
 
         $stmt->bindParam(":usuario", $datos["usuario"], PDO::PARAM_INT);
-        $stmt->bindParam(":numero", $datos["numero"], PDO::PARAM_INT);
+        $stmt->bindParam(":numero", $datos["numero"], PDO::PARAM_STR);
         $stmt->bindParam(":titular", $datos["titular"], PDO::PARAM_INT);
         $stmt->bindParam(":tipo_documento", $datos["tipoDocumento"], PDO::PARAM_STR);
         $stmt->bindParam(":nombre_titular", $datos["nombreTitular"], PDO::PARAM_STR);
