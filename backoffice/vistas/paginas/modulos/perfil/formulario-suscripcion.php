@@ -97,7 +97,7 @@
 					<div class="input-group-prepend">
 						<span class="p-2 bg-info rounded-left"><?php echo $ruta; ?></span>
 					</div>
-					<input type="text" class="form-control" id="inputAfiliado" value="<?php echo strtolower(str_replace(" ", "-", $usuario["nombre"])) . "-" . substr($usuario["doc_usuario"], -4) ?>" readonly>
+					<input type="text" class="form-control" id="inputAfiliado" value="<?php echo strtolower(str_replace(" ", "-", $usuario["usuario"])) . "-" . substr($usuario["doc_usuario"], -4) ?>" readonly>
 				</div>
 
 			</div>
@@ -554,7 +554,7 @@ Registar Cuenta
 		<?php
 
 			$registrarCuenta = new ControladorCuentas();
-			$registrarCuenta->ctrRegistrarCuentaBancaria();
+			$registrarCuenta->ctrRegistrarCuentaBancaria("perfil");
 
 		?>
 

@@ -222,6 +222,7 @@ Actualizar Datos nombre y telefono
 
                       <div class="input-group-prepend">
                         <span class="p-2 bg-info rounded-left dialCode"></span>
+						<input id="indicativo" type="hidden" name="indicativo">
                           </div>
 
                         <input type="text" name="editarMovil" class="form-control" required id="editarMovil" data-inputmask="'mask':'(999) 999-9999'" data-mask>

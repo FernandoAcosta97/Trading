@@ -1019,6 +1019,7 @@ $(".tablaUsuarios tbody").on("click", "button.btnEliminarUsuario", function () {
 ACTUALIZAR DATOS USUARIO
 =============================================*/
 $("#actualizarDatos").click(function () {
+  
   var idUsuario = $(this).attr("idUsuario");
 
   var datos = new FormData();
@@ -1039,12 +1040,12 @@ $("#actualizarDatos").click(function () {
       indicativo = t[0];
 
       $(".dialCode").html(indicativo);
-      $("#editarMovil").val(t);
+      $("#indicativo").val(indicativo);
+      $("#editarMovil").val(tel);
       $("#editarNombre").val(respuesta["nombre"]);
     },
   });
 });
-
 
 
 

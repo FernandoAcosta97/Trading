@@ -1153,11 +1153,12 @@ Class ControladorUsuarios{
 
 			if(preg_match('/^[-_a-zA-ZñÑáéíóúÁÉÍÓÚ0-9. ]+$/', $_POST["editarNombre"]) && preg_match('/^[0-9-() ]+$/', $_POST["editarMovil"])){
 
+				$telefono = $_POST["indicativo"]." ".$_POST["editarMovil"];
 
 				$tabla = "usuarios";
 				$id = $_POST["idUsuario"];
 				$item = "telefono_movil";
-				$valor = $_POST["editarMovil"];
+				$valor = $telefono;
 				$item2 = "nombre";
 				$valor2 = $_POST["editarNombre"];
 
