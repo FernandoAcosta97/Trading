@@ -227,9 +227,36 @@ Registar Cuenta
 
 	      	<input type="hidden" name="idUsuarioCuentaRegistrar" value="<?php echo $usuario["id_usuario"] ?>">
 
+
+          <div class="form-group">
+
+            <label for="entidad">Entidad:</label>
+
+            <div>
+
+            <select id="entidad" name="registrarEntidadCuenta" class="form-control py4 select2" style="width:100%" required>
+              <option value="">Seleccione una entidad bancaria</option>
+              <option value="davivienda">Davivienda</option>
+              <option value="bancolombia">Bancolombia</option>
+              <option value="bbva">BBVA</option>
+              <option value="banco de bogota">Banco de Bogotá</option>
+              <option value="Banco agrario">Banco agrario</option>
+              <option value="Banco popular">Banco popular</option>
+              <option value="efecty">Efecty</option>
+              <option value="0">Otra entidad</option>
+            </select>
+
+            <div id="divCuentaCampo"></div>
+              </div>
+
+          </div>
+
+
 			<div class="form-group">
 
-				<input type="number" class="form-control" placeholder="Número cuenta" name="registrarNumeroCuenta" required>
+      <label id="labelNumero" for="numero">Número cuenta bancaria:</label>
+
+				<input type="number" id="numero" class="form-control" placeholder="Número cuenta" name="registrarNumeroCuenta" required>
 
 			</div>
 
@@ -237,7 +264,22 @@ Registar Cuenta
 
         <label for="nombreTitular">Nombre Titular:</label>
 
-        <input type="text" class="form-control" id="nombreTitular" placeholder="Nombre titular" name="registrarNombreTitular" required>
+          <input type="text" class="form-control" id="nombreTitular" placeholder="Nombre titular" name="registrarNombreTitular" required>
+
+        </div>
+
+        <div class="form-group">
+
+        <label for="tipoDocumento">Tipo de Documento Titular:</label>
+
+        <select class="form-control" id="tipoDocumento" name="registrarTipoDocumento" required>
+
+          <option value="">Seleccione tipo de documento</option>
+          <option value="cedula de ciudadania">Cédula de ciudadanía</option>
+          <option value="cedula de extranjeria">Cédula de extranjería</option>
+          <option value="pasaporte">Pasaporte</option>
+
+        </select>
 
         </div>
 
@@ -251,17 +293,9 @@ Registar Cuenta
 
 			<div class="form-group">
 
-			<label for="entidad">Entidad:</label>
-
-				<input type="text" class="form-control" id="entidad" placeholder="Entidad bancaria" name="registrarEntidadCuenta" required>
-
-			</div>
-
-			<div class="form-group">
-
 				<label for="tipoCuenta">Tipo de Cuenta:</label>
 
-				<select class="form-control" id="tipoCuenta" name="registrarTipoCuenta">
+				<select class="form-control" id="tipoCuenta" name="registrarTipoCuenta" required>
 
 					<option value="">Seleccione tipo de cuenta</option>
 					<option value="ahorros">Ahorros</option>
@@ -293,8 +327,9 @@ Registar Cuenta
 
 		<?php
 
+      $ruta_pagina = "cuentas-bancarias";
 			$registrarCuenta = new ControladorCuentas();
-			$registrarCuenta->ctrRegistrarCuentaBancaria();
+			$registrarCuenta->ctrRegistrarCuentaBancaria($ruta_pagina);
 
 		?>
 

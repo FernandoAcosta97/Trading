@@ -102,7 +102,16 @@ class TablaCampanas{
 
 			}
 
-				$acciones = "<div class='btn-group'><button class='btn btn-warning btn-xs btnEditarCampana' idCampana='".$value["id"]."' data-toggle='modal' data-target='#modalEditarCampana'><i class='fa fa-pen' style='color:white'></i></button><button class='btn btn-danger btn-xs btnEliminarCampana' idCampana='".$value["id"]."'><i class='fa fa-times' style='color:white'></i></button><button type='button' class='btn btn-info btn-xs btnVerCampana' idCampana='".$value["id"]."'><i class='fa fa-eye'></i></button></div>";
+			if($value["estado"]==2){
+
+				$acciones = "<div class='btn-group'><button class='btn btn-warning btn-xs'><i class='fa fa-pen' style='color:white'></i></button><button class='btn btn-danger btn-xs btnEliminarCampana' idCampana='".$value["id"]."'><i class='fa fa-times' style='color:white'></i></button><button type='button' class='btn btn-info btn-xs btnVerCampana' idCampana='".$value["id"]."'><i class='fa fa-eye'></i></button><button type='button' class='btn btn-success btn-xs btnExcelCampana' idCampana='".$value["id"]."'><i class='fa fa-file-excel'></i></button></div>";
+				
+			}else{
+				
+				$acciones = "<div class='btn-group'><button class='btn btn-warning btn-xs btnEditarCampana' idCampana='".$value["id"]."' data-toggle='modal' data-target='#modalEditarCampana'><i class='fa fa-pen' style='color:white'></i></button><button class='btn btn-danger btn-xs btnEliminarCampana' idCampana='".$value["id"]."'><i class='fa fa-times' style='color:white'></i></button><button type='button' class='btn btn-info btn-xs btnVerCampana' idCampana='".$value["id"]."'><i class='fa fa-eye'></i></button><button type='button' class='btn btn-success btn-xs btnExcelCampana' idCampana='".$value["id"]."'><i class='fa fa-file-excel'></i></button></div>";
+			}
+
+
 
 				$datosJson .= '[
 					"'.$acciones.'",

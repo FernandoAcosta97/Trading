@@ -161,6 +161,14 @@ $(".tablaCampanas").on("click","button.btnVerCampana",function(){
 });
 
 
+$(".tablaCampanas").on("click","button.btnExcelCampana",function(){
+
+	var id_campana=$(this).attr("idCampana");
+	window.location = "index.php?pagina=reporte-campana&campana="+id_campana;
+
+});
+
+
 
 //EDITAR CAMPAÑA
 $(".tablaCampanas").on("click","button.btnEditarCampana",function(){
@@ -183,6 +191,11 @@ $(".tablaCampanas").on("click","button.btnEditarCampana",function(){
 
 	  $("#idCampana").val(idCampana);
       $("#editarNombre").val(respuesta["nombre"]);
+	  if(respuesta["estado"]==2){
+		$("#editarRetorno").attr("readonly", "readonly");
+	  }else{
+		$("#editarRetorno").removeAttr("readonly");
+	  }
 	  $("#editarRetorno").val(respuesta["retorno"]);
 	  $("#editarCupos").val(respuesta["cupos"]);
 	  $("#editarFechaInicio").val(respuesta["fecha_inicio"]);
@@ -228,7 +241,7 @@ $(".tablaCampanasBonosExtras").on("click","button.btnEditarCampana",function(){
   })
 
 
-//ELIMINAR CAMPAÑA
+//ELIMINAR CAMPAÑA INVERSION
  $("#tablaCampanas tbody").on("click", "button.btnEliminarCampana", function () {
 	var idCampana = $(this).attr("idCampana");
 	var datos = new FormData();
@@ -273,6 +286,67 @@ $(".tablaCampanasBonosExtras").on("click","button.btnEditarCampana",function(){
 					type: "warning",
 					title: "¡ADVERTENCIA!",
 					text: "¡La campaña no se puede eliminar porque tiene "+respuesta+" inversiones activas!",
+					showConfirmButton: true,
+					confirmButtonText: "Cerrar",
+				  }).then(function (result) {
+					if (result.value) {
+					//   window.location = "campanas";s
+					}
+				  });
+
+			}
+		  },
+		});
+	  }
+	});
+  });
+
+
+  //ELIMINAR CAMPAÑA BONO EXTRA
+ $("#tablaCampanasBonosExtras tbody").on("click", "button.btnEliminarCampana", function () {
+	var idCampana = $(this).attr("idCampana");
+	var datos = new FormData();
+	datos.append("idCampanaEliminarBono", idCampana);
+  
+	swal({
+	  title: "¿Está seguro de borrar la campaña?",
+	  text: "¡Si no lo está puede cancelar la acción!",
+	  type: "warning",
+	  showCancelButton: true,
+	  confirmButtonColor: "#3085d6",
+	  cancelButtonColor: "#d33",
+	  cancelButtonText: "Cancelar",
+	  confirmButtonText: "Si, borrar campaña!",
+	}).then((result) => {
+	  if (result.value) {
+		$.ajax({
+		  url: "ajax/campanas.ajax.php",
+		  method: "POST",
+		  data: datos,
+		  cache: false,
+		  contentType: false,
+		  processData: false,
+		  success: function (respuesta) {
+			if (respuesta == "ok") {
+
+			  swal({
+				type: "success",
+				title: "¡OK!",
+				text: "¡La campaña se ha eliminado correctamente!",
+				showConfirmButton: true,
+				confirmButtonText: "Cerrar",
+			  }).then(function (result) {
+				if (result.value) {
+				  window.location = "bonos-extras";
+				}
+			  });
+
+			}else if(respuesta != "0"){
+
+				swal({
+					type: "warning",
+					title: "¡ADVERTENCIA!",
+					text: "¡La campaña no se puede eliminar porque tiene "+respuesta+" pagos por bono extra registrados!",
 					showConfirmButton: true,
 					confirmButtonText: "Cerrar",
 				  }).then(function (result) {

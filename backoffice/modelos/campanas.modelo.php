@@ -255,13 +255,13 @@ class ModeloCampanas
 
 
     /*=============================================
-    total de comprobantes x campaña
+    total de comprobantes x campaña bono
     =============================================*/
 
-    public static function mdlTotalComprobantesxCampana($tabla, $tabla2,$valor)
+    public static function mdlTotalComprobantesxCampanaBono($tabla, $tabla2,$valor)
     {
 
-        $stmt = Conexion::conectar()->prepare("SELECT COUNT(*) as total FROM $tabla INNER JOIN $tabla2 ON $tabla.id=$tabla2.campana WHERE $tabla.id=:id AND $tabla2.estado=1");
+        $stmt = Conexion::conectar()->prepare("SELECT COUNT(*) as total FROM $tabla INNER JOIN $tabla2 ON $tabla.id=$tabla2.id_campana WHERE $tabla.id=:id");
 
         $stmt->bindParam(":id", $valor, PDO::PARAM_INT);
         $stmt->execute();
@@ -270,6 +270,25 @@ class ModeloCampanas
         $stmt->close();
         $stmt = null;
     }
+
+
+     /*=============================================
+    total de comprobantes x campaña inversion
+    =============================================*/
+
+    public static function mdlTotalComprobantesxCampana($tabla, $tabla2,$valor)
+    {
+
+        $stmt = Conexion::conectar()->prepare("SELECT COUNT(*) as total FROM $tabla INNER JOIN $tabla2 ON $tabla.id=$tabla2.campana WHERE $tabla.id=:id");
+
+        $stmt->bindParam(":id", $valor, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch();
+
+        $stmt->close();
+        $stmt = null;
+    }
+
 
 
     /*=============================================

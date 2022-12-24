@@ -304,6 +304,8 @@
 
         <?php endif ?>
 
+        <?php if(!$inhabilitado_sin_cuenta): ?>
+
         <!--=====================================
         Botón Plan de compensación
         ======================================-->
@@ -314,8 +316,11 @@
             <p>Plan de compensación</p>
           </a>
         </li>
+        <?php endif ?>
 
         <?php if ($usuario["firma"] != null) : ?>
+
+          <?php if(!$inhabilitado_sin_cuenta): ?>
 
         <!--=====================================
         Botón Soporte
@@ -327,6 +332,7 @@
             <p>Soporte</p>
           </a>
         </li>
+        <?php endif ?>
 
         <?php endif ?>
 

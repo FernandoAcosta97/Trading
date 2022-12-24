@@ -522,7 +522,7 @@ Class ControladorCampanas{
 
 
 	/*=============================================
-	Eliminar Campana
+	Eliminar Campana Inversion
 	=============================================*/
 
 	static public function ctrEliminarCampana($id){
@@ -532,6 +532,27 @@ Class ControladorCampanas{
 
 		$totalComprobantes = ModeloCampanas::mdlTotalComprobantesxCampana($tabla, $tabla2, $id);
 
+		if($totalComprobantes["total"] > 0) return $totalComprobantes["total"];
+
+		$respuesta = ModeloCampanas::mdlEliminarCampana($tabla, $id);
+
+		return $respuesta;
+
+	}
+
+
+
+	/*=============================================
+	Eliminar Campana Bono
+	=============================================*/
+
+	static public function ctrEliminarCampanaBono($id){
+
+		$tabla = "campanas";
+		$tabla2 = "bonos_extras";
+
+		$totalComprobantes = ModeloCampanas::mdlTotalComprobantesxCampanaBono($tabla, $tabla2, $id);
+		
 		if($totalComprobantes["total"] > 0) return $totalComprobantes["total"];
 
 		$respuesta = ModeloCampanas::mdlEliminarCampana($tabla, $id);
@@ -593,6 +614,89 @@ Class ControladorCampanas{
 			}
 
 
+
+	}
+
+
+
+
+	/*=============================================
+	DESCARGAR EXCEL
+	=============================================*/
+
+	public function ctrDescargarReporte(){
+
+		if(isset($_GET["campana"])){
+			
+			$item = "id";
+            $valor = $_GET["campana"];
+            $campana=ControladorCampanas::ctrMostrarCampanas("id", $valor);
+
+			/*=============================================
+			CREAMOS EL ARCHIVO DE EXCEL
+			=============================================*/
+
+			$Name = 'Comprobantes campaña '.$campana["nombre"].'.xls';
+
+			header('Expires: 0');
+			header('Cache-control: private');
+			header("Content-type: application/vnd.ms-excel"); // Archivo de Excel
+			header("Cache-Control: cache, must-revalidate"); 
+			header('Content-Description: File Transfer');
+			header('Last-Modified: '.date('D, d M Y H:i:s'));
+			header("Pragma: public"); 
+			header('Content-Disposition:; filename="'.$Name.'"');
+			header("Content-Transfer-Encoding: binary");
+		
+			echo utf8_decode("<table border='0'> 
+
+					<tr> 
+					<td style='font-weight:bold; border:1px solid #eee;'>CÓDIGO</td> 
+					<td style='font-weight:bold; border:1px solid #eee;'>C.C.</td>
+					<td style='font-weight:bold; border:1px solid #eee;'>NOMBRE</td>
+					<td style='font-weight:bold; border:1px solid #eee;'>TOTAL INVERTIDO</td>
+					<td style='font-weight:bold; border:1px solid #eee;'>TOTAL RETORNO</td>
+					<td style='font-weight:bold; border:1px solid #eee;'>ESTADO</td>
+					<td style='font-weight:bold; border:1px solid #eee;'>FECHA</td>			
+					</tr>");
+
+			$comprobantes = ControladorComprobantes::ctrMostrarComprobantes("campana", $campana["id"]);
+			$ganancia=0;
+
+			foreach ($comprobantes as $row => $item){
+
+            $usuario=ControladorUsuarios::ctrMostrarUsuarios("doc_usuario", $item["doc_usuario"]);
+
+            $ganancia = ($item['valor']*$campana['retorno'])/100;
+
+            $total = $item['valor']+$ganancia;
+			$estado="";
+
+			if($item["estado"]==1){
+				$estado="Aprobado";
+			}
+			if($item["estado"]==2){
+				$estado="Pendiente";
+			}
+			if($item["estado"]==0){
+				$estado="Rechazado";
+			}
+
+			 echo utf8_decode("<tr>
+			 			<td style='border:1px solid #eee;'>".$item["id"]."</td> 
+			 			<td style='border:1px solid #eee;'>".$item["doc_usuario"]."</td>
+			 			<td style='border:1px solid #eee;'>".$usuario["nombre"]."</td>
+						<td style='border:1px solid #eee;'>".$item["valor"]."</td>
+						<td style='border:1px solid #eee;'>".$total."</td>
+						<td style='border:1px solid #eee;'>".$estado."</td>
+						<td style='border:1px solid #eee;'>".$item["fecha"]."</td></tr>");	
+
+			}
+
+
+			echo "</table>";
+
+		}
 
 	}
 

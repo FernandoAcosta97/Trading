@@ -205,4 +205,151 @@ $(".tablaCuentasDetalles").on("click","button.btnEditarCuenta",function(){
 
 
 
+  /*=============================================
+OTRA ENTIDAD CUENTA
+=============================================*/
+$("#entidad").on("change",function () {
+	var seleccionado = $(this).val();
+  
+	if(seleccionado==0 && seleccionado!=""){
+	$("#divCuentaCampo").html('<input type="text" class="form-control" id="entidad_campo" placeholder="Entidad bancaria" required name="registrarEntidadCuentaCampo">');
+	}else{
+	  $("#divCuentaCampo").html("");
+	}
+  
+	if(seleccionado=="efecty"){
+	  $("#labelNumero").html("Número de documento:");
+	}else{
+	  $("#labelNumero").html("Número cuenta bancaria:");
+	}
+  
+  })
+
+
+
+
+//ELIMINAR CUENTA BANCARIA
+$(".tablaCuentasDetalles tbody").on("click", "button.btnEliminarCuenta", function () {
+	var idCuenta = $(this).attr("idCuenta");
+	var datos = new FormData();
+	datos.append("idCuentaEliminar", idCuenta);
+  
+	swal({
+	  title: "¿Está seguro de borrar la ceunta bancaria?",
+	  text: "¡Si no lo está puede cancelar la acción!",
+	  type: "warning",
+	  showCancelButton: true,
+	  confirmButtonColor: "#3085d6",
+	  cancelButtonColor: "#d33",
+	  cancelButtonText: "Cancelar",
+	  confirmButtonText: "Si, borrar cuenta!",
+	}).then((result) => {
+	  if (result.value) {
+		$.ajax({
+		  url: "ajax/cuentas.ajax.php",
+		  method: "POST",
+		  data: datos,
+		  cache: false,
+		  contentType: false,
+		  processData: false,
+		  success: function (respuesta) {
+			if (respuesta == 1) {
+
+				swal({
+					type: "warning",
+					title: "¡ADVERTENCIA!",
+					text: "¡La cuenta bancaria no se puede eliminar porque tiene pagos registrados!",
+					showConfirmButton: true,
+					confirmButtonText: "Cerrar",
+				  }).then(function (result) {
+					if (result.value) {
+					//   window.location = "campanas";s
+					}
+				  });
+
+			}else if(respuesta != "error"){
+
+				swal({
+					type: "success",
+					title: "¡OK!",
+					text: "¡La cuenta bancaria se ha eliminado correctamente!",
+					showConfirmButton: true,
+					confirmButtonText: "Cerrar",
+				  }).then(function (result) {
+					if (result.value) {
+					  window.location = "index.php?pagina=usuario&id="+respuesta;
+					}
+				  });
+
+			}
+		  },
+		});
+	  }
+	});
+  });
+
+
+
+  //ELIMINAR CUENTA BANCARIA
+$(".tablaCuentas tbody").on("click", "button.btnEliminarCuenta", function () {
+	var idCuenta = $(this).attr("idCuenta");
+	var datos = new FormData();
+	datos.append("idCuentaEliminar", idCuenta);
+  
+	swal({
+	  title: "¿Está seguro de borrar la ceunta bancaria?",
+	  text: "¡Si no lo está puede cancelar la acción!",
+	  type: "warning",
+	  showCancelButton: true,
+	  confirmButtonColor: "#3085d6",
+	  cancelButtonColor: "#d33",
+	  cancelButtonText: "Cancelar",
+	  confirmButtonText: "Si, borrar cuenta!",
+	}).then((result) => {
+	  if (result.value) {
+		$.ajax({
+		  url: "ajax/cuentas.ajax.php",
+		  method: "POST",
+		  data: datos,
+		  cache: false,
+		  contentType: false,
+		  processData: false,
+		  success: function (respuesta) {
+			if (respuesta == 1) {
+
+				swal({
+					type: "warning",
+					title: "¡ADVERTENCIA!",
+					text: "¡La cuenta bancaria no se puede eliminar porque tiene pagos registrados!",
+					showConfirmButton: true,
+					confirmButtonText: "Cerrar",
+				  }).then(function (result) {
+					if (result.value) {
+					//   window.location = "campanas";s
+					}
+				  });
+
+			}else if(respuesta != "error"){
+
+				swal({
+					type: "success",
+					title: "¡OK!",
+					text: "¡La cuenta bancaria se ha eliminado correctamente!",
+					showConfirmButton: true,
+					confirmButtonText: "Cerrar",
+				  }).then(function (result) {
+					if (result.value) {
+					  window.location = "index.php?pagina=usuario&id="+respuesta;
+					}
+				  });
+
+			}
+		  },
+		});
+	  }
+	});
+  });
+
+
+
   

@@ -1,5 +1,11 @@
 <?php
 
+if (isset($_GET["pagina"])) {
+	if ($_GET["pagina"] == "reporte-campana"){
+		include "paginas/" . $_GET["pagina"] . ".php";
+	}
+}
+
 session_start();
 
 $ruta = ControladorGeneral::ctrRuta();
@@ -23,9 +29,7 @@ $valor = $_SESSION["id"];
 
 $usuario = ControladorUsuarios::ctrMostrarUsuarios($item, $valor);
 
-
 ?>
-
 
 <!DOCTYPE html>
 
@@ -218,15 +222,18 @@ if($usuario["firma"]!=null){
 			if (isset($_GET["pagina"])) {
 
 				if ($_GET["pagina"] == "cuentas-bancarias" ||
-					$_GET["pagina"] == "plan-compensacion" ||
-					$_GET["pagina"] == "soporte" ||
 					$_GET["pagina"] == "salir") {
 			
 					include "paginas/" . $_GET["pagina"] . ".php";
 			
 				}  else {
+
+					if($_GET["pagina"] == "perfil"){
+						include "paginas/cuentas-bancarias.php";
+					}else{
+						include "paginas/error404.php";
+					}
 			
-					include "paginas/error404.php";
 				}
 			
 			

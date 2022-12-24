@@ -8,23 +8,35 @@ Class ControladorCuentas{
 	registrar cuenta bancaria
 	=============================================*/
 
-	public function ctrRegistrarCuentaBancaria(){
+	public function ctrRegistrarCuentaBancaria($pagina){
 
 		$tabla = "cuentas_bancarias";
 
 		if(isset($_POST["idUsuarioCuentaRegistrar"])){
 
+			$cuenta_existe = ModeloCuentas::mdlMostrarCuentas($tabla, "numero", $_POST["registrarNumeroCuenta"]);
+
+			if($cuenta_existe==""){
+
+			$campo_entidad="";
+			if(isset($_POST["registrarEntidadCuentaCampo"]) && $_POST["registrarEntidadCuentaCampo"]!=""){
+				$campo_entidad=$_POST["registrarEntidadCuentaCampo"];
+			}else{
+				$campo_entidad=$_POST["registrarEntidadCuenta"];
+			}
+
 			if(preg_match('/^[0-9]+$/', $_POST["registrarNumeroCuenta"])&&
 			preg_match('/^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["registrarNombreTitular"])
 			 && preg_match('/^[0-9]+$/', $_POST["registrarNumeroTitular"]) &&
-			preg_match('/^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["registrarEntidadCuenta"]) ){
+			preg_match('/^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/', $campo_entidad) ){
 
 				$datos = array(	"titular" => $_POST["registrarNumeroTitular"],
+				"tipoDocumento" => $_POST["registrarTipoDocumento"],
 				"nombreTitular" => $_POST["registrarNombreTitular"],
 				"usuario" => $_POST["idUsuarioCuentaRegistrar"],
 				"estado" => 1,
 				"tipo" => $_POST["registrarTipoCuenta"],
-				"entidad" => $_POST["registrarEntidadCuenta"],
+				"entidad" => $campo_entidad,
 				"numero" => $_POST["registrarNumeroCuenta"]);
 
 				
@@ -33,11 +45,10 @@ Class ControladorCuentas{
 		foreach($cuentas as $key => $value){
 			if($value["estado"]==1){
 				$actualizar_cuentas = ControladorCuentas::ctrActualizarCuenta( $value["id"] ,"estado", 0);
-				break;
 			}
 		}
 
-		$respuesta = ModeloUsuarios::mdlRegistrarCuentaBancaria($tabla, $datos);
+		$respuesta = ModeloCuentas::mdlRegistrarCuentaBancaria($tabla, $datos);
 
 		if($respuesta == "ok"){
 			echo '<script>
@@ -54,7 +65,7 @@ Class ControladorCuentas{
 
 								if(result.value){
 
-									window.location = "cuentas-bancarias";
+									window.location = "'.$pagina.'";
 
 								}
 
@@ -65,6 +76,7 @@ Class ControladorCuentas{
 		}
 
 				}
+			}
 			}
 
 
@@ -90,7 +102,7 @@ Class ControladorCuentas{
 
 
 	/*=============================================
-	Mostrar Cuentas
+	Mostrar Cuentas x estado
 	=============================================*/
 
 	static public function ctrMostrarCuentasxEstado($item, $valor,$item2, $valor2){
@@ -184,6 +196,46 @@ Class ControladorCuentas{
 
 				}
 			}
+
+
+
+	}
+
+
+
+	/*=============================================
+	Eliminar Cuenta bancaria
+	=============================================*/
+
+	static public function ctrEliminarCuenta($id){
+
+		$tabla = "cuentas_bancarias";
+
+		$tabla2 = "pagos_inversiones";
+		$tabla3 = "pagos_comisiones";
+		$tabla4 = "pagos_extras";
+
+		$cuenta = ModeloCuentas::mdlMostrarCuentas($tabla, "id", $id);
+
+		$pagosInversiones = ModeloCuentas::mdlMostrarPagosCuentas($tabla, $tabla2, $id);
+
+		$pagosComisiones = ModeloCuentas::mdlMostrarPagosCuentas($tabla, $tabla3, $id);
+
+		$pagosExtras = ModeloCuentas::mdlMostrarPagosCuentas($tabla, $tabla4, $id);
+
+		if($pagosInversiones!="" || $pagosComisiones!="" || $pagosExtras!="") return 1;
+
+		$respuesta = ModeloCuentas::mdlEliminarCuenta($tabla, $id);
+
+		if($respuesta=="ok"){
+
+			return $cuenta["usuario"];
+
+		}else{
+
+			return "error";
+
+		}
 
 
 

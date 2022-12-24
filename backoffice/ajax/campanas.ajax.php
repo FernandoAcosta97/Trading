@@ -120,7 +120,7 @@ class AjaxCampanas{
 
 
 	/*=============================================
-    Eliminar Campana
+    Eliminar Campana Inversion
     =============================================*/	
 
 	public $idCampanaEliminar;
@@ -130,6 +130,23 @@ class AjaxCampanas{
 		$valor = $this->idCampanaEliminar;
 
 		$respuesta = ControladorCampanas::ctrEliminarCampana($valor);
+
+		echo $respuesta;
+
+	}
+
+
+	/*=============================================
+    Eliminar Campana Bono Extra
+    =============================================*/	
+
+	public $idCampanaEliminarBono;
+
+	public function ajaxEliminarCampanaBono(){
+
+		$valor = $this->idCampanaEliminarBono;
+
+		$respuesta = ControladorCampanas::ctrEliminarCampanaBono($valor);
 
 		echo $respuesta;
 
@@ -210,6 +227,18 @@ if(isset($_POST["idCampanaEditar"])){
 	$editar = new AjaxCampanas();
 	$editar -> idCampanaEditar = $_POST["idCampanaEditar"];
 	$editar -> ajaxEditarCampana();
+
+}
+
+/*=============================================
+Eliminar Campaña Bono
+=============================================*/	
+
+if(isset($_POST["idCampanaEliminarBono"])){
+
+	$eliminarCampana = new AjaxCampanas();
+	$eliminarCampana -> idCampanaEliminarBono = $_POST["idCampanaEliminarBono"];
+	$eliminarCampana -> ajaxEliminarCampanaBono();
 
 }
 

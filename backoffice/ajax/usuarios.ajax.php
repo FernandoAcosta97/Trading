@@ -164,6 +164,12 @@ class AjaxUsuarios
     {
         $patrocinador=$this->patrocinador;
 
+        $usuarioPatrocinador = ControladorUsuarios::ctrMostrarUsuarios("enlace_afiliado", $patrocinador);
+
+        $respuesta="error";
+
+        if($usuarioPatrocinador!=""){
+
         $validarPatrocinador = ControladorUsuarios::ctrMostrarUsuarios("enlace_afiliado", $patrocinador);
 
         if (!$validarPatrocinador) {
@@ -220,6 +226,7 @@ class AjaxUsuarios
         // $url = "http://localhost/www/trading/backoffice/index.php?pagina=perfil&id=".urlencode($valor);
 
         // echo $url;
+    }
         echo $respuesta;
 
     }

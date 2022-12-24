@@ -39,7 +39,7 @@
 				<button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#cambiarFoto">Cambiar foto</button>
 				<?php endif ?> -->
 				<?php if($usuario["perfil"]!="admin"): ?>
-				<button class="btn btn-primary btn-sm" data-toggle="modal" id="cambiarTelefono" data-target="#modalCambiarTelefono" idUsuario="<?php echo $usuario["id_usuario"] ?>">Cambiar número de teléfono</button>
+				<button class="btn btn-primary btn-sm" data-toggle="modal" id="actualizarDatos" data-target="#modalActualizarDatos" idUsuario="<?php echo $usuario["id_usuario"] ?>">Actualizar datos</button>
 				<?php endif ?>
 				<button class="btn btn-purple btn-sm" data-toggle="modal" data-target="#cambiarPassword">Cambiar contraseña</button>
 
@@ -185,11 +185,11 @@ Cambiar Contraseña
 
 
 <!--=====================================
-Cambiar Telefono
+Actualizar Datos nombre y telefono
 ======================================-->
 
 <!-- The Modal -->
-<div class="modal" id="modalCambiarTelefono">
+<div class="modal" id="modalActualizarDatos">
   <div class="modal-dialog">
     <div class="modal-content">
 
@@ -197,7 +197,7 @@ Cambiar Telefono
 
 	      <!-- Modal Header -->
 	      <div class="modal-header">
-	        <h4 class="modal-title">Cambiar número de teléfono</h4>
+	        <h4 class="modal-title">Actualizar mis datos</h4>
 	        <button type="button" class="close" data-dismiss="modal">&times;</button>
 	      </div>
 
@@ -205,8 +205,16 @@ Cambiar Telefono
 	      <div class="modal-body">
 
 	      	<input type="hidden" name="idUsuario" value="<?php echo $usuario["id_usuario"] ?>">
+
+			<div class="form-group">
+
+				<label for="editarNombre">Nombre Completo:</label>
+
+				<input type="text" class="form-control" id="editarNombre" name="editarNombre" required>
+
+			</div>
 	        
-              <div class="form-group">
+            <div class="form-group">
 
                   <label for="editarMovil" class="control-label">Teléfono Móvil</label>
 
@@ -220,7 +228,7 @@ Cambiar Telefono
 
                 </div>
 
-              </div>
+            </div>
 
 	      </div>
 
@@ -243,8 +251,8 @@ Cambiar Telefono
 
 		 <?php
 
-			$cambiarTelefono = new ControladorUsuarios();
-			$cambiarTelefono -> ctrCambiarTelefono();
+			$actualizarDatos = new ControladorUsuarios();
+			$actualizarDatos -> ctrActualizarDatos();
 
 		?> 
 

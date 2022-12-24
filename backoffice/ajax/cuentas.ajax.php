@@ -63,40 +63,6 @@ class AjaxCuentas{
 
 	}
 
-	/*=============================================
-	Suscripción con Paypal
-	=============================================*/	
-	public $suscripcion;
-	public $nombre;
-	public $email;
-	public $documento;
-
-	public function ajaxSuscripcion(){
-
-		$ruta = ControladorGeneral::ctrRuta();
-		//$valorSuscripcion = ControladorGeneral::ctrValorSuscripcion();
-		$fecha = substr(date("c"), 0, -6)."Z";
-		$valor = $this->documento;
-		$url = "http://localhost/www/trading/backoffice/index.php?pagina=perfil&id=".urlencode($valor);
-
-		echo $url;
-
-	}
-
-	/*=============================================
-	Cancelar Suscripción
-	=============================================*/	
-	public $idUsuario;
-
-	public function ajaxCancelarSuscripcion(){
-
-		$valor = $this->idUsuario;
-
-		$respuesta = ControladorUsuarios::ctrCancelarSuscripcion($valor);
-
-		echo $respuesta;
-
-	}
 
 	/*=============================================
 	EDITAR CUENTA
@@ -116,16 +82,16 @@ class AjaxCuentas{
 	}
 
 	/*=============================================
-    Eliminar Usuario
+    Eliminar Cuenta bancaria
     =============================================*/	
 
-	public $idUsuarioEliminar;
+	public $idCuentaEliminar;
 
-	public function ajaxEliminarUsuario(){
+	public function ajaxEliminarCuenta(){
 
-		$valor = $this->idUsuarioEliminar;
+		$valor = $this->idCuentaEliminar;
 
-		$respuesta = ControladorUsuarios::ctrEliminarUsuario($valor);
+		$respuesta = ControladorCuentas::ctrEliminarCuenta($valor);
 
 		echo $respuesta;
 
@@ -160,45 +126,6 @@ if(isset($_POST["aprobadoIdCuenta"])){
 
 
 /*=============================================
-OPERAR USUARIO
-=============================================*/	
-
-if(isset($_POST["operarUsuario"])){
-
-	$operarUsuario = new AjaxUsuarios();
-	$operarUsuario -> operarUsuario = $_POST["operarUsuario"];
-	$operarUsuario -> operarId = $_POST["operarId"];
-	$operarUsuario -> ajaxOperarUsuario();
-
-}
-
-/*=============================================
-Suscripción con Paypal
-=============================================*/	
-
-if(isset($_POST["suscripcion"]) && $_POST["suscripcion"] == "ok"){
-
-	$paypal = new AjaxUsuarios();
-	$paypal -> nombre = $_POST["nombre"];
-	$paypal -> email = $_POST["email"];
-	$paypal -> documento = $_POST["documento"];
-	$paypal -> ajaxSuscripcion();
-
-}
-
-/*=============================================
-Cancelar Suscrpción
-=============================================*/	
-
-if(isset($_POST["idUsuario"])){
-
-	$cancelarSuscripcion = new AjaxUsuarios();
-	$cancelarSuscripcion -> idUsuario = $_POST["idUsuario"];
-	$cancelarSuscripcion -> ajaxCancelarSuscripcion();
-
-}
-
-/*=============================================
 EDITAR CUENTA
 =============================================*/
 if(isset($_POST["idCuentaEditar"])){
@@ -210,14 +137,14 @@ if(isset($_POST["idCuentaEditar"])){
 }
 
 /*=============================================
-Eliminar Usuario
+Eliminar Campaña
 =============================================*/	
 
-if(isset($_POST["idUsuarioEliminar"])){
+if(isset($_POST["idCuentaEliminar"])){
 
-	$eliminarUsuario = new AjaxUsuarios();
-	$eliminarUsuario -> idUsuarioEliminar = $_POST["idUsuarioEliminar"];
-	$eliminarUsuario -> ajaxEliminarUsuario();
+	$eliminarCuenta = new AjaxCuentas();
+	$eliminarCuenta -> idCuentaEliminar = $_POST["idCuentaEliminar"];
+	$eliminarCuenta -> ajaxEliminarCuenta();
 
 }
 

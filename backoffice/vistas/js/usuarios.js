@@ -316,8 +316,6 @@ $(".suscribirse").click(function () {
       },
       success: function (respuesta) {
 
-        console.log(respuesta);
-
         if (respuesta == "ok") {
 			
           swal({
@@ -959,11 +957,15 @@ $(".tablaUsuarios tbody").on("click", "button.btnEditarUsuario", function () {
     processData: false,
     dataType: "json",
     success: function (respuesta) {
+      t = respuesta["telefono_movil"].split(" ");
+      tel = t[1]+t[2];
+      indicativo = t[0];
       $("#editarUsuario").val(respuesta["id_usuario"]);
       $("#editarNombre").val(respuesta["nombre"]);
       $("#editarEmail").val(respuesta["email"]);
       $("#editarPerfil").val(respuesta["perfil"]);
-      $("#editarMovil").val(respuesta["telefono_movil"]);
+      $("#editarMovil").val(tel);
+      $(".dialCode").html(indicativo);
       $("#passwordActual").val(respuesta["password"]);
     },
   });
@@ -1014,9 +1016,9 @@ $(".tablaUsuarios tbody").on("click", "button.btnEliminarUsuario", function () {
 });
 
 /*=============================================
-EDITAR TELEFONO
+ACTUALIZAR DATOS USUARIO
 =============================================*/
-$("#cambiarTelefono").click(function () {
+$("#actualizarDatos").click(function () {
   var idUsuario = $(this).attr("idUsuario");
 
   var datos = new FormData();
@@ -1031,10 +1033,20 @@ $("#cambiarTelefono").click(function () {
     processData: false,
     dataType: "json",
     success: function (respuesta) {
-      $("#editarMovil").val(respuesta["telefono_movil"]);
+
+      t = respuesta["telefono_movil"].split(" ");
+      tel = t[1]+t[2];
+      indicativo = t[0];
+
+      $(".dialCode").html(indicativo);
+      $("#editarMovil").val(t);
+      $("#editarNombre").val(respuesta["nombre"]);
     },
   });
 });
+
+
+
 
 /*=============================================
 COPIAR EN EL CLIPBOARD

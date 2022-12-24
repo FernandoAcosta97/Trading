@@ -18,7 +18,7 @@ class TablaComprobantes {
         $campana = "";
 
         $campanas = ControladorCampanas::ctrMostrarCampanasNoFinalizadas();
-
+        
         if(isset($_GET["campana"])){
             $item = "campana";
             $valor = $_GET["campana"];

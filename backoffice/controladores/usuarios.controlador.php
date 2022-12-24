@@ -14,6 +14,10 @@ Class ControladorUsuarios{
 
 		if(isset($_POST["registroUsuario"])){
 
+			$existe_usuario=ModeloUsuarios::mdlMostrarUsuarios("usuarios","usuario",$_POST["registroUsuario"]);
+
+			if($existe_usuario==""){
+
 			$ruta = ControladorRuta::ctrRuta();
 
 			if(preg_match('/^[-_a-zA-ZñÑáéíóúÁÉÍÓÚ0-9. ]+$/', $_POST["registroUsuario"]) && preg_match('/^[-_a-zA-ZñÑáéíóúÁÉÍÓÚ0-9. ]+$/', $_POST["registroNombre"]) &&
@@ -188,6 +192,8 @@ Class ControladorUsuarios{
 
 
 			}
+
+		}
 
 		}
 
@@ -1138,22 +1144,24 @@ Class ControladorUsuarios{
 
 
 	/*=============================================
-	Cambiar número de telefono
+	Actualizar nombre y número de télefono usuario
 	=============================================*/
 
-	public function ctrCambiarTelefono(){
+	public function ctrActualizarDatos(){
 
-		if(isset($_POST["editarMovil"])){	
+		if(isset($_POST["editarNombre"])){	
 
-			if(preg_match('/^[0-9-() ]+$/', $_POST["editarMovil"])){
+			if(preg_match('/^[-_a-zA-ZñÑáéíóúÁÉÍÓÚ0-9. ]+$/', $_POST["editarNombre"]) && preg_match('/^[0-9-() ]+$/', $_POST["editarMovil"])){
 
 
 				$tabla = "usuarios";
 				$id = $_POST["idUsuario"];
 				$item = "telefono_movil";
 				$valor = $_POST["editarMovil"];
+				$item2 = "nombre";
+				$valor2 = $_POST["editarNombre"];
 
-				$respuesta = ModeloUsuarios::mdlActualizarUsuario($tabla, $id, $item, $valor);
+				$respuesta = ModeloUsuarios::mdlActualizarDatos($tabla, $id, $item, $valor, $item2, $valor2);
 
 				if($respuesta == "ok"){
 
@@ -1162,7 +1170,7 @@ Class ControladorUsuarios{
 						swal({
 							type:"success",
 						  	title: "¡CORRECTO!",
-						  	text: "¡El número de teléfono ha sido actualizada!",
+						  	text: "¡Los datos han sido actualizados!",
 						  	showConfirmButton: true,
 							confirmButtonText: "Cerrar"
 						  
@@ -1244,63 +1252,63 @@ Class ControladorUsuarios{
 
 	}
 
-	/*=============================================
-	registrar cuenta bancaria
-	=============================================*/
+	// /*=============================================
+	// registrar cuenta bancaria
+	// =============================================*/
 
-	public function ctrRegistrarCuentaBancaria(){
+	// public function ctrRegistrarCuentaBancaria(){
 
-		$tabla = "cuentas_bancarias";
+	// 	$tabla = "cuentas_bancarias";
 
-		if(isset($_POST["idUsuarioCuentaRegistrar"])){
+	// 	if(isset($_POST["idUsuarioCuentaRegistrar"])){
 
-			if(preg_match('/^[0-9]+$/', $_POST["registrarNumeroCuenta"])&&
-			preg_match('/^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["registrarNombreTitular"])
-			 && preg_match('/^[0-9]+$/', $_POST["registrarNumeroTitular"]) &&
-			preg_match('/^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["registrarEntidadCuenta"]) ){
+	// 		if(preg_match('/^[0-9]+$/', $_POST["registrarNumeroCuenta"])&&
+	// 		preg_match('/^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["registrarNombreTitular"])
+	// 		 && preg_match('/^[0-9]+$/', $_POST["registrarNumeroTitular"]) &&
+	// 		preg_match('/^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["registrarEntidadCuenta"]) ){
 
-				$datos = array(	"titular" => $_POST["registrarNumeroTitular"],
-				"nombreTitular" => $_POST["registrarNombreTitular"],
-				"usuario" => $_POST["idUsuarioCuentaRegistrar"],
-				"estado" => 1,
-				"tipo" => $_POST["registrarTipoCuenta"],
-				"entidad" => $_POST["registrarEntidadCuenta"],
-				"numero" => $_POST["registrarNumeroCuenta"]);
+	// 			$datos = array(	"titular" => $_POST["registrarNumeroTitular"],
+	// 			"nombreTitular" => $_POST["registrarNombreTitular"],
+	// 			"usuario" => $_POST["idUsuarioCuentaRegistrar"],
+	// 			"estado" => 1,
+	// 			"tipo" => $_POST["registrarTipoCuenta"],
+	// 			"entidad" => $_POST["registrarEntidadCuenta"],
+	// 			"numero" => $_POST["registrarNumeroCuenta"]);
 				
 				
-		$respuesta = ModeloUsuarios::mdlRegistrarCuentaBancaria($tabla, $datos);
+	// 	$respuesta = ModeloUsuarios::mdlRegistrarCuentaBancaria($tabla, $datos);
 
-		if($respuesta == "ok"){
-			echo '<script>
+	// 	if($respuesta == "ok"){
+	// 		echo '<script>
 
-							swal({
+	// 						swal({
 
-								type:"success",
-								title: "REGISTRO EXITOSO",
-								text: "¡SU CUENTA BANCARIA HA SIDO CREADA CORRECTAMENTE!",
-								showConfirmButton: true,
-								confirmButtonText: "Cerrar"
+	// 							type:"success",
+	// 							title: "REGISTRO EXITOSO",
+	// 							text: "¡SU CUENTA BANCARIA HA SIDO CREADA CORRECTAMENTE!",
+	// 							showConfirmButton: true,
+	// 							confirmButtonText: "Cerrar"
 
-							}).then(function(result){
+	// 						}).then(function(result){
 
-								if(result.value){
+	// 							if(result.value){
 
-									window.location = "cuentas-bancarias";
+	// 								window.location = "cuentas-bancarias";
 
-								}
-
-
-							});	
-
-						</script>';
-		}
-
-				}
-			}
+	// 							}
 
 
+	// 						});	
 
-	}
+	// 					</script>';
+	// 	}
+
+	// 			}
+	// 		}
+
+
+
+	// }
 
 
 
