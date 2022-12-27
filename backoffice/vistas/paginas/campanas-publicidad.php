@@ -7,12 +7,12 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>Campañas</h1>
+          <h1>Campañas publicidad</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="inicio">Inicio</a></li>
-            <li class="breadcrumb-item active">Campañas</li>
+            <li class="breadcrumb-item active">Campañas publicidad</li>
           </ol>
         </div>
       </div>
@@ -28,7 +28,7 @@
 
       <div class="card-header">
 
-        <h3 class="card-title">Campañas registradas</h3>
+        <h3 class="card-title">Campañas publicidad registradas</h3>
 
         <?php if ($usuario["perfil"] == "admin"): ?>
 
@@ -50,7 +50,7 @@
       <div class="card-body">
 
 
-        <table id="tablaCampanas" class="table table-striped table-bordered dt-responsive tablaCampanas" width="100%">
+        <table id="tablaCampanasPublicidad" class="table table-striped table-bordered dt-responsive tablaCampanasPublicidad" width="100%">
 
           <thead>
             <tr>
@@ -102,14 +102,14 @@ EDITAR CAMPAÑA
 
 	      <!-- Modal Header -->
 	      <div class="modal-header">
-	        <h4 class="modal-title">Editar campaña</h4>
+	        <h4 class="modal-title">Editar campaña publicitaria</h4>
 	        <button type="button" class="close" data-dismiss="modal">&times;</button>
 	      </div>
 
 	      <!-- Modal body -->
 	      <div class="modal-body">
 
-        <input type="hidden" name="tipoCampanaEditar" value="1"></input>
+        <input type="hidden" name="tipoCampanaEditar" value="3"></input>
 
 	      	<input type="hidden" id="idCampana" name="idCampanaEditar">
 
@@ -238,7 +238,7 @@ REGISTRAR CAMPAÑA
 
 	      <!-- Modal Header -->
 	      <div class="modal-header">
-	        <h4 class="modal-title">Registrar Campaña</h4>
+	        <h4 class="modal-title">Registrar Campaña Publicitaria</h4>
 	        <button type="button" class="close" data-dismiss="modal">&times;</button>
 	      </div>
 
@@ -247,7 +247,7 @@ REGISTRAR CAMPAÑA
 
         <div class="form-group">
 
-        <input type="hidden" name="tipoCampana" value="1"></input>
+        <input type="hidden" name="tipoCampana" value="3"></input>
 
               <!-- ENTRADA PARA EL NOMBRE-->
               <div class="form-group">
@@ -269,7 +269,7 @@ REGISTRAR CAMPAÑA
 
               <div>
 
-              <input type="number" class="form-control" id="registroRetorno" name="registroRetorno" placeholder="Retorno campaña ej: 20%" required>
+              <input type="number" class="form-control" id="registroRetorno" name="registroRetorno" placeholder="Retorno publicidad" required>
 
               </div>
 
@@ -375,7 +375,7 @@ REGISTRAR COMPROBANTE
 
 	      <!-- Modal Header -->
 	      <div class="modal-header">
-	        <h4 class="modal-title">Registrar comprobante</h4>
+	        <h4 class="modal-title">Cargar</h4>
 	        <button type="button" class="close" data-dismiss="modal">&times;</button>
 	      </div>
 
@@ -385,18 +385,6 @@ REGISTRAR COMPROBANTE
         <input type="hidden" value="<?php echo $usuario["doc_usuario"]; ?>" name="doc_usuario">
 
         <input type="hidden" id="id_campana" name="id_campana">
-
-              <div class="form-group">
-
-                  <label for="registrarValor" class="control-label">Valor</label>
-
-                <div>
-
-                  <input type="number" class="form-control" id="registrarValor" name="registrarValor" placeholder="Valor comprobante" required>
-
-                </div>
-
-              </div>
 
               <div class="form-group">
 

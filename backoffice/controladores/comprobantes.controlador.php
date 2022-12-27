@@ -18,8 +18,14 @@ class ControladorComprobantes
 
         // $cuentas = ControladorCuentas::ctrMostrarCuentasAll("usuario", $usu["id_usuario"]);
 
+        if(isset($_POST["registrarValor"])){
+            $valor_comprobante = $_POST["registrarValor"];
+        }else{
+            $valor_comprobante=0;
+        }
+
     
-            if (preg_match('/^[0-9]+$/', $_POST["registrarValor"])) {
+            if (preg_match('/^[0-9]+$/', $valor_comprobante)) {
 
                 /*=============================================
                 VALIDAR IMAGEN
@@ -90,7 +96,7 @@ class ControladorComprobantes
 
 
                 $tabla = "comprobantes";
-                $datos = array("valor" => $_POST["registrarValor"],
+                $datos = array("valor" => $valor_comprobante,
                     "estado" => $_POST["registrarEstado"],
                     "foto" => $ruta,
                     "doc_usuario" => $_POST["doc_usuario"],
@@ -104,13 +110,19 @@ class ControladorComprobantes
 
                     $cuentas = ControladorCuentas::ctrMostrarCuentasAll("usuario", $usuario["id_usuario"]);
 
+                    $campana = ControladorCampanas::ctrMostrarCampanas("id", $_POST["id_campana"]);
+
                     $dir = "comprobantes";
 
                     if(count($cuentas)==0){
 
                         $dir = "cuentas-bancarias";
 
+                    }else if($campana["tipo"]==3){
+                         
+                        $dir = "comprobantes-publicidad";
                     }
+
 
                         echo '<script>
 
@@ -178,6 +190,39 @@ class ControladorComprobantes
         $tabla = "comprobantes";
 
         $respuesta = ModeloComprobantes::mdlMostrarComprobantes($tabla, $item, $valor);
+
+        return $respuesta;
+
+    }
+
+     /*=============================================
+    Mostrar Comprobantes x Tipo
+    =============================================*/
+
+    public static function ctrMostrarComprobantesxTipo($item, $valor, $item2, $valor2)
+    {
+
+        $tabla = "comprobantes";
+        $tabla2 = "campanas";
+
+        $respuesta = ModeloComprobantes::mdlMostrarComprobantesxTipo($tabla, $tabla2, $item, $valor, $item2, $valor2);
+
+        return $respuesta;
+
+    }
+
+
+     /*=============================================
+    Mostrar Comprobantes x Tipo x estado
+    =============================================*/
+
+    public static function ctrMostrarComprobantesxTipoxEstado($item, $valor, $item2, $valor2, $item3, $valor3)
+    {
+
+        $tabla = "comprobantes";
+        $tabla2 = "campanas";
+
+        $respuesta = ModeloComprobantes::mdlMostrarComprobantesxTipoxEstado($tabla, $tabla2, $item, $valor, $item2, $valor2, $item3, $valor3);
 
         return $respuesta;
 
@@ -406,6 +451,25 @@ class ControladorComprobantes
                         unlink($rutaFotoActual);
 					}
 
+                    $usuario = ControladorUsuarios::ctrMostrarUsuarios("doc_usuario", $_POST["doc_usuario"]);
+
+                    $cuentas = ControladorCuentas::ctrMostrarCuentasAll("usuario", $usuario["id_usuario"]);
+
+                    $comprobante = ControladorComprobantes::ctrMostrarComprobantes("id", $_POST["editarComprobante"]);
+
+                    $campana = ControladorCampanas::ctrMostrarCampanas("id", $comprobante[0]["campana"]);
+
+                    $dir = "comprobantes";
+
+                    if(count($cuentas)==0){
+
+                        $dir = "cuentas-bancarias";
+
+                    }else if($campana["tipo"]==3){
+                         
+                        $dir = "comprobantes-publicidad";
+                    }
+
                     echo '<script>
 
                         swal({
@@ -416,7 +480,7 @@ class ControladorComprobantes
                               }).then(function(result){
                                         if (result.value) {
     
-                                        
+                                        window.location = "'.$dir.'";
     
                                         }
                                     })

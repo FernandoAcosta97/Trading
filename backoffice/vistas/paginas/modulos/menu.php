@@ -110,6 +110,14 @@
           </a>
         </li>
 
+
+        <li class="nav-item">
+          <a href="campanas-publicidad" class="nav-link">
+            <i class="nav-icon fas fa-money-bill"></i>
+            <p>Publicidad</p>
+          </a>
+        </li>
+
         <?php endif ?>
   
 <?php else: ?>
@@ -134,6 +142,12 @@
                 <a href="bonos-extras" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Bonos extras</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="campanas-publicidad" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Publicidad</p>
                 </a>
               </li>
             </ul>
@@ -178,12 +192,36 @@
        Botón Comprobantes
        ======================================-->
 
-       <li class="nav-item">
+       <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fa fa-file-invoice"></i>
+              <p>
+              Comprobantes
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="comprobantes" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Inversiones</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="comprobantes-publicidad" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Publicidad</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+       <!-- <li class="nav-item">
             <a href="comprobantes" class="nav-link">
               <i class="nav-icon fa fa-file-invoice"></i>
               <p>Comprobantes</p>
             </a>
-          </li>
+          </li> -->
 
 
         <!--=====================================
@@ -283,6 +321,12 @@
                 <a href="pagos-extras" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Pagar bienvenida</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="pagos-publicidad" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Pagar publicidad</p>
                 </a>
               </li>
             </ul>

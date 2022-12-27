@@ -41,6 +41,49 @@ $(".tablaComprobantes").DataTable({
 });
 
 
+
+/*=============================================
+TABLA COMPROBANTES PUBLICIDAD
+=============================================*/
+
+var doc_usuario = $("#doc_usuario").val();
+seleccion = $("#selectFiltroPublicidad").val();
+
+$(".tablaComprobantesPublicidad").DataTable({
+	"ajax":"ajax/tabla-comprobantes.ajax.php?doc_usuario="+doc_usuario+"&estado="+seleccion+"&tipo=3",
+ 	"deferRender": true,
+  	"retrieve": true,
+  	"processing": true,
+	"language": {
+
+	    "sProcessing":     "Procesando...",
+	    "sLengthMenu":     "Mostrar _MENU_ registros",
+	    "sZeroRecords":    "No se encontraron resultados",
+	    "sEmptyTable":     "Ningún dato disponible en esta tabla",
+	    "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
+	    "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0",
+	    "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+	    "sInfoPostFix":    "",
+	    "sSearch":         "Buscar:",
+	    "sUrl":            "",
+	    "sInfoThousands":  ",",
+	    "sLoadingRecords": "Cargando...",
+	    "oPaginate": {
+	      "sFirst":    "Primero",
+	      "sLast":     "Último",
+	      "sNext":     "Siguiente",
+	      "sPrevious": "Anterior"
+	    },
+	    "oAria": {
+	        "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+	        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+	    }
+
+   }
+
+});
+
+
 /*=============================================
 TABLA COMPROBANTES APROBADOS
 =============================================*/
@@ -129,6 +172,12 @@ $("#selectFiltro").on("change", function (){
 	    
 });
 
+$("#selectFiltroPublicidad").on("change", function (){
+
+	seleccionarFiltroPublicidad(null,null);
+	    
+});
+
 $("#selectFiltro2").on("change", function (){
 
 	filtroComprobatesCampana();
@@ -148,6 +197,51 @@ function seleccionarFiltro(fechaInicial, fechaFinal){
 
 		tabla = $(".tablaComprobantes").DataTable({
 			ajax: "ajax/tabla-comprobantes.ajax.php?doc_usuario="+doc_usuario+"&estado="+seleccion+"&inicio="+fechaInicial+"&fin="+fechaFinal,
+			deferRender: true,
+			retrieve: true,
+			processing: true,
+			language: {
+			  sProcessing: "Procesando...",
+			  sLengthMenu: "Mostrar _MENU_ registros",
+			  sZeroRecords: "No se encontraron resultados",
+			  sEmptyTable: "Ningún dato disponible en esta tabla",
+			  sInfo: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
+			  sInfoEmpty: "Mostrando registros del 0 al 0 de un total de 0",
+			  sInfoFiltered: "(filtrado de un total de _MAX_ registros)",
+			  sInfoPostFix: "",
+			  sSearch: "Buscar:",
+			  sUrl: "",
+			  sInfoThousands: ",",
+			  sLoadingRecords: "Cargando...",
+			  oPaginate: {
+				sFirst: "Primero",
+				sLast: "Último",
+				sNext: "Siguiente",
+				sPrevious: "Anterior",
+			  },
+			  oAria: {
+				sSortAscending: ": Activar para ordenar la columna de manera ascendente",
+				sSortDescending:
+				  ": Activar para ordenar la columna de manera descendente",
+			  },
+			},
+		  });
+
+
+}
+
+
+function seleccionarFiltroPublicidad(fechaInicial, fechaFinal){
+
+	seleccion = $("#selectFiltroPublicidad").val();
+
+	tabla = $(".tablaComprobantesPublicidad");
+	tbody = $(".tablaComprobantesPublicidad tbody");
+	tbody.empty();
+	tabla = tabla.dataTable().fnDestroy();
+
+		tabla = $(".tablaComprobantesPublicidad").DataTable({
+			ajax: "ajax/tabla-comprobantes.ajax.php?doc_usuario="+doc_usuario+"&estado="+seleccion+"&tipo=3&inicio="+fechaInicial+"&fin="+fechaFinal,
 			deferRender: true,
 			retrieve: true,
 			processing: true,
@@ -446,6 +540,38 @@ $(".editarFotoComprobante").change(function(){
   })
 
 
+  $(".tablaComprobantesPublicidad").on("click","button.btnEditarComprobante",function(){
+
+	var idComprobante = $(this).attr("idComprobante");
+  
+	var datos = new FormData();
+	datos.append("idComprobanteEditar",idComprobante);
+  
+	$.ajax({
+  
+	 url:"ajax/comprobantes.ajax.php",
+	 method:"POST",
+	 data:datos,
+	 cache:false,
+	 contentType:false,
+	 processData:false,
+	 dataType:"json",
+	 success:function(respuesta){
+
+      $("#editarComprobante").val(respuesta[0]["id"]);
+	  $("#docUsuario").val(respuesta[0]["doc_usuario"]);
+	  $("#editarValor").val(respuesta[0]["valor"]);
+      $("#fotoActualComprobante").val(respuesta[0]["foto"]);
+	  $("#previsualizarEditar").attr("src", respuesta[0]["foto"]);
+
+  
+	}
+  
+  });
+  
+  })
+
+
   $(".tablaComprobantesCampana").on("click","button.btnEditarComprobante",function(){
 
 	var idComprobante = $(this).attr("idComprobante");
@@ -512,6 +638,37 @@ $(".tablaComprobantes tbody").on("change","select.selectAprobado",function(){
 /*=============================================
 APROBADO O RECHAZADO COMPROBANTE
 =============================================*/
+$(".tablaComprobantesPublicidad tbody").on("change","select.selectAprobado",function(){
+
+	var idComprobante = $(this).attr("idComprobante");
+	var seleccionado = $(this).val();
+
+	var datos = new FormData();
+ 	datos.append("aprobadoIdComprobante", idComprobante);
+    datos.append("aprobadoComprobante", seleccionado);
+
+  	$.ajax({
+
+	  url:"ajax/comprobantes.ajax.php",
+	  method: "POST",
+	  data: datos,
+	  cache: false,
+      contentType: false,
+      processData: false,
+      success: function(respuesta){
+
+      }
+
+  	})
+
+
+})
+
+
+
+/*=============================================
+APROBADO O RECHAZADO COMPROBANTE
+=============================================*/
 $(".tablaComprobantesCampana tbody").on("change","select.selectAprobado",function(){
 
 	var idComprobante = $(this).attr("idComprobante");
@@ -543,6 +700,36 @@ $(".tablaComprobantesCampana tbody").on("change","select.selectAprobado",functio
 CAMBIAR CAMPAÑA SELECT
 =============================================*/
 $(".tablaComprobantes tbody").on("change","select.selectCampana",function(){
+
+	var idCampana = $(this).val();
+	var idComprobante = $(this).attr("idComprobante");
+
+	var datos = new FormData();
+    datos.append("cambiarCampanaComprobante", idComprobante);
+	datos.append("idCampana", idCampana);
+
+  	$.ajax({
+
+	  url:"ajax/comprobantes.ajax.php",
+	  method: "POST",
+	  data: datos,
+	  cache: false,
+      contentType: false,
+      processData: false,
+      success: function(respuesta){
+
+      }
+
+  	})
+
+
+})
+
+
+/*=============================================
+CAMBIAR CAMPAÑA SELECT
+=============================================*/
+$(".tablaComprobantesPublicidad tbody").on("change","select.selectCampana",function(){
 
 	var idCampana = $(this).val();
 	var idComprobante = $(this).attr("idComprobante");
@@ -606,8 +793,21 @@ $(".tablaComprobantes tbody").on("click", "button.btnSoporte", function () {
   });
 
 
+  $(".tablaComprobantesPublicidad tbody").on("click", "button.btnSoporte", function () {
+  
+	window.location = "soporte";
+  });
+
+
 
   $(".tablaComprobantes tbody").on("click", "img.fotoComprobante", function () {
+  
+	foto = $(this).attr("src");
+	$(".previsualizarFotoComprobante").attr("src", foto);
+  });
+
+
+  $(".tablaComprobantesPublicidad tbody").on("click", "img.fotoComprobante", function () {
   
 	foto = $(this).attr("src");
 	$(".previsualizarFotoComprobante").attr("src", foto);

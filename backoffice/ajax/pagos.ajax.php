@@ -69,6 +69,49 @@ class AjaxPagos{
 	}
 
 
+
+	/*=============================================
+	Cambiar estado pago publicidad
+	=============================================*/	
+
+	public $idPagoPublicidad;
+
+	public function ajaxEstadoPagoPublicidad(){
+
+		$estado = 1;
+
+		$id = $this->idPagoPublicidad;
+
+		$pago = ControladorPagos::ctrMostrarPagosPublicidad("id", $id);
+
+		if($pago["estado"]==0){
+
+		$comprobante = ControladorComprobantes::ctrMostrarComprobantes("id", $pago["id_comprobante"]);
+
+		$campana = ControladorCampanas::ctrMostrarCampanas("id", $comprobante[0]["campana"]);
+
+		$usuario = ControladorUsuarios::ctrMostrarUsuarios("doc_usuario", $comprobante[0]["doc_usuario"]);
+
+		$cuenta = ControladorCuentas::ctrMostrarCuentasxEstado("usuario",$usuario["id_usuario"],"estado",1);
+
+		$id_cuenta = $cuenta["id"];
+
+		$total=$campana["retorno"];
+
+		$datos = array("id" => $id,
+		"estado" => $estado,
+		"valor" => $total,
+		"id_cuenta" => $cuenta["id"]);
+
+		return $respuesta = ControladorPagos::ctrActualizarPagoPublicidad($datos);
+
+		}else{
+			echo "pagado";
+		}
+
+	}
+
+
 	/*=============================================
 	Cambiar estado pago Comision
 	=============================================*/	
@@ -188,7 +231,15 @@ class AjaxPagos{
 
 				$id_usuario=$usuario["id_usuario"];
 				
-			}else if($tipoPago=="bonos"){	
+			}else if($tipoPago=="publicidad"){
+				$pago = ControladorPagos::ctrMostrarPagosPublicidad("id",$arrayPagos[$i]);
+
+				$comprobante = ControladorComprobantes::ctrMostrarComprobantes("id",$pago["id_comprobante"]);
+
+				$usuario=ControladorUsuarios::ctrMostrarUsuarios("doc_usuario", $comprobante[0]["doc_usuario"]);
+
+				$id_usuario=$usuario["id_usuario"];
+		}else if($tipoPago=="bonos"){	
 
 				$pago = ControladorPagos::ctrMostrarPagosExtras("id", $arrayPagos[$i]);
 
@@ -312,6 +363,19 @@ if(isset($_POST["idPagoInversion"])){
 	$pagoInversion = new AjaxPagos();
 	$pagoInversion -> idPagoInversion = $_POST["idPagoInversion"];
 	$pagoInversion -> ajaxEstadoPagoInversion();
+
+}
+
+
+/*=============================================
+Cambiar estado pago publicidad
+=============================================*/	
+
+if(isset($_POST["idPagoPublicidad"])){
+
+	$pagoPublicidad = new AjaxPagos();
+	$pagoPublicidad -> idPagoPublicidad = $_POST["idPagoPublicidad"];
+	$pagoPublicidad -> ajaxEstadoPagoPublicidad();
 
 }
 

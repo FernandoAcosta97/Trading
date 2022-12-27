@@ -84,7 +84,7 @@ class ModeloUsuarios
 
         if ($item != null && $valor != null) {
 
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item");
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item AND eliminado=0");
 
             $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
 
@@ -93,7 +93,7 @@ class ModeloUsuarios
             return $stmt->fetch();
         } else {
 
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla ORDER BY 'id_usuario' ASC");
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE eliminado=0 ORDER BY 'id_usuario' ASC");
 
             $stmt->execute();
 
@@ -112,7 +112,7 @@ class ModeloUsuarios
 
     public static function mdlMostrarMostrarUltimosUsuariosRegistrados($tabla)
     {
-        $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla ORDER BY fecha_contrato DESC LIMIT 5");
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE eliminado=0 ORDER BY fecha_contrato DESC LIMIT 5");
 
         $stmt->execute();
 
@@ -130,7 +130,7 @@ class ModeloUsuarios
     public static function mdlBuscarUsuarios($tabla, $valor)
     {
         $nombre = "%".$valor."%";
-        $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE doc_usuario = :valor OR nombre like :nombre");
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE eliminado=0 AND (doc_usuario = :valor OR nombre like :nombre)");
 
         $stmt->bindParam(":valor", $valor, PDO::PARAM_STR);
         $stmt->bindParam(":nombre", $nombre, PDO::PARAM_STR);
@@ -148,7 +148,7 @@ class ModeloUsuarios
     public static function mdlMostrarUsuariosFetchAll($tabla, $item, $valor)
     {
 
-        $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item");
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item AND eliminado=0");
 
         $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
 
@@ -172,7 +172,7 @@ class ModeloUsuarios
     public static function mdlTotalUsuarios($tabla)
     {
 
-        $stmt = Conexion::conectar()->prepare("SELECT COUNT(*) FROM $tabla WHERE perfil!='admin'");
+        $stmt = Conexion::conectar()->prepare("SELECT COUNT(*) FROM $tabla WHERE perfil!='admin' AND eliminado=0");
         $stmt->execute();
         return $stmt->fetch();
 
@@ -186,7 +186,7 @@ class ModeloUsuarios
     public static function mdlTotalUsuariosXfiltro($tabla, $item, $valor)
     {
 
-        $stmt = Conexion::conectar()->prepare("SELECT count(*) as total FROM $tabla WHERE $item = trim(:$item) AND perfil!='admin'");
+        $stmt = Conexion::conectar()->prepare("SELECT count(*) as total FROM $tabla WHERE $item = trim(:$item) AND perfil!='admin' AND eliminado=0");
         $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
         $stmt->execute();
         return $stmt->fetch();

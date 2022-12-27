@@ -80,9 +80,17 @@
 
 				<label for="inputPatrocinador" class="control-label">Código Patrocinador</label>
 
+				<?php 
+				$p="";
+				if(isset($_COOKIE["patrocinador"]))
+					{
+						$p = $_COOKIE["patrocinador"];
+					} 
+				?>
+
 				<div>
 
-					<input type="text" class="form-control" id="inputPatrocinador" value="<?php echo $usuario["patrocinador"] ?>" required>
+					<input type="text" class="form-control" id="inputPatrocinador" value="<?php echo $p ?>" required>
 
 				</div>
 

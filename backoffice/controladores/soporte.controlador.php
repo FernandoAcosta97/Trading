@@ -160,14 +160,20 @@ class ControladorSoporte{
 							
 							if($key != 0){
 
-									$datos = array("remitente"=>$_POST["remitente"], 
-												   "receptor"=>$value["id_usuario"], 
-												   "asunto"=>$_POST["asunto"], 
-												   "mensaje"=>$_POST["mensaje"], 
-												   "adjuntos"=>json_encode($adjuntosArray), 
-												   "tipo"=>"enviado");
+							$datos = array("remitente"=>$_POST["remitente"], 
+							"receptor"=>$value["id_usuario"], 
+							"asunto"=>$_POST["asunto"], 
+							"mensaje"=>$_POST["mensaje"], 
+							"adjuntos"=>json_encode($adjuntosArray), 
+							"tipo"=>"enviado");
 
-									$respuesta = ModeloSoporte::mdlCrearTicket($tabla, $datos);
+							$respuesta = ModeloSoporte::mdlCrearTicket($tabla, $datos);
+
+							if($respuesta != "error"){
+
+								$notificacion = ControladorNotificaciones::ctrRegistroNotificaciones("soporte", $value["id_usuario"], $respuesta);
+		
+							}
 
 							}
 
@@ -182,13 +188,19 @@ class ControladorSoporte{
 						foreach ($_POST["receptor"] as $key => $value) {
 
 							$datos = array("remitente"=>$_POST["remitente"], 
-										   "receptor"=>$_POST["receptor"][$key], 
-										   "asunto"=>$_POST["asunto"], 
-										   "mensaje"=>$_POST["mensaje"], 
-										   "adjuntos"=>json_encode($adjuntosArray), 
-										   "tipo"=>"enviado");
+							"receptor"=>$_POST["receptor"][$key], 
+							"asunto"=>$_POST["asunto"], 
+							"mensaje"=>$_POST["mensaje"], 
+							"adjuntos"=>json_encode($adjuntosArray), 
+							"tipo"=>"enviado");
 
 							$respuesta = ModeloSoporte::mdlCrearTicket($tabla, $datos);
+
+							if($respuesta != "error"){
+
+								$notificacion = ControladorNotificaciones::ctrRegistroNotificaciones("soporte", $_POST["receptor"][$key], $respuesta);
+		
+							}
 					
 						}
 
@@ -202,17 +214,23 @@ class ControladorSoporte{
 					=============================================*/
 
 					$datos = array("remitente"=>$_POST["remitente"], 
-							   "receptor"=>$_POST["receptor"], 
-							   "asunto"=>$_POST["asunto"], 
-							   "mensaje"=>$_POST["mensaje"], 
-							   "adjuntos"=>json_encode($adjuntosArray), 
-							   "tipo"=>"enviado");
+					"receptor"=>$_POST["receptor"], 
+					"asunto"=>$_POST["asunto"], 
+					"mensaje"=>$_POST["mensaje"], 
+					"adjuntos"=>json_encode($adjuntosArray), 
+					"tipo"=>"enviado");
 
 					$respuesta = ModeloSoporte::mdlCrearTicket($tabla, $datos);
 
+					if($respuesta != "error"){
+
+						$notificacion = ControladorNotificaciones::ctrRegistroNotificaciones("soporte", $_POST["receptor"], $respuesta);
+
+					}
+
 				}
 
-				if($respuesta == "ok"){
+				if($respuesta != "error"){
 
 					//notificaciones = "tipo:soporte", "id_user_not:$_POST["receptor"]"
 

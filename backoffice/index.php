@@ -27,5 +27,8 @@ require_once "modelos/multinivel.modelo.php";
 require_once "controladores/soporte.controlador.php";
 require_once "modelos/soporte.modelo.php";
 
+require_once "controladores/notificaciones.controlador.php";
+require_once "modelos/notificaciones.modelo.php";
+
 $plantilla = new ControladorPlantilla();
 $plantilla -> ctrPlantilla();

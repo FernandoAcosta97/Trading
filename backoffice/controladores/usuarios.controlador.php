@@ -644,7 +644,7 @@ Class ControladorUsuarios{
 
 			 			echo '<script>
 					
-							window.location = "'.$ruta.'backoffice";				
+							window.location = "'.$ruta.'backoffice/";				
 
 						</script>';
 

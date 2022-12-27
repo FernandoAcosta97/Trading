@@ -30,6 +30,32 @@ class ModeloPagos
     }
 
 
+
+    /*=============================================
+    Registro de Pagos Publicidad
+    =============================================*/
+
+    public static function mdlRegistrarPagosPublicidad($tabla, $datos)
+    {
+        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(id_usuario, id_comprobante, estado) VALUES (:id_usuario, :id_comprobante, :estado)");
+
+        $stmt->bindParam(":id_usuario", $datos["id_usuario"], PDO::PARAM_INT);
+        $stmt->bindParam(":id_comprobante", $datos["id_comprobante"], PDO::PARAM_INT);
+        $stmt->bindParam(":estado", $datos["estado"], PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+
+            return "ok";
+        } else {
+
+            return print_r(Conexion::conectar()->errorInfo());
+        }
+
+        $stmt->close();
+        $stmt = null;
+    }
+
+
      /*=============================================
     Registro de Pagos Comisiones
     =============================================*/
@@ -137,6 +163,38 @@ class ModeloPagos
     =============================================*/
 
     public static function mdlMostrarPagos($tabla, $item, $valor)
+    {
+
+        if ($item != null && $valor !=null) {
+
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item");
+
+            $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
+
+            $stmt->execute();
+
+            return $stmt->fetch();
+
+        } else {
+
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
+
+            $stmt->execute();
+
+            return $stmt->fetchAll();
+        }
+
+        $stmt->close();
+
+        $stmt = null;
+    }
+
+
+     /*=============================================
+    Mostrar Pagos Publicidad
+    =============================================*/
+
+    public static function mdlMostrarPagosPublicidad($tabla, $item, $valor)
     {
 
         if ($item != null && $valor !=null) {
@@ -287,6 +345,28 @@ class ModeloPagos
     }
 
 
+      /*=============================================
+    Mostrar Pagos Publicidad x Estado
+    =============================================*/
+
+    public static function mdlMostrarPagosPublicidadxEstado($tabla, $item, $valor, $item2, $valor2)
+    {
+
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item AND $item2 = :$item2");
+
+        $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
+        $stmt->bindParam(":" . $item2, $valor2, PDO::PARAM_STR);
+
+        $stmt->execute();
+
+        return $stmt->fetch();
+
+        $stmt->close();
+
+        $stmt = null;
+    }
+
+
     /*=============================================
     Mostrar Pagos Comisiones x Estado
     =============================================*/
@@ -412,6 +492,39 @@ class ModeloPagos
     =============================================*/
 
     public static function mdlMostrarPagosAll($tabla, $item, $valor)
+    {
+
+        if ($item != null && $valor !=null) {
+
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item");
+
+            $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
+
+            $stmt->execute();
+
+            return $stmt->fetchAll();
+
+        } else {
+
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
+
+            $stmt->execute();
+
+            return $stmt->fetchAll();
+        }
+
+        $stmt->close();
+
+        $stmt = null;
+    }
+
+
+
+      /*=============================================
+    Mostrar Pagos Publicidad
+    =============================================*/
+
+    public static function mdlMostrarPagosPublicidadAll($tabla, $item, $valor)
     {
 
         if ($item != null && $valor !=null) {
@@ -877,6 +990,35 @@ class ModeloPagos
 
         $stmt = null;
     }
+
+
+
+    /*=============================================
+    Actualizar Estado Pago Publicidad
+    =============================================*/
+
+    public static function mdlActualizarPagoPublicidad($tabla, $datos)
+    {
+
+        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET estado = :estado, valor = :valor, id_cuenta = :id_cuenta WHERE id = :id");
+
+        $stmt->bindParam(":estado", $datos["estado"], PDO::PARAM_INT);
+        $stmt->bindParam(":valor", $datos["valor"], PDO::PARAM_STR);
+        $stmt->bindParam(":id_cuenta", $datos["id_cuenta"], PDO::PARAM_INT);
+        $stmt->bindParam(":id", $datos["id"], PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+
+            return "ok";
+        } else {
+
+            return print_r(Conexion::conectar()->errorInfo());
+        }
+
+        $stmt->close();
+
+        $stmt = null;
+    }
     
 
      /*=============================================
@@ -965,7 +1107,7 @@ class ModeloPagos
     public static function mdlActualizarPagos($tabla, $datos)
     {
 
-        if($datos["tipoPago"]=="comisiones"){
+        if($datos["tipoPago"]=="comisiones" || $datos["tipoPago"]=="publicidad" ){
 
         $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET valor = :valor, estado = :estado, id_cuenta = :id_cuenta WHERE id = :id");
 
@@ -1071,6 +1213,32 @@ class ModeloPagos
     =============================================*/
 
     public static function mdlEliminarPagos($tabla, $id)
+    {
+
+        $stmt = Conexion::conectar()->prepare("DELETE FROM $tabla WHERE id = :id");
+
+        $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+
+            return "ok";
+        } else {
+
+            return print_r(Conexion::conectar()->errorInfo());
+        }
+
+        $stmt->close();
+
+        $stmt = null;
+    }
+
+
+
+     /*=============================================
+    Eliminar pagos puclicidad
+    =============================================*/
+
+    public static function mdlEliminarPagosPublicidad($tabla, $id)
     {
 
         $stmt = Conexion::conectar()->prepare("DELETE FROM $tabla WHERE id = :id");

@@ -315,6 +315,76 @@ $(".tabla-pagar-comisiones tbody").on("click", "button.btnVerComisiones", functi
   });
 
 
+  $(".tabla-pagar-publicidad").DataTable({
+    "ajax":"ajax/tabla-pagos-publicidad.ajax.php",
+    "deferRender": true,
+    "retrieve": true,
+    "processing": true,
+    "language": {
+  
+       "sProcessing":     "Procesando...",
+      "sLengthMenu":     "Mostrar _MENU_ registros",
+      "sZeroRecords":    "No se encontraron resultados",
+      "sEmptyTable":     "Ningún dato disponible en esta tabla",
+      "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
+      "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0",
+      "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+      "sInfoPostFix":    "",
+      "sSearch":         "Buscar:",
+      "sUrl":            "",
+      "sInfoThousands":  ",",
+      "sLoadingRecords": "Cargando...",
+      "oPaginate": {
+        "sFirst":    "Primero",
+        "sLast":     "Último",
+        "sNext":     "Siguiente",
+        "sPrevious": "Anterior"
+      },
+      "oAria": {
+          "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+          "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+      }
+  
+     }
+  
+  });
+
+
+  $(".tabla-publicidad-sin-liquidar").DataTable({
+    "ajax":"ajax/tabla-publicidad-sin-liquidar.ajax.php?usuario="+id_usuario,
+    "deferRender": true,
+    "retrieve": true,
+    "processing": true,
+    "language": {
+  
+       "sProcessing":     "Procesando...",
+      "sLengthMenu":     "Mostrar _MENU_ registros",
+      "sZeroRecords":    "No se encontraron resultados",
+      "sEmptyTable":     "Ningún dato disponible en esta tabla",
+      "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
+      "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0",
+      "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+      "sInfoPostFix":    "",
+      "sSearch":         "Buscar:",
+      "sUrl":            "",
+      "sInfoThousands":  ",",
+      "sLoadingRecords": "Cargando...",
+      "oPaginate": {
+        "sFirst":    "Primero",
+        "sLast":     "Último",
+        "sNext":     "Siguiente",
+        "sPrevious": "Anterior"
+      },
+      "oAria": {
+          "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+          "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+      }
+  
+     }
+  
+  });
+
+
   $(".tabla-extras-sin-liquidar").DataTable({
     "ajax":"ajax/tabla-extras-sin-liquidar.ajax.php?usuario="+id_usuario,
     "deferRender": true,
@@ -387,6 +457,41 @@ $(".tabla-pagar-comisiones tbody").on("click", "button.btnVerComisiones", functi
 
   $(".tabla-inversiones-pagadas").DataTable({
     "ajax":"ajax/tabla-pagos-inversiones-pagadas.ajax.php",
+    "deferRender": true,
+    "retrieve": true,
+    "processing": true,
+    "language": {
+  
+       "sProcessing":     "Procesando...",
+      "sLengthMenu":     "Mostrar _MENU_ registros",
+      "sZeroRecords":    "No se encontraron resultados",
+      "sEmptyTable":     "Ningún dato disponible en esta tabla",
+      "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
+      "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0",
+      "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+      "sInfoPostFix":    "",
+      "sSearch":         "Buscar:",
+      "sUrl":            "",
+      "sInfoThousands":  ",",
+      "sLoadingRecords": "Cargando...",
+      "oPaginate": {
+        "sFirst":    "Primero",
+        "sLast":     "Último",
+        "sNext":     "Siguiente",
+        "sPrevious": "Anterior"
+      },
+      "oAria": {
+          "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+          "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+      }
+  
+     }
+  
+  });
+
+
+  $(".tabla-publicidad-pagada").DataTable({
+    "ajax":"ajax/tabla-pagos-publicidad-pagada.ajax.php",
     "deferRender": true,
     "retrieve": true,
     "processing": true,
@@ -494,6 +599,45 @@ $(".tabla-pagar-comisiones tbody").on("click", "button.btnVerComisiones", functi
     });
 
 
+
+    $(".tabla-pagar-publicidad tbody").on("click", "button.btnPagarPublicidad", function () {
+
+      var idPagoPublicidad= $(this).attr("idPagoPublicidad");
+    
+      var datos = new FormData();
+      datos.append("idPagoPublicidad", idPagoPublicidad);
+    
+        $.ajax({
+    
+        url:"ajax/pagos.ajax.php",
+        method: "POST",
+        data: datos,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function(respuesta){
+    
+            if (respuesta == "ok") {
+    
+              alerta("success", "¡El pago se ha realizado correctamente!", null, "pagos-publicidad", false);
+          
+            }else if(respuesta == "pagado"){
+    
+              alerta("info", "¡Información!", "¡El pago ya se ha realizado!", "pagos-publicidad", false);
+    
+            }else{
+    
+              alerta("error", "¡Ha ocurrido un error!", "¡Contacte con el administrador o vuelve a intentarlo mas tarde!", null, true);
+    
+            }
+    
+          }
+    
+        })
+      
+        });
+
+
     $(".tabla-pagar-comisiones tbody").on("click", "button.btnPagarComision", function () {
 
       var idPagoComision= $(this).attr("idPagoComision");
@@ -547,6 +691,9 @@ $(".btnPagos").click(function () {
       }
       if(tipoPago == "bonos"){
         direccion="pagos-extras";
+      }
+      if(tipoPago == "bonos"){
+        direccion="publicidad";
       }
 
       if(idsPagos!=""){
@@ -681,9 +828,11 @@ $(".tabla-pagar-comisiones").on("draw.dt", function(){
 		checkboxClass: "icheckbox_flat-blue",
 		radioClass: "iradio_flat-blue"
 	});
+  
+
 
 	/*=============================================
-	ENVIAR TICKETS DE FORMA MASIVA A LA PAPELERA
+	PAGOS
 	=============================================*/
 
 	var pagoCheckbox = $(".seleccionarPago");
@@ -780,6 +929,8 @@ $(".tabla-pagar-inversiones").on("draw.dt", function(){
 		checkboxClass: "icheckbox_flat-blue",
 		radioClass: "iradio_flat-blue"
 	});
+
+  
 
 	/*=============================================
 	ENVIAR TICKETS DE FORMA MASIVA A LA PAPELERA
@@ -951,6 +1102,107 @@ $(".tabla-pagar-extras").on("draw.dt", function(){
 
 
 $(".checkbox-toggle4").click(function(){
+
+	var clicks = $(this).data('clicks');
+
+	if(clicks){
+
+		$(".seleccionarPagos input[type='checkbox']").iCheck("uncheck");
+		$(".far", this).removeClass("fa-check-square").addClass("fa-square");
+
+	}else{
+
+		$(".seleccionarPagos input[type='checkbox']").iCheck("check");
+		$(".far", this).removeClass("fa-square").addClass("fa-check-square");
+
+	}
+
+	$(this).data("clicks", !clicks);
+
+})
+
+
+
+/*=============================================
+PLUGIN ICHECK
+=============================================*/
+
+$(".tabla-pagar-publicidad").on("draw.dt", function(){
+
+	$(".seleccionarPagos input[type='checkbox']").iCheck({
+		checkboxClass: "icheckbox_flat-blue",
+		radioClass: "iradio_flat-blue"
+	});
+
+  
+
+	/*=============================================
+	ENVIAR TICKETS DE FORMA MASIVA A LA PAPELERA
+	=============================================*/
+
+	var pagoCheckbox = $(".seleccionarPago");
+
+	var idPagos = [];
+
+	for(var i = 0; i < pagoCheckbox.length; i++){
+
+    	/*=============================================
+    	Checkear para realizar pago
+    	=============================================*/
+
+    	$(pagoCheckbox[i]).on("ifChecked", function(event){
+
+    		idPagos.push($(this).attr("idPago"));
+
+    		if($(".btnPagos").attr("idPagos") != ""){
+
+    			pagos = $(".btnPagos").attr("idPagos").split(",");
+
+    			pagos.push($(this).attr("idPago"));
+
+    			$(".btnPagos").attr("idPagos", pagos.toString());
+
+    		}else{
+
+    			$(".btnPagos").attr("idPagos", idPagos.toString());
+
+    		}
+
+    	})
+
+    	/*=============================================
+    	Quitar el Check para enviar a la papelera
+    	=============================================*/
+
+    	$(pagoCheckbox[i]).on("ifUnchecked", function(event){
+
+    		var quitarPagos = $(".btnPagos").attr("idPagos").split(",");
+
+    		for(var f = 0; f < quitarPagos.length; f++){
+
+    			if(quitarPagos[f] == $(this).attr("idPago")){
+
+    				quitarPagos.splice(f, 1);
+
+    				idPagos.splice(f, 1);
+
+    				$(".btnPagos").attr("idPagos", quitarPagos.toString());
+
+    			}
+
+    		}
+
+    	})
+		
+
+	}
+
+
+})
+
+
+
+$(".checkbox-toggle5").click(function(){
 
 	var clicks = $(this).data('clicks');
 

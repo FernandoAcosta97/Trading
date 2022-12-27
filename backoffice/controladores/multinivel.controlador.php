@@ -12,6 +12,10 @@ class ControladorMultinivel{
 
 		$respuesta = ModeloMultinivel::mdlRegistroUninivel($tabla, $datos);
 
+		$usu = ControladorUsuarios::ctrMostrarUsuarios("enlace_afiliado", $datos["patrocinador_red"]);
+
+		$notificacion = ControladorNotificaciones::ctrRegistroNotificaciones("red", $usu["id_usuario"], $datos["usuario_red"]);
+
 		//notificaciones = "tipo:red", "id_user_not:$datos["patrocinador_red"]"
 
 		return $respuesta;
@@ -41,6 +45,33 @@ class ControladorMultinivel{
 		$tabla = "red_binaria";
 
 		$respuesta = ModeloMultinivel::mdlMostrarBinaria($tabla, $item, $valor);
+
+		return $respuesta;
+
+	}
+
+
+	/*=============================================
+	MOSTRAR RED BINARIA POR DERRAME
+	=============================================*/
+
+	static public function ctrMostrarBinariaxDerrame($item, $valor){
+
+		$tabla = "red_binaria";
+
+		$respuesta = ModeloMultinivel::mdlMostrarBinariaxDerrame($tabla, $item, $valor);
+
+		return $respuesta;
+
+	}
+
+	/*=============================================
+	Eliminar Usuario Red
+	=============================================*/
+
+	static public function ctrEliminarUsuarioRed($tabla, $id){
+
+		$respuesta = ModeloMultinivel::mdlEliminarUsuarioRed($tabla, $id);
 
 		return $respuesta;
 

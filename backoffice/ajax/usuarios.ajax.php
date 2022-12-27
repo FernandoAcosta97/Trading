@@ -3,6 +3,8 @@
 require_once "../controladores/general.controlador.php";
 require_once "../controladores/usuarios.controlador.php";
 require_once "../modelos/usuarios.modelo.php";
+require_once "../controladores/notificaciones.controlador.php";
+require_once "../modelos/notificaciones.modelo.php";
 require_once "../controladores/multinivel.controlador.php";
 require_once "../modelos/multinivel.modelo.php";
 
@@ -336,7 +338,44 @@ class AjaxUsuarios
 
         $valor = $this->idUsuarioEliminar;
 
-        $respuesta = ControladorUsuarios::ctrEliminarUsuario($valor);
+        $admin = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", 1);
+
+        $derrameAdmin = 1;
+
+        $usuario = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $valor);
+
+        $usuario_binaria = ControladorMultinivel::ctrMostrarBinaria("usuario_red", $valor);
+
+        $redBinariaNivelUno = ControladorMultinivel::ctrMostrarBinariaxDerrame("derrame_binaria", $usuario_binaria["orden_binaria"]);
+
+        foreach($redBinariaNivelUno as $key => $value){
+
+            $actualizar_red_binaria = ControladorMultinivel::ctrActualizarBinaria($value["usuario_red"], $derrameAdmin, $admin["enlace_afiliado"]);
+
+        }
+
+        $redUninivel = ControladorMultinivel::ctrMostrarRedUninivel("red_uninivel", "patrocinador_red", $usuario["enlace_afiliado"]);
+
+        foreach($redUninivel as $key => $value){
+
+            $actualizar_red_uninivel = ControladorMultinivel::ctrActualizarUninivel($value["usuario_red"], $admin["enlace_afiliado"]);
+
+        }
+
+
+        $eliminar_binaria=ControladorMultinivel::ctrEliminarUsuarioRed("red_binaria", $valor);
+
+        $eliminar_uninivel=ControladorMultinivel::ctrEliminarUsuarioRed("red_uninivel", $valor);
+
+        $eliminar_usuario = ControladorUsuarios::ctrActualizarUsuario($valor, "eliminado", 1);
+
+        $respuesta="";
+
+        if($eliminar_binaria=="ok" && $eliminar_uninivel=="ok" && $eliminar_usuario=="ok"){
+            $respuesta="ok";
+        }else{
+            $respuesta="error";
+        }
 
         echo $respuesta;
 

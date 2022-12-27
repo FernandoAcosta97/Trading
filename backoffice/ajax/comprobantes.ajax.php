@@ -48,13 +48,39 @@ class AjaxComprobantes{
 
 		$id = $this->aprobadoIdComprobante;
 
+		$comprobante = ControladorComprobantes::ctrMostrarComprobantes("id",$id);
+
+		$campana_comprobante = ControladorCampanas::ctrMostrarCampanas("id", $comprobante[0]["campana"]);
+
+		if($campana_comprobante["tipo"]==3){
+
+			$publicidad_pagada = ControladorPagos::ctrMostrarPagosPublicidadxEstado("id_comprobante",$id,"estado",1);
+
+		if($publicidad_pagada==""){
+
+        //Actualizar estado del comprobante
+		$respuesta = ModeloComprobantes::mdlActualizarComprobante($tabla, $id, $item, $valor);
+
+		//Registrar pago publicidad
+		if($valor==1){
+			$usu = ControladorUsuarios::ctrMostrarUsuarios("doc_usuario",$comprobante[0]["doc_usuario"]);
+			$pago=ControladorPagos::ctrRegistrarPagosPublicidad($usu["id_usuario"],$comprobante[0]["id"]);
+		}else{
+			$pago=ControladorPagos::ctrMostrarPagosPublicidad("id_comprobante",$comprobante[0]["id"]);
+			if($pago!=""){
+            $eliminar=ControladorPagos::ctrEliminarPagosPublicidad($pago["id"]);
+			}
+		}
+
+
+	     }
+		}else{
+
 		$inversion_pagada = ControladorPagos::ctrMostrarPagosInversionesxEstado("id_comprobante",$id,"estado",1);
 
 		$comision_pagada = ControladorPagos::ctrMostrarPagosComisionesxComprobante("id_comprobante",$id,"estado",1);
 
 		$bono_pagado = ControladorPagos::ctrMostrarPagosExtrasxComprobante("id_comprobante",$id,"estado",1);
-
-		$comprobante = ControladorComprobantes::ctrMostrarComprobantes("id",$id);
 
 		if($inversion_pagada=="" && $bono_pagado=="" && $comision_pagada=="" && $comprobante[0]["estado"]!=$valor){
 
@@ -239,6 +265,7 @@ class AjaxComprobantes{
 
 	</script>';	
    }
+}
 
 	}
 

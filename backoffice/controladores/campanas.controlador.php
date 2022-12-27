@@ -13,7 +13,7 @@ Class ControladorCampanas{
 	public function ctrRegistroCampana(){
 
 		if(isset($_POST["tipoCampana"])){
-			if($_POST["tipoCampana"]==1){
+			if($_POST["tipoCampana"]==1 || $_POST["tipoCampana"]==3){
 
 			if(preg_match('/^[0-9a-zA-ZñÑáéíóúÁÉÍÓÚ_ ]+$/', $_POST["registroNombreCampana"]) &&
 			    preg_match('/^[0-9]+$/', $_POST["registroCupos"]) &&
@@ -31,7 +31,10 @@ Class ControladorCampanas{
 
 
 				$respuesta = ModeloCampanas::mdlRegistroCampana($tabla, $datos);
-				
+				$pagina = "campanas";
+				if($_POST["tipoCampana"]==3){
+					$pagina = "campanas-publicidad";
+				}
 
 				if($respuesta == "ok"){
 
@@ -49,7 +52,7 @@ Class ControladorCampanas{
 
 								if(result.value){
 
-									window.location = "campanas";
+									window.location = "'.$pagina.'";
 
 								}
 
@@ -250,6 +253,21 @@ Class ControladorCampanas{
 
 
 	/*=============================================
+	Mostrar Campanas x Estado All
+	=============================================*/
+
+	static public function ctrMostrarCampanasxEstadoAll($item, $valor, $item2, $valor2){
+	
+		$tabla = "campanas";
+
+		$respuesta = ModeloCampanas::mdlMostrarCampanasxEstadoAll($tabla, $item, $valor, $item2, $valor2);
+
+		return $respuesta;
+		
+	}
+
+
+	/*=============================================
 	Mostrar Campañas Activas e Inactivas pero no finalizadas
 	=============================================*/
 
@@ -358,7 +376,7 @@ Class ControladorCampanas{
 
 		if(isset($_POST["idCampanaEditar"])){
 
-			if($_POST["tipoCampanaEditar"]==1){
+			if($_POST["tipoCampanaEditar"]==1 || $_POST["tipoCampanaEditar"]==3){
 
 			if(preg_match('/^[0-9]+$/', $_POST["editarCupos"]) &&
 			preg_match('/^[0-9a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["editarNombre"]) &&
@@ -375,6 +393,11 @@ Class ControladorCampanas{
 				
 		$respuesta = ModeloCampanas::mdlEditarCampana($tabla, $datos);
 
+		$pagina = "campanas";
+		if($_POST["tipoCampanaEditar"]==3){
+			$pagina = "campanas-publicidad";
+		}
+
 		if($respuesta == "ok"){
 			echo '<script>
 
@@ -390,7 +413,7 @@ Class ControladorCampanas{
 
 								if(result.value){
 
-									window.location = "campanas";
+									window.location = "'.$pagina.'";
 
 								}
 

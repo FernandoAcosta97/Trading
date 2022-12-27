@@ -139,7 +139,7 @@ EDITAR CUENTA
 
                   <input type="hidden" id="idCuenta" name="idCuenta">
 
-                </div>
+              </div>
 
               </div>
 

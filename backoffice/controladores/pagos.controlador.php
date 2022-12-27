@@ -2,7 +2,7 @@
 
 class ControladorPagos
 {
-
+ 
     /*=============================================
     Registro de Pagos
     =============================================*/
@@ -16,6 +16,23 @@ class ControladorPagos
         "estado" => 0);
 
         $respuesta = ModeloPagos::mdlRegistrarPagos($tabla, $datos);   
+
+    }
+
+
+     /*=============================================
+    Registro de Pagos Publicidad
+    =============================================*/
+
+    public static function ctrRegistrarPagosPublicidad($id_usuario, $id_comprobante)
+    {
+
+        $tabla = "pagos_publicidad";
+        $datos = array("id_usuario" => $id_usuario,
+        "id_comprobante" => $id_comprobante,
+        "estado" => 0);
+
+        $respuesta = ModeloPagos::mdlRegistrarPagosPublicidad($tabla, $datos);   
 
     }
 
@@ -824,6 +841,22 @@ class ControladorPagos
 
 
      /*=============================================
+    Mostrar Pagos Publicidad
+    =============================================*/
+
+    public static function ctrMostrarPagosPublicidad($item, $valor)
+    {
+
+        $tabla = "pagos_publicidad";
+
+        $respuesta = ModeloPagos::mdlMostrarPagosPublicidad($tabla, $item, $valor);
+
+        return $respuesta;
+
+    }
+
+
+     /*=============================================
     Mostrar Pagos Comisiones
     =============================================*/
 
@@ -933,6 +966,20 @@ class ControladorPagos
 
     }
 
+     /*=============================================
+    Mostrar Pagos Publicidad x estado
+    =============================================*/
+
+    public static function ctrMostrarPagosPublicidadxEstado($item, $valor, $item2, $valor2)
+    {
+
+        $tabla = "pagos_publicidad";
+
+        $respuesta = ModeloPagos::mdlMostrarPagosPublicidadxEstado($tabla, $item, $valor, $item2, $valor2);
+
+        return $respuesta;
+
+    }
 
     /*=============================================
     Mostrar Pagos Extras
@@ -1021,6 +1068,22 @@ class ControladorPagos
         $tabla = "pagos_inversiones";
 
         $respuesta = ModeloPagos::mdlMostrarPagosAll($tabla, $item, $valor);
+
+        return $respuesta;
+
+    }
+
+
+     /*=============================================
+    Mostrar Pagos Publicidad all
+    =============================================*/
+
+    public static function ctrMostrarPagosPublicidadAll($item, $valor)
+    {
+
+        $tabla = "pagos_publicidad";
+
+        $respuesta = ModeloPagos::mdlMostrarPagosPublicidadAll($tabla, $item, $valor);
 
         return $respuesta;
 
@@ -1180,6 +1243,22 @@ class ControladorPagos
     }
 
 
+    /*=============================================
+    Actualizar Estado Pago
+    =============================================*/
+
+    public static function ctrActualizarPagoPublicidad($datos)
+    {
+
+        $tabla = "pagos_publicidad";
+
+        $respuesta = ModeloPagos::mdlActualizarPagoPublicidad($tabla, $datos);
+
+        echo $respuesta;
+
+    }
+
+
      /*=============================================
     Actualizar Estado y Cuenta Pago
     =============================================*/
@@ -1256,6 +1335,9 @@ class ControladorPagos
         }
         if($datos["tipoPago"] == "bonos"){
             $tabla = "pagos_extras";
+        }
+        if($datos["tipoPago"] == "publicidad"){
+            $tabla = "pagos_publicidad";
         }
 
 
@@ -1439,6 +1521,24 @@ class ControladorPagos
         return $respuesta;
 
     }
+
+
+
+     /*=============================================
+    Eliminar Pagos Publicidad
+    =============================================*/
+
+    public static function ctrEliminarPagosPublicidad($id)
+    {
+
+        $tabla = "pagos_publicidad";
+
+        $respuesta = ModeloPagos::mdlEliminarPagosPublicidad($tabla, $id);
+
+        return $respuesta;
+
+    }
+
 
 
      /*=============================================

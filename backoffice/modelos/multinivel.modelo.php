@@ -34,7 +34,7 @@ class ModeloMultinivel{
 	/*=============================================
 	MOSTRAR RED INNER JOIN
 	=============================================*/
-
+	
 	static public function mdlMostrarRed($tabla1, $tabla2, $item, $valor){
 
 		if($item != null && $valor != null){
@@ -95,6 +95,65 @@ class ModeloMultinivel{
 		$stmt = null;
 
 	}
+
+
+
+		/*=============================================
+	MOSTRAR RED BINARIA
+	=============================================*/
+
+	static public function mdlMostrarBinariaxDerrame($tabla, $item, $valor){
+
+		if($item != null && $valor != null){
+
+			$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item");	
+
+			$stmt -> bindParam(":".$item, $valor, PDO::PARAM_STR);
+
+			$stmt -> execute();
+
+			return $stmt -> fetchAll();
+
+		}else{
+
+			$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
+
+			$stmt -> execute();
+
+			return $stmt -> fetchAll();
+
+		}
+
+		$stmt -> close();
+
+		$stmt = null;
+
+	}
+
+
+	 /*=============================================
+    Eliminar usuario red
+    =============================================*/
+
+    public static function mdlEliminarUsuarioRed($tabla, $id)
+    {
+
+        $stmt = Conexion::conectar()->prepare("DELETE FROM $tabla WHERE usuario_red = :usuario_red");
+
+        $stmt->bindParam(":usuario_red", $id, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+
+            return "ok";
+        } else {
+
+            return print_r(Conexion::conectar()->errorInfo());
+        }
+
+        $stmt->close();
+
+        $stmt = null;
+    }
 
 
 	/*=============================================

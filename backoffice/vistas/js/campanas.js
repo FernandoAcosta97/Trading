@@ -41,9 +41,8 @@ $("#tablaCampanas").DataTable({
 
 
 
-
 /*=============================================
-TABLA CAMPAÑAS
+TABLA CAMPAÑAS BONOS EXTRAS
 =============================================*/
 var doc_usuario = $("#doc_usuario").val();
 
@@ -82,6 +81,47 @@ $("#tablaCampanasBonosExtras").DataTable({
 });
 
 
+/*=============================================
+TABLA CAMPAÑAS PUBLICIDAD
+=============================================*/
+var doc_usuario = $("#doc_usuario").val();
+
+$("#tablaCampanasPublicidad").DataTable({
+	"ajax":"ajax/tabla-campanas-publicidad.ajax.php?doc_usuario="+doc_usuario,
+ 	"deferRender": true,
+  	"retrieve": true,
+  	"processing": true,
+	"language": {
+
+	    "sProcessing":     "Procesando...",
+	    "sLengthMenu":     "Mostrar _MENU_ registros",
+	    "sZeroRecords":    "No se encontraron resultados",
+	    "sEmptyTable":     "Ningún dato disponible en esta tabla",
+	    "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
+	    "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0",
+	    "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+	    "sInfoPostFix":    "",
+	    "sSearch":         "Buscar:",
+	    "sUrl":            "",
+	    "sInfoThousands":  ",",
+	    "sLoadingRecords": "Cargando...",
+	    "oPaginate": {
+	      "sFirst":    "Primero",
+	      "sLast":     "Último",
+	      "sNext":     "Siguiente",
+	      "sPrevious": "Anterior"
+	    },
+	    "oAria": {
+	        "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+	        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+	    }
+
+   }
+
+});
+
+
+
 
 
 /*=============================================
@@ -114,8 +154,39 @@ $(".tablaCampanas tbody").on("change","select.selectActiva",function(){
 })
 
 
+
 /*=============================================
- CAMBIAR ESTADO CAMPAÑA
+ CAMBIAR ESTADO CAMPAÑA PUBLICIDAD
+=============================================*/
+$(".tablaCampanasPublicidad tbody").on("change","select.selectActiva",function(){
+
+	var idCampana = $(this).attr("idCampana");
+	var seleccionado = $(this).val();
+
+	var datos = new FormData();
+ 	datos.append("activarIdCampana", idCampana);
+    datos.append("activarCampana", seleccionado);
+
+  	$.ajax({
+
+	  url:"ajax/campanas.ajax.php",
+	  method: "POST",
+	  data: datos,
+	  cache: false,
+      contentType: false,
+      processData: false,
+      success: function(respuesta){
+
+      }
+
+  	})
+
+
+})
+
+
+/*=============================================
+ CAMBIAR ESTADO CAMPAÑA BONOS EXTRAS
 =============================================*/
 $(".tablaCampanasBonosExtras tbody").on("change","select.selectActiva",function(){
 
@@ -144,14 +215,21 @@ $(".tablaCampanasBonosExtras tbody").on("change","select.selectActiva",function(
 })
 
 
-
-
 $(".tablaCampanas").on("click","button.btnInvertir",function(){
 
 	 var idCampana = $(this).attr("idCampana");
 	 $("#id_campana").val(idCampana);
 
 });
+
+
+$(".tablaCampanasPublicidad").on("click","button.btnInvertir",function(){
+
+	var idCampana = $(this).attr("idCampana");
+	$("#id_campana").val(idCampana);
+
+});
+
 
 $(".tablaCampanas").on("click","button.btnVerCampana",function(){
 
@@ -172,6 +250,46 @@ $(".tablaCampanas").on("click","button.btnExcelCampana",function(){
 
 //EDITAR CAMPAÑA
 $(".tablaCampanas").on("click","button.btnEditarCampana",function(){
+
+	var idCampana = $(this).attr("idCampana");
+  
+	var datos = new FormData();
+	datos.append("idCampanaEditar",idCampana);
+  
+	$.ajax({
+  
+	 url:"ajax/campanas.ajax.php",
+	 method:"POST",
+	 data:datos,
+	 cache:false,
+	 contentType:false,
+	 processData:false,
+	 dataType:"json",
+	 success:function(respuesta){
+
+	  $("#idCampana").val(idCampana);
+      $("#editarNombre").val(respuesta["nombre"]);
+	  if(respuesta["estado"]==2){
+		$("#editarRetorno").attr("readonly", "readonly");
+	  }else{
+		$("#editarRetorno").removeAttr("readonly");
+	  }
+	  $("#editarRetorno").val(respuesta["retorno"]);
+	  $("#editarCupos").val(respuesta["cupos"]);
+	  $("#editarFechaInicio").val(respuesta["fecha_inicio"]);
+	  $("#editarFechaFinal").val(respuesta["fecha_fin"]);
+	  $("#editarFechaRetorno").val(respuesta["fecha_retorno"]);
+	  
+	}
+  
+  });
+  
+  })
+
+
+  
+//EDITAR CAMPAÑA PUBLICIDAD
+$(".tablaCampanasPublicidad").on("click","button.btnEditarCampana",function(){
 
 	var idCampana = $(this).attr("idCampana");
   

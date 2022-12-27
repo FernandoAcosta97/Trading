@@ -10,7 +10,8 @@ class ModeloSoporte{
 
 	static public function mdlCrearTicket($tabla, $datos){
 
-		$stmt = Conexion::conectar()->prepare("INSERT INTO $tabla (remitente, receptor, asunto, mensaje, adjuntos, tipo) VALUES (:remitente, :receptor, :asunto, :mensaje, :adjuntos, :tipo)");
+		$con = Conexion::conectar();
+		$stmt = $con->prepare("INSERT INTO $tabla (remitente, receptor, asunto, mensaje, adjuntos, tipo) VALUES (:remitente, :receptor, :asunto, :mensaje, :adjuntos, :tipo)");
 
 		$stmt -> bindParam(":remitente", $datos["remitente"], PDO::PARAM_STR);
 		$stmt -> bindParam(":receptor", $datos["receptor"], PDO::PARAM_STR);
@@ -21,12 +22,13 @@ class ModeloSoporte{
 
 		if($stmt -> execute()){
 
-			return "ok";
+			return $con->lastInsertId();
 
 		}else{
 
-			echo "\nPDO::errorInfo():\n";
-    		print_r(Conexion::conectar()->errorInfo());
+			// echo "\nPDO::errorInfo():\n";
+    		// print_r(Conexion::conectar()->errorInfo());
+			echo "error";
 
 		}
 

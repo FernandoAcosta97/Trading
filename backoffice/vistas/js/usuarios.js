@@ -1016,6 +1016,8 @@ $(".tablaUsuarios tbody").on("click", "button.btnEliminarUsuario", function () {
   });
 });
 
+
+
 /*=============================================
 ACTUALIZAR DATOS USUARIO
 =============================================*/

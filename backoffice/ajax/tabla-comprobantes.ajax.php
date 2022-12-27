@@ -16,8 +16,13 @@ class TablaComprobantes {
         $item = null;
         $valor = null;
         $usuario = null;
+        $tipo = "1";
 
         $campanas = ControladorCampanas::ctrMostrarCampanasNoFinalizadas();
+
+        if(isset($_GET["tipo"])){
+            $tipo = $_GET["tipo"];
+        }
 
         if(isset($_GET["doc_usuario"])){
             $item = "doc_usuario";
@@ -34,24 +39,22 @@ class TablaComprobantes {
 
             if($_GET["estado"]==3){
 
-                $comprobantes = ControladorComprobantes::ctrMostrarComprobantes( $item, $valor); 
+                $comprobantes = ControladorComprobantes::ctrMostrarComprobantesxTipo( $item, $valor, "tipo", $tipo); 
                 
             }else{
                 
             $item2="estado";
             $valor2=$_GET["estado"];
-            $comprobantes = ControladorComprobantes::ctrMostrarComprobantesxEstado( $item, $valor, $item2, $valor2); 
+            $comprobantes = ControladorComprobantes::ctrMostrarComprobantesxTipoxEstado( $item, $valor, "tipo", $tipo, $item2, $valor2); 
 
             }
 
-
-
         }else{
-            $comprobantes = ControladorComprobantes::ctrMostrarComprobantes( $item, $valor); 
+            $comprobantes = ControladorComprobantes::ctrMostrarComprobantesxTipo( $item, $valor, "tipo", $tipo); 
         }
 
 
-        if ( count( $comprobantes ) < 1 ) {
+        if ( count( $comprobantes ) == 0 ) {
 
             echo '{ "data":[]}';
 
@@ -64,6 +67,12 @@ class TablaComprobantes {
         foreach ( $comprobantes as $key => $value ) {
 
             $campana = ControladorCampanas::ctrMostrarCampanas("id",$value["campana"]);
+
+            if($campana["tipo"]==3){
+                $valor_total = $campana["retorno"];
+            }else{
+                $valor_total = $value["valor"];
+            }
             // print_r($campana);
 
             //FOTO COMPROBANTES
@@ -80,11 +89,11 @@ class TablaComprobantes {
 
             if($usuario!=null){
 
-                if($value["estado"]==1){
+                if($value["estadoComprobante"]==1){
                     $estado = "<h5><span class='badge badge-success'>Aprobado</span></h5>";
-                }else if($value["estado"]==0){
+                }else if($value["estadoComprobante"]==0){
                     $estado = "<h5><span class='badge badge-danger'>Rechazado</span></h5>";
-                }else if($value["estado"]==2){
+                }else if($value["estadoComprobante"]==2){
                     $estado = "<h5><span class='badge badge-warning'>Pendiente</span></h5>";
                 }
 
@@ -94,7 +103,7 @@ class TablaComprobantes {
                     "'.$acciones.'",
                     "'.$foto.'",
                     "'.$estado.'",
-                    "$ '.number_format($value[ 'valor' ], 0, ",", ".").' COP",
+                    "$ '.number_format($valor_total).' COP",
                     "'.$value[ 'fecha' ].'",
                     "'.$campana[ 'nombre' ].'"
              ],';
@@ -103,11 +112,11 @@ class TablaComprobantes {
 
                 $usuarios = ControladorUsuarios::ctrMostrarUsuarios("doc_usuario",$value["doc_usuario"]);
 
-                $inversion_pagada = ControladorPagos::ctrMostrarPagosInversionesxEstado("id_comprobante",$value["id"],"estado",1);
+                $inversion_pagada = ControladorPagos::ctrMostrarPagosInversionesxEstado("id_comprobante",$value["comprobanteId"],"estado",1);
 
-                $comision_pagada = ControladorPagos::ctrMostrarPagosComisionesxComprobante("id_comprobante",$value["id"],"estado",1);
+                $comision_pagada = ControladorPagos::ctrMostrarPagosComisionesxComprobante("id_comprobante",$value["comprobanteId"],"estado",1);
 
-                $bono_pagado = ControladorPagos::ctrMostrarPagosExtrasxComprobante("id_comprobante",$value["id"],"estado",1);
+                $bono_pagado = ControladorPagos::ctrMostrarPagosExtrasxComprobante("id_comprobante",$value["comprobanteId"],"estado",1);
 
                 if($inversion_pagada!="" || $bono_pagado!="" || $comision_pagada!=""){
 
@@ -117,17 +126,17 @@ class TablaComprobantes {
 
                     //ESTADO COMPROBANTES
         
-                    if ( $value["estado"] == 1 ) {
+                    if ( $value["estadoComprobante"] == 1 ) {
         
-                        $estado = "<select class='form-control selectAprobado' estadoComprobante=0 idComprobante='".$value["id"]."'><option value='1' selected>Aprobado</option><option value='0'>Rechazado</option><option value='2'>Pendiente</option></select>";
+                        $estado = "<select class='form-control selectAprobado' estadoComprobante=0 idComprobante='".$value["comprobanteId"]."'><option value='1' selected>Aprobado</option><option value='0'>Rechazado</option><option value='2'>Pendiente</option></select>";
         
-                    } else if($value["estado"] == 0){
+                    } else if($value["estadoComprobante"] == 0){
         
-                        $estado = "<select class='form-control selectAprobado' estadoComprobante=1 idComprobante='".$value["id"]."'><option value='1'>Aprobado</option><option value='0' selected>Rechazado</option><option value='2'>Pendiente</option></select>";
+                        $estado = "<select class='form-control selectAprobado' estadoComprobante=1 idComprobante='".$value["comprobanteId"]."'><option value='1'>Aprobado</option><option value='0' selected>Rechazado</option><option value='2'>Pendiente</option></select>";
         
-                    }else if($value["estado"] == 2){
+                    }else if($value["estadoComprobante"] == 2){
         
-                        $estado = "<select class='form-control selectAprobado' estadoComprobante=2 idComprobante='".$value["id"]."'><option value='1'>Aprobado</option><option value='0'>Rechazado</option><option value='2' selected>Pendiente</option></select>";
+                        $estado = "<select class='form-control selectAprobado' estadoComprobante=2 idComprobante='".$value["comprobanteId"]."'><option value='1'>Aprobado</option><option value='0'>Rechazado</option><option value='2' selected>Pendiente</option></select>";
         
                     }
                 }
@@ -137,7 +146,7 @@ class TablaComprobantes {
             if($inversion_pagada==""){
                 if($campana["estado"]==1 || $campana["estado"]==0){
 
-                $selectCampanas="<div><select class='form-control select2 selectCampana' idComprobante='".$value['id']."'>";
+                $selectCampanas="<div><select class='form-control select2 selectCampana' idComprobante='".$value['comprobanteId']."'>";
 
                 foreach($campanas as $key => $value2){ 
 
@@ -163,13 +172,13 @@ class TablaComprobantes {
         }
 
                 
-            $acciones = "<div class='btn-group'><button class='btn btn-warning btn-xs btnEditarComprobante' idComprobante='".$value["id"]."' data-toggle='modal' data-target='#modalEditarComprobante'><i class='fa fa-pen' style='color:white'></i></button></div>";
+            $acciones = "<div class='btn-group'><button class='btn btn-warning btn-xs btnEditarComprobante' idComprobante='".$value["comprobanteId"]."' data-toggle='modal' data-target='#modalEditarComprobante'><i class='fa fa-pen' style='color:white'></i></button></div>";
 
             $datosJson .= '[
                 "'.$acciones.'",
                 "'.$foto.'",
                 "'.$estado.'",
-                "$ '.number_format($value[ 'valor' ], 0, ",", ".").' COP",
+                "$ '.number_format($valor_total).' COP",
                 "'.$usuarios[ 'doc_usuario' ].'",
                 "'.$usuarios[ 'nombre' ].'",
                 "'.$value[ 'fecha' ].'",

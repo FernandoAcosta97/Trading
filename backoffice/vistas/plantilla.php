@@ -253,8 +253,10 @@ if($usuario["firma"]!=null){
 					$_GET["pagina"] == "usuario" ||
 					$_GET["pagina"] == "campanas" ||
 					$_GET["pagina"] == "bonos-extras" ||
+					$_GET["pagina"] == "campanas-publicidad" ||
 					$_GET["pagina"] == "cuentas-bancarias" ||
 					$_GET["pagina"] == "comprobantes" ||
+					$_GET["pagina"] == "comprobantes-publicidad" ||
 					$_GET["pagina"] == "comprobantes-campana" ||
 					$_GET["pagina"] == "inversiones" ||
 					$_GET["pagina"] == "uninivel" ||
@@ -263,7 +265,9 @@ if($usuario["firma"]!=null){
 					$_GET["pagina"] == "pagos-comisiones" ||
 					$_GET["pagina"] == "comisiones-pagadas" ||
 					$_GET["pagina"] == "pagos-inversiones" ||
+					$_GET["pagina"] == "pagos-publicidad" ||
 					$_GET["pagina"] == "inversiones-pagadas" ||
+					$_GET["pagina"] == "publicidad-pagada" ||
 					$_GET["pagina"] == "pagos-extras" ||
 					$_GET["pagina"] == "extras-pagados" ||
 					$_GET["pagina"] == "ingresos-uninivel" ||
@@ -303,8 +307,10 @@ if($usuario["firma"]!=null){
 				$_GET["pagina"] == "usuario" ||
 				$_GET["pagina"] == "campanas" ||
 				$_GET["pagina"] == "bonos-extras" ||
+				$_GET["pagina"] == "campanas-publicidad" ||
 				$_GET["pagina"] == "cuentas-bancarias" ||
 				$_GET["pagina"] == "comprobantes" ||
+				$_GET["pagina"] == "comprobantes-publicidad" ||
 				$_GET["pagina"] == "comprobantes-campana" ||
 				$_GET["pagina"] == "inversiones" ||
 				$_GET["pagina"] == "uninivel" ||
@@ -375,6 +381,7 @@ include "paginas/modulos/footer.php";
 <script src="vistas/js/pagos.js"></script>
 <script src="vistas/js/ingresos.js"></script>
 <script src="vistas/js/soporte.js"></script>
+<script src="vistas/js/notificaciones.js"></script>
 
 </body>
 
