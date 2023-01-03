@@ -162,8 +162,11 @@ $(".tablaCuentas").on("click","button.btnEditarCuenta",function(){
 
 	  $("#idCuenta").val(idCuenta);
       $("#editarNumero").val(respuesta["numero"]);
-	  $("#editarEntidad").val(respuesta["entidad"]);
-	  $('#editarTipo option[value="'+respuesta["tipo"]+'"]').attr('selected', 'selected');
+	  $("#editarDocumentoTitular").val(respuesta["titular"]);
+	  $('#editarEntidad').val(respuesta["entidad"]).trigger('change.select2');
+	  $("#editarNombreTitular").val(respuesta["nombre_titular"]);
+	  $('#editarTipoCuenta option[value="'+respuesta["tipo"]+'"]').attr('selected', 'selected');
+	  $('#editarTipoDocumento option[value="'+respuesta["tipo_documento"]+'"]').attr('selected', 'selected');
 	  
 	}
   
@@ -192,10 +195,13 @@ $(".tablaCuentasDetalles").on("click","button.btnEditarCuenta",function(){
 	 dataType:"json",
 	 success:function(respuesta){
 
-	  $("#idCuenta").val(idCuenta);
-      $("#editarNumero").val(respuesta["numero"]);
-	  $("#editarEntidad").val(respuesta["entidad"]);
-	  $('#editarTipo option[value="'+respuesta["tipo"]+'"]').attr('selected', 'selected');
+		$("#idCuenta").val(idCuenta);
+		$("#editarNumero").val(respuesta["numero"]);
+		$("#editarDocumentoTitular").val(respuesta["titular"]);
+		$('#editarEntidad').val(respuesta["entidad"]).trigger('change.select2');
+		$("#editarNombreTitular").val(respuesta["nombre_titular"]);
+		$('#editarTipoCuenta option[value="'+respuesta["tipo"]+'"]').attr('selected', 'selected');
+		$('#editarTipoDocumento option[value="'+respuesta["tipo_documento"]+'"]').attr('selected', 'selected');
 	  
 	}
   

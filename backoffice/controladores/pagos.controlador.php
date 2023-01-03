@@ -934,6 +934,22 @@ class ControladorPagos
     }
 
 
+    /*=============================================
+    Mostrar Pagos Publicidad x Usuario
+    =============================================*/
+
+    public static function ctrMostrarPagosPublicidadxUsuario($item, $valor, $item2, $valor2)
+    {
+
+        $tabla = "pagos_publicidad";
+
+        $respuesta = ModeloPagos::mdlMostrarPagosPublicidadxUsuario($tabla, $item, $valor, $item2, $valor2);
+
+        return $respuesta;
+
+    }
+
+
 
     /*=============================================
     Mostrar Pagos Inversiones x estado
@@ -961,6 +977,22 @@ class ControladorPagos
         $tabla = "pagos_inversiones";
 
         $respuesta = ModeloPagos::mdlMostrarPagosInversionesxEstadoAll($tabla, $item, $valor, $item2, $valor2);
+
+        return $respuesta;
+
+    }
+
+
+     /*=============================================
+    Mostrar Pagos Publicidad x estado All
+    =============================================*/
+
+    public static function ctrMostrarPagosPublicidadxEstadoAll($item, $valor, $item2, $valor2)
+    {
+
+        $tabla = "pagos_publicidad";
+
+        $respuesta = ModeloPagos::mdlMostrarPagosPublicidadxEstadoAll($tabla, $item, $valor, $item2, $valor2);
 
         return $respuesta;
 

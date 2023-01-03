@@ -300,7 +300,7 @@ class ModeloPagos
     }
 
 
-     /*=============================================
+    /*=============================================
     Mostrar Pagos Inversiones x Usuario
     =============================================*/
 
@@ -320,6 +320,26 @@ class ModeloPagos
         $stmt = null;
     }
 
+
+    /*=============================================
+    Mostrar Pagos Publicidad x Usuario
+    =============================================*/
+
+    public static function mdlMostrarPagosPublicidadxUsuario($tabla, $item, $valor, $item2, $valor2)
+    {
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item2 = :$item2 AND $item = :$item");
+
+        $stmt->bindParam(":" . $item, $valor, PDO::PARAM_INT);
+        $stmt->bindParam(":" . $item2, $valor2, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+
+        $stmt->close();
+
+        $stmt = null;
+    }
 
 
 
@@ -343,6 +363,29 @@ class ModeloPagos
 
         $stmt = null;
     }
+
+
+    /*=============================================
+    Mostrar Pagos Publicidad x Estado All
+    =============================================*/
+
+    public static function mdlMostrarPagosPublicidadxEstadoAll($tabla, $item, $valor, $item2, $valor2)
+    {
+
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item AND $item2 = :$item2");
+
+        $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
+        $stmt->bindParam(":" . $item2, $valor2, PDO::PARAM_STR);
+
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+
+        $stmt->close();
+
+        $stmt = null;
+    }
+
 
 
       /*=============================================

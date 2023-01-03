@@ -127,11 +127,14 @@ class ModeloCuentas{
     public static function mdlEditarCuenta($tabla, $datos)
     {
 
-        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET numero = :numero, entidad = :entidad, tipo = :tipo WHERE id = :id");
+        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET numero = :numero, nombre_titular = :nombre_titular, entidad = :entidad, tipo = :tipo, tipo_documento = :tipo_documento, titular = :titular WHERE id = :id");
 
         $stmt->bindParam(":numero", $datos["numero"], PDO::PARAM_INT);
+        $stmt->bindParam(":nombre_titular", $datos["nombre_titular"], PDO::PARAM_STR);
         $stmt->bindParam(":entidad", $datos["entidad"], PDO::PARAM_STR);
         $stmt->bindParam(":tipo", $datos["tipo"], PDO::PARAM_STR);
+        $stmt->bindParam(":tipo_documento", $datos["tipo_documento"], PDO::PARAM_STR);
+        $stmt->bindParam(":titular", $datos["titular"], PDO::PARAM_INT); 
         $stmt->bindParam(":id", $datos["id"], PDO::PARAM_INT);
 
         if ($stmt->execute()) {

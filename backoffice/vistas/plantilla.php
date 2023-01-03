@@ -324,6 +324,8 @@ if($usuario["firma"]!=null){
 				$_GET["pagina"] == "extras-pagados" ||
 				$_GET["pagina"] == "ingresos-uninivel" ||
 				$_GET["pagina"] == "inversiones-sin-liquidar" ||
+				$_GET["pagina"] == "publicidad-sin-liquidar" ||
+				$_GET["pagina"] == "ingresos-publicidad" ||
 				$_GET["pagina"] == "ingresos-binaria" ||
 				$_GET["pagina"] == "ingresos-extras" ||
 				$_GET["pagina"] == "extras-sin-liquidar" ||

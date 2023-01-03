@@ -136,6 +136,24 @@ class AjaxCampanas{
 	}
 
 
+
+	/*=============================================
+    Eliminar Campana Publicidad
+    =============================================*/	
+
+	public $idCampanaEliminarPublicidad;
+
+	public function ajaxEliminarCampanaPublicidad(){
+
+		$valor = $this->idCampanaEliminarPublicidad;
+
+		$respuesta = ControladorCampanas::ctrEliminarCampana($valor);
+
+		echo $respuesta;
+
+	}
+
+
 	/*=============================================
     Eliminar Campana Bono Extra
     =============================================*/	
@@ -243,7 +261,7 @@ if(isset($_POST["idCampanaEliminarBono"])){
 }
 
 /*=============================================
-Eliminar Campaña
+Eliminar Campaña Inversion
 =============================================*/	
 
 if(isset($_POST["idCampanaEliminar"])){
@@ -251,6 +269,20 @@ if(isset($_POST["idCampanaEliminar"])){
 	$eliminarCampana = new AjaxCampanas();
 	$eliminarCampana -> idCampanaEliminar = $_POST["idCampanaEliminar"];
 	$eliminarCampana -> ajaxEliminarCampana();
+
+}
+
+
+
+/*=============================================
+Eliminar Campaña Publicidad
+=============================================*/	
+
+if(isset($_POST["idCampanaEliminarPublicidad"])){
+
+	$eliminarCampana = new AjaxCampanas();
+	$eliminarCampana -> idCampanaEliminarPublicidad = $_POST["idCampanaEliminarPublicidad"];
+	$eliminarCampana -> ajaxEliminarCampanaPublicidad();
 
 }
 

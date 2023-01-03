@@ -152,18 +152,21 @@ Class ControladorCuentas{
 	editar cuenta bancaria
 	=============================================*/
 
-	public function ctrEditarCuenta(){
+	public function ctrEditarCuenta($pagina){
 
 		$tabla = "cuentas_bancarias";
 
 		if(isset($_POST["editarNumero"])){
 
-			if(preg_match('/^[0-9]+$/', $_POST["editarNumero"]) &&
-			preg_match('/^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["editarEntidad"]) ){
+			if(preg_match('/^[0-9]+$/', $_POST["editarDocumentoTitular"]) && preg_match('/^[0-9]+$/', $_POST["editarNumero"]) &&
+			preg_match('/^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["editarNombreTitular"]) ){
 
 				$datos = array(	"numero" => $_POST["editarNumero"],
+				"nombre_titular" => $_POST["editarNombreTitular"],
 				"entidad" => $_POST["editarEntidad"],
-				"tipo" => $_POST["editarTipo"],
+				"tipo" => $_POST["editarTipoCuenta"],
+				"tipo_documento" => $_POST["editarTipoDocumento"],
+				"titular" => $_POST["editarDocumentoTitular"],
 				"id" => $_POST["idCuenta"]);
 
 				
@@ -184,7 +187,7 @@ Class ControladorCuentas{
 
 								if(result.value){
 
-									window.location = "cuentas-bancarias";
+									window.location = "'.$pagina.'";
 
 								}
 

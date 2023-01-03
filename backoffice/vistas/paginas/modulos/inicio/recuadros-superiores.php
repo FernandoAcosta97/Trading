@@ -8,6 +8,7 @@ $pagos = ControladorPagos::ctrMostrarPagosComisionesxEstadoAll("id_usuario", $us
 
 $pagosInversiones = ControladorPagos::ctrMostrarPagosInversionesxUsuario("doc_usuario", $usuario["doc_usuario"], "estado", 1);
 
+$pagosPublicidad = ControladorPagos::ctrMostrarPagosPublicidadxUsuario("id_usuario", $usuario["id_usuario"], "estado", 1);
 
 $pagosExtras = ControladorPagos::ctrMostrarPagosExtrasxEstadoAll("id_usuario", $usuario["id_usuario"], "estado", 1);
 
@@ -16,6 +17,7 @@ $comisionesApagar = ControladorPagos::ctrMostrarPagosComisionesxEstadoAll("id_us
 
 $inversionesApagar = ControladorPagos::ctrMostrarPagosInversionesxUsuario("doc_usuario", $usuario["doc_usuario"], "estado", 0);
 
+$publicidadApagar = ControladorPagos::ctrMostrarPagosPublicidadxUsuario("id_usuario", $usuario["id_usuario"], "estado", 0);
 
 $bonosApagar = ControladorPagos::ctrMostrarPagosExtrasxEstadoAll("id_usuario", $usuario["id_usuario"], "estado", 0);
 
@@ -108,6 +110,39 @@ foreach ($inversionesApagar as $key => $value) {
 		$campana = ControladorCampanas::ctrMostrarCampanas("id", $value["campana"]);
 		$ganancia = ($value["valor"]*$campana["retorno"])/100;
 		$totalInversionesApagar+=$value["valor"]+$ganancia;
+
+}
+
+
+/*=============================================
+TOTAL PUBLICIDAD SIN LIQUIDAR
+=============================================*/
+
+$totalPublicidadApagar = 0;
+
+foreach ($publicidadApagar as $key => $value) {
+
+	$comprobante=ControladorComprobantes::ctrMostrarComprobantes("id",$value["id_comprobante"]);
+
+	$campana=ControladorCampanas::ctrMostrarCampanas("id",$comprobante[0]["campana"]);
+
+	$totalPublicidadApagar+=$campana["retorno"];
+
+}
+
+
+
+/*=============================================
+TOTAL PUBLICIDAD SIN LIQUIDAR
+=============================================*/
+
+$totalPagosPublicidad = 0;
+
+foreach ($pagosPublicidad as $key => $value) {
+
+	$comprobante=ControladorComprobantes::ctrMostrarComprobantes("id",$value["id_comprobante"]);
+
+	$totalPagosPublicidad+=$value["valor"];
 
 }
 
@@ -446,7 +481,21 @@ if ($usuario["operando"] == 1):?>
 <!-- ./col -->
 
 <div class="col-12 col-sm-6 col-lg-3">
+
+<!-- small box -->
+<div class="small-box bg-info">
+	<div class="inner">
+		<h3>$ <?php echo number_format($totalPagosPublicidad); ?></h3>
+
+		<p>PUBLICIDAD LIQUIDADA</p>
 	</div>
+	<div class="icon">
+		<i class="fas fa-dollar-sign"></i>
+	</div>
+	<a href="ingresos-publicidad" class="small-box-footer">Más información <i class="fas fa-arrow-circle-right"></i></a>
+</div>
+</div>
+<!-- ./col -->
 
 <div class="col-12 col-sm-6 col-lg-3">
 
@@ -501,6 +550,25 @@ if ($usuario["operando"] == 1):?>
 		<i class="fas fa-dollar-sign"></i>
 	</div>
 	<a href="extras-sin-liquidar" class="small-box-footer">Más información <i class="fas fa-arrow-circle-right"></i></a>
+</div>
+
+</div>
+<!-- ./col -->
+
+
+<div class="col-12 col-sm-6 col-lg-3">
+
+<!-- small box -->
+<div class="small-box bg-warning">
+	<div class="inner">
+		<h3>$ <?php echo number_format($totalPublicidadApagar); ?></h3>
+
+		<p>PUBLICIDAD SIN LIQUIDAR</p>
+	</div>
+	<div class="icon">
+		<i class="fas fa-dollar-sign"></i>
+	</div>
+	<a href="publicidad-sin-liquidar" class="small-box-footer">Más información <i class="fas fa-arrow-circle-right"></i></a>
 </div>
 
 </div>
