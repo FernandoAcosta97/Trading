@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 27-12-2022 a las 06:50:56
+-- Tiempo de generación: 03-01-2023 a las 03:26:07
 -- Versión del servidor: 10.4.20-MariaDB
 -- Versión de PHP: 8.0.9
 
@@ -70,7 +70,7 @@ INSERT INTO `campanas` (`id`, `nombre`, `retorno`, `estado`, `tipo`, `cupos`, `f
 (10, 'Cardano', 20, 2, 1, 1000, '2022-11-08 00:00:00', '2022-11-12 00:00:00', '2022-11-19'),
 (16, 'Bono Extra', 55000, 0, 2, 0, '2022-11-01 00:00:00', '2022-11-24 00:00:00', '2022-11-30'),
 (18, 'Bono Extra', 30000, 1, 2, 0, '2022-12-04 00:00:00', '2022-12-29 00:00:00', '2022-12-30'),
-(23, 'publicidad', 15000, 1, 3, 10, '2022-12-08 14:09:00', '2022-12-30 14:09:00', '2022-12-30');
+(23, 'publicidad', 20000, 1, 3, 10, '2022-12-08 14:09:00', '2022-12-30 14:09:00', '2022-12-30');
 
 -- --------------------------------------------------------
 
@@ -140,7 +140,9 @@ CREATE TABLE `comprobantes` (
 
 INSERT INTO `comprobantes` (`id`, `foto`, `fecha`, `estado`, `valor`, `doc_usuario`, `campana`) VALUES
 (4, 'vistas/img/comprobantes/765/561.png', '2022-12-27 05:42:54', 1, 1000000, 765, 1),
-(5, 'vistas/img/comprobantes/765/540.png', '2022-12-27 05:43:30', 1, 0, 765, 23);
+(5, 'vistas/img/comprobantes/765/540.png', '2023-01-02 23:08:52', 1, 0, 765, 23),
+(6, 'vistas/img/comprobantes/879788/462.png', '2023-01-02 22:11:39', 1, 0, 879788, 23),
+(7, 'vistas/img/comprobantes/879788/314.png', '2023-01-02 23:08:36', 1, 0, 879788, 23);
 
 -- --------------------------------------------------------
 
@@ -166,9 +168,9 @@ CREATE TABLE `cuentas_bancarias` (
 --
 
 INSERT INTO `cuentas_bancarias` (`id`, `numero`, `usuario`, `tipo_documento`, `titular`, `nombre_titular`, `entidad`, `estado`, `tipo`, `fecha`) VALUES
-(72, '984984', 26, 'cedula de ciudadania', 464545456, 'nombre titular', 'davivienda', 1, 'ahorros', '2022-12-27 03:33:25'),
+(72, '9849845', 26, 'cedula de ciudadania', 4645454565, 'nombre titular cuenta', 'davivienda', 1, 'corriente', '2023-01-03 00:11:33'),
 (73, '32454353422', 27, 'cedula de ciudadania', 43545, 'nombre titular', 'davivienda', 1, 'ahorros', '2022-12-27 05:41:52'),
-(74, '54', 66, 'cedula de ciudadania', 6456, 'hgh', 'bancolombia', 1, 'ahorros', '2022-12-27 05:48:16');
+(74, '5499996', 66, 'cedula de ciudadania', 6456, 'hgh', 'bancolombia', 1, 'ahorros', '2023-01-03 01:22:37');
 
 -- --------------------------------------------------------
 
@@ -293,7 +295,9 @@ CREATE TABLE `pagos_publicidad` (
 --
 
 INSERT INTO `pagos_publicidad` (`id`, `id_usuario`, `id_comprobante`, `valor`, `estado`, `id_cuenta`, `fecha`) VALUES
-(3, 27, 5, 0, 0, 0, '2022-12-27 05:43:30');
+(4, 26, 6, 15000, 1, 72, '2023-01-02 23:03:34'),
+(5, 26, 7, 15000, 1, 72, '2023-01-01 23:09:02'),
+(6, 27, 5, 20000, 1, 73, '2023-01-03 01:39:46');
 
 -- --------------------------------------------------------
 
@@ -695,7 +699,7 @@ ALTER TABLE `comisiones`
 -- AUTO_INCREMENT de la tabla `comprobantes`
 --
 ALTER TABLE `comprobantes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `cuentas_bancarias`
@@ -737,7 +741,7 @@ ALTER TABLE `pagos_inversiones`
 -- AUTO_INCREMENT de la tabla `pagos_publicidad`
 --
 ALTER TABLE `pagos_publicidad`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `pagos_uninivel`
