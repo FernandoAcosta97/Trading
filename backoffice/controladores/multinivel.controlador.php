@@ -65,6 +65,88 @@ class ControladorMultinivel{
 
 	}
 
+
+	static public function generarLineasDescendientes($ordenBinaria,$n,$niveles, $patrocinador_antiguo, $nuevo_patrocinador)
+{
+
+	$pago_patrocinador_antiguo = ControladorPagos::ctrMostrarPagosComisionesxEstado("id_usuario", $patrocinador_antiguo, "estado", 0);
+
+	if($pago_patrocinador_antiguo!=""){
+
+	if($n<=$niveles){
+
+    $respuesta = ControladorMultinivel::ctrMostrarUsuarioRed("red_binaria", "derrame_binaria", $ordenBinaria);
+
+    $derrame = 0;
+
+		/*=============================================
+			CUANDO SI HAY LÍNEA DESCENDIENTE
+			=============================================*/
+
+			foreach ($respuesta as $key => $value) {
+
+				// TRAEMOS LOS DATOS DEL USUARIO
+
+				$afiliado = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $value["usuario_red"]);
+
+					$comisiones = ControladorPagos::ctrMostrarComisionesAll("id_pago_comision", $pago_patrocinador_antiguo["id"]);
+					foreach($comisiones as $key2 => $value2){
+						$comprobante = ControladorComprobantes::ctrMostrarComprobantes("id", $value2["id_comprobante"]);
+						$usu = ControladorUsuarios::ctrMostrarUsuarios("doc_usuario", $comprobante[0]["doc_usuario"]);
+
+						if($afiliado["id_usuario"]==$usu["id_usuario"]){
+
+							$existe_pago = ControladorPagos::ctrMostrarPagosComisionesxEstado("id_usuario", $nuevo_patrocinador, "estado",0);
+
+							if($existe_pago!=""){
+					
+								$comision = ControladorPagos::ctrRegistrarComisiones($existe_pago["id"],$comprobante[0]["id"],$value2["nivel"]);
+								
+					
+							}else{
+					
+								$pago_comision = ControladorPagos::ctrRegistrarPagosComisiones($nuevo_patrocinador);
+						
+								$comision = ControladorPagos::ctrRegistrarComisiones($pago_comision,$comprobante[0]["id"],$value2["nivel"]);
+							}
+
+							$comisionEliminar = ControladorPagos::ctrEliminarComisiones($pago_patrocinador_antiguo["id"],$comprobante[0]["id"]);
+
+							$comisiones = ControladorPagos::ctrMostrarComisionesAll("id_pago_comision", $pago_patrocinador_antiguo["id"]);
+
+							if(count($comisiones)==0){
+
+								$pago_comision_eliminar = ControladorPagos::ctrEliminarPagosComisiones($pago_patrocinador_antiguo["id"]);
+				
+							}
+
+						}
+					}
+				
+
+
+				// AUMENTAMOS EL DERRAME
+
+				$derrame++;
+
+		
+		  $n=$n+1;
+	      ControladorMultinivel::generarLineasDescendientes($value["orden_binaria"], $n,$niveles, $patrocinador_antiguo, $nuevo_patrocinador);
+
+			}
+		
+
+
+}
+
+	}
+
+
+}
+
+
+
+
 	/*=============================================
 	Eliminar Usuario Red
 	=============================================*/

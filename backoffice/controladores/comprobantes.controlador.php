@@ -212,7 +212,7 @@ class ControladorComprobantes
     }
 
 
-     /*=============================================
+    /*=============================================
     Mostrar Comprobantes x Tipo x estado
     =============================================*/
 
@@ -228,7 +228,24 @@ class ControladorComprobantes
 
     }
 
-       /*=============================================
+
+    /*=============================================
+    Mostrar Comprobantes x Tipo x estado x campana estado
+    =============================================*/
+
+    public static function ctrMostrarComprobantesxTipoxEstadoxCampanaEstado($doc_usuario, $estado_comprobante, $tipo_campana, $estado_campana)
+    {
+
+        $tabla = "comprobantes";
+        $tabla2 = "campanas";
+
+        $respuesta = ModeloComprobantes::mdlMostrarComprobantesxTipoxEstadoxCampanaEstado($tabla, $tabla2, $doc_usuario, $estado_comprobante, $tipo_campana, $estado_campana);
+
+        return $respuesta;
+
+    }
+
+    /*=============================================
     Mostrar Comprobantes x Estado
     =============================================*/
 
@@ -238,6 +255,23 @@ class ControladorComprobantes
         $tabla = "comprobantes";
 
         $respuesta = ModeloComprobantes::mdlMostrarComprobantesxEstado($tabla, $item, $valor,$item2, $valor2);
+
+        return $respuesta;
+
+    }
+
+
+    /*=============================================
+    Mostrar Comprobantes x Estado excluyendo tipo publicidad
+    =============================================*/
+
+    public static function ctrMostrarComprobantesxEstadoNoPublicidad($item, $valor, $item2, $valor2)
+    {
+
+        $tabla = "comprobantes";
+        $tabla2 = "campanas";
+
+        $respuesta = ModeloComprobantes::mdlMostrarComprobantesxEstadoNoPublicidad($tabla, $tabla2, $item, $valor,$item2, $valor2);
 
         return $respuesta;
 

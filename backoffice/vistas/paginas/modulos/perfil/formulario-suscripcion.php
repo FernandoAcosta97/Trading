@@ -85,14 +85,20 @@
 				if(isset($_COOKIE["patrocinador"]))
 					{
 						$p = $_COOKIE["patrocinador"];
+						echo '				<div>
+
+						<input type="text" class="form-control" id="inputPatrocinador" value="'.$p.'" readonly required>
+	
+					</div>';
+					}else{
+						echo '				<div>
+
+						<input type="text" class="form-control" id="inputPatrocinador" value="" required>
+	
+					</div>';
 					} 
 				?>
 
-				<div>
-
-					<input type="text" class="form-control" id="inputPatrocinador" value="<?php echo $p ?>" required>
-
-				</div>
 
 			</div>
 

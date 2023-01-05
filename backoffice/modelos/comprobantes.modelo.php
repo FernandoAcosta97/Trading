@@ -102,7 +102,7 @@ class ModeloComprobantes
     }
 
 
-     /*=============================================
+    /*=============================================
     Mostrar Comprobantes x tipo x estado
     =============================================*/
 
@@ -136,6 +136,35 @@ class ModeloComprobantes
             return $stmt->fetchAll();
 
         }
+
+
+        $stmt->close();
+
+        $stmt = null;
+    }
+
+
+
+     /*=============================================
+    Mostrar Comprobantes x tipo x estado x campana estado
+    =============================================*/
+
+    public static function mdlMostrarComprobantesxTipoxEstadoxCampanaEstado($tabla, $tabla2, $doc_usuario, $estado_comprobante, $tipo_campana, $estado_campana)
+    {
+            
+        $stmt = Conexion::conectar()->prepare("SELECT co.id as comprobanteId, co.fecha, co.estado as estadoComprobante, co.valor, co.doc_usuario, co.campana, ca.id as campanaId, ca.retorno, ca.nombre, ca.tipo, ca.estado as estadoCampana FROM $tabla as co INNER JOIN $tabla2 as ca ON co.campana=ca.id WHERE co.doc_usuario = :$doc_usuario AND co.estado = :$estado_comprobante AND ca.tipo = :$tipo_campana AND ca.estado = :$estado_campana");
+
+        $stmt->bindParam(":" . $doc_usuario, $doc_usuario, PDO::PARAM_INT);
+
+        $stmt->bindParam(":" . $estado_comprobante, $estado_comprobante, PDO::PARAM_INT);
+
+        $stmt->bindParam(":" . $tipo_campana, $tipo_campana, PDO::PARAM_INT);
+
+        $stmt->bindParam(":" . $estado_campana, $estado_campana, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        return $stmt->fetchAll();
 
 
         $stmt->close();
@@ -179,6 +208,44 @@ class ModeloComprobantes
 
         $stmt = null;
     }
+
+
+     /*=============================================
+    Mostrar Comprobantes x estado excluyendo tipo publicidad
+    =============================================*/
+
+    public static function mdlMostrarComprobantesxEstadoNoPublicidad($tabla, $tabla2, $item, $valor,$item2, $valor2)
+    {
+
+        if ($item != null && $valor != null && $item2 != null && $valor2 != null) {
+
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla as co INNER JOIN $tabla2 as ca ON co.campana=ca.id WHERE co.$item = :$item AND co.$item2 = :$item2 AND ca.tipo != 3");
+
+            $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
+            $stmt->bindParam(":" . $item2, $valor2, PDO::PARAM_STR);
+            
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+
+        } else if($item2 != null && $valor2 != null){
+
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item2 = :$item2 AND tipo != 3");
+
+            $stmt->bindParam(":" . $item2, $valor2, PDO::PARAM_STR);
+        
+            $stmt->execute();
+
+            return $stmt->fetchAll();
+
+        }
+
+
+        $stmt->close();
+
+        $stmt = null;
+    }
+
 
 
     /*=============================================

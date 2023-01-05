@@ -299,7 +299,12 @@ class ControladorPagos
 
         $nuevo_patrocinador = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $id_nuevo_patrocinador);
 
-    //Registrar comisiones al nuevi patrocinador y todos los patrocinadores hacia arriba de acuerdo a los niveles del arbol.
+        $pagos_comisiones = ControladorPagos::ctrMostrarPagosComisionesxEstadoAll("id_usuario", $padre["id_usuario"], "estado", 0);
+
+        if($pagos_comisiones!=""){
+            
+
+    //Registrar comisiones al nuevo  patrocinador y todos los patrocinadores hacia arriba de acuerdo a los niveles del arbol.
     while($n <= $niveles_arbol && $padre["perfil"]!="admin"){
 
         $inversiones_hijo = ControladorPagos::ctrMostrarPagosInversionesxUsuario("doc_usuario", $hijo["doc_usuario"],"estado",0);
@@ -336,6 +341,7 @@ class ControladorPagos
         $n=$n+1;
         $padre = ControladorUsuarios::ctrMostrarUsuarios("enlace_afiliado", $padre["patrocinador"]); 
     }
+}
 
 
 

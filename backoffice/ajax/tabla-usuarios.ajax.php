@@ -72,7 +72,7 @@ class TablaUsuarios{
 
 
 
-		if(count($usuarios) == 1 ){
+		if(count($usuarios) == 0){
 
 			echo '{ "data":[]}';
 

@@ -498,13 +498,19 @@ Class ControladorUsuarios{
 
 				}
 
-				$telefono = $_POST["indicativo"]." ".$_POST["editarMovil"];
+				$p = explode(",", $_POST["inputPaisEditar"]);
+				$pais = $p[0];
+				$codigo_pais = $p[1];
+
+				$telefono = $p[2]." ".$_POST["editarMovil"];
 
 				$datos = array("nombre" => $_POST["editarNombre"],
 							   "email" => $_POST["editarEmail"],
 							   "password" => $encriptar,
 							   "telefono" => $telefono,
 							   "perfil" => $_POST["editarPerfil"],
+							   "pais" => $pais,
+							   "codigo_pais" => $codigo_pais,
 							   "id_usuario" => $_POST["editarUsuario"]);
 
 				$respuesta = ModeloUsuarios::mdlEditarUsuario($tabla, $datos);
@@ -1319,7 +1325,7 @@ Class ControladorUsuarios{
 	Cambiar Patrocinador
 	=============================================*/
 
-	static public function ctrCambiarPatrocinador(){
+	static public function ctrCambiarPatrocinador2(){
 
 		if(isset($_POST["cambioPatrocinador"])){
 
@@ -1348,19 +1354,12 @@ Class ControladorUsuarios{
 						</script>';
 			}else{
 
-			// $pasar_comisiones_padre = ControladorPagos::ctrPasarComisionesPadreArbol($_POST["cambioPatrocinador"], $_POST["nuevoPatrocinador"], 5);
-
-			// $pasar_comisiones_hijo = ControladorPagos::ctrPasarComisionesHijoArbol($_POST["cambioPatrocinador"], $_POST["nuevoPatrocinador"], 5);
-
-			//Registrar Comisiones solo del hijo al nuevo padre(patrocinador).
-			// $prueba_registrar = ControladorPagos::ctrPruebaComisionesRegistrar($_POST["cambioPatrocinador"], $_POST["nuevoPatrocinador"]);
-
-			//Eliminar comisiones antiguos patrocinadores hacia arriba en el árbol de acruerdo a los niveles.
-			//$prueba_eliminar = ControladorPagos::ctrPruebaComisiones($_POST["cambioPatrocinador"], $_POST["nuevoPatrocinador"], 5, false);
 
 			$niveles_arbol=5;
 			$n=1;
 			$padre=ControladorUsuarios::ctrMostrarUsuarios("id_usuario",$_POST["cambioPatrocinador"]);
+
+			$antiguo_patrocinador = ControladorUsuarios::ctrMostrarUsuarios("patrocinador",$padre["enlace_afiliado"]);
 
 			$prueba_bonos = ControladorPagos::ctrPruebaBonos($_POST["cambioPatrocinador"], $_POST["nuevoPatrocinador"]);
 
@@ -1380,15 +1379,18 @@ Class ControladorUsuarios{
 			$padre=ControladorUsuarios::ctrMostrarUsuarios("id_usuario",$_POST["cambioPatrocinador"]);
 
 			$n=1;
+			$padre=$antiguo_patrocinador;
 
 			while($n <= $niveles_arbol &&  $padre!=""){
-                
+
+
 				$prueba_registrar = ControladorPagos::ctrPruebaRegistrarDespues($padre["id_usuario"], $_POST["nuevoPatrocinador"], 5);
 
 				$hijo = ControladorUsuarios::ctrMostrarUsuarios("patrocinador",$padre["enlace_afiliado"]);
 
 				$padre=$hijo;
 				$n=$n+1;
+			
 
 			}
 
@@ -1428,6 +1430,240 @@ Class ControladorUsuarios{
 
 	}
 
+
+	/*=============================================
+	Cambiar Patrocinador
+	=============================================*/
+
+	static public function ctrCambiarPatrocinador(){
+
+		if(isset($_POST["cambioPatrocinador"])){
+
+			if($_POST["cambioPatrocinador"] ==  $_POST["nuevoPatrocinador"] || $_POST["cambioPatrocinador"]==1){
+				echo '<script>
+
+							swal({
+
+								type:"warning",
+								title: "Atención",
+								text: "¡Ha seleccionado erroneamente, vuelve a intentarlo!",
+								showConfirmButton: true,
+								confirmButtonText: "Cerrar"
+
+							}).then(function(result){
+
+								if(result.value){
+
+									window.location = "cambiar-patrocinador";
+
+								}
+
+
+							});	
+
+						</script>';
+			}else{
+
+			$usuario = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $_POST["cambioPatrocinador"]);
+
+			$patrocinador_antiguo = ControladorUsuarios::ctrMostrarUsuarios("enlace_afiliado", $usuario["patrocinador"]);
+
+			$nuevo_patrocinador = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $_POST["nuevoPatrocinador"]);
+
+			//Cuando el antiguo patrocinador es el administrador
+
+			if($patrocinador_antiguo["perfil"]=="admin"){
+
+				$comprobantes_usuario = ControladorComprobantes::ctrMostrarComprobantesxTipoxEstadoxCampanaEstado($usuario["doc_usuario"], 1, 1, 1);
+
+				if(count($comprobantes_usuario)>0){
+
+					$existe_pago = ControladorPagos::ctrMostrarPagosComisionesxEstado("id_usuario", $nuevo_patrocinador["id_usuario"], "estado",0);
+
+					foreach($comprobantes_usuario as $key => $value){
+
+						$comprobante = ControladorComprobantes::ctrMostrarComprobantes("id", $value["comprobanteId"]);
+
+						if($existe_pago!=""){
+							
+							$comision = ControladorPagos::ctrRegistrarComisiones($existe_pago["id"],$comprobante[0]["id"],1);
+								
+					
+							}else{
+					
+								$pago_comision = ControladorPagos::ctrRegistrarPagosComisiones($nuevo_patrocinador["id_usuario"]);
+						
+								$comision = ControladorPagos::ctrRegistrarComisiones($pago_comision,$comprobante[0]["id"],1);
+							}
+
+					}
+
+
+				}
+
+				$pago_usuario = ControladorPagos::ctrMostrarPagosComisionesxEstado("id_usuario", $usuario["id_usuario"], "estado", 0);
+
+				if($pago_usuario!=""){
+
+					$comisiones = ControladorPagos::ctrMostrarComisionesAll("id_pago_comision", $pago_usuario["id"]);
+
+					foreach($comisiones as $key => $value){
+						$comprobante = ControladorComprobantes::ctrMostrarComprobantes("id", $value["id_comprobante"]);
+						$usu = ControladorUsuarios::ctrMostrarUsuarios("doc_usuario", $comprobante[0]["doc_usuario"]);
+
+						$existe_pago = ControladorPagos::ctrMostrarPagosComisionesxEstado("id_usuario", $nuevo_patrocinador["id_usuario"], "estado",0);
+
+						if($existe_pago!=""){
+							
+							$comision = ControladorPagos::ctrRegistrarComisiones($existe_pago["id"],$comprobante[0]["id"],$value["nivel"]+1);
+								
+					
+							}else{
+					
+								$pago_comision = ControladorPagos::ctrRegistrarPagosComisiones($nuevo_patrocinador["id_usuario"]);
+						
+								$comision = ControladorPagos::ctrRegistrarComisiones($pago_comision,$comprobante[0]["id"],$value["nivel"]+1);
+							}
+						
+					}
+
+				}
+
+
+			//Cuando el nuevo patrocinador es el administrador
+
+			}else if($nuevo_patrocinador["perfil"]=="admin"){
+
+				$prueba_bonos = ControladorPagos::ctrPruebaBonos($_POST["cambioPatrocinador"], $_POST["nuevoPatrocinador"]);
+
+				$pago_usuario = ControladorPagos::ctrMostrarPagosComisionesxEstado("id_usuario", $usuario["id_usuario"], "estado", 0);
+
+				$pago_antiguo_patrocinador = ControladorPagos::ctrMostrarPagosComisionesxEstado("id_usuario", $patrocinador_antiguo["id_usuario"], "estado", 0);
+
+				if($pago_usuario!="" && $pago_antiguo_patrocinador!=""){
+
+					$comisiones_usuario = ControladorPagos::ctrMostrarComisionesAll("id_pago_comision", $pago_usuario["id"]);
+
+					$comisiones_antiguo_patrocinador = ControladorPagos::ctrMostrarComisionesAll("id_pago_comision", $pago_antiguo_patrocinador["id"]);
+
+					$comisiones_id_usario=array();
+
+					foreach($comisiones_usuario as $key => $value){
+						array_push($comisiones_id_usario, $value["id_comprobante"]);
+					}
+					
+
+					foreach($comisiones_antiguo_patrocinador as $key => $value){
+
+						$comprobante = ControladorComprobantes::ctrMostrarComprobantes("id", $value["id_comprobante"]);
+
+						if(in_array($value["id_comprobante"], $comisiones_id_usario) || $comprobante[0]["doc_usuario"]==$usuario["doc_usuario"]){
+
+							$comisionEliminar = ControladorPagos::ctrEliminarComisiones($pago_antiguo_patrocinador["id"],$comprobante[0]["id"]);
+
+						}
+					}
+
+					$comisiones_antiguo_patrocinador = ControladorPagos::ctrMostrarComisionesAll("id_pago_comision", $pago_antiguo_patrocinador["id"]);
+
+					if(count($comisiones_antiguo_patrocinador)==0){
+
+						$pago_comision_eliminar = ControladorPagos::ctrEliminarPagosComisiones($pago_antiguo_patrocinador["id"]);
+			
+					}
+
+				}
+
+
+			}else{
+
+			$prueba_bonos = ControladorPagos::ctrPruebaBonos($_POST["cambioPatrocinador"], $_POST["nuevoPatrocinador"]);
+
+			$nuevo_patrocinador = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $_POST["nuevoPatrocinador"]);
+
+			$pago_patrocinador_antiguo = ControladorPagos::ctrMostrarPagosComisionesxEstado("id_usuario", $patrocinador_antiguo["id_usuario"], "estado", 0);
+
+			if($pago_patrocinador_antiguo!=""){
+
+			$comisiones = ControladorPagos::ctrMostrarComisionesAll("id_pago_comision", $pago_patrocinador_antiguo["id"]);
+			foreach($comisiones as $key => $value){
+				$comprobante = ControladorComprobantes::ctrMostrarComprobantes("id", $value["id_comprobante"]);
+				$usu = ControladorUsuarios::ctrMostrarUsuarios("doc_usuario", $comprobante[0]["doc_usuario"]);
+
+				if($usuario["id_usuario"]==$usu["id_usuario"]){
+					$existe_pago = ControladorPagos::ctrMostrarPagosComisionesxEstado("id_usuario", $nuevo_patrocinador["id_usuario"], "estado",0);
+					if($existe_pago!=""){
+					
+						$comision = ControladorPagos::ctrRegistrarComisiones($existe_pago["id"],$comprobante[0]["id"],$value["nivel"]);
+						
+			
+					}else{
+			
+						$pago_comision = ControladorPagos::ctrRegistrarPagosComisiones($nuevo_patrocinador["id_usuario"]);
+				
+						$comision = ControladorPagos::ctrRegistrarComisiones($pago_comision,$comprobante[0]["id"],$value["nivel"]);
+					}
+
+					$comisionEliminar = ControladorPagos::ctrEliminarComisiones($pago_patrocinador_antiguo["id"],$comprobante[0]["id"]);
+
+					$comisiones = ControladorPagos::ctrMostrarComisionesAll("id_pago_comision", $pago_patrocinador_antiguo["id"]);
+
+						if(count($comisiones)==0){
+
+							$pago_comision_eliminar = ControladorPagos::ctrEliminarPagosComisiones($pago_patrocinador_antiguo["id"]);
+				
+						}
+				
+				}
+			}
+
+		}
+
+			$red = ControladorMultinivel::ctrMostrarUsuarioRed("red_binaria", "usuario_red", $usuario["id_usuario"]);
+
+            $ordenBinaria = $red[0]["orden_binaria"];
+
+			// $red_binaria = ControladorMultinivel::ctrMostrarUsuarioRed("red_binaria", "derrame_binaria", $ordenBinaria);
+			// print_r($patrocinador_antiguo);
+			// 
+			
+			ControladorMultinivel::generarLineasDescendientes($ordenBinaria, 0, 6, $patrocinador_antiguo["id_usuario"], $nuevo_patrocinador["id_usuario"]);
+	}
+
+			$cambiar_patrocinador_binaria = ControladorPagos::ctrCambiarPatrocinadorBinaria($_POST["cambioPatrocinador"], $_POST["nuevoPatrocinador"]);
+			// $cambiar_patrocinador_binaria="ok";
+
+			if($cambiar_patrocinador_binaria=="ok"){
+
+				echo '<script>
+
+							swal({
+
+								type:"success",
+								title: "CAMBIO EXITOSO",
+								text: "¡EL PATROCINADOR SE HA CAMBIADO CORRECTAMENTE!",
+								showConfirmButton: true,
+								confirmButtonText: "Cerrar"
+
+							}).then(function(result){
+
+								if(result.value){
+
+									window.location = "cambiar-patrocinador";
+
+								}
+
+
+							});	
+
+						</script>';
+
+			}
+		}
+	
+		}
+
+	}
 
 	
 

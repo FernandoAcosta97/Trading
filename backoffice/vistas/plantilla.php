@@ -212,7 +212,7 @@ Páginas del sitio
 =============================================*/
 
 if($usuario["firma"]!=null){
-
+	
 	$cuentas = ControladorCuentas::ctrMostrarCuentasAll("usuario", $usuario["id_usuario"]);
 
 	if(count($cuentas)==0){

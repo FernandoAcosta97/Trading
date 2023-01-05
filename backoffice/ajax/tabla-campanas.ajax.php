@@ -14,17 +14,27 @@ class TablaCampanas{
 
 		$item = "tipo";
 		$valor = 1;
-		$campanas = ControladorCampanas::ctrMostrarCampanasAll($item, $valor);
 		$usuario = ControladorUsuarios::ctrMostrarUsuarios("doc_usuario",$_GET["doc_usuario"]);
+		if($usuario["perfil"]=="admin"){
+
+			$campanas = ControladorCampanas::ctrMostrarCampanasAll($item, $valor);
+
+		}else{
+
+			$campanas = ControladorCampanas::ctrMostrarCampanasxTipoxEstadoAll($item, $valor, "estado", 1);
+
+		}
 
 
-		if(count($campanas) < 1 ){
+
+		if(count($campanas) == 0 ){
 
 			echo '{ "data":[]}';
 
 			return;
 
 		}
+		
 
 		$datosJson = '{"data":[';
 
@@ -35,33 +45,26 @@ class TablaCampanas{
 			$cupos_disponibles = $cupos-$total_comprobantes_campana["total"];
 
 			if($usuario["perfil"] != "admin"){
-
-                 if($value["estado"] == 1){
 				/*=============================================
-				ESTADO Y OPERANDO
+				ESTADO
 				=============================================*/	
 
 				if($value["estado"] == 1){
 
 					$estado = "<button type='button' class='btn btn-success btn-sm'>ACTIVA</button>";
 
-				}else if($value["estado"]==0){
-
-					$estado = "<button type='button' class='btn btn-warning btn-sm'>INACTIVA</button>";
-
-				}else if($value["estado"]==2){
-
-					$estado = "<button type='button' class='btn btn-danger btn-sm'>FINALIZADA</button>";
-
 				}
+				// else if($value["estado"]==0){
 
-				if($value["estado"]==1){
+				// 	$estado = "<button type='button' class='btn btn-warning btn-sm'>INACTIVA</button>";
+
+				// }else if($value["estado"]==2){
+
+				// 	$estado = "<button type='button' class='btn btn-danger btn-sm'>FINALIZADA</button>";
+
+				// }
 
 					$acciones = "<div class='btn-group'><button type='button' class='btn btn-primary btn-xs btnInvertir' idCampana='".$value["id"]."' data-toggle='modal' data-target='#modalRegistrarComprobante'>Invertir</button></div>";
-
-				}
-
-				
 
 					$datosJson .= '[
 						"'.$acciones.'",
@@ -73,11 +76,7 @@ class TablaCampanas{
 						"'.$value["fecha_fin"].'",
 						"'.$value["fecha_retorno"].'"
 				 ],';
-	
-				
-				
-
-			}
+		
 			
 
 
@@ -129,7 +128,8 @@ class TablaCampanas{
 
 			
 
-		}
+		
+	}
 
 		$datosJson = substr($datosJson, 0, -1);
 

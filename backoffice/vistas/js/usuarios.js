@@ -29,6 +29,37 @@ $.ajax({
 });
 
 
+/*=============================================
+LISTADO DE PAISES EDITAR
+=============================================*/
+
+$.ajax({
+  url: "vistas/js/plugins/paises.json",
+  type: "GET",
+  success: function (respuesta) {
+    respuesta.forEach(seleccionarPais);
+
+    function seleccionarPais(item, index) {
+      var pais = item.name;
+      var codPais = item.code;
+      var dial = item.dial_code;
+
+      $("#inputPaisEditar").append(
+        `<option value="` +
+          pais +
+          `,` +
+          codPais +
+          `,` +
+          dial +
+          `">` +
+          pais +
+          `</option>`
+      );
+    }
+  },
+});
+
+
 
 /*=============================================
 PLUGIN SELECT 2
@@ -72,6 +103,11 @@ AGREGAR DIAL CODE DEL PAIS
 $("#inputPais").change(function () {
   $(".dialCode").html($(this).val().split(",")[2]);
 });
+
+$("#inputPaisEditar").change(function () {
+  $(".dialCode").html($(this).val().split(",")[2]);
+});
+
 
 /*=============================================
 INPUT MASK
@@ -957,13 +993,27 @@ $(".tablaUsuarios tbody").on("click", "button.btnEditarUsuario", function () {
     processData: false,
     dataType: "json",
     success: function (respuesta) {
+
+      pais="";
+
+      if(respuesta["telefono_movil"]!=null){
+
       t = respuesta["telefono_movil"].split(" ");
       tel = t[1]+t[2];
       indicativo = t[0];
+      if(respuesta["pais"]!=null && respuesta["codigo_pais"]!=null){
+      pais = respuesta["pais"]+","+respuesta["codigo_pais"]+","+indicativo;
+      }
+
+      }else{
+        tel = "";
+        indicativo = "";
+      }
       $("#editarUsuario").val(respuesta["id_usuario"]);
       $("#editarNombre").val(respuesta["nombre"]);
       $("#editarEmail").val(respuesta["email"]);
       $("#editarPerfil").val(respuesta["perfil"]);
+      $('#inputPaisEditar').val(pais).trigger('change.select2');
       $("#editarMovil").val(tel);
       $(".dialCode").html(indicativo);
       $("#indicativo").val(indicativo);
@@ -1038,9 +1088,18 @@ $("#actualizarDatos").click(function () {
     dataType: "json",
     success: function (respuesta) {
 
+      console.log(respuesta);
+
+      if(respuesta["telefono_movil"]!=null){
+
       t = respuesta["telefono_movil"].split(" ");
       tel = t[1]+t[2];
       indicativo = t[0];
+
+      }else{
+        tel = "";
+        indicativo = "";
+      }
 
       $(".dialCode").html(indicativo);
       $("#indicativo").val(indicativo);

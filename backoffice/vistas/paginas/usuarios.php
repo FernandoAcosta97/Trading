@@ -204,6 +204,21 @@ EDITAR USUARIO
 
               <div class="form-group">
 
+                <label for="inputPaisEditar" class="control-label">País</label>
+
+                <div>
+                  <select class="form-control py4 select2" style="width:100%" id="inputPaisEditar" name="inputPaisEditar">
+
+                    <option value="">Seleccione país</option>
+
+                  </select>
+
+                </div>
+
+                </div> 
+
+              <div class="form-group">
+
                   <label for="editarMovil" class="control-label">Teléfono Móvil</label>
 
                 <div class="input-group">

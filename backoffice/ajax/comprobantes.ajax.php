@@ -60,6 +60,7 @@ class AjaxComprobantes{
 
         //Actualizar estado del comprobante
 		$respuesta = ModeloComprobantes::mdlActualizarComprobante($tabla, $id, $item, $valor);
+		$doc_usuario = $comprobante[0]["doc_usuario"];
 
 		//Registrar pago publicidad
 		if($valor==1){
@@ -102,7 +103,7 @@ class AjaxComprobantes{
 
 		$usuario = ControladorUsuarios::ctrMostrarUsuarios("doc_usuario",$doc_usuario);
 
-		$comprobantesUsuario = ControladorComprobantes::ctrMostrarComprobantesxEstado("doc_usuario",$doc_usuario,"estado",1);
+		$comprobantesUsuario = ControladorComprobantes::ctrMostrarComprobantesxEstadoNoPublicidad("doc_usuario",$doc_usuario,"estado",1);
 
 		//Cambiar estado operando usuario
 		if($usuario["operando"]==0 && count($comprobantesUsuario)>0){
@@ -228,7 +229,7 @@ class AjaxComprobantes{
 
 		if($existe_pago!=""){
 
-			$comision = ControladorPagos::ctrEliminarComisiones($existe_pago["id"],$comprobante[0]["id"],$n);
+			$comision = ControladorPagos::ctrEliminarComisiones($existe_pago["id"],$comprobante[0]["id"]);
 
 			$comisiones = ControladorPagos::ctrMostrarComisionesAll("id_pago_comision", $existe_pago["id"]);
 

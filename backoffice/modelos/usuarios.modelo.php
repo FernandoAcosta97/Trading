@@ -112,7 +112,7 @@ class ModeloUsuarios
 
     public static function mdlMostrarMostrarUltimosUsuariosRegistrados($tabla)
     {
-        $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE eliminado=0 ORDER BY fecha_contrato DESC LIMIT 5");
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE eliminado=0 AND perfil!='admin' ORDER BY fecha_contrato DESC LIMIT 5");
 
         $stmt->execute();
 
@@ -256,13 +256,15 @@ class ModeloUsuarios
     public static function mdlEditarUsuario($tabla, $datos)
     {
 
-        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET nombre = :nombre, email = :email, telefono_movil = :telefono, password = :password, perfil = :perfil WHERE id_usuario = :id_usuario");
+        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET nombre = :nombre, email = :email, telefono_movil = :telefono, password = :password, perfil = :perfil, pais = :pais, codigo_pais = :codigo_pais WHERE id_usuario = :id_usuario");
 
         $stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
         $stmt->bindParam(":password", $datos["password"], PDO::PARAM_STR);
         $stmt->bindParam(":telefono", $datos["telefono"], PDO::PARAM_STR);
         $stmt->bindParam(":perfil", $datos["perfil"], PDO::PARAM_STR);
         $stmt->bindParam(":email", $datos["email"], PDO::PARAM_STR);
+        $stmt->bindParam(":pais", $datos["pais"], PDO::PARAM_STR);
+        $stmt->bindParam(":codigo_pais", $datos["codigo_pais"], PDO::PARAM_STR);
         $stmt->bindParam(":id_usuario", $datos["id_usuario"], PDO::PARAM_STR);
 
         if ($stmt->execute()) {
