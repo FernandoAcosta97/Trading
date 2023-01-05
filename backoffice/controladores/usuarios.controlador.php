@@ -249,7 +249,7 @@ Class ControladorUsuarios{
 
 				$usuario_registrado = ControladorUsuarios::ctrMostrarUsuarios("doc_usuario", $_POST["registroDoc"]);
 
-				$enlace_afiliado = strtolower(str_replace(" ", "-", $_POST["registroNombre"])) . "-" . $usuario_registrado["id_usuario"];
+				$enlace_afiliado = strtolower(str_replace(" ", "-", $_POST["registroUsuario"])) . "-" . substr($usuario_registrado["doc_usuario"], -4);
 
 				$actualizar_enlace_afiliado = ControladorUsuarios::ctrActualizarUsuario($usuario_registrado["id_usuario"],"enlace_afiliado",$enlace_afiliado);
 
@@ -278,7 +278,7 @@ Class ControladorUsuarios{
 
 							if(result.value){
 
-								window.location="uusarios";
+								window.location="usuarios";
 
 							}
 
@@ -1512,18 +1512,24 @@ Class ControladorUsuarios{
 						$usu = ControladorUsuarios::ctrMostrarUsuarios("doc_usuario", $comprobante[0]["doc_usuario"]);
 
 						$existe_pago = ControladorPagos::ctrMostrarPagosComisionesxEstado("id_usuario", $nuevo_patrocinador["id_usuario"], "estado",0);
+						$niveles=5;
+						$n=$value["nivel"]+1;
+
+						if($n<=$niveles){
 
 						if($existe_pago!=""){
+
 							
-							$comision = ControladorPagos::ctrRegistrarComisiones($existe_pago["id"],$comprobante[0]["id"],$value["nivel"]+1);
+							$comision = ControladorPagos::ctrRegistrarComisiones($existe_pago["id"],$comprobante[0]["id"],$n);
 								
 					
 							}else{
 					
 								$pago_comision = ControladorPagos::ctrRegistrarPagosComisiones($nuevo_patrocinador["id_usuario"]);
 						
-								$comision = ControladorPagos::ctrRegistrarComisiones($pago_comision,$comprobante[0]["id"],$value["nivel"]+1);
+								$comision = ControladorPagos::ctrRegistrarComisiones($pago_comision,$comprobante[0]["id"],$n);
 							}
+						}
 						
 					}
 
