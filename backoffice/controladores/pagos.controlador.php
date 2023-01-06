@@ -355,6 +355,43 @@ class ControladorPagos
 
     }
 
+    public static function ctrRegistrarComisionesPadreArbol($usuario, $nuevo_patrocinador){
+
+        $pago_usuario = ControladorPagos::ctrMostrarPagosComisionesxEstado("id_usuario", $usuario["id_usuario"], "estado", 0);
+
+				if($pago_usuario!=""){
+
+					$comisiones = ControladorPagos::ctrMostrarComisionesAll("id_pago_comision", $pago_usuario["id"]);
+
+					foreach($comisiones as $key => $value){
+						$comprobante = ControladorComprobantes::ctrMostrarComprobantes("id", $value["id_comprobante"]);
+						$usu = ControladorUsuarios::ctrMostrarUsuarios("doc_usuario", $comprobante[0]["doc_usuario"]);
+
+						$existe_pago = ControladorPagos::ctrMostrarPagosComisionesxEstado("id_usuario", $nuevo_patrocinador["id_usuario"], "estado",0);
+						$niveles=5;
+						$n=$value["nivel"]+1;
+
+						if($n<=$niveles){
+
+						if($existe_pago!=""){
+							
+							$comision = ControladorPagos::ctrRegistrarComisiones($existe_pago["id"],$comprobante[0]["id"],$n);
+								
+					
+							}else{
+					
+								$pago_comision = ControladorPagos::ctrRegistrarPagosComisiones($nuevo_patrocinador["id_usuario"]);
+						
+								$comision = ControladorPagos::ctrRegistrarComisiones($pago_comision,$comprobante[0]["id"],$n);
+							}
+						}
+						
+					}
+
+				}
+
+    }
+
     /*=============================================
     prueba bonos eliminar del antiguo patrocinador y registrar al nuevo patrocinador
     =============================================*/

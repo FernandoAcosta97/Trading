@@ -1518,7 +1518,6 @@ Class ControladorUsuarios{
 						if($n<=$niveles){
 
 						if($existe_pago!=""){
-
 							
 							$comision = ControladorPagos::ctrRegistrarComisiones($existe_pago["id"],$comprobante[0]["id"],$n);
 								
@@ -1583,7 +1582,7 @@ Class ControladorUsuarios{
 
 			}else{
 
-			$prueba_bonos = ControladorPagos::ctrPruebaBonos($_POST["cambioPatrocinador"], $_POST["nuevoPatrocinador"]);
+			// $prueba_bonos = ControladorPagos::ctrPruebaBonos($_POST["cambioPatrocinador"], $_POST["nuevoPatrocinador"]);
 
 			$nuevo_patrocinador = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $_POST["nuevoPatrocinador"]);
 
@@ -1663,9 +1662,32 @@ Class ControladorUsuarios{
 
 				$eliminar_comisiones_padres = ControladorPagos::ctrEliminarComisionesPadreArbol($padre_patrocinador_antiguo, $ids_comprobantes, $patrocinador_antiguo);
 
-				$p = ControladorUsuarios::ctrMostrarUsuarios("enlace_afiliado", $padre_patrocinador_antiguo["patrocinador"], $patrocinador_antiguo);
+				$p = ControladorUsuarios::ctrMostrarUsuarios("enlace_afiliado", $padre_patrocinador_antiguo["patrocinador"]);
 
 				$padre_patrocinador_antiguo=$p;
+
+				$n=$n+1;
+
+			}
+
+
+			$n=1;
+			$niveles=5;
+
+			$usuario = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $_POST["cambioPatrocinador"]);
+
+			$usuario_hijo = ControladorUsuarios::ctrMostrarUsuarios("enlace_afiliado", $usuario["patrocinador"]);
+			$patrocinador_hijo = ControladorUsuarios::ctrMostrarUsuarios("enlace_afiliado", $usuario_hijo["patrocinador"]);
+
+			while($n<=$niveles){
+
+				if($patrocinador_hijo["perfil"]=="admin") break;
+
+				$registrar_comisiones_padres = ControladorPagos::ctrRegistrarComisionesPadreArbol($usuario_hijo, $patrocinador_hijo);
+
+				$p = ControladorUsuarios::ctrMostrarUsuarios("enlace_afiliado", $patrocinador_hijo["patrocinador"]);
+
+				$patrocinador_hijo=$p;
 
 				$n=$n+1;
 
