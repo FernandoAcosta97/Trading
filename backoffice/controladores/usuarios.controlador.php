@@ -1589,6 +1589,8 @@ Class ControladorUsuarios{
 
 			$pago_patrocinador_antiguo = ControladorPagos::ctrMostrarPagosComisionesxEstado("id_usuario", $patrocinador_antiguo["id_usuario"], "estado", 0);
 
+			$ids_comprobantes = array();
+
 			if($pago_patrocinador_antiguo!=""){
 
 			$comisiones = ControladorPagos::ctrMostrarComisionesAll("id_pago_comision", $pago_patrocinador_antiguo["id"]);
@@ -1596,12 +1598,14 @@ Class ControladorUsuarios{
 				$comprobante = ControladorComprobantes::ctrMostrarComprobantes("id", $value["id_comprobante"]);
 				$usu = ControladorUsuarios::ctrMostrarUsuarios("doc_usuario", $comprobante[0]["doc_usuario"]);
 
+				array_push($ids_comprobantes, $value["id_comprobante"]);
+
 				if($usuario["id_usuario"]==$usu["id_usuario"]){
+
 					$existe_pago = ControladorPagos::ctrMostrarPagosComisionesxEstado("id_usuario", $nuevo_patrocinador["id_usuario"], "estado",0);
 					if($existe_pago!=""){
 					
 						$comision = ControladorPagos::ctrRegistrarComisiones($existe_pago["id"],$comprobante[0]["id"],$value["nivel"]);
-						
 			
 					}else{
 			
@@ -1610,18 +1614,27 @@ Class ControladorUsuarios{
 						$comision = ControladorPagos::ctrRegistrarComisiones($pago_comision,$comprobante[0]["id"],$value["nivel"]);
 					}
 
+					// ControladorPagos::ctrEliminarComisionesPadre($usuario, $patrocinador_antiguo);
+					
+
+					// $pat=ControladorUsuarios::ctrMostrarUsuarios("enlace_afiliado", $patrocinador_antiguo["patrocinador"]);
+
+					// ControladorPagos::ctrEliminarComisionesPadre($pat, $patrocinador_antiguo);
+
+
 					$comisionEliminar = ControladorPagos::ctrEliminarComisiones($pago_patrocinador_antiguo["id"],$comprobante[0]["id"]);
 
 					$comisiones = ControladorPagos::ctrMostrarComisionesAll("id_pago_comision", $pago_patrocinador_antiguo["id"]);
 
-						if(count($comisiones)==0){
+					if(count($comisiones)==0){
 
-							$pago_comision_eliminar = ControladorPagos::ctrEliminarPagosComisiones($pago_patrocinador_antiguo["id"]);
+						$pago_comision_eliminar = ControladorPagos::ctrEliminarPagosComisiones($pago_patrocinador_antiguo["id"]);
 				
-						}
+					}
 				
 				}
 			}
+
 
 		}
 
@@ -1638,6 +1651,25 @@ Class ControladorUsuarios{
 
 			$cambiar_patrocinador_binaria = ControladorPagos::ctrCambiarPatrocinadorBinaria($_POST["cambioPatrocinador"], $_POST["nuevoPatrocinador"]);
 			// $cambiar_patrocinador_binaria="ok";
+
+			$n=1;
+			$niveles=5;
+
+			$padre_patrocinador_antiguo=ControladorUsuarios::ctrMostrarUsuarios("enlace_afiliado", $patrocinador_antiguo["patrocinador"]);
+
+			while($n<=$niveles){
+
+				if($padre_patrocinador_antiguo["perfil"]=="admin") break;
+
+				$eliminar_comisiones_padres = ControladorPagos::ctrEliminarComisionesPadreArbol($padre_patrocinador_antiguo, $ids_comprobantes, $patrocinador_antiguo);
+
+				$p = ControladorUsuarios::ctrMostrarUsuarios("enlace_afiliado", $padre_patrocinador_antiguo["patrocinador"], $patrocinador_antiguo);
+
+				$padre_patrocinador_antiguo=$p;
+
+				$n=$n+1;
+
+			}
 
 			if($cambiar_patrocinador_binaria=="ok"){
 

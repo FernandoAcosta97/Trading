@@ -231,6 +231,130 @@ class ControladorPagos
 
     }
 
+
+
+     /*=============================================
+    prueba comisiones eliminar
+    =============================================*/
+
+    public static function ctrPruebaComisiones2($id_usuario, $id_nuevo_patrocinador, $niveles_arbol, $array_id_comprobantes)
+    {
+
+        $niveles=$niveles_arbol;
+		$n=1;
+
+        $objetivo = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $id_usuario); //Julian 30
+
+        $hijo = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $id_usuario); //Julian 30
+
+		$padre = ControladorUsuarios::ctrMostrarUsuarios("enlace_afiliado", $hijo["patrocinador"]); //Mateo 26
+
+        $nuevo_patrocinador = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $id_nuevo_patrocinador);
+
+    //Borrar comisiones del antiguo patrocinador y todos los patrocinadores hacia arriba de acuerdo a los niveles del arbol.
+    while($n <= $niveles_arbol && $padre["perfil"]!="admin"){
+
+        $pagos_comisiones = ControladorPagos::ctrMostrarPagosComisionesxEstado("id_usuario", $padre["id_usuario"],"estado",0);
+
+        if($pagos_comisiones!=""){
+            $comisiones = ControladorPagos::ctrMostrarComisionesAll("id_pago_comision", $pagos_comisiones["id"]);
+
+            foreach($comisiones as $key => $value){
+                $comprobante = ControladorComprobantes::ctrMostrarComprobantes("id",$value["id_comprobante"]);
+
+               if(in_array($comprobante[0]["id"], $array_id_comprobantes)){
+
+                $comision = ControladorPagos::ctrEliminarComisiones($pagos_comisiones["id"],$comprobante[0]["id"]);
+
+               }
+            }
+            $comisiones = ControladorPagos::ctrMostrarComisionesAll("id_pago_comision", $pagos_comisiones["id"]);
+            if(count($comisiones)==0){
+
+                $pago_comision = ControladorPagos::ctrEliminarPagosComisiones($pagos_comisiones["id"]);
+
+            }
+        }
+
+        $n=$n+1;
+        $padre = ControladorUsuarios::ctrMostrarUsuarios("enlace_afiliado", $padre["patrocinador"]); 
+    }
+
+
+    }
+
+
+    public static function ctrEliminarComisionesPadre($usuario, $patrocinador_antiguo){
+
+        $pago_patrocinador_antiguo = ControladorPagos::ctrMostrarPagosComisionesxEstado("id_usuario", $patrocinador_antiguo["id_usuario"], "estado", 0);
+
+        if($pago_patrocinador_antiguo!=""){
+
+        $comisiones = ControladorPagos::ctrMostrarComisionesAll("id_pago_comision", $pago_patrocinador_antiguo["id"]);
+        foreach($comisiones as $key => $value){
+            $comprobante = ControladorComprobantes::ctrMostrarComprobantes("id", $value["id_comprobante"]);
+            $usu = ControladorUsuarios::ctrMostrarUsuarios("doc_usuario", $comprobante[0]["doc_usuario"]);
+
+            if($usuario["id_usuario"]==$usu["id_usuario"]){
+
+                $comisionEliminar = ControladorPagos::ctrEliminarComisiones($pago_patrocinador_antiguo["id"],$comprobante[0]["id"]);
+
+                $comisiones = ControladorPagos::ctrMostrarComisionesAll("id_pago_comision", $pago_patrocinador_antiguo["id"]);
+
+                if(count($comisiones)==0){
+
+                    $pago_comision_eliminar = ControladorPagos::ctrEliminarPagosComisiones($pago_patrocinador_antiguo["id"]);
+            
+                }
+            
+            }
+        }
+
+        
+
+    }
+
+    }
+
+
+
+    public static function ctrEliminarComisionesPadreArbol($usuario, $ids_comprobantes, $patrocinador_antiguo_base){
+
+        $pago_patrocinador_antiguo = ControladorPagos::ctrMostrarPagosComisionesxEstado("id_usuario", $usuario["id_usuario"], "estado", 0);
+
+        if($pago_patrocinador_antiguo!=""){
+
+        $comisiones = ControladorPagos::ctrMostrarComisionesAll("id_pago_comision", $pago_patrocinador_antiguo["id"]);
+        foreach($comisiones as $key => $value){
+            $comprobante = ControladorComprobantes::ctrMostrarComprobantes("id", $value["id_comprobante"]);
+            $usu = ControladorUsuarios::ctrMostrarUsuarios("doc_usuario", $comprobante[0]["doc_usuario"]);
+
+            if(in_array($value["id_comprobante"], $ids_comprobantes)){
+
+                if($patrocinador_antiguo_base["enlace_afiliado"]!=$usu["patrocinador"]){
+                    
+                $comisionEliminar = ControladorPagos::ctrEliminarComisiones($pago_patrocinador_antiguo["id"],$comprobante[0]["id"]);
+
+                $comisiones = ControladorPagos::ctrMostrarComisionesAll("id_pago_comision", $pago_patrocinador_antiguo["id"]);
+
+                if(count($comisiones)==0){
+
+                    $pago_comision_eliminar = ControladorPagos::ctrEliminarPagosComisiones($pago_patrocinador_antiguo["id"]);
+            
+                }
+
+                }
+
+            
+            }
+        }
+
+        
+
+    }
+
+    }
+
     /*=============================================
     prueba bonos eliminar del antiguo patrocinador y registrar al nuevo patrocinador
     =============================================*/
