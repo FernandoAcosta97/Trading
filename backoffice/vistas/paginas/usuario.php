@@ -109,7 +109,7 @@ Registar Cuenta
             <label for="entidad">Entidad:</label>
 
             <div>
-
+              
             <select id="entidad" name="registrarEntidadCuenta" class="form-control py4 select2" style="width:100%" required>
               <option value="">Seleccione una entidad bancaria</option>
               <option value="davivienda">Davivienda</option>
