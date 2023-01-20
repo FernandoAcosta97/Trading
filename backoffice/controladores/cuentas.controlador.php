@@ -158,12 +158,29 @@ Class ControladorCuentas{
 
 		if(isset($_POST["editarNumero"])){
 
+			$cuenta_existe = "";
+
+			if($_POST["editarNumero"]!=$_POST["nCuentaActual"]){
+
+			$cuenta_existe = ModeloCuentas::mdlMostrarCuentas($tabla, "numero", $_POST["editarNumero"]);
+
+			}
+
+			if($cuenta_existe==""){
+
+			$campo_entidad="";
+			if(isset($_POST["editarEntidadCuentaCampo"]) && $_POST["editarEntidadCuentaCampo"]!=""){
+				$campo_entidad=$_POST["editarEntidadCuentaCampo"];
+			}else{
+				$campo_entidad=$_POST["editarEntidad"];
+			}
+
 			if(preg_match('/^[0-9]+$/', $_POST["editarDocumentoTitular"]) && preg_match('/^[0-9]+$/', $_POST["editarNumero"]) &&
 			preg_match('/^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["editarNombreTitular"]) ){
 
 				$datos = array(	"numero" => $_POST["editarNumero"],
 				"nombre_titular" => $_POST["editarNombreTitular"],
-				"entidad" => $_POST["editarEntidad"],
+				"entidad" => $campo_entidad,
 				"tipo" => $_POST["editarTipoCuenta"],
 				"tipo_documento" => $_POST["editarTipoDocumento"],
 				"titular" => $_POST["editarDocumentoTitular"],
@@ -198,6 +215,7 @@ Class ControladorCuentas{
 		}
 
 				}
+			}
 			}
 
 

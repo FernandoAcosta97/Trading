@@ -145,6 +145,8 @@ $(".tablaCuentasDetalles tbody").on("change","select.selectAprobado",function(){
 $(".tablaCuentas").on("click","button.btnEditarCuenta",function(){
 
 	var idCuenta = $(this).attr("idCuenta");
+
+	var entidades = ["davivienda", "bancolombia", "bbva", "banco de bogota", "banco agrario", "banco popular", "efecty"];
   
 	var datos = new FormData();
 	datos.append("idCuentaEditar",idCuenta);
@@ -160,10 +162,28 @@ $(".tablaCuentas").on("click","button.btnEditarCuenta",function(){
 	 dataType:"json",
 	 success:function(respuesta){
 
+	const found = entidades.find(element => element==respuesta["entidad"]);
+
+		if(found!=undefined){
+			$('#editarEntidad').val(respuesta["entidad"]).trigger('change.select2');
+			
+		}else{
+			$('#editarEntidad').val("0").trigger('change.select2');
+
+			var seleccionado = 0;
+			if(seleccionado==0){
+				$(".divCuentaCampoEditar").html('<input type="text" class="form-control" id="entidad_campo" placeholder="Entidad bancaria" required name="editarEntidadCuentaCampo">');
+				}else{
+				  $(".divCuentaCampoEditar").html("");
+				}
+
+			$('#entidad_campo').val(respuesta["entidad"]);
+		}
+
 	  $("#idCuenta").val(idCuenta);
       $("#editarNumero").val(respuesta["numero"]);
+	  $("#nCuentaActual").val(respuesta["numero"]);
 	  $("#editarDocumentoTitular").val(respuesta["titular"]);
-	  $('#editarEntidad').val(respuesta["entidad"]).trigger('change.select2');
 	  $("#editarNombreTitular").val(respuesta["nombre_titular"]);
 	  $('#editarTipoCuenta option[value="'+respuesta["tipo"]+'"]').attr('selected', 'selected');
 	  $('#editarTipoDocumento option[value="'+respuesta["tipo_documento"]+'"]').attr('selected', 'selected');
@@ -180,6 +200,8 @@ $(".tablaCuentas").on("click","button.btnEditarCuenta",function(){
 $(".tablaCuentasDetalles").on("click","button.btnEditarCuenta",function(){
 
 	var idCuenta = $(this).attr("idCuenta");
+
+	var entidades = ["davivienda", "bancolombia", "bbva", "banco de bogota", "banco agrario", "banco popular", "efecty"];
   
 	var datos = new FormData();
 	datos.append("idCuentaEditar",idCuenta);
@@ -195,10 +217,29 @@ $(".tablaCuentasDetalles").on("click","button.btnEditarCuenta",function(){
 	 dataType:"json",
 	 success:function(respuesta){
 
+		const found = entidades.find(element => element==respuesta["entidad"]);
+
+		if(found!=undefined){
+			$('#editarEntidad').val(respuesta["entidad"]).trigger('change.select2');
+			
+		}else{
+			$('#editarEntidad').val("0").trigger('change.select2');
+
+			var seleccionado = 0;
+			if(seleccionado==0){
+				$(".divCuentaCampoEditar").html('<input type="text" class="form-control" id="entidad_campo" placeholder="Entidad bancaria" required name="editarEntidadCuentaCampo">');
+				}else{
+				  $(".divCuentaCampoEditar").html("");
+				}
+
+			$('#entidad_campo').val(respuesta["entidad"]);
+		}
+
+
 		$("#idCuenta").val(idCuenta);
 		$("#editarNumero").val(respuesta["numero"]);
+		$("#nCuentaActual").val(respuesta["numero"]);
 		$("#editarDocumentoTitular").val(respuesta["titular"]);
-		$('#editarEntidad').val(respuesta["entidad"]).trigger('change.select2');
 		$("#editarNombreTitular").val(respuesta["nombre_titular"]);
 		$('#editarTipoCuenta option[value="'+respuesta["tipo"]+'"]').attr('selected', 'selected');
 		$('#editarTipoDocumento option[value="'+respuesta["tipo_documento"]+'"]').attr('selected', 'selected');
@@ -211,25 +252,48 @@ $(".tablaCuentasDetalles").on("click","button.btnEditarCuenta",function(){
 
 
 
-  /*=============================================
+/*=============================================
 OTRA ENTIDAD CUENTA
 =============================================*/
 $("#entidad").on("change",function () {
 	var seleccionado = $(this).val();
   
 	if(seleccionado==0 && seleccionado!=""){
-	$("#divCuentaCampo").html('<input type="text" class="form-control" id="entidad_campo" placeholder="Entidad bancaria" required name="registrarEntidadCuentaCampo">');
+	$(".divCuentaCampo").html('<input type="text" class="form-control" id="entidad_campo" placeholder="Entidad bancaria" required name="registrarEntidadCuentaCampo">');
 	}else{
-	  $("#divCuentaCampo").html("");
+	  $(".divCuentaCampo").html("");
 	}
-  
+	
 	if(seleccionado=="efecty"){
-	  $("#labelNumero").html("Número de documento:");
+	  $(".labelNumero").html("Número de documento:");
 	}else{
-	  $("#labelNumero").html("Número cuenta bancaria:");
+	  $(".labelNumero").html("Número cuenta bancaria:");
 	}
   
   })
+
+
+
+/*=============================================
+OTRA ENTIDAD CUENTA EDITAR
+=============================================*/
+$("#editarEntidad").on("change",function () {
+	var seleccionado = $(this).val();
+  
+	if(seleccionado==0 && seleccionado!=""){
+	$(".divCuentaCampoEditar").html('<input type="text" class="form-control" id="entidad_campo" placeholder="Entidad bancaria" required name="editarEntidadCuentaCampo">');
+	}else{
+	  $(".divCuentaCampoEditar").html("");
+	}
+	
+	if(seleccionado=="efecty"){
+	  $(".labelNumeroEditar").html("Número de documento:");
+	}else{
+	  $(".labelNumeroEditar").html("Número cuenta bancaria:");
+	}
+  
+  })
+
 
 
 

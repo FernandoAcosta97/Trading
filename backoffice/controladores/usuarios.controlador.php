@@ -1582,7 +1582,7 @@ Class ControladorUsuarios{
 
 			}else{
 
-			// $prueba_bonos = ControladorPagos::ctrPruebaBonos($_POST["cambioPatrocinador"], $_POST["nuevoPatrocinador"]);
+			$prueba_bonos = ControladorPagos::ctrPruebaBonos($_POST["cambioPatrocinador"], $_POST["nuevoPatrocinador"]);
 
 			$nuevo_patrocinador = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $_POST["nuevoPatrocinador"]);
 

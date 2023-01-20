@@ -192,16 +192,18 @@ EDITAR CUENTA
               <option value="0">Otra entidad</option>
             </select>
 
-            <div id="divCuentaCampo"></div>
+            <div class="divCuentaCampoEditar"></div>
               </div>
 
           </div>
 
           <div class="form-group">
 
-      <label id="labelNumero" for="editarNumero">Número cuenta bancaria:</label>
+      <label class="labelNumeroEditar" for="editarNumero">Número cuenta bancaria:</label>
 
 				<input type="number" id="editarNumero" class="form-control" placeholder="Número cuenta" name="editarNumero" required>
+
+				<input type="hidden" id="nCuentaActual" name="nCuentaActual">
 
 			</div>
 

@@ -129,7 +129,7 @@ class ModeloCuentas{
 
         $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET numero = :numero, nombre_titular = :nombre_titular, entidad = :entidad, tipo = :tipo, tipo_documento = :tipo_documento, titular = :titular WHERE id = :id");
 
-        $stmt->bindParam(":numero", $datos["numero"], PDO::PARAM_INT);
+        $stmt->bindParam(":numero", $datos["numero"], PDO::PARAM_STR);
         $stmt->bindParam(":nombre_titular", $datos["nombre_titular"], PDO::PARAM_STR);
         $stmt->bindParam(":entidad", $datos["entidad"], PDO::PARAM_STR);
         $stmt->bindParam(":tipo", $datos["tipo"], PDO::PARAM_STR);

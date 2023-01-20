@@ -116,13 +116,13 @@ Registar Cuenta
               <option value="bancolombia">Bancolombia</option>
               <option value="bbva">BBVA</option>
               <option value="banco de bogota">Banco de Bogotá</option>
-              <option value="Banco agrario">Banco agrario</option>
-              <option value="Banco popular">Banco popular</option>
+              <option value="banco agrario">Banco agrario</option>
+              <option value="banco popular">Banco popular</option>
               <option value="efecty">Efecty</option>
               <option value="0">Otra entidad</option>
             </select>
 
-            <div id="divCuentaCampo"></div>
+            <div class="divCuentaCampo"></div>
               </div>
 
           </div>
@@ -130,7 +130,7 @@ Registar Cuenta
 
 			<div class="form-group">
 
-      <label id="labelNumero" for="numero">Número cuenta bancaria:</label>
+      <label class="labelNumero" for="numero">Número cuenta bancaria:</label>
 
 				<input type="number" id="numero" class="form-control" placeholder="Número cuenta" name="registrarNumeroCuenta" required>
 
