@@ -1,10 +1,12 @@
+<div class="back">	
+
+     	</div> 
+
 <div class="ladoUsuarios">
 
 	<div class="container-fluid">
-		
-		<div class="row">
 			
-			<div class="col-12 col-lg-4 formulario">
+			<div class="formulario">
 
 				<figure class="p-2 p-sm-5 p-lg-2 p-xl-3 text-center">
 				
@@ -71,11 +73,11 @@
 
 			</div>
 
-			<div class="col-12 col-lg-8 fotoRegistro text-center">		
+			<!-- <div class="col-12 col-lg-8 text-center">		 -->
 
-				<a href="<?php echo $ruta; ?>inicio"><button class="d-none d-lg-block text-center btn btn-default btn-lg my-3 text-white btnRegresar">Regresar</button></a>
+			<!-- <a href="<?php echo $ruta; ?>inicio"><button class="d-none d-lg-block text-center btn btn-default btn-lg my-3 text-white btnRegresar">Regresar</button></a>
 
-				<a href="<?php echo $ruta; ?>inicio"><button class="d-block d-lg-none text-center btn btn-default btn-lg btn-block my-3 text-white btnRegresarMovil">Regresar</button></a>
+			<a href="<?php echo $ruta; ?>inicio"><button class="d-block d-lg-none text-center btn btn-default btn-lg btn-block my-3 text-white btnRegresarMovil">Regresar</button></a> -->
 
 				<!-- <ul class="p-0 m-0 py-4 d-flex justify-content-center redesSociales">
 
@@ -102,9 +104,8 @@
 
 				</ul> -->
 
-			</div>
+			<!-- </div> -->
 
-		</div>
 
 	</div>
 

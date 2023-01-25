@@ -1,10 +1,14 @@
+<div class="back">		
+     	</div> 
+		
 <div class="ladoUsuarios">
 
 	<div class="container-fluid">
-		
-		<div class="row">
+
+	<!-- <div class="fotoIngreso text-center">		
+     	</div> -->
 			
-			<div class="col-12 col-lg-4 formulario">
+			<div class="formulario">
 
 				<figure class="p-2 p-sm-5 p-lg-4 p-xl-5 text-center">
 				
@@ -14,10 +18,7 @@
                     </div>
 
 					<div class="d-flex justify-content-between">
-					
 						<h4>Ingreso al sistema</h4>
-				
-
 					</div>
 
 					<form method="post" class="mt-5">
@@ -46,12 +47,6 @@
 				</figure>
 
 			</div>
-
-			<div class="col-12 col-lg-8 fotoIngreso text-center">		
-
-			</div>
-
-		</div>
 
 	</div>
 
