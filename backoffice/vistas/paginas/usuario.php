@@ -65,7 +65,7 @@ if(!isset($_GET["id"])){
 
           //  include "modulos/perfil/formulario-suscripcion.php";
 
-           #include "modulos/perfil/material-promocion.php";
+           // include "modulos/perfil/material-promocion.php";
 
          ?>
 
@@ -81,6 +81,9 @@ if(!isset($_GET["id"])){
 
 
 
+
+
+
 <!--=====================================
 Registar Cuenta
 ======================================-->
@@ -89,7 +92,7 @@ Registar Cuenta
 <div class="modal" id="registrarCuenta">
   <div class="modal-dialog">
     <div class="modal-content">
-      
+
     	<form method="post">
 
 	      <!-- Modal Header -->
@@ -109,7 +112,7 @@ Registar Cuenta
             <label for="entidad">Entidad:</label>
 
             <div>
-              
+
             <select id="entidad" name="registrarEntidadCuenta" class="form-control py4 select2" style="width:100%" required>
               <option value="">Seleccione una entidad bancaria</option>
               <option value="davivienda">Davivienda</option>
@@ -123,7 +126,7 @@ Registar Cuenta
             </select>
 
             <div class="divCuentaCampo"></div>
-              </div>
+            </div>
 
           </div>
 
@@ -204,8 +207,8 @@ Registar Cuenta
 		<?php
 
       $ruta_pagina = "index.php?pagina=usuario&id=".$id;
-			$registrarCuenta = new ControladorCuentas();
-			$registrarCuenta->ctrRegistrarCuentaBancaria($ruta_pagina);
+      $registrarCuenta = new ControladorCuentas();
+      $registrarCuenta->ctrRegistrarCuentaBancaria($ruta_pagina);
 
 		?>
 

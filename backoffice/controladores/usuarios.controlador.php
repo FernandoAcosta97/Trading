@@ -208,7 +208,7 @@ Class ControladorUsuarios{
 
 		if(isset($_POST["registroUsuario"])){
 
-			if(preg_match('/^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["registroUsuario"]) && preg_match('/^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["registroNombre"]) &&
+			if(preg_match('/^[-_a-zA-ZñÑáéíóúÁÉÍÓÚ0-9._ ]+$/', $_POST["registroUsuario"]) && preg_match('/^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["registroNombre"]) &&
 			   preg_match('/^[^0-9][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[@][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,4}$/', $_POST["registroEmail"]) &&
 			    preg_match('/^[a-zA-Z0-9]+$/', $_POST["registroPassword"]) &&
 			    preg_match('/^[0-9]+$/', $_POST["registroDoc"])){

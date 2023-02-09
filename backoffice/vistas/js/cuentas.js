@@ -271,6 +271,7 @@ $("#entidad").on("change",function () {
 	}
   
   })
+  
 
 
 

@@ -520,7 +520,7 @@ Registar Cuenta
               <option value="0">Otra entidad</option>
             </select>
 
-            <div id="divCuentaCampo"></div>
+            <div class="divCuentaCampo"></div>
               </div>
 
           </div>
@@ -528,7 +528,7 @@ Registar Cuenta
 
 			<div class="form-group">
 
-      <label id="labelNumero" for="numero">Número cuenta bancaria:</label>
+      <label class="labelNumero" for="numero">Número cuenta bancaria:</label>
 
 				<input type="number" id="numero" class="form-control" placeholder="Número cuenta" name="registrarNumeroCuenta" required>
 
