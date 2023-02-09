@@ -37,7 +37,8 @@ class TablaPagos{
 
 		$periodo_comision = 0;
 		$periodo_venta = 0;
-		$totalAfiliadosActivos=0;
+		// $totalAfiliadosActivos=0;
+		$totalReferidosComisiones = 0;
 
 		if(count($pagos) < 1 ){
 
@@ -51,60 +52,29 @@ class TablaPagos{
 
 	 	"data": [ ';
 
-	 	// if(count($red) != 0){
-
- 	
-		// 	$periodo_venta =0; 
-		
-		// 	$usuario = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", "43");
-
-			
-
-		// 		$fechaPago = date('Y-m-d');
-			
-
-		// 	/*=============================================
-		// 	NOTAS
-		// 	=============================================*/			
-
-		// 	$notas = "<h5><a href='".$ruta."backoffice/binaria' class='btn btn-purple btn-sm'>Actualizar</a></h5>";		
-
-		// 	$datosJson	 .= '[
-						
-		// 			"1",
-		// 			"En proceso...",
-		// 			"En proceso...",
-		// 			"En proceso...",
-		// 			"'.$periodo_comision.'",
-		// 			"$ '.number_format($periodo_comision, 2, ",", ".").'",
-		// 			"$ '.number_format($periodo_venta, 2, ",", ".").'",
-		// 			"'.$fechaPago.'",
-		// 			"'.$notas.'"
-
-		// 	],';
-
-		// }
-
 		foreach ($pagos as $key => $value) {
 			
   			$usuario = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $value ["id_usuario"]);
 
 			$cuentaBancaria = ControladorCuentas::ctrMostrarCuentasxEstado("usuario",$usuario["id_usuario"],"estado",1);
 
-			$red = ControladorMultinivel::ctrMostrarRedUninivel("red_uninivel", "patrocinador_red", $usuario["enlace_afiliado"]);
+			$comisionesPorReferidos = ControladorPagos::ctrMostrarComisionesAll("id_pago_comision", $value["id"]);
+			$totalReferidosComisiones = count($comisionesPorReferidos);
+
+			// $red = ControladorMultinivel::ctrMostrarRedUninivel("red_uninivel", "patrocinador_red", $usuario["enlace_afiliado"]);
 
 			// print_r($red);
 
-			if(count($red)>0){
-				foreach ($red as $key2 => $value2){
-					$usuarioRedOperando = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $value2["usuario_red"]);
+			// if(count($red)>0){
+			// 	foreach ($red as $key2 => $value2){
+			// 		$usuarioRedOperando = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $value2["usuario_red"]);
 	
-					if($usuarioRedOperando["operando"]==1){
-						++$totalAfiliadosActivos;
-					}
+			// 		if($usuarioRedOperando["operando"]==1){
+			// 			++$totalAfiliadosActivos;
+			// 		}
 	
-				}
-			}
+			// 	}
+			// }
 
 			$comisiones = ControladorPagos::ctrMostrarComisionesAll("id_pago_comision",$value["id"]);
 
@@ -162,7 +132,7 @@ class TablaPagos{
 					"'.$usuario["nombre"].'",
 					"'.$usuario["pais"].'",
 					"'.$usuario["telefono_movil"].'",
-					"'.$totalAfiliadosActivos.'",
+					"'.$totalReferidosComisiones.'",
 					"'.$entidad_cuenta.'",
 					"'.$numero_cuenta.'",
 					"'.$tipo_cuenta.'",
@@ -171,7 +141,8 @@ class TablaPagos{
 
 			],';
 
-			$totalAfiliadosActivos=0;
+			// $totalAfiliadosActivos=0;
+			$totalReferidosComisiones = 0;
 
 		}
 
