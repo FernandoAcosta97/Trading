@@ -1776,6 +1776,8 @@ Class ControladorUsuarios{
 			$niveles = 5;
 			$n = 0;
 
+			if($patrocinador_antiguo["perfil"]!="admin"){
+
 			while($patrocinador_antiguo["perfil"]!="admin" && $n < $niveles){
 
 			ControladorUsuarios::eliminarComisionesCambioPatrocinador($usuario_cambio, $patrocinador_antiguo);
@@ -1786,11 +1788,15 @@ Class ControladorUsuarios{
 			$n=$n+1;
 
 			}
+		}
 
 			//Segundo cambiamos el patrocinador en la red binaria para que se refleje en el árbol
 			$cambiar_patrocinador_binaria = ControladorPagos::ctrCambiarPatrocinadorBinaria($_POST["cambioPatrocinador"], $_POST["nuevoPatrocinador"]);
 
 			//Tercero pasamos las comisiones al nuevo patrocinador y hacia arriba en el árbol 
+
+			if($nuevo_patrocinador["perfil"]!="admin"){
+
 			$usuario_cambio = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $_POST["cambioPatrocinador"]);
 
 			$n = 0;
@@ -1805,6 +1811,7 @@ Class ControladorUsuarios{
 			$n=$n+1;
 
 			}
+		}
 
 			// $cambiar_patrocinador_binaria="ok";
 
