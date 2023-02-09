@@ -97,7 +97,7 @@
 
       <?php
 
-      $cambio_patrocinador = ControladorUsuarios::ctrCambiarPatrocinador();
+      $cambio_patrocinador = ControladorUsuarios::ctrCambiarPatrocinadorPrueba();
 
       ?>
 

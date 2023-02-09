@@ -1725,6 +1725,226 @@ Class ControladorUsuarios{
 
 	}
 
+
+
+
+
+
+
+	/*=============================================
+	Cambiar Patrocinador
+	=============================================*/
+
+	static public function ctrCambiarPatrocinadorPrueba(){
+
+		if(isset($_POST["cambioPatrocinador"])){
+
+			if($_POST["cambioPatrocinador"] ==  $_POST["nuevoPatrocinador"] || $_POST["cambioPatrocinador"]==1){
+				echo '<script>
+
+							swal({
+
+								type:"warning",
+								title: "Atención",
+								text: "¡Ha seleccionado erroneamente, vuelve a intentarlo!",
+								showConfirmButton: true,
+								confirmButtonText: "Cerrar"
+
+							}).then(function(result){
+
+								if(result.value){
+
+									window.location = "cambiar-patrocinador";
+
+								}
+
+
+							});	
+
+						</script>';
+
+			}else{
+
+				$usuario_cambio = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $_POST["cambioPatrocinador"]);
+
+				$patrocinador_antiguo = ControladorUsuarios::ctrMostrarUsuarios("enlace_afiliado", $usuario_cambio["patrocinador"]);
+	
+				$nuevo_patrocinador = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $_POST["nuevoPatrocinador"]);
+
+			//Primero se eliminan las comisiones del antiguo patrocinador y hacia arriba en el árbol
+
+			$niveles = 5;
+			$n = 0;
+
+			while($patrocinador_antiguo["perfil"]!="admin" && $n < $niveles){
+
+			ControladorUsuarios::eliminarComisionesCambioPatrocinador($usuario_cambio, $patrocinador_antiguo);
+
+			$padre = ControladorUsuarios::ctrMostrarUsuarios("enlace_afiliado", $patrocinador_antiguo["patrocinador"]);
+
+			$patrocinador_antiguo = $padre;
+			$n=$n+1;
+
+			}
+
+			//Segundo cambiamos el patrocinador en la red binaria para que se refleje en el árbol
+			$cambiar_patrocinador_binaria = ControladorPagos::ctrCambiarPatrocinadorBinaria($_POST["cambioPatrocinador"], $_POST["nuevoPatrocinador"]);
+
+			//Tercero pasamos las comisiones al nuevo patrocinador y hacia arriba en el árbol 
+			$usuario_cambio = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $_POST["cambioPatrocinador"]);
+
+			$n = 0;
+
+			while($nuevo_patrocinador["perfil"]!="admin" && $n < $niveles){
+
+			ControladorUsuarios::registrarComisionesCambioPatrocinador($usuario_cambio, $nuevo_patrocinador, $n+1);
+
+			$padre = ControladorUsuarios::ctrMostrarUsuarios("enlace_afiliado", $nuevo_patrocinador["patrocinador"]);
+
+			$nuevo_patrocinador = $padre;
+			$n=$n+1;
+
+			}
+
+			// $cambiar_patrocinador_binaria="ok";
+
+
+			if($cambiar_patrocinador_binaria=="ok"){
+
+				echo '<script>
+
+							swal({
+
+								type:"success",
+								title: "CAMBIO EXITOSO",
+								text: "¡EL PATROCINADOR SE HA CAMBIADO CORRECTAMENTE!",
+								showConfirmButton: true,
+								confirmButtonText: "Cerrar"
+
+							}).then(function(result){
+
+								if(result.value){
+
+									
+
+								}
+
+
+							});	
+
+						</script>';
+
+			}
+		}
+		}
+	
+		}
+
+
+
+		static public function eliminarComisionesCambioPatrocinador($usuario_cambio, $patrocinador_antiguo){
+
+			$pago_usuario = ControladorPagos::ctrMostrarPagosComisionesxEstado("id_usuario", $usuario_cambio["id_usuario"], "estado", 0);
+
+			$pago_patrocinador_antiguo = ControladorPagos::ctrMostrarPagosComisionesxEstado("id_usuario", $patrocinador_antiguo["id_usuario"], "estado", 0);
+
+			if($pago_usuario!="" && $pago_patrocinador_antiguo!=""){
+
+			$comisiones_usuario = ControladorPagos::ctrMostrarComisionesAll("id_pago_comision", $pago_usuario["id"]);	
+			
+			$comisiones_id_usario=array();
+
+			foreach($comisiones_usuario as $key => $value){
+				array_push($comisiones_id_usario, $value["id_comprobante"]);
+			}
+
+			$comisiones_antiguo_patrocinador = ControladorPagos::ctrMostrarComisionesAll("id_pago_comision", $pago_patrocinador_antiguo["id"]);		
+
+			foreach($comisiones_antiguo_patrocinador as $key => $value){
+
+					$comprobante = ControladorComprobantes::ctrMostrarComprobantes("id", $value["id_comprobante"]);
+
+					if(in_array($value["id_comprobante"], $comisiones_id_usario) || $comprobante[0]["doc_usuario"]==$usuario_cambio["doc_usuario"]){
+
+						$comisionEliminar = ControladorPagos::ctrEliminarComisiones($pago_patrocinador_antiguo["id"],$comprobante[0]["id"]);
+
+						}
+					}
+
+					$comisiones_antiguo_patrocinador = ControladorPagos::ctrMostrarComisionesAll("id_pago_comision", $pago_patrocinador_antiguo["id"]);
+
+					if(count($comisiones_antiguo_patrocinador)==0){
+
+						$pago_comision_eliminar = ControladorPagos::ctrEliminarPagosComisiones($pago_patrocinador_antiguo["id"]);
+			
+					}
+
+		}
+
+		}
+
+
+
+
+		static public function registrarComisionesCambioPatrocinador($usuario_cambio, $nuevo_patrocinador, $n){
+
+			$pago_inversiones_usuario = ControladorPagos::ctrMostrarPagosInversionesxEstadoAll("id_usuario", $usuario_cambio["id_usuario"], "estado", 0);
+
+			$inversiones_usuario=array();
+
+			if($pago_inversiones_usuario!=""){
+				
+				foreach($pago_inversiones_usuario as $key => $value){
+					array_push($inversiones_usuario, $value["id_comprobante"]);
+				}
+			}
+
+			$pago_usuario = ControladorPagos::ctrMostrarPagosComisionesxEstado("id_usuario", $usuario_cambio["id_usuario"], "estado", 0);
+
+			$existe_pago = ControladorPagos::ctrMostrarPagosComisionesxEstado("id_usuario", $nuevo_patrocinador["id_usuario"], "estado",0);
+
+			if($pago_usuario!=""){
+
+				$comisiones_usuario = ControladorPagos::ctrMostrarComisionesAll("id_pago_comision", $pago_usuario["id"]);	
+
+			if($existe_pago!=""){
+
+			if(count($inversiones_usuario)>0){
+
+				foreach($inversiones_usuario as $key => $value){
+					$comision = ControladorPagos::ctrRegistrarComisiones($existe_pago["id"],$value[$key], $n);
+				}
+
+			}
+				
+			foreach($comisiones_usuario as $key => $value){
+				$comprobante = ControladorComprobantes::ctrMostrarComprobantes("id", $value["id_comprobante"]);
+				$comision = ControladorPagos::ctrRegistrarComisiones($existe_pago["id"],$comprobante[0]["id"],$value["nivel"]+$n);
+			}
+			
+			}else{
+			
+				$pago_comision = ControladorPagos::ctrRegistrarPagosComisiones($nuevo_patrocinador["id_usuario"]);
+
+				if(count($inversiones_usuario)>0){
+
+					foreach($inversiones_usuario as $key => $value){
+						$comision = ControladorPagos::ctrRegistrarComisiones($pago_comision,$value[$key], $n);
+					}
+	
+				}
+				
+				foreach($comisiones_usuario as $key => $value){
+					$comprobante = ControladorComprobantes::ctrMostrarComprobantes("id", $value["id_comprobante"]);
+					$comision = ControladorPagos::ctrRegistrarComisiones($pago_comision,$comprobante[0]["id"],$value["nivel"]+$n);
+				}
+			}
+		}
+
+		}
+
+	
+
 	
 
 
