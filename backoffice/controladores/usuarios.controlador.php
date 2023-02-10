@@ -1778,6 +1778,8 @@ Class ControladorUsuarios{
 
 			if($patrocinador_antiguo["perfil"]!="admin"){
 
+				$prueba_bonos = ControladorPagos::ctrPruebaBonos($_POST["cambioPatrocinador"], $_POST["nuevoPatrocinador"]);
+
 			while($patrocinador_antiguo["perfil"]!="admin" && $n < $niveles){
 
 			ControladorUsuarios::eliminarComisionesCambioPatrocinador($usuario_cambio, $patrocinador_antiguo);
@@ -1796,6 +1798,8 @@ Class ControladorUsuarios{
 			//Tercero pasamos las comisiones al nuevo patrocinador y hacia arriba en el árbol 
 
 			if($nuevo_patrocinador["perfil"]!="admin"){
+
+				$prueba_bonos = ControladorPagos::ctrPruebaBonos($_POST["cambioPatrocinador"], $_POST["nuevoPatrocinador"]);
 
 			$usuario_cambio = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $_POST["cambioPatrocinador"]);
 
