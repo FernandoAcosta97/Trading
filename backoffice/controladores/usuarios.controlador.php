@@ -1897,15 +1897,6 @@ Class ControladorUsuarios{
 
 			$pago_inversiones_usuario = ControladorPagos::ctrMostrarPagosInversionesxEstadoAll("id_usuario", $usuario_cambio["id_usuario"], "estado", 0);
 
-			$inversiones_usuario=array();
-
-			if($pago_inversiones_usuario!=""){
-				
-				foreach($pago_inversiones_usuario as $key => $value){
-					array_push($inversiones_usuario, $value["id_comprobante"]);
-				}
-			}
-
 			$pago_usuario = ControladorPagos::ctrMostrarPagosComisionesxEstado("id_usuario", $usuario_cambio["id_usuario"], "estado", 0);
 
 			$existe_pago = ControladorPagos::ctrMostrarPagosComisionesxEstado("id_usuario", $nuevo_patrocinador["id_usuario"], "estado",0);
@@ -1916,10 +1907,10 @@ Class ControladorUsuarios{
 
 			if($existe_pago!=""){
 
-			if(count($inversiones_usuario)>0){
+			if($pago_inversiones_usuario!=""){
 
-				foreach($inversiones_usuario as $key => $value){
-					$comision = ControladorPagos::ctrRegistrarComisiones($existe_pago["id"],$value[$key], $n);
+				foreach($pago_inversiones_usuario as $key => $value){
+					$comision = ControladorPagos::ctrRegistrarComisiones($existe_pago["id"],$value["id_comprobante"], $n);
 				}
 
 			}
@@ -1933,10 +1924,10 @@ Class ControladorUsuarios{
 			
 				$pago_comision = ControladorPagos::ctrRegistrarPagosComisiones($nuevo_patrocinador["id_usuario"]);
 
-				if(count($inversiones_usuario)>0){
+				if($pago_inversiones_usuario!=""){
 
-					foreach($inversiones_usuario as $key => $value){
-						$comision = ControladorPagos::ctrRegistrarComisiones($pago_comision,$value[$key], $n);
+					foreach($pago_inversiones_usuario as $key => $value){
+						$comision = ControladorPagos::ctrRegistrarComisiones($pago_comision,$value["id_comprobante"], $n);
 					}
 	
 				}
