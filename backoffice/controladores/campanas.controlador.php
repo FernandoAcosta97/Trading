@@ -116,13 +116,49 @@ Class ControladorCampanas{
 
 			}
 
-		}else if($_POST["tipoCampana"]==2){
+		}else if($_POST["tipoCampana"]==2 || $_POST["tipoCampana"]==4 || $_POST["tipoCampana"]==5){
 
-			if(preg_match('/^[0-9.]+$/', $_POST["registroRetorno"])){
+			$n="Bono Extra";
+			$direccion="bonos-extras";
+			$retorno=0;
+			if(isset($_POST["registroRetorno"])){
+				$retorno=$_POST["registroRetorno"];
+			}
+			if($_POST["tipoCampana"]==4){
+
+				$n="Bono Apalancamiento";
+				$direccion="bonos-apalancamiento";
+			}else if($_POST["tipoCampana"]==5){
+				if(!isset($_POST["listaRecurrencias"]) || $_POST["listaRecurrencias"]=="" || $_POST["listaRecurrencias"]=="[]"){
+
+					echo'<script>
+
+					swal({
+						  type: "error",
+						  title: "No hay recurrencias creadas",
+						  showConfirmButton: true,
+						  confirmButtonText: "Cerrar"
+						  }).then(function(result){
+									if (result.value) {
+	
+									window.location = "bonos-recurrencia";
+	
+									}
+								})
+	
+					</script>';
+	
+					return;
+				}
+				$n=$_POST["listaRecurrencias"];
+				$direccion="bonos-recurrencia";
+			} 
+
+			if(preg_match('/^[0-9.]+$/', $retorno)){
 
 				$tabla = "campanas";
-				$datos = array("nombre" => "Bono Extra",
-				               "retorno" => $_POST["registroRetorno"],
+				$datos = array("nombre" => $n,
+				               "retorno" => $retorno,
 							   "cupos" => "0",
 							   "tipo" => $_POST["tipoCampana"],
 							   "fecha_inicio" => $_POST["registroFechaInicio"],
@@ -142,7 +178,7 @@ Class ControladorCampanas{
 							swal({
 
 								type:"success",
-								title: "¡BONO EXTRA CREADO CORRECTAMENTE!",
+								title: "¡BONO CREADO CORRECTAMENTE!",
 								showConfirmButton: true,
 								confirmButtonText: "Cerrar"
 
@@ -150,7 +186,7 @@ Class ControladorCampanas{
 
 								if(result.value){
 
-									window.location = "bonos-extras";
+									window.location = "'.$direccion.'";
 
 								}
 
@@ -466,11 +502,21 @@ Class ControladorCampanas{
 	
 				}
 				
-			}else if($_POST["tipoCampanaEditar"]==2){
+			}else if($_POST["tipoCampanaEditar"]==2 || $_POST["tipoCampanaEditar"]==4){
+
+				$n="Bono Extra";
+				$direccion="bonos-extras";
+
+				if($_POST["tipoCampanaEditar"]==4){
+
+					$n="Bono Apalancamiento";
+					$direccion="bonos-apalancamiento";
+				} 
+					
 
 			if(preg_match('/^[0-9]+$/', $_POST["editarRetorno"])){
 
-				$datos = array(	"nombre" => "Bono Extra",
+				$datos = array(	"nombre" => $n,
 				"retorno" => $_POST["editarRetorno"],
 				"cupos" => "0",
 				"fecha_inicio" => $_POST["editarFechaInicio"],
@@ -488,7 +534,7 @@ Class ControladorCampanas{
 
 								type:"success",
 								title: "ACTUALIZACIÓN EXITOSA",
-								text: "¡EL BONO EXTRA HA SIDO ACTUALIZADO CORRECTAMENTE!",
+								text: "¡EL BONO HA SIDO ACTUALIZADO CORRECTAMENTE!",
 								showConfirmButton: true,
 								confirmButtonText: "Cerrar"
 
@@ -496,7 +542,7 @@ Class ControladorCampanas{
 
 								if(result.value){
 
-									window.location = "bonos-extras";
+									window.location = "'.$direccion.'";
 
 								}
 

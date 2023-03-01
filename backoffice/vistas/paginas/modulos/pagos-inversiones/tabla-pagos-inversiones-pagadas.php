@@ -34,6 +34,7 @@
 					<th>Fecha inversión</th>
 					<th>Fecha pago</th>
 					<th>Valor invertido</th>
+					<th>Valor más apalancamiento</th>
 					<th>Porcentaje retorno</th>
 					<th>Ganancia</th>
 					<th>Total pagado</th>

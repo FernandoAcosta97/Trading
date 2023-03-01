@@ -71,6 +71,58 @@ class AjaxPagos{
 
 
 	/*=============================================
+	Cambiar estado pago Recurrencia
+	=============================================*/	
+
+	public $idPagoRecurrencia;
+
+	public function ajaxEstadoPagoRecurrencia(){
+
+		$estado = 1;
+
+		$id = $this->idPagoRecurrencia;
+
+		$pago = ControladorPagos::ctrMostrarPagosRecurrencia("id", $id);
+
+		
+
+		if($pago["estado"]==0){
+
+		$usuario = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $pago["id_usuario"]);
+
+		$cuenta = ControladorCuentas::ctrMostrarCuentasxEstado("usuario",$usuario["id_usuario"],"estado",1);
+
+		$id_cuenta = $cuenta["id"];
+
+		$campana=ControladorCampanas::ctrMostrarCampanas("id", $pago["id_campana"]);
+
+		$listaRecurrencia = json_decode($campana["nombre"], true);
+
+		$total=0;
+
+		foreach ($listaRecurrencia as $key2 => $value2) {
+			if($pago["inversiones"]==$value2["inversiones"]){
+			 $total=$total+$value2["retorno"];
+			 break;
+			}
+		}
+
+		$datos = array("id" => $id,
+		"estado" => $estado,
+		"id_cuenta" => $cuenta["id"],
+	    "total" => $total);
+
+		return $respuesta = ControladorPagos::ctrActualizarPagoRecurrencia($datos);
+
+		}else{
+			echo "pagado";
+		}
+
+	}
+
+
+
+	/*=============================================
 	Cambiar estado pago publicidad
 	=============================================*/	
 
@@ -363,6 +415,19 @@ if(isset($_POST["idPagoInversion"])){
 	$pagoInversion = new AjaxPagos();
 	$pagoInversion -> idPagoInversion = $_POST["idPagoInversion"];
 	$pagoInversion -> ajaxEstadoPagoInversion();
+
+}
+
+
+/*=============================================
+Cambiar estado pago recurrencia
+=============================================*/	
+
+if(isset($_POST["idPagoRecurrencia"])){
+
+	$pagoRecurrencia = new AjaxPagos();
+	$pagoRecurrencia -> idPagoRecurrencia = $_POST["idPagoRecurrencia"];
+	$pagoRecurrencia -> ajaxEstadoPagoRecurrencia();
 
 }
 

@@ -81,6 +81,46 @@ $("#tablaCampanasBonosExtras").DataTable({
 });
 
 
+
+/*=============================================
+TABLA CAMPAÑAS BONOS APALANCAMIENTO
+=============================================*/
+
+$("#tablaCampanasBonosApalancamiento").DataTable({
+	"ajax":"ajax/tabla-campanas-bonos-apalancamiento.ajax.php?doc_usuario="+doc_usuario,
+ 	"deferRender": true,
+  	"retrieve": true,
+  	"processing": true,
+	"language": {
+
+	    "sProcessing":     "Procesando...",
+	    "sLengthMenu":     "Mostrar _MENU_ registros",
+	    "sZeroRecords":    "No se encontraron resultados",
+	    "sEmptyTable":     "Ningún dato disponible en esta tabla",
+	    "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
+	    "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0",
+	    "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+	    "sInfoPostFix":    "",
+	    "sSearch":         "Buscar:",
+	    "sUrl":            "",
+	    "sInfoThousands":  ",",
+	    "sLoadingRecords": "Cargando...",
+	    "oPaginate": {
+	      "sFirst":    "Primero",
+	      "sLast":     "Último",
+	      "sNext":     "Siguiente",
+	      "sPrevious": "Anterior"
+	    },
+	    "oAria": {
+	        "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+	        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+	    }
+
+   }
+
+});
+
+
 /*=============================================
 TABLA CAMPAÑAS PUBLICIDAD
 =============================================*/
@@ -120,6 +160,45 @@ $("#tablaCampanasPublicidad").DataTable({
 
 });
 
+
+
+/*=============================================
+TABLA CAMPAÑAS BONOS RECURRENCIA
+=============================================*/
+
+$("#tablaCampanasBonosRecurrencia").DataTable({
+	"ajax":"ajax/tabla-campanas-bonos-recurrencia.ajax.php?doc_usuario="+doc_usuario,
+ 	"deferRender": true,
+  	"retrieve": true,
+  	"processing": true,
+	"language": {
+
+	    "sProcessing":     "Procesando...",
+	    "sLengthMenu":     "Mostrar _MENU_ registros",
+	    "sZeroRecords":    "No se encontraron resultados",
+	    "sEmptyTable":     "Ningún dato disponible en esta tabla",
+	    "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
+	    "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0",
+	    "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+	    "sInfoPostFix":    "",
+	    "sSearch":         "Buscar:",
+	    "sUrl":            "",
+	    "sInfoThousands":  ",",
+	    "sLoadingRecords": "Cargando...",
+	    "oPaginate": {
+	      "sFirst":    "Primero",
+	      "sLast":     "Último",
+	      "sNext":     "Siguiente",
+	      "sPrevious": "Anterior"
+	    },
+	    "oAria": {
+	        "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+	        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+	    }
+
+   }
+
+});
 
 
 
@@ -214,6 +293,164 @@ $(".tablaCampanasBonosExtras tbody").on("change","select.selectActiva",function(
 
 })
 
+
+/*=============================================
+ CAMBIAR ESTADO CAMPAÑA BONOS APALANCAMIENTO
+=============================================*/
+$(".tablaCampanasBonosApalancamiento tbody").on("change","select.selectActiva",function(){
+
+	var idCampana = $(this).attr("idCampana");
+	var seleccionado = $(this).val();
+
+	var datos = new FormData();
+ 	datos.append("activarIdCampana", idCampana);
+    datos.append("activarCampana", seleccionado);
+
+  	$.ajax({
+
+	  url:"ajax/campanas.ajax.php",
+	  method: "POST",
+	  data: datos,
+	  cache: false,
+      contentType: false,
+      processData: false,
+      success: function(respuesta){
+
+      }
+
+  	})
+
+
+})
+
+
+
+/*=============================================
+ CAMBIAR ESTADO CAMPAÑA BONOS RECURRENCIA
+=============================================*/
+$(".tablaCampanasBonosRecurrencia tbody").on("change","select.selectActiva",function(){
+
+	var idCampana = $(this).attr("idCampana");
+	var seleccionado = $(this).val();
+
+	var datos = new FormData();
+ 	datos.append("activarIdCampana", idCampana);
+    datos.append("activarCampana", seleccionado);
+
+  	$.ajax({
+
+	  url:"ajax/campanas.ajax.php",
+	  method: "POST",
+	  data: datos,
+	  cache: false,
+      contentType: false,
+      processData: false,
+      success: function(respuesta){
+
+      }
+
+  	})
+
+
+})
+
+
+//Ver detalle de campaña recurrencia
+$(".tablaCampanasBonosRecurrencia tbody").on("click", "button.btnVerRecurrencia", function () {
+
+    var id = $(this).attr("idCampana");
+
+    tabla = $(".tabla-detalles-recurrencia");
+    tbody = $(".tabla-detalles-recurrencia tbody");
+    tbody.empty();
+    tabla = tabla.dataTable().fnDestroy();
+
+    tabla = $(".tabla-detalles-recurrencia").DataTable({
+      "ajax":"ajax/tabla-detalles-recurrencia.ajax.php?id="+id,
+      "deferRender": true,
+      "retrieve": true,
+      "processing": true,
+      "language": {
+    
+         "sProcessing":     "Procesando...",
+        "sLengthMenu":     "Mostrar _MENU_ registros",
+        "sZeroRecords":    "No se encontraron resultados",
+        "sEmptyTable":     "Ningún dato disponible en esta tabla",
+        "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
+        "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0",
+        "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+        "sInfoPostFix":    "",
+        "sSearch":         "Buscar:",
+        "sUrl":            "",
+        "sInfoThousands":  ",",
+        "sLoadingRecords": "Cargando...",
+        "oPaginate": {
+          "sFirst":    "Primero",
+          "sLast":     "Último",
+          "sNext":     "Siguiente",
+          "sPrevious": "Anterior"
+        },
+        "oAria": {
+            "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+        }
+    
+       }
+    
+    });
+
+  });
+
+
+
+  //Ver detalle de campaña recurrencia pagados
+$(".tabla-recurrencia-pagada tbody").on("click", "button.btnVerRecurrencia", function () {
+
+    var id = $(this).attr("idCampana");
+
+    tabla = $(".tabla-detalles-recurrencia");
+    tbody = $(".tabla-detalles-recurrencia tbody");
+    tbody.empty();
+    tabla = tabla.dataTable().fnDestroy();
+
+    tabla = $(".tabla-detalles-recurrencia").DataTable({
+      "ajax":"ajax/tabla-detalles-recurrencia.ajax.php?id="+id,
+      "deferRender": true,
+      "retrieve": true,
+      "processing": true,
+      "language": {
+    
+         "sProcessing":     "Procesando...",
+        "sLengthMenu":     "Mostrar _MENU_ registros",
+        "sZeroRecords":    "No se encontraron resultados",
+        "sEmptyTable":     "Ningún dato disponible en esta tabla",
+        "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
+        "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0",
+        "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+        "sInfoPostFix":    "",
+        "sSearch":         "Buscar:",
+        "sUrl":            "",
+        "sInfoThousands":  ",",
+        "sLoadingRecords": "Cargando...",
+        "oPaginate": {
+          "sFirst":    "Primero",
+          "sLast":     "Último",
+          "sNext":     "Siguiente",
+          "sPrevious": "Anterior"
+        },
+        "oAria": {
+            "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+            "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+        }
+    
+       }
+    
+    });
+
+  });
+
+
+  //Invertir en una campaña
 
 $(".tablaCampanas").on("click","button.btnInvertir",function(){
 
@@ -553,4 +790,109 @@ $(".tablaCampanasBonosExtras").on("click","button.btnEditarCampana",function(){
 //    }
 
 //   });
+
+
+$("#crearRecurrencia").click(function(){
+
+	$(".nuevaRecurrencia").append(
+
+		'<div class="row" style="padding:5px 15px">'+
+	
+		'<!-- Descripción del producto -->'+
+		
+		'<div class="col-xs-6" style="padding-right:0px">'+
+		
+		  '<div class="input-group">'+
+			
+			'<span class="input-group-addon"><button type="button" class="btn btn-danger btn-xs quitarRecurrencia" idProducto="1"><i class="fa fa-times"></i></button></span>'+
+	
+		  '</div>'+
+	
+		'</div>'+
+	
+		'<!-- Cantidad de inversiones -->'+
+	
+		'<div class="col-xs-3">'+
+		  
+		   '<input type="number" class="form-control nuevaCantidadInversiones" name="nuevaCantidadInversiones" min="1" value="1" required>'+
+	
+		'</div>' +
+	
+		'<!-- Retorno -->'+
+	
+		'<div class="col-xs-3" style="padding-left:0px">'+
+	
+		  '<div class="input-group">'+
+	
+			'<span class="input-group-addon"><i class="ion ion-social-usd"></i></span>'+
+			   
+			'<input type="text" class="form-control nuevoValorRetorno" retornoReal="0" name="nuevoValorRetorno" value="0" required>'+
+	
+		  '</div>'+
+		   
+		'</div>'+
+	
+	  '</div>') 
+
+	  $(".nuevoValorRetorno").number(true, 0);
+
+})
+
+
+/*=============================================
+LISTAR TODOS LAS RECURRENCIAS
+=============================================*/
+
+function listarRecurrencias(){
+
+	var listaRecurrencias = [];
+
+	var inversiones = $(".nuevaCantidadInversiones");
+
+	$(".nuevoValorRetorno").number(false);
+	var retorno = $(".nuevoValorRetorno")
+
+	for(var i = 0; i < inversiones.length; i++){
+
+		listaRecurrencias.push({
+			"inversiones" : $(inversiones[i]).val(),
+			"retorno" : $(retorno[i]).val()
+		})
+
+	}
+
+	$("#listaRecurrencias").val(JSON.stringify(listaRecurrencias)); 
+
+}
+
+
+$(".formularioCrearRecurrencia").on("click", "button.quitarRecurrencia", function(){
+
+	$(this).parent().parent().parent().parent().remove();
+
+	listarRecurrencias();
+
+})
+
+
+/*=============================================
+MODIFICAR LA CANTIDAD DE INVERSIONES
+=============================================*/
+
+$(".formularioCrearRecurrencia").on("change", "input.nuevaCantidadInversiones", function(){
+
+	listarRecurrencias();
+
+})
+
+
+/*=============================================
+MODIFICAR EL RETORNO
+=============================================*/
+
+$(".formularioCrearRecurrencia").on("change", "input.nuevoValorRetorno", function(){
+
+	listarRecurrencias();
+
+})
 

@@ -89,19 +89,33 @@ class TablaComprobantes {
 
             }
 
-            $ganancia = ($value['valor']*$campana['retorno'])/100;
-            $retorno = $value['valor']+$ganancia;
+            $campana_apalancamiento=ControladorCampanas::ctrMostrarCampanasxEstado("tipo", 4, "estado", 1);
+
+            $retorno_apalancamiento=0;
+            $ganancia_apalancamiento=0;
+
+            if($campana_apalancamiento!=""){
+                $retorno_apalancamiento=$campana_apalancamiento["retorno"];
+                $ganancia_apalancamiento=($value['valor']*$campana_apalancamiento['retorno'])/100;
+            }
+
+            $valor_mas_apalancamiento=$value['valor']+$ganancia_apalancamiento;
+
+            $ganancia = ($valor_mas_apalancamiento*$campana['retorno'])/100;
+
+            $retorno_total = $valor_mas_apalancamiento+$ganancia;
 
             $datosJson .= '[
                        "'.$acciones.'",
 				       "'.$foto.'",
 				       "'.$estado.'",
 				       "$ '.number_format($value[ 'valor' ], 0, ",", ".").' COP",
+                       "$ '.number_format($valor_mas_apalancamiento, 0, ",", ".").' COP",
 					   "'.$value[ 'fecha' ].'",
                        "'.$campana["retorno"].' %",
                        "$ '.number_format($ganancia, 0, ",", ".").' COP",
-                       "$ '.number_format($retorno, 0, ",", ".").' COP",
-                       "'.$campana[ 'fecha_fin' ].'",
+                       "$ '.number_format($retorno_total, 0, ",", ".").' COP",
+                       "'.$campana[ 'fecha_retorno' ].'",
 					   "'.$campana[ 'nombre' ].'"
 				],';
 

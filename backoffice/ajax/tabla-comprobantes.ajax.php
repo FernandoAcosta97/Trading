@@ -150,7 +150,7 @@ class TablaComprobantes {
 
                 foreach($campanas as $key => $value2){ 
 
-                    if($value2["nombre"]!="Bono Extra"){
+                    if($value2["nombre"]!="Bono Extra" && $value2["tipo"]!=4 && $value2["tipo"]!=5){
 
                     if($campana["nombre"]==$value2["nombre"]){
 

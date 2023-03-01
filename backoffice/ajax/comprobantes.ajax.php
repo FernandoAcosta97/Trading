@@ -88,14 +88,96 @@ class AjaxComprobantes{
         //Actualizar estado del comprobante
 		$respuesta = ModeloComprobantes::mdlActualizarComprobante($tabla, $id, $item, $valor);
 
-		//Registrar pago inversión
+		//Registrar pago inversión, apalancamiento y recurrencia
 		if($valor==1){
+			$t=0;
+			$campana_apalancamiento=ControladorCampanas::ctrMostrarCampanasxEstado("tipo", 4, "estado", 1);
+
+			$id_campana_apalancamiento=0;
+	
+			if($campana_apalancamiento!=""){
+	
+				$comprobanteFechaBonoApalancamiento = ControladorComprobantes::ctrMostrarComprobantesxEstadoyFechaBono("id", $id,$campana_apalancamiento["fecha_inicio"],$campana_apalancamiento["fecha_fin"]);
+
+				if($comprobanteFechaBonoApalancamiento!=""){
+					$id_campana_apalancamiento=$campana_apalancamiento["id"];
+				}
+			} 
+
 			$usu = ControladorUsuarios::ctrMostrarUsuarios("doc_usuario",$comprobante[0]["doc_usuario"]);
-			$pago=ControladorPagos::ctrRegistrarPagos($usu["id_usuario"],$comprobante[0]["id"]);
+			$pago=ControladorPagos::ctrRegistrarPagos($usu["id_usuario"],$comprobante[0]["id"], $id_campana_apalancamiento);
+
+			$campana_recurrencia=ControladorCampanas::ctrMostrarCampanasxEstado("tipo", 5, "estado", 1);
+
+			if($campana_recurrencia!=""){
+				$t=0;
+
+				$comprobantesFechaBonoRecurrencia = ControladorComprobantes::ctrMostrarComprobantesxUsuarioyFechaBonoAll("doc_usuario",$usu["doc_usuario"],$campana_recurrencia["fecha_inicio"],$campana_recurrencia["fecha_fin"]);
+
+				$listaRecurrencia = json_decode($campana_recurrencia["nombre"], true);
+
+				$t=count($comprobantesFechaBonoRecurrencia);
+				$aprobado=false;
+
+				foreach ($listaRecurrencia as $key2 => $value2) {
+					if($t==$value2["inversiones"]){
+					 $aprobado=true;
+					 break;
+					}
+				}
+
+				if($aprobado){
+
+					$pago_recurrente=ControladorPagos::ctrMostrarPagosRecurrentesxEstado("id_usuario",$usu["id_usuario"], "estado", 0);
+					if($pago_recurrente==""){
+
+						ControladorPagos::ctrRegistrarPagosBonosRecurrencia($usu["id_usuario"],$t,$campana_recurrencia["id"]);
+
+					}else{
+						ControladorPagos::ctrActualizarPagoRecurrencia2("inversiones", ($pago_recurrente["inversiones"]+1), $pago_recurrente["id"]);
+					}
+
+				}
+			}
+
 		}else{
 			$pago=ControladorPagos::ctrMostrarPagos("id_comprobante",$comprobante[0]["id"]);
 			if($pago!=""){
             $eliminar=ControladorPagos::ctrEliminarPagos($pago["id"]);
+			}
+
+			$usu = ControladorUsuarios::ctrMostrarUsuarios("doc_usuario",$comprobante[0]["doc_usuario"]);
+
+			$pago_recurrente=ControladorPagos::ctrMostrarPagosRecurrentesxEstado("id_usuario",$usu["id_usuario"], "estado", 0);
+
+			$campana_recurrencia=ControladorCampanas::ctrMostrarCampanas("id", $pago_recurrente["id_campana"]);
+
+			$listaRecurrencia=null;
+
+			if($campana_recurrencia!=""){
+
+			$listaRecurrencia = json_decode($campana_recurrencia["nombre"], true);
+			}
+
+			$t=$pago_recurrente["inversiones"]-1;
+			$aprobado=false;
+
+			if($listaRecurrencia!=null){
+
+			foreach ($listaRecurrencia as $key2 => $value2) {
+				if($t==$value2["inversiones"]){
+				 $aprobado=true;
+				 break;
+				}
+			}
+		}
+
+			if($pago_recurrente!=""){
+				if(!$aprobado){
+            	$eliminar=ControladorPagos::ctrEliminarPagosRecurrentes($pago_recurrente["id"]);
+				}else{
+					ControladorPagos::ctrActualizarPagoRecurrencia2("inversiones", ($pago_recurrente["inversiones"]-1), $pago_recurrente["id"]);
+				}
 			}
 		}
 	

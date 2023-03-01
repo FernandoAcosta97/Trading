@@ -104,11 +104,12 @@ $comprobantes = ControladorComprobantes::ctrMostrarComprobantes($item, $valor); 
               <th>Acciones</th>
               <th>Foto</th>
               <th>Estado</th>
-              <th>Valor</th>
+              <th>Valor Inversión</th>
+              <th>Valor más apalancamiento</th>
               <th>Fecha</th>
-              <th>Porcentaje</th>
-              <th>Ganancia</th>
-              <th>Retorno</th>
+              <th>Porcentaje Campaña</th>
+              <th>Ganancia Inversión</th>
+              <th>Retorno Total</th>
               <th>Fecha Retorno</th>
               <th>Campaña</th>
             </tr>

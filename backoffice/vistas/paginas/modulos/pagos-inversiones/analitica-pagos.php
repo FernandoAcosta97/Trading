@@ -11,13 +11,26 @@ foreach ($pagos as $key => $value) {
 
 	$campana=ControladorCampanas::ctrMostrarCampanas("id",$comprobante[0]["campana"]);
 
-	$ganancia = ($comprobante[0]['valor']*$campana['retorno'])/100;
-    $total = $comprobante[0]['valor']+$ganancia;
+	$campana_apalancamiento=ControladorCampanas::ctrMostrarCampanasxEstado("tipo", 4, "estado", 1);
+
+	$retorno_apalancamiento=0;
+	$ganancia_apalancamiento=0;
+
+	if($campana_apalancamiento!=""){
+		$retorno_apalancamiento=$campana_apalancamiento["retorno"];
+		$ganancia_apalancamiento=($comprobante[0]['valor']*$campana_apalancamiento['retorno'])/100;
+	}
+
+	$valor_mas_apalancamiento=$comprobante[0]['valor']+$ganancia_apalancamiento;
+
+	$ganancia = ($valor_mas_apalancamiento*$campana['retorno'])/100;
+
+	$retorno_total = $valor_mas_apalancamiento+$ganancia;
 
 	if($value["estado"]==0){
-		$total_a_pagar+=$total;
+		$total_a_pagar+=$retorno_total;
 	}else{
-		$total_pagos+=$total;
+		$total_pagos+=$retorno_total;
 	}
 
 

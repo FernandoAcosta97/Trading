@@ -7,12 +7,13 @@ class ControladorPagos
     Registro de Pagos
     =============================================*/
 
-    public static function ctrRegistrarPagos($id_usuario, $id_comprobante)
+    public static function ctrRegistrarPagos($id_usuario, $id_comprobante, $id_apalancamiento)
     {
 
         $tabla = "pagos_inversiones";
         $datos = array("id_usuario" => $id_usuario,
         "id_comprobante" => $id_comprobante,
+        "id_apalancamiento" => $id_apalancamiento,
         "estado" => 0);
 
         $respuesta = ModeloPagos::mdlRegistrarPagos($tabla, $datos);   
@@ -991,6 +992,23 @@ class ControladorPagos
 
     }
 
+
+    /*=============================================
+    Registro de Bonos de Recurrencia
+    =============================================*/
+
+    public static function ctrRegistrarPagosBonosRecurrencia($id_usuario, $inversiones, $id_campana)
+    {
+
+        $tabla = "pagos_recurrencia";
+        $datos = array("id_usuario" => $id_usuario,
+        "inversiones" => $inversiones,
+        "id_campana" => $id_campana);
+
+        $respuesta = ModeloPagos::mdlRegistrarPagosBonosRecurrencia($tabla, $datos);   
+
+    }
+
     /*=============================================
     Mostrar Pagos Inversiones
     =============================================*/
@@ -1271,7 +1289,38 @@ class ControladorPagos
         return $respuesta;
 
     }
+    
 
+    /*=============================================
+    Mostrar Pagos Recurrencia
+    =============================================*/
+
+    public static function ctrMostrarPagosRecurrenciaAll($item, $valor)
+    {
+
+        $tabla = "pagos_recurrencia";
+
+        $respuesta = ModeloPagos::mdlMostrarPagosRecurrenciaAll($tabla, $item, $valor);
+
+        return $respuesta;
+
+    }
+
+
+     /*=============================================
+    Mostrar Pagos Recurrencia
+    =============================================*/
+
+    public static function ctrMostrarPagosRecurrencia($item, $valor)
+    {
+
+        $tabla = "pagos_recurrencia";
+
+        $respuesta = ModeloPagos::mdlMostrarPagosRecurrencia($tabla, $item, $valor);
+
+        return $respuesta;
+
+    }
 
      /*=============================================
     Mostrar Pagos Publicidad all
@@ -1343,6 +1392,38 @@ class ControladorPagos
         $tabla = "bonos_extras";
 
         $respuesta = ModeloPagos::mdlMostrarBonosExtrasAll($tabla, $item, $valor);
+
+        return $respuesta;
+
+    }
+
+
+    /*=============================================
+    Mostrar Pagos Recurrentes
+    =============================================*/
+
+    public static function ctrMostrarPagosRecurrentes($item, $valor)
+    {
+
+        $tabla = "pagos_recurrencia";
+
+        $respuesta = ModeloPagos::mdlMostrarPagosRecurrentes($tabla, $item, $valor);
+
+        return $respuesta;
+
+    }
+
+
+        /*=============================================
+    Mostrar Pagos Recurrentes
+    =============================================*/
+
+    public static function ctrMostrarPagosRecurrentesxEstado($item, $valor, $item2, $valor2)
+    {
+
+        $tabla = "pagos_recurrencia";
+
+        $respuesta = ModeloPagos::mdlMostrarPagosRecurrentesxEstado($tabla, $item, $valor, $item2, $valor2);
 
         return $respuesta;
 
@@ -1436,6 +1517,38 @@ class ControladorPagos
         $tabla = "pagos_inversiones";
 
         $respuesta = ModeloPagos::mdlActualizarPagoInversion($tabla, $datos);
+
+        echo $respuesta;
+
+    }
+
+
+    /*=============================================
+    Actualizar Pago Recurrencia
+    =============================================*/
+
+    public static function ctrActualizarPagoRecurrencia($datos)
+    {
+
+        $tabla = "pagos_recurrencia";
+
+        $respuesta = ModeloPagos::mdlActualizarPagoRecurrencia($tabla, $datos);
+
+        echo $respuesta;
+
+    }
+
+
+    /*=============================================
+    Actualizar Pago Recurrencia Parametros
+    =============================================*/
+
+    public static function ctrActualizarPagoRecurrencia2($item, $valor, $id)
+    {
+
+        $tabla = "pagos_recurrencia";
+
+        $respuesta = ModeloPagos::mdlActualizarPagoRecurrencia2($tabla, $item, $valor, $id);
 
         echo $respuesta;
 
@@ -1716,6 +1829,23 @@ class ControladorPagos
         $tabla = "pagos_inversiones";
 
         $respuesta = ModeloPagos::mdlEliminarPagos($tabla, $id);
+
+        return $respuesta;
+
+    }
+
+
+
+    /*=============================================
+    Eliminar Pago Recurrente
+    =============================================*/
+
+    public static function ctrEliminarPagosRecurrentes($id)
+    {
+
+        $tabla = "pagos_recurrencia";
+
+        $respuesta = ModeloPagos::mdlEliminarPagosRecurrentes($tabla, $id);
 
         return $respuesta;
 

@@ -354,6 +354,44 @@ class ModeloComprobantes
     }
 
 
+
+     /*=============================================
+    Mostrar Comprobantes
+    =============================================*/
+
+    public static function mdlMostrarComprobantesxUsuarioyFechaBonoAll($tabla, $item, $valor, $fechaInicio, $fechaFin)
+    {
+
+        if ($item != null && $valor != null && $fechaInicio != null && $fechaFin != null) {
+
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $tabla.$item = :$item AND $tabla.fecha >= :fechaInicio AND $tabla.fecha <= :fechaFin AND $tabla.estado=1");
+
+            $stmt->bindParam(":" . $item, $valor, PDO::PARAM_INT);
+            $stmt->bindParam(":fechaInicio",$fechaInicio, PDO::PARAM_STR);
+            $stmt->bindParam(":fechaFin",$fechaFin, PDO::PARAM_STR);
+
+            $stmt->execute();
+
+            return $stmt->fetchAll();
+
+        } else if($fechaInicio != null && $fechaFin != null){
+
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $tabla.fecha >= :fechaInicio AND $tabla.fecha <= :fechaFin AND $tabla.estado=1");
+
+            $stmt->bindParam(":fechaInicio", $fechaInicio, PDO::PARAM_STR);
+            $stmt->bindParam(":fechaFin", $fechaFin,  PDO::PARAM_STR);
+
+            $stmt->execute();
+
+            return $stmt->fetchAll();
+        }
+
+        $stmt->close();
+
+        $stmt = null;
+    }
+
+
       /*=============================================
     Mostrar Comprobantes
     =============================================*/

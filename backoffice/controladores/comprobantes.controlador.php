@@ -327,7 +327,23 @@ class ControladorComprobantes
     }
 
 
-      /*=============================================
+     /*=============================================
+    Mostrar Comprobantes x Usuario Y Fecha Campaña
+    =============================================*/
+
+    public static function ctrMostrarComprobantesxUsuarioyFechaBonoAll($item, $valor, $fechaInicio, $fechaFin)
+    {
+
+        $tabla = "comprobantes";
+
+        $respuesta = ModeloComprobantes::mdlMostrarComprobantesxUsuarioyFechaBonoAll($tabla, $item, $valor, $fechaInicio, $fechaFin);
+
+        return $respuesta;
+
+    }
+
+
+    /*=============================================
     Mostrar Comprobantes x Estado Y Fecha Campaña
     =============================================*/
 

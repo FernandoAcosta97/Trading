@@ -109,22 +109,22 @@ class TablaPagos{
 	
 				}
 			}
-	
-			/*=============================================
-			NOTAS
-			=============================================*/
 
-			// if($_GET["enlace_afiliado"] != $patrocinador){			
+			$campana_apalancamiento=ControladorCampanas::ctrMostrarCampanasxEstado("tipo", 4, "estado", 1);
 
-			// 	$notas = "<h5><span class='badge badge-success'>Pagada</span></h5>";
+            $retorno_apalancamiento=0;
+            $ganancia_apalancamiento=0;
 
-			// }else{
+            if($campana_apalancamiento!=""){
+                $retorno_apalancamiento=$campana_apalancamiento["retorno"];
+                $ganancia_apalancamiento=($comprobante[0]['valor']*$campana_apalancamiento['retorno'])/100;
+            }
 
-			// 	$notas = "<h5><span class='badge badge-success'>Pagada $".number_format($value["periodo_comision"])."</span></h5>";
-			// }	
-			
-            $ganancia = ($comprobante[0]['valor']*$campana['retorno'])/100;
-            $total = $comprobante[0]['valor']+$ganancia;
+            $valor_mas_apalancamiento=$comprobante[0]['valor']+$ganancia_apalancamiento;
+
+            $ganancia = ($valor_mas_apalancamiento*$campana['retorno'])/100;
+
+            $retorno_total = $valor_mas_apalancamiento+$ganancia;
 
 			if($cuentaBancaria==""){
                 $numero_cuenta = "X";
@@ -162,9 +162,10 @@ class TablaPagos{
 					"'.$comprobante[0]["fecha"].'",
 					"'.$campana["fecha_retorno"].'",
 					"$ '.number_format($comprobante[0]["valor"]).'",
+					"$ '.number_format($valor_mas_apalancamiento).'",
 					"'.$campana["retorno"].' %",
 					"$ '.number_format($ganancia).'",
-					"$ '.number_format($total).'"
+					"$ '.number_format($retorno_total).'"
 
 			],';
 

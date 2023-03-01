@@ -11,10 +11,11 @@ class ModeloPagos
 
     public static function mdlRegistrarPagos($tabla, $datos)
     {
-        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(id_usuario, id_comprobante, estado) VALUES (:id_usuario, :id_comprobante, :estado)");
+        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(id_usuario, id_comprobante, id_apalancamiento, estado) VALUES (:id_usuario, :id_comprobante, :id_apalancamiento, :estado)");
 
         $stmt->bindParam(":id_usuario", $datos["id_usuario"], PDO::PARAM_INT);
         $stmt->bindParam(":id_comprobante", $datos["id_comprobante"], PDO::PARAM_INT);
+        $stmt->bindParam(":id_apalancamiento", $datos["id_apalancamiento"], PDO::PARAM_INT);
         $stmt->bindParam(":estado", $datos["estado"], PDO::PARAM_INT);
 
         if ($stmt->execute()) {
@@ -143,6 +144,32 @@ class ModeloPagos
         $stmt->bindParam(":id_pago_extra", $datos["id_pago_extra"], PDO::PARAM_INT);
         $stmt->bindParam(":id_usuario", $datos["id_usuario"], PDO::PARAM_INT);
         $stmt->bindParam(":id_comprobante", $datos["id_comprobante"], PDO::PARAM_INT);
+        $stmt->bindParam(":id_campana", $datos["id_campana"], PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+
+            return "ok";
+        } else {
+
+            return print_r(Conexion::conectar()->errorInfo());
+        }
+
+        $stmt->close();
+        $stmt = null;
+    }
+
+
+
+    /*=============================================
+    Registro de Pagos de Bonos Extras
+    =============================================*/
+
+    public static function mdlRegistrarPagosBonosRecurrencia($tabla, $datos)
+    {
+        $stmt = Conexion::conectar()->prepare("INSERT INTO $tabla(id_usuario, inversiones, id_campana) VALUES (:id_usuario, :inversiones, :id_campana)");
+
+        $stmt->bindParam(":id_usuario", $datos["id_usuario"], PDO::PARAM_INT);
+        $stmt->bindParam(":inversiones", $datos["inversiones"], PDO::PARAM_INT);
         $stmt->bindParam(":id_campana", $datos["id_campana"], PDO::PARAM_INT);
 
         if ($stmt->execute()) {
@@ -562,6 +589,70 @@ class ModeloPagos
     }
 
 
+     /*=============================================
+    Mostrar Pagos Recurrencia
+    =============================================*/
+
+    public static function mdlMostrarPagosRecurrencia($tabla, $item, $valor)
+    {
+
+        if ($item != null && $valor !=null) {
+
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item");
+
+            $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
+
+            $stmt->execute();
+
+            return $stmt->fetch();
+
+        } else {
+
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
+
+            $stmt->execute();
+
+            return $stmt->fetchAll();
+        }
+
+        $stmt->close();
+
+        $stmt = null;
+    }
+
+
+    /*=============================================
+    Mostrar Pagos Recurrencia
+    =============================================*/
+
+    public static function mdlMostrarPagosRecurrenciaAll($tabla, $item, $valor)
+    {
+
+        if ($item != null && $valor !=null) {
+
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item");
+
+            $stmt->bindParam(":" . $item, $valor, PDO::PARAM_INT);
+
+            $stmt->execute();
+
+            return $stmt->fetchAll();
+
+        } else {
+
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
+
+            $stmt->execute();
+
+            return $stmt->fetchAll();
+        }
+
+        $stmt->close();
+
+        $stmt = null;
+    }
+
+
 
       /*=============================================
     Mostrar Pagos Publicidad
@@ -848,6 +939,72 @@ class ModeloPagos
     }
 
 
+    /*=============================================
+    Mostrar Pagos Recurrentes
+    =============================================*/
+
+    public static function mdlMostrarPagosRecurrentes($tabla, $item, $valor)
+    {
+
+        if ($item != null && $valor !=null) {
+
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item");
+
+            $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
+
+            $stmt->execute();
+
+            return $stmt->fetch();
+
+        } else {
+
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
+
+            $stmt->execute();
+
+            return $stmt->fetchAll();
+        }
+
+        $stmt->close();
+
+        $stmt = null;
+    }
+
+
+
+     /*=============================================
+    Mostrar Pagos Recurrentes
+    =============================================*/
+
+    public static function mdlMostrarPagosRecurrentesxEstado($tabla, $item, $valor, $item2, $valor2)
+    {
+
+        if ($item != null && $valor !=null) {
+
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item AND $item2 = :$item2");
+
+            $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
+            $stmt->bindParam(":" . $item2, $valor2, PDO::PARAM_INT);
+
+            $stmt->execute();
+
+            return $stmt->fetch();
+
+        } else {
+
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
+
+            $stmt->execute();
+
+            return $stmt->fetchAll();
+        }
+
+        $stmt->close();
+
+        $stmt = null;
+    }
+
+
      /*=============================================
     Mostrar Comprobantes
     =============================================*/
@@ -1033,6 +1190,63 @@ class ModeloPagos
 
         $stmt = null;
     }
+
+
+
+     /*=============================================
+    Actualizar Pago Recurrencia
+    =============================================*/
+
+    public static function mdlActualizarPagoRecurrencia($tabla, $datos)
+    {
+
+        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET estado = :estado, valor = :valor, id_cuenta = :id_cuenta WHERE id = :id");
+
+        $stmt->bindParam(":estado", $datos["estado"], PDO::PARAM_INT);
+        $stmt->bindParam(":valor", $datos["total"], PDO::PARAM_INT);
+        $stmt->bindParam(":id_cuenta", $datos["id_cuenta"], PDO::PARAM_INT);
+        $stmt->bindParam(":id", $datos["id"], PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+
+            return "ok";
+        } else {
+
+            return print_r(Conexion::conectar()->errorInfo());
+        }
+
+        $stmt->close();
+
+        $stmt = null;
+    }
+
+
+
+    /*=============================================
+    Actualizar Pago Recurrencia Parametros
+    =============================================*/
+
+    public static function mdlActualizarPagoRecurrencia2($tabla, $item, $valor, $id)
+    {
+
+        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET $item = :$item WHERE id = :id");
+
+        $stmt->bindParam(":".$item, $valor, PDO::PARAM_INT);
+        $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+
+            return "ok";
+        } else {
+
+            return print_r(Conexion::conectar()->errorInfo());
+        }
+
+        $stmt->close();
+
+        $stmt = null;
+    }
+
 
 
 
@@ -1256,6 +1470,32 @@ class ModeloPagos
     =============================================*/
 
     public static function mdlEliminarPagos($tabla, $id)
+    {
+
+        $stmt = Conexion::conectar()->prepare("DELETE FROM $tabla WHERE id = :id");
+
+        $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+
+            return "ok";
+        } else {
+
+            return print_r(Conexion::conectar()->errorInfo());
+        }
+
+        $stmt->close();
+
+        $stmt = null;
+    }
+
+
+
+    /*=============================================
+    Eliminar pago recurrente
+    =============================================*/
+
+    public static function mdlEliminarPagosRecurrentes($tabla, $id)
     {
 
         $stmt = Conexion::conectar()->prepare("DELETE FROM $tabla WHERE id = :id");

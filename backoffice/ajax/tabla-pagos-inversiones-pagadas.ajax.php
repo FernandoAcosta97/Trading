@@ -98,12 +98,24 @@ class TablaPagos{
   			$usuario = ControladorUsuarios::ctrMostrarUsuarios("doc_usuario", $comprobante[0] ["doc_usuario"]);
 
 			$cuenta = ControladorCuentas::ctrMostrarCuentas("id",$value["id_cuenta"]);
-	
-			
-            $ganancia = ($comprobante[0]['valor']*$campana['retorno'])/100;
-            $total = $comprobante[0]['valor']+$ganancia;
 
-			$acciones = "<h5><span class='badge badge-success'>Pago $".number_format($total)."</span></h5>";
+			$campana_apalancamiento=ControladorCampanas::ctrMostrarCampanas("id", $value["id_apalancamiento"]);
+
+			$retorno_apalancamiento=0;
+			$ganancia_apalancamiento=0;
+		
+			if($campana_apalancamiento!=""){
+				$retorno_apalancamiento=$campana_apalancamiento["retorno"];
+				$ganancia_apalancamiento=($comprobante[0]['valor']*$campana_apalancamiento['retorno'])/100;
+			}
+		
+			$valor_mas_apalancamiento=$comprobante[0]['valor']+$ganancia_apalancamiento;
+		
+			$ganancia = ($valor_mas_apalancamiento*$campana['retorno'])/100;
+		
+			$retorno_total = $valor_mas_apalancamiento+$ganancia;
+
+			$acciones = "<h5><span class='badge badge-success'>Pago $".number_format($retorno_total)."</span></h5>";
 
 			$datosJson	 .= '[
 				    "'.($key+1).'",
@@ -119,9 +131,10 @@ class TablaPagos{
 					"'.$comprobante[0]["fecha"].'",
 					"'.$value["fecha"].'",
 					"$ '.number_format($comprobante[0]["valor"]).'",
+					"$ '.number_format($valor_mas_apalancamiento).'",
 					"'.$campana["retorno"].' %",
 					"$ '.number_format($ganancia).'",
-					"$ '.number_format($total).'"
+					"$ '.number_format($retorno_total).'"
 
 			],';
 

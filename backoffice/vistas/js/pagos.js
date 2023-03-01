@@ -81,6 +81,7 @@ $(".tabla-pagar-comisiones tbody").on("click", "button.btnVerComisiones", functi
   });
 
 
+
   $(".tabla-comisiones-pagadas tbody").on("click", "button.btnVerComisiones", function () {
 
     var idPago = $(this).attr("idPagoComision");
@@ -282,6 +283,41 @@ $(".tabla-pagar-comisiones tbody").on("click", "button.btnVerComisiones", functi
 
   $(".tabla-inversiones-sin-liquidar").DataTable({
     "ajax":"ajax/tabla-inversiones-sin-liquidar.ajax.php?usuario="+id_usuario,
+    "deferRender": true,
+    "retrieve": true,
+    "processing": true,
+    "language": {
+  
+       "sProcessing":     "Procesando...",
+      "sLengthMenu":     "Mostrar _MENU_ registros",
+      "sZeroRecords":    "No se encontraron resultados",
+      "sEmptyTable":     "Ningún dato disponible en esta tabla",
+      "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
+      "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0",
+      "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+      "sInfoPostFix":    "",
+      "sSearch":         "Buscar:",
+      "sUrl":            "",
+      "sInfoThousands":  ",",
+      "sLoadingRecords": "Cargando...",
+      "oPaginate": {
+        "sFirst":    "Primero",
+        "sLast":     "Último",
+        "sNext":     "Siguiente",
+        "sPrevious": "Anterior"
+      },
+      "oAria": {
+          "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+          "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+      }
+  
+     }
+  
+  });
+
+
+  $(".tabla-pagar-recurrencia").DataTable({
+    "ajax":"ajax/tabla-pagos-recurrencia.ajax.php",
     "deferRender": true,
     "retrieve": true,
     "processing": true,
@@ -525,6 +561,41 @@ $(".tabla-pagar-comisiones tbody").on("click", "button.btnVerComisiones", functi
   });
 
 
+  $(".tabla-recurrencia-pagada").DataTable({
+    "ajax":"ajax/tabla-pagos-recurrencia-pagados.ajax.php",
+    "deferRender": true,
+    "retrieve": true,
+    "processing": true,
+    "language": {
+  
+       "sProcessing":     "Procesando...",
+      "sLengthMenu":     "Mostrar _MENU_ registros",
+      "sZeroRecords":    "No se encontraron resultados",
+      "sEmptyTable":     "Ningún dato disponible en esta tabla",
+      "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
+      "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0",
+      "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+      "sInfoPostFix":    "",
+      "sSearch":         "Buscar:",
+      "sUrl":            "",
+      "sInfoThousands":  ",",
+      "sLoadingRecords": "Cargando...",
+      "oPaginate": {
+        "sFirst":    "Primero",
+        "sLast":     "Último",
+        "sNext":     "Siguiente",
+        "sPrevious": "Anterior"
+      },
+      "oAria": {
+          "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+          "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+      }
+  
+     }
+  
+  });
+
+
   $(".tabla-publicidad-pagada").DataTable({
     "ajax":"ajax/tabla-pagos-publicidad-pagada.ajax.php",
     "deferRender": true,
@@ -632,6 +703,44 @@ $(".tabla-pagar-comisiones tbody").on("click", "button.btnVerComisiones", functi
   	})
   
     });
+
+
+    $(".tabla-pagar-recurrencia tbody").on("click", "button.btnPagarRecurrencia", function () {
+
+      var idPagoRecurrencia= $(this).attr("idPagoRecurrencia");
+    
+      var datos = new FormData();
+      datos.append("idPagoRecurrencia", idPagoRecurrencia);
+    
+        $.ajax({
+    
+        url:"ajax/pagos.ajax.php",
+        method: "POST",
+        data: datos,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function(respuesta){
+    
+            if (respuesta == "ok") {
+    
+              alerta("success", "¡El pago se ha realizado correctamente!", null, "pagos-recurrencia", false);
+          
+            }else if(respuesta == "pagado"){
+    
+              alerta("info", "¡Información!", "¡El pago ya se ha realizado!", "pagos-recurrencia", false);
+    
+            }else{
+    
+              alerta("error", "¡Ha ocurrido un error!", "¡Contacte con el administrador o vuelve a intentarlo mas tarde!", null, true);
+    
+            }
+    
+          }
+    
+        })
+      
+        });
 
 
 

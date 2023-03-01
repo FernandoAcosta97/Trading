@@ -150,6 +150,18 @@
                   <p>Publicidad</p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a href="bonos-apalancamiento" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Bonos apalancamiento</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="bonos-recurrencia" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Bonos recurrencia</p>
+                </a>
+              </li>
             </ul>
           </li>
 
@@ -327,6 +339,12 @@
                 <a href="pagos-publicidad" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Pagar publicidad</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="pagos-recurrencia" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Pagar recurrencia</p>
                 </a>
               </li>
             </ul>

@@ -254,6 +254,8 @@ if($usuario["firma"]!=null){
 					$_GET["pagina"] == "campanas" ||
 					$_GET["pagina"] == "bonos-extras" ||
 					$_GET["pagina"] == "campanas-publicidad" ||
+					$_GET["pagina"] == "bonos-apalancamiento" ||
+					$_GET["pagina"] == "bonos-recurrencia" ||
 					$_GET["pagina"] == "cuentas-bancarias" ||
 					$_GET["pagina"] == "comprobantes" ||
 					$_GET["pagina"] == "comprobantes-publicidad" ||
@@ -265,6 +267,8 @@ if($usuario["firma"]!=null){
 					$_GET["pagina"] == "pagos-comisiones" ||
 					$_GET["pagina"] == "comisiones-pagadas" ||
 					$_GET["pagina"] == "pagos-inversiones" ||
+					$_GET["pagina"] == "pagos-recurrencia" ||
+					$_GET["pagina"] == "recurrencia-pagada" ||
 					$_GET["pagina"] == "pagos-publicidad" ||
 					$_GET["pagina"] == "inversiones-pagadas" ||
 					$_GET["pagina"] == "publicidad-pagada" ||
@@ -308,6 +312,8 @@ if($usuario["firma"]!=null){
 				$_GET["pagina"] == "campanas" ||
 				$_GET["pagina"] == "bonos-extras" ||
 				$_GET["pagina"] == "campanas-publicidad" ||
+				$_GET["pagina"] == "bonos-apalancamiento" ||
+				$_GET["pagina"] == "bonos-recurrencia" ||
 				$_GET["pagina"] == "cuentas-bancarias" ||
 				$_GET["pagina"] == "comprobantes" ||
 				$_GET["pagina"] == "comprobantes-publicidad" ||
@@ -319,7 +325,9 @@ if($usuario["firma"]!=null){
 				$_GET["pagina"] == "pagos-comisiones" ||
 				$_GET["pagina"] == "comisiones-pagadas" ||
 				$_GET["pagina"] == "pagos-inversiones" ||
+				$_GET["pagina"] == "pagos-recurrencia" ||
 				$_GET["pagina"] == "inversiones-pagadas" ||
+				$_GET["pagina"] == "recurrencia-pagada" ||
 				$_GET["pagina"] == "pagos-extras" ||
 				$_GET["pagina"] == "extras-pagados" ||
 				$_GET["pagina"] == "ingresos-uninivel" ||
