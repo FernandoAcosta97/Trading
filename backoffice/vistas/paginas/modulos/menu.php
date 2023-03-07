@@ -120,7 +120,7 @@
 
         <?php endif ?>
   
-<?php else: ?>
+        <?php else: ?>
 
 
         <li class="nav-item has-treeview">
@@ -160,6 +160,18 @@
                 <a href="bonos-recurrencia" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Bonos recurrencia</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="bonos-afiliados" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Bonos afiliados</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="bonos-bienvenida" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Bonos bienvenida</p>
                 </a>
               </li>
             </ul>
@@ -332,7 +344,7 @@
               <li class="nav-item">
                 <a href="pagos-extras" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Pagar bienvenida</p>
+                  <p>Pagar extras</p>
                 </a>
               </li>
               <li class="nav-item">
@@ -347,9 +359,14 @@
                   <p>Pagar recurrencia</p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a href="pagos-afiliados" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Pagar afiliados</p>
+                </a>
+              </li>
             </ul>
           </li>
-          
 
        <!--=====================================
         Botón Cambio patrocinador

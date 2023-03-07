@@ -21,12 +21,12 @@ if ($usuario["perfil"] != "admin") {
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>Campañas Bonos Recurrencia</h1>
+          <h1>Campañas Bonos Afiliados</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="inicio">Inicio</a></li>
-            <li class="breadcrumb-item active">Campañas / Bonos recurrencia</li>
+            <li class="breadcrumb-item active">Campañas / Bonos afiliados</li>
           </ol>
         </div>
       </div>
@@ -42,13 +42,13 @@ if ($usuario["perfil"] != "admin") {
 
       <div class="card-header">
 
-        <h3 class="card-title">Bonos de recurrencia registrados</h3>
+        <h3 class="card-title">Bonos de afiliados registrados</h3>
 
         <?php if ($usuario["perfil"] == "admin"): ?>
 
         <div style="margin:1em auto auto auto">
 
-            <button class="btn btn-primary" data-toggle="modal" data-target="#modalRegistrarCampana">Registrar Bono Recurrencia</button>
+            <button class="btn btn-primary" data-toggle="modal" data-target="#modalRegistrarCampana">Registrar Bono Afiliados</button>
 
         </div>
 
@@ -64,7 +64,7 @@ if ($usuario["perfil"] != "admin") {
       <div class="card-body">
 
 
-        <table id="tablaCampanasBonosRecurrencia" class="table table-striped table-bordered dt-responsive tablaCampanasBonosRecurrencia" width="100%">
+        <table id="tablaCampanasBonosAfiliados" class="table table-striped table-bordered dt-responsive tablaCampanasBonosAfiliados" width="100%">
 
           <thead>
             <tr>
@@ -109,7 +109,7 @@ EDITAR CAMPAÑA
   <div class="modal-dialog">
     <div class="modal-content">
 
-    	<form class="formularioCrearRecurrenciaEditar" method="post">
+    	<form class="formularioCrearRecurrenciaAfiliadosEditar" method="post">
 
 	      <!-- Modal Header -->
 	      <div class="modal-header">
@@ -120,7 +120,7 @@ EDITAR CAMPAÑA
 	      <!-- Modal body -->
 	      <div class="modal-body">
 
-          <input type="hidden" name="tipoCampanaEditar" value="5"></input>
+          <input type="hidden" name="tipoCampanaEditar" value="6"></input>
 
 	      	<input type="hidden" id="idCampana" name="idCampanaEditar">
 
@@ -130,7 +130,7 @@ EDITAR CAMPAÑA
 
         <div>
 
-        <button type="button" class="btn btn-primary" id="crearRecurrenciaEditar">Crear</button>
+        <button type="button" class="btn btn-primary" id="crearRecurrenciaAfiliadosEditar">Crear</button>
 
         <!-- <input type="number" class="form-control" id="registroRetorno" name="registroRetorno" placeholder="ej: 20%" required> -->
 
@@ -140,7 +140,7 @@ EDITAR CAMPAÑA
 
           <div class="col-xs-3" style="padding-left:40px">
 
-          <label class="control-label">N° INVERSIONES</label>
+          <label class="control-label">N° AFILIADOS</label>
 
           </div>
 
@@ -248,26 +248,26 @@ REGISTRAR CAMPAÑA
   <div class="modal-dialog">
     <div class="modal-content">
 
-    	<form class="formularioCrearRecurrencia" method="post">
+    	<form class="formularioCrearRecurrenciaAfiliados" method="post">
 
 	      <!-- Modal Header -->
 	      <div class="modal-header">
-	        <h4 class="modal-title">Registrar Bono recurrencia</h4>
+	        <h4 class="modal-title">Registrar Bono afiliados</h4>
 	        <button type="button" class="close" data-dismiss="modal">&times;</button>
 	      </div>
 
 	      <!-- Modal body -->
 	      <div class="modal-body">
 
-        <input type="hidden" name="tipoCampana" value="5"></input>
+        <input type="hidden" name="tipoCampana" value="6"></input>
 
             <div class="form-group">
 
-              <label for="registroRetorno" class="control-label">Recurrencia</label>
+              <label for="registroRetorno" class="control-label">Afiliados</label>
 
               <div>
 
-              <button type="button" class="btn btn-primary" id="crearRecurrencia">Crear</button>
+              <button type="button" class="btn btn-primary" id="crearRecurrenciaAfiliados">Crear</button>
 
               <!-- <input type="number" class="form-control" id="registroRetorno" name="registroRetorno" placeholder="ej: 20%" required> -->
 
@@ -277,7 +277,7 @@ REGISTRAR CAMPAÑA
 
                     <div class="col-xs-3" style="padding-left:40px">
 
-                    <label class="control-label">N° INVERSIONES</label>
+                    <label class="control-label">N° AFILIADOS</label>
 
                     </div>
 
@@ -291,7 +291,7 @@ REGISTRAR CAMPAÑA
 
               </div>
 
-              <div class="form-group row nuevaRecurrencia">
+              <div class="form-group row nuevaRecurrenciaAfiliados">
 
                 
               </div>

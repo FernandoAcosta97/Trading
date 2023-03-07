@@ -116,7 +116,7 @@ Class ControladorCampanas{
 
 			}
 
-		}else if($_POST["tipoCampana"]==2 || $_POST["tipoCampana"]==4 || $_POST["tipoCampana"]==5){
+		}else if($_POST["tipoCampana"]==2 || $_POST["tipoCampana"]==4 || $_POST["tipoCampana"]==5 || $_POST["tipoCampana"]==6 || $_POST["tipoCampana"]==7){
 
 			$n="Bono Extra";
 			$direccion="bonos-extras";
@@ -128,9 +128,9 @@ Class ControladorCampanas{
 
 				$n="Bono Apalancamiento";
 				$direccion="bonos-apalancamiento";
-			}else if($_POST["tipoCampana"]==5){
+			}else if($_POST["tipoCampana"]==5 || $_POST["tipoCampana"]==6){
 				if(!isset($_POST["listaRecurrencias"]) || $_POST["listaRecurrencias"]=="" || $_POST["listaRecurrencias"]=="[]"){
-
+ 
 					echo'<script>
 
 					swal({
@@ -152,6 +152,17 @@ Class ControladorCampanas{
 				}
 				$n=$_POST["listaRecurrencias"];
 				$direccion="bonos-recurrencia";
+
+				if($_POST["tipoCampana"]==6) $direccion="bonos-afiliados";
+
+
+			} 
+
+			if($_POST["tipoCampana"]==7){
+
+				$n="Bono Bienvenida";
+				$direccion="bonos-bienvenida";
+
 			} 
 
 			if(preg_match('/^[0-9.]+$/', $retorno)){
@@ -502,7 +513,7 @@ Class ControladorCampanas{
 	
 				}
 				
-			}else if($_POST["tipoCampanaEditar"]==2 || $_POST["tipoCampanaEditar"]==4){
+			}else if($_POST["tipoCampanaEditar"]==2 || $_POST["tipoCampanaEditar"]==4 || $_POST["tipoCampanaEditar"]==5){
 
 				$n="Bono Extra";
 				$direccion="bonos-extras";
@@ -512,12 +523,24 @@ Class ControladorCampanas{
 					$n="Bono Apalancamiento";
 					$direccion="bonos-apalancamiento";
 				} 
+
+				if($_POST["tipoCampanaEditar"]==5){
+
+					$n=$_POST["listaRecurrenciasEditar"];
+					$direccion="bonos-recurrencia";
+				} 
+
+				if(isset($_POST["editarRetorno"])){
+					$editarRetorno=$_POST["editarRetorno"];
+				}else{
+					$editarRetorno=0;
+				}
 					
 
-			if(preg_match('/^[0-9]+$/', $_POST["editarRetorno"])){
+			if(preg_match('/^[0-9]+$/', $editarRetorno)){
 
 				$datos = array(	"nombre" => $n,
-				"retorno" => $_POST["editarRetorno"],
+				"retorno" => $editarRetorno,
 				"cupos" => "0",
 				"fecha_inicio" => $_POST["editarFechaInicio"],
 				"fecha_fin" => $_POST["editarFechaFinal"],

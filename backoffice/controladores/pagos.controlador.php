@@ -976,6 +976,21 @@ class ControladorPagos
     }
 
      /*=============================================
+    Registro de Pagos Bienvenida
+    =============================================*/
+
+    public static function ctrRegistrarPagosBienvenida($id_usuario)
+    {
+
+        $tabla = "pagos_bienvenida";
+        $datos = array("id_usuario" => $id_usuario,
+        "estado" => 0);
+
+        return $respuesta = ModeloPagos::mdlRegistrarPagosBienvenida($tabla, $datos);   
+
+    }
+
+     /*=============================================
     Registro de Bonos Extras
     =============================================*/
 
@@ -1008,6 +1023,41 @@ class ControladorPagos
         $respuesta = ModeloPagos::mdlRegistrarPagosBonosRecurrencia($tabla, $datos);   
 
     }
+
+
+
+    /*=============================================
+    Registro de Bonos Afiliados
+    =============================================*/
+
+    public static function ctrRegistrarPagosBonosRecurrenciaAfiliados($id_usuario, $afiliados, $id_campana)
+    {
+
+        $tabla = "pagos_afiliados";
+        $datos = array("id_usuario" => $id_usuario,
+        "afiliados" => $afiliados,
+        "id_campana" => $id_campana);
+
+        return $respuesta = ModeloPagos::mdlRegistrarPagosBonosRecurrenciaAfiliados($tabla, $datos);   
+
+    }
+
+
+    /*=============================================
+    Registro de afiliados recurrentes
+    =============================================*/
+
+    public static function ctrRegistrarRecurrenciaAfiliados($id_pago_afiliados, $id_usuario, $id_comprobante)
+    {
+
+        $tabla = "afiliados_recurrentes";
+        $datos = array("id_pago_afiliados" => $id_pago_afiliados,"id_usuario" => $id_usuario,
+        "id_comprobante" => $id_comprobante);
+
+        return $respuesta = ModeloPagos::mdlRegistrarRecurrenciaAfiliados($tabla, $datos);   
+
+    }
+
 
     /*=============================================
     Mostrar Pagos Inversiones
@@ -1276,6 +1326,22 @@ class ControladorPagos
 
 
     /*=============================================
+    Mostrar Pagos Bienvenida 2 parametros
+    =============================================*/
+
+    public static function ctrMostrarPagosBienvenida2($item, $valor, $item2, $valor2)
+    {
+
+        $tabla = "pagos_bienvenida";
+
+        $respuesta = ModeloPagos::mdlMostrarPagosBienvenida2($tabla, $item, $valor, $item2, $valor2);
+
+        return $respuesta;
+
+    }
+
+
+    /*=============================================
     Mostrar Pagos
     =============================================*/
 
@@ -1307,6 +1373,22 @@ class ControladorPagos
     }
 
 
+    /*=============================================
+    Mostrar Pagos Recurrencia
+    =============================================*/
+
+    public static function ctrMostrarPagosRecurrenciaAfiliadosAll($item, $valor)
+    {
+
+        $tabla = "pagos_afiliados";
+
+        $respuesta = ModeloPagos::mdlMostrarPagosRecurrenciaAfiliadosAll($tabla, $item, $valor);
+
+        return $respuesta;
+
+    }
+
+
      /*=============================================
     Mostrar Pagos Recurrencia
     =============================================*/
@@ -1317,6 +1399,22 @@ class ControladorPagos
         $tabla = "pagos_recurrencia";
 
         $respuesta = ModeloPagos::mdlMostrarPagosRecurrencia($tabla, $item, $valor);
+
+        return $respuesta;
+
+    }
+
+
+    /*=============================================
+    Mostrar Pagos Recurrencia Afiliados
+    =============================================*/
+
+    public static function ctrMostrarPagosRecurrenciaAfiliados($item, $valor)
+    {
+
+        $tabla = "pagos_afiliados";
+
+        $respuesta = ModeloPagos::mdlMostrarPagosRecurrenciaAfiliados($tabla, $item, $valor);
 
         return $respuesta;
 
@@ -1399,6 +1497,23 @@ class ControladorPagos
 
 
     /*=============================================
+    Mostrar Afiliados recurrentes
+    =============================================*/
+
+    public static function ctrMostrarAfiliadosRecurrentesAll($item, $valor)
+    {
+
+        $tabla = "afiliados_recurrentes";
+
+        $respuesta = ModeloPagos::mdlMostrarAfiliadosRecurrentesAll($tabla, $item, $valor);
+
+        return $respuesta;
+
+    }
+
+
+
+    /*=============================================
     Mostrar Pagos Recurrentes
     =============================================*/
 
@@ -1414,7 +1529,7 @@ class ControladorPagos
     }
 
 
-        /*=============================================
+    /*=============================================
     Mostrar Pagos Recurrentes
     =============================================*/
 
@@ -1424,6 +1539,22 @@ class ControladorPagos
         $tabla = "pagos_recurrencia";
 
         $respuesta = ModeloPagos::mdlMostrarPagosRecurrentesxEstado($tabla, $item, $valor, $item2, $valor2);
+
+        return $respuesta;
+
+    }
+
+
+    /*=============================================
+    Mostrar Pagos Recurrentes Afiliados
+    =============================================*/
+
+    public static function ctrMostrarPagosRecurrentesAfiliadosxEstado($item, $valor, $item2, $valor2)
+    {
+
+        $tabla = "pagos_afiliados";
+
+        $respuesta = ModeloPagos::mdlMostrarPagosRecurrentesAfiliadosxEstado($tabla, $item, $valor, $item2, $valor2);
 
         return $respuesta;
 
@@ -1549,6 +1680,145 @@ class ControladorPagos
         $tabla = "pagos_recurrencia";
 
         $respuesta = ModeloPagos::mdlActualizarPagoRecurrencia2($tabla, $item, $valor, $id);
+
+        echo $respuesta;
+
+    }
+
+
+    public static function ctrRegistrarPagoAfiliados($usuario, $valor, $comprobante){
+
+        $patrocinador=ControladorUsuarios::ctrMostrarUsuarios("enlace_afiliado", $usuario["patrocinador"]);
+
+		$campana_recurrencia=ControladorCampanas::ctrMostrarCampanasxEstado("tipo", 6, "estado", 1);
+
+        $n_afiliados=array();
+
+        if($campana_recurrencia!="" && $patrocinador!=""){
+
+            $listaRecurrencia = json_decode($campana_recurrencia["nombre"], true);
+
+            $t=0;
+
+            $comprobantesFechaBonoRecurrencia=ControladorComprobantes::ctrMostrarComprobantesxEstadoyFechaBono("id", $comprobante[0]["id"],$campana_recurrencia["fecha_inicio"],$campana_recurrencia["fecha_fin"]);
+
+			// $comprobantesFechaBonoRecurrencia = ControladorComprobantes::ctrMostrarComprobantesxUsuarioyFechaBonoAll("doc_usuario",$usuario["doc_usuario"],$campana_recurrencia["fecha_inicio"],$campana_recurrencia["fecha_fin"]);
+
+            $pago_recurrente=ControladorPagos::ctrMostrarPagosRecurrentesAfiliadosxEstado("id_usuario",$patrocinador["id_usuario"], "estado", 0);
+
+            if($pago_recurrente!="") $t=$pago_recurrente["afiliados"];
+
+            $afiliados = ControladorPagos::ctrMostrarAfiliadosRecurrentesAll("id_pago_afiliados",$pago_recurrente["id"]);
+
+            $repetido=0;
+
+            foreach ($afiliados as $key => $value) {
+                if($value["id_usuario"]==$usuario["id_usuario"]){
+                    $repetido=$repetido+1;               
+                } 			
+           }
+
+           if($comprobantesFechaBonoRecurrencia!="" && $repetido==0) $t=$t+1;
+
+        if($valor==1){
+            
+			if($pago_recurrente==""){
+
+				$pago=ControladorPagos::ctrRegistrarPagosBonosRecurrenciaAfiliados($patrocinador["id_usuario"],$t,$campana_recurrencia["id"]);
+                ControladorPagos::ctrRegistrarRecurrenciaAfiliados($pago, $usuario["id_usuario"], $comprobante[0]["id"]);
+
+			}else{
+
+				ControladorPagos::ctrActualizarPagoRecurrenciaAfiliados2("afiliados", ($t), $pago_recurrente["id"]);
+                ControladorPagos::ctrRegistrarRecurrenciaAfiliados($pago_recurrente["id"], $usuario["id_usuario"], $comprobante[0]["id"]);
+               
+			}
+
+		
+        }else{
+           
+            if($pago_recurrente!=""){
+
+                $afiliado = ControladorPagos::ctrMostrarAfiliadosRecurrentesAll("id_usuario",$usuario["id_usuario"]);	
+
+                if($afiliado!=""){
+        
+                ControladorPagos::ctrEliminarAfiliadosRecurrentes("id", $afiliado[0]["id"]);
+
+                if($repetido==1){
+                ControladorPagos::ctrActualizarPagoRecurrenciaAfiliados2("afiliados", ($pago_recurrente["afiliados"]-1), $pago_recurrente["id"]);
+                }
+            
+                }
+
+                $afiliados = ControladorPagos::ctrMostrarAfiliadosRecurrentesAll("id_pago_afiliados",$pago_recurrente["id"]);
+
+                if(count($afiliados)==0){
+                    $e=ControladorPagos::ctrEliminarPagoAfiliados($pago_recurrente["id"]);
+                }
+    
+
+			}
+        }
+    
+    }
+
+	}
+
+
+
+    public static function ctrRegistrarPagoBienvenida($usuario, $valor, $id){
+
+    $doc_usuario=$usuario["doc_usuario"];
+    $bono_bienvenida= ControladorCampanas::ctrMostrarCampanasxEstado("tipo","7","estado","1");
+
+    // Registrar pago bono bienvenida   
+	if($valor==1){
+
+	   if($bono_bienvenida!=""){
+			$totalComprobantesUsuario = ControladorComprobantes::ctrMostrarComprobantesxEstado("doc_usuario",$doc_usuario,"estado",1);
+			$total = count($totalComprobantesUsuario);
+
+			$comprobanteFechaBono = ControladorComprobantes::ctrMostrarComprobantesxEstadoyFechaBono("id", $id,$bono_bienvenida["fecha_inicio"],$bono_bienvenida["fecha_fin"]);
+
+			// print_r($comprobanteFechaBono);
+			// print_r($total);
+		if($total==1 && $comprobanteFechaBono!=""){
+
+			$existe_pago_bienvenida=ControladorPagos::ctrMostrarPagosBienvenida2("id_usuario",$usuario["id_usuario"],"estado",0);
+
+			if($existe_pago_bienvenida==""){
+				$pago_bienvenida=ControladorPagos::ctrRegistrarPagosBienvenida($usuario["id_usuario"]);
+			}
+				
+		}
+	}
+	  }else{
+        //Eliminar Bono bienvenida
+
+		$existe_pago_bienvenida=ControladorPagos::ctrMostrarPagosBienvenida2("id_usuario",$usuario["id_usuario"],"estado",0);
+
+		if($existe_pago_bienvenida!=""){
+
+		ControladorPagos::ctrEliminarPagoBienvenida($existe_pago_bienvenida["id"]);
+		
+	    }
+		
+	  }
+
+    }
+
+
+     /*=============================================
+    Actualizar Pago Recurrencia Afiliados Parametros
+    =============================================*/
+
+    public static function ctrActualizarPagoRecurrenciaAfiliados2($item, $valor, $id)
+    {
+
+        $tabla = "pagos_afiliados";
+
+        $respuesta = ModeloPagos::mdlActualizarPagoRecurrenciaAfiliados2($tabla, $item, $valor, $id);
 
         echo $respuesta;
 
@@ -1918,6 +2188,38 @@ class ControladorPagos
 
     }
 
+    
+    /*=============================================
+    Eliminar Pago Afiliados recurrentes
+    =============================================*/
+
+    public static function ctrEliminarPagoAfiliados($id)
+    {
+
+        $tabla = "pagos_afiliados";
+
+        $respuesta = ModeloPagos::mdlEliminarPagoAfiliados($tabla, $id);
+
+        return $respuesta;
+
+    }
+
+
+      /*=============================================
+    Eliminar Pago Bienvenida
+    =============================================*/
+
+    public static function ctrEliminarPagoBienvenida($id)
+    {
+
+        $tabla = "pagos_bienvenida";
+
+        $respuesta = ModeloPagos::mdlEliminarPagoBienvenida($tabla, $id);
+
+        return $respuesta;
+
+    }
+
 
      /*=============================================
     Eliminar Pago Bono Extra
@@ -1929,6 +2231,23 @@ class ControladorPagos
         $tabla = "bonos_extras";
 
         $respuesta = ModeloPagos::mdlEliminarBonoExtra($tabla, $item, $id);
+
+        return $respuesta;
+
+    }
+
+
+
+    /*=============================================
+    Eliminar Afiliados Recurrentes
+    =============================================*/
+
+    public static function ctrEliminarAfiliadosRecurrentes($item,$id)
+    {
+
+        $tabla = "afiliados_recurrentes";
+
+        $respuesta = ModeloPagos::mdlEliminarAfiliadosRecurrentes($tabla, $item, $id);
 
         return $respuesta;
 

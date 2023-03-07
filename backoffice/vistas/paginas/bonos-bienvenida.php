@@ -21,12 +21,12 @@ if ($usuario["perfil"] != "admin") {
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>Campañas Bonos Recurrencia</h1>
+          <h1>Campañas Bonos Bienvenida</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="inicio">Inicio</a></li>
-            <li class="breadcrumb-item active">Campañas / Bonos recurrencia</li>
+            <li class="breadcrumb-item active">Campañas / Bonos bienvenida</li>
           </ol>
         </div>
       </div>
@@ -42,13 +42,13 @@ if ($usuario["perfil"] != "admin") {
 
       <div class="card-header">
 
-        <h3 class="card-title">Bonos de recurrencia registrados</h3>
+        <h3 class="card-title">Bonos bienvenida registrados</h3>
 
         <?php if ($usuario["perfil"] == "admin"): ?>
 
         <div style="margin:1em auto auto auto">
 
-            <button class="btn btn-primary" data-toggle="modal" data-target="#modalRegistrarCampana">Registrar Bono Recurrencia</button>
+            <button class="btn btn-primary" data-toggle="modal" data-target="#modalRegistrarCampana">Registrar Bono Bienvenida</button>
 
         </div>
 
@@ -64,11 +64,12 @@ if ($usuario["perfil"] != "admin") {
       <div class="card-body">
 
 
-        <table id="tablaCampanasBonosRecurrencia" class="table table-striped table-bordered dt-responsive tablaCampanasBonosRecurrencia" width="100%">
+        <table id="tablaCampanasBonosBienvenida" class="table table-striped table-bordered dt-responsive tablaCampanasBonosBienvenida" width="100%">
 
           <thead>
             <tr>
               <th>Acciones</th>
+              <th>Valor</th>
               <th>Estado</th>
               <th>Fecha Inicio</th>
               <th>Fecha Fin</th>
@@ -109,7 +110,7 @@ EDITAR CAMPAÑA
   <div class="modal-dialog">
     <div class="modal-content">
 
-    	<form class="formularioCrearRecurrenciaEditar" method="post">
+    	<form method="post">
 
 	      <!-- Modal Header -->
 	      <div class="modal-header">
@@ -120,50 +121,21 @@ EDITAR CAMPAÑA
 	      <!-- Modal body -->
 	      <div class="modal-body">
 
-          <input type="hidden" name="tipoCampanaEditar" value="5"></input>
+          <input type="hidden" name="tipoCampanaEditar" value="7"></input>
 
 	      	<input type="hidden" id="idCampana" name="idCampanaEditar">
 
-          <div class="form-group">
+         <div class="form-group">
 
-        <label for="registroRetorno" class="control-label">Recurrencia</label>
+          <label for="editarRetorno" class="control-label">Retorno</label>
 
-        <div>
+          <div>
 
-        <button type="button" class="btn btn-primary" id="crearRecurrenciaEditar">Crear</button>
-
-        <!-- <input type="number" class="form-control" id="registroRetorno" name="registroRetorno" placeholder="ej: 20%" required> -->
-
-        <div class="form-group row">
-
-        <div class="row" style="padding:20px 15px">
-
-          <div class="col-xs-3" style="padding-left:40px">
-
-          <label class="control-label">N° INVERSIONES</label>
+          <input type="number" class="form-control" id="editarRetorno" name="editarRetorno" required>
 
           </div>
 
-          <div class="col-xs-3" style="padding-left:90px">
-
-          <label class="control-label">RETORNO</label>
-
           </div>
-
-        </div>
-
-      </div>
-
-      <div class="form-group row nuevaRecurrenciaEditar">
-
-        
-      </div>
-
-      <input type="hidden" id="listaRecurrenciasEditar" name="listaRecurrenciasEditar">
-
-      </div>
-
-      </div>
 
             <div class="form-group">
 
@@ -223,8 +195,8 @@ EDITAR CAMPAÑA
 
 		<?php
 
-        $editarCampana = new ControladorCampanas();
-        $editarCampana->ctrEditarCampana();
+$editarCampana = new ControladorCampanas();
+$editarCampana->ctrEditarCampana();
 
 ?>
 
@@ -248,55 +220,26 @@ REGISTRAR CAMPAÑA
   <div class="modal-dialog">
     <div class="modal-content">
 
-    	<form class="formularioCrearRecurrencia" method="post">
+    	<form method="post">
 
 	      <!-- Modal Header -->
 	      <div class="modal-header">
-	        <h4 class="modal-title">Registrar Bono recurrencia</h4>
+	        <h4 class="modal-title">Registrar Bono bienvenida</h4>
 	        <button type="button" class="close" data-dismiss="modal">&times;</button>
 	      </div>
 
 	      <!-- Modal body -->
 	      <div class="modal-body">
 
-        <input type="hidden" name="tipoCampana" value="5"></input>
+        <input type="hidden" name="tipoCampana" value="7"></input>
 
             <div class="form-group">
 
-              <label for="registroRetorno" class="control-label">Recurrencia</label>
+              <label for="registroRetorno" class="control-label">Valor</label>
 
               <div>
 
-              <button type="button" class="btn btn-primary" id="crearRecurrencia">Crear</button>
-
-              <!-- <input type="number" class="form-control" id="registroRetorno" name="registroRetorno" placeholder="ej: 20%" required> -->
-
-              <div class="form-group row">
-
-                <div class="row" style="padding:20px 15px">
-
-                    <div class="col-xs-3" style="padding-left:40px">
-
-                    <label class="control-label">N° INVERSIONES</label>
-
-                    </div>
-
-                    <div class="col-xs-3" style="padding-left:90px">
-
-                    <label class="control-label">RETORNO</label>
-
-                    </div>
-
-                </div>
-
-              </div>
-
-              <div class="form-group row nuevaRecurrencia">
-
-                
-              </div>
-
-              <input type="hidden" id="listaRecurrencias" name="listaRecurrencias">
+              <input type="number" class="form-control" id="registroRetorno" name="registroRetorno" placeholder="Valor Monetario" required>
 
               </div>
 
@@ -362,76 +305,13 @@ REGISTRAR CAMPAÑA
 
 		<?php
 
-      $registrarCampanas = new ControladorCampanas();
-      $registrarCampanas->ctrRegistroCampana();
+$registrarCampanas = new ControladorCampanas();
+$registrarCampanas->ctrRegistroCampana();
 
 ?>
 
 
       </form>
-
-    </div>
-  </div>
-</div>
-
-
-
-
-
-<!--=====================================
-VER DETALLES CAMPAÑA RECURRENCIA
-======================================-->
-
-<!-- The Modal -->
-<div class="modal" id="modalVerRecurrencia">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-
-	      <!-- Modal Header -->
-	      <div class="modal-header">
-	        <h4 class="modal-title">Detalles Recurrencia</h4>
-	        <button type="button" class="close" data-dismiss="modal">&times;</button>
-	      </div>
-
-	      <!-- Modal body -->
-	      <div class="modal-body">
-
-
-		  <table class="table table-bordered table-striped dt-responsive tabla-detalles-recurrencia" width="100%">
-			
-			<thead>
-
-				<tr>
-
-					<th style="width:10px">#</th> 
-					<th>Número inversiones</th>
-					<th>Total retorno</th>
-
-				</tr>   
-
-			</thead>
-
-			<tbody>
-
-			</tbody>
-
-		</table>
-
-
-
-
-	      </div>
-
-	      <!-- Modal footer -->
-	      <div class="modal-footer d-flex justify-content-between">
-
-	      	<div>
-
-	        	<button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
-
-	        </div>
-
-	      </div>
 
     </div>
   </div>

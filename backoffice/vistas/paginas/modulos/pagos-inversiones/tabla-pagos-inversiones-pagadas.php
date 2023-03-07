@@ -45,22 +45,6 @@
 
 			<tbody>
 
-				<!-- <tr>
-					
-					<td>1</td> 
-					<td>LM46YZQVHWW74</td>
-					<td>Jaime Carrillo</td>
-					<td>tutorialesatualcance-buyer@hotmail.com</td>
-					<td>2019-06-19 a 2019-07-19</td> 
-					<td>$ 14,345</td>			  
-					<td>$ 16,300</td>			
-					<td>2019-07-19</td>
-					<td>
-						<h5><span class="badge badge-success">Pagada</span></h5>
-					</td>
-
-				</tr> -->
-
 
 			</tbody>
 

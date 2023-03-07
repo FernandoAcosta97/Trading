@@ -105,9 +105,14 @@ class AjaxComprobantes{
 			} 
 
 			$usu = ControladorUsuarios::ctrMostrarUsuarios("doc_usuario",$comprobante[0]["doc_usuario"]);
+
+			//Registrar pagos afiliados
+			$pagos_afiliados=ControladorPagos::ctrRegistrarPagoAfiliados($usu, $valor, $comprobante);
+
 			$pago=ControladorPagos::ctrRegistrarPagos($usu["id_usuario"],$comprobante[0]["id"], $id_campana_apalancamiento);
 
 			$campana_recurrencia=ControladorCampanas::ctrMostrarCampanasxEstado("tipo", 5, "estado", 1);
+
 
 			if($campana_recurrencia!=""){
 				$t=0;
@@ -118,6 +123,7 @@ class AjaxComprobantes{
 
 				$t=count($comprobantesFechaBonoRecurrencia);
 				$aprobado=false;
+				if($listaRecurrencia!=null){
 
 				foreach ($listaRecurrencia as $key2 => $value2) {
 					if($t==$value2["inversiones"]){
@@ -125,6 +131,7 @@ class AjaxComprobantes{
 					 break;
 					}
 				}
+			}
 
 				if($aprobado){
 
@@ -147,6 +154,9 @@ class AjaxComprobantes{
 			}
 
 			$usu = ControladorUsuarios::ctrMostrarUsuarios("doc_usuario",$comprobante[0]["doc_usuario"]);
+
+			//Registrar pagos afiliados
+			$pagos_afiliados=ControladorPagos::ctrRegistrarPagoAfiliados($usu, $valor, $comprobante);
 
 			$pago_recurrente=ControladorPagos::ctrMostrarPagosRecurrentesxEstado("id_usuario",$usu["id_usuario"], "estado", 0);
 
@@ -193,6 +203,9 @@ class AjaxComprobantes{
 		}else if($usuario["operando"]==1 && count($comprobantesUsuario)==0){
 			$operando = ControladorUsuarios::ctrActualizarUsuario($usuario["id_usuario"],"operando",0);
 		}
+
+		//Registrar pago bienvenida
+		$pago_bienvenida=ControladorPagos::ctrRegistrarPagoBienvenida($usuario,$valor,$id);
 
     // Registrar pago bono extra    
 	if($valor==1){
@@ -351,6 +364,7 @@ class AjaxComprobantes{
 }
 
 	}
+
 
 
 	/*=============================================
