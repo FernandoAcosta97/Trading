@@ -730,7 +730,6 @@ Class ControladorCampanas{
 	/*=============================================
 	DESCARGAR EXCEL
 	=============================================*/
-
 	public function ctrDescargarReporte(){
 
 		if(isset($_GET["campana"])){

@@ -1009,7 +1009,9 @@ $(".tablaUsuarios tbody").on("click", "button.btnEditarUsuario", function () {
         tel = "";
         indicativo = "";
       }
-      $("#editarUsuario").val(respuesta["id_usuario"]);
+      $("#id_usuario").val(respuesta["id_usuario"]);
+      $("#editarDocumento").val(respuesta["doc_usuario"]);
+      $("#editarUsuario").val(respuesta["usuario"]);
       $("#editarNombre").val(respuesta["nombre"]);
       $("#editarEmail").val(respuesta["email"]);
       $("#editarPerfil").val(respuesta["perfil"]);
@@ -1021,6 +1023,13 @@ $(".tablaUsuarios tbody").on("click", "button.btnEditarUsuario", function () {
     },
   });
 });
+
+
+$(".btnExcelUsuarios").click(function(){
+
+  window.location="index.php?pagina=reporte-usuarios&excel=1";
+
+})
 
 
 $(".tablaUsuarios tbody").on("click", "button.btnEliminarUsuario", function () {

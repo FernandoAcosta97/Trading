@@ -618,7 +618,6 @@ $(".tablaCampanas").on("click","button.btnVerCampana",function(){
 
 });
 
-
 $(".tablaCampanas").on("click","button.btnExcelCampana",function(){
 
 	var id_campana=$(this).attr("idCampana");
@@ -698,6 +697,7 @@ $(".tablaCampanasBonosRecurrencia").on("click","button.btnEditarCampana",functio
 
 	  $("#idCampana").val(idCampana);
     //   $("#editarNombre").val(respuesta["nombre"]);
+	  $("#listaRecurrenciasEditar").val(respuesta["nombre"]);
 	  $("#editarFechaInicio").val(respuesta["fecha_inicio"]);
 	  $("#editarFechaFinal").val(respuesta["fecha_fin"]);
 	  $("#editarFechaRetorno").val(respuesta["fecha_retorno"]);
@@ -710,7 +710,7 @@ $(".tablaCampanasBonosRecurrencia").on("click","button.btnEditarCampana",functio
 
 
 
-  //EDITAR CAMPAÑA RECURRENTE
+  //EDITAR CAMPAÑA RECURRENTE AFILIADOS
   $(".tablaCampanasBonosAfiliados").on("click","button.btnEditarCampana",function(){
 
 	var idCampana = $(this).attr("idCampana");
@@ -740,6 +740,7 @@ $(".tablaCampanasBonosRecurrencia").on("click","button.btnEditarCampana",functio
 
 	  $("#idCampana").val(idCampana);
     //   $("#editarNombre").val(respuesta["nombre"]);
+	  $("#listaRecurrenciasEditar").val(respuesta["nombre"]);
 	  $("#editarFechaInicio").val(respuesta["fecha_inicio"]);
 	  $("#editarFechaFinal").val(respuesta["fecha_fin"]);
 	  $("#editarFechaRetorno").val(respuesta["fecha_retorno"]);

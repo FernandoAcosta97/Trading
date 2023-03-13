@@ -93,7 +93,7 @@ class ModeloUsuarios
             return $stmt->fetch();
         } else {
 
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE eliminado=0 ORDER BY 'id_usuario' ASC");
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE eliminado=0 AND perfil!='admin' ORDER BY 'id_usuario' ASC");
 
             $stmt->execute();
 
@@ -256,8 +256,10 @@ class ModeloUsuarios
     public static function mdlEditarUsuario($tabla, $datos)
     {
 
-        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET nombre = :nombre, email = :email, telefono_movil = :telefono, password = :password, perfil = :perfil, pais = :pais, codigo_pais = :codigo_pais WHERE id_usuario = :id_usuario");
+        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET usuario = :usuario, doc_usuario = :doc_usuario, nombre = :nombre, email = :email, telefono_movil = :telefono, password = :password, perfil = :perfil, pais = :pais, codigo_pais = :codigo_pais WHERE id_usuario = :id_usuario");
 
+        $stmt->bindParam(":doc_usuario", $datos["doc_usuario"], PDO::PARAM_INT);
+        $stmt->bindParam(":usuario", $datos["usuario"], PDO::PARAM_STR);
         $stmt->bindParam(":nombre", $datos["nombre"], PDO::PARAM_STR);
         $stmt->bindParam(":password", $datos["password"], PDO::PARAM_STR);
         $stmt->bindParam(":telefono", $datos["telefono"], PDO::PARAM_STR);

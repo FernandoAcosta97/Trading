@@ -1265,6 +1265,22 @@ class ControladorPagos
 
 
     /*=============================================
+    Mostrar Pagos Bienvenida
+    =============================================*/
+
+    public static function ctrMostrarPagosBienvenida($item, $valor)
+    {
+
+        $tabla = "pagos_bienvenida";
+
+        $respuesta = ModeloPagos::mdlMostrarPagosBienvenida($tabla, $item, $valor);
+
+        return $respuesta;
+
+    }
+
+
+    /*=============================================
     Mostrar Pagos Extras x Comprobante
     =============================================*/
 
@@ -1461,6 +1477,22 @@ class ControladorPagos
         $respuesta = ModeloPagos::mdlMostrarPagosComisionesxComprobante($item, $valor, $item2, $valor2);
 
         return $respuesta;
+    }
+
+
+    /*=============================================
+    Mostrar Pagos Bienvenida All
+    =============================================*/
+
+    public static function ctrMostrarPagosBienvenidaAll($item, $valor)
+    {
+
+        $tabla = "pagos_bienvenida";
+
+        $respuesta = ModeloPagos::mdlMostrarPagosExtrasAll($tabla, $item, $valor);
+
+        return $respuesta;
+
     }
 
 

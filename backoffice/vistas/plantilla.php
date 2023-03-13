@@ -6,6 +6,12 @@ if (isset($_GET["pagina"])) {
 	}
 }
 
+if (isset($_GET["pagina"])) {
+	if ($_GET["pagina"] == "reporte-usuarios"){
+		include "paginas/" . $_GET["pagina"] . ".php";
+	}
+}
+
 session_start();
 
 $ruta = ControladorGeneral::ctrRuta();
@@ -273,6 +279,7 @@ if($usuario["firma"]!=null){
 					$_GET["pagina"] == "recurrencia-pagada" ||
 					$_GET["pagina"] == "pagos-publicidad" ||
 					$_GET["pagina"] == "pagos-afiliados" ||
+					$_GET["pagina"] == "pagos-bienvenida" ||
 					$_GET["pagina"] == "inversiones-pagadas" ||
 					$_GET["pagina"] == "publicidad-pagada" ||
 					$_GET["pagina"] == "pagos-extras" ||
@@ -332,6 +339,7 @@ if($usuario["firma"]!=null){
 				$_GET["pagina"] == "pagos-inversiones" ||
 				$_GET["pagina"] == "pagos-recurrencia" ||
 				$_GET["pagina"] == "pagos-afiliados" ||
+				$_GET["pagina"] == "pagos-bienvenida" ||
 				$_GET["pagina"] == "inversiones-pagadas" ||
 				$_GET["pagina"] == "recurrencia-pagada" ||
 				$_GET["pagina"] == "pagos-extras" ||

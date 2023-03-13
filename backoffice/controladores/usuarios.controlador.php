@@ -3,8 +3,70 @@
 // https://github.com/PHPMailer/PHPMailer
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
+
 
 Class ControladorUsuarios{
+
+	public function ctrDescargarReporte(){
+
+        if(isset($_GET["excel"]) && $_GET["excel"]==1){
+
+        $usuarios=ControladorUsuarios::ctrMostrarUsuarios(null, null);
+
+        $excel = new Spreadsheet();
+		$excel->getDefaultStyle()->getFont()->setName('Arial');
+		$excel->getDefaultStyle()->getFont()->setSize(12);
+        $hoja = $excel->getActiveSheet();
+        $hoja->setTitle("Usuarios");
+
+		$hoja->getColumnDimension("A")->setWidth(20);
+		$hoja->getStyle("A")->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_NUMBER);
+        $hoja->setCellValue("A1", "Documento");
+		$hoja->getColumnDimension("B")->setWidth(30);
+        $hoja->setCellValue("B1", "Usuario");
+		$hoja->getColumnDimension("C")->setWidth(30);
+        $hoja->setCellValue("C1", "Nombre");
+		$hoja->getColumnDimension("D")->setWidth(30);
+        $hoja->setCellValue("D1", "Correo");
+		$hoja->getColumnDimension("E")->setWidth(30);
+        $hoja->setCellValue("E1", "Pais");
+		$hoja->getColumnDimension("F")->setWidth(20);
+        $hoja->setCellValue("F1", "Télefono");
+		$hoja->getColumnDimension("G")->setWidth(30);
+        $hoja->setCellValue("G1", "Código Afiliado");
+
+        $fila = 2;
+
+        foreach($usuarios as $key => $value){
+
+            $hoja->setCellValue('A'.$fila, $value["doc_usuario"]);
+            $hoja->setCellValue('B'.$fila, $value["usuario"]);
+            $hoja->setCellValue('C'.$fila, $value["nombre"]);
+			$hoja->setCellValue('D'.$fila, $value["email"]);
+			$hoja->setCellValue('E'.$fila, $value["pais"]);
+			$hoja->setCellValue('F'.$fila, $value["telefono_movil"]);
+			$hoja->setCellValue('G'.$fila, $value["enlace_afiliado"]);
+
+            $fila++;
+
+        }
+
+		ob_end_clean();
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="usuarios.xlsx"');
+        header('Cache-Control: max-age=0');
+        
+        $writer = IOFactory::createWriter($excel, 'Xlsx');
+        $writer->save('php://output');
+        exit;
+    }
+
+
+    }
 
 	/*=============================================
 	Registro de usuarios
@@ -460,7 +522,7 @@ Class ControladorUsuarios{
 
 		if(isset($_POST["editarUsuario"])){
 
-			if(preg_match('/^[a-zA-ZñÑáéíóúÁÉÍÓÚ0-9._ ]+$/', $_POST["editarNombre"]) &&
+			if(preg_match('/^[0-9]+$/', $_POST["editarDocumento"]) && preg_match('/^[-_a-zA-ZñÑáéíóúÁÉÍÓÚ0-9._ ]+$/', $_POST["editarUsuario"]) && preg_match('/^[a-zA-ZñÑáéíóúÁÉÍÓÚ0-9._ ]+$/', $_POST["editarNombre"]) &&
 			preg_match('/^[^0-9][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[@][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,4}$/', $_POST["editarEmail"])){
 
 				$tabla = "usuarios";
@@ -504,14 +566,16 @@ Class ControladorUsuarios{
 
 				$telefono = $p[2]." ".$_POST["editarMovil"];
 
-				$datos = array("nombre" => $_POST["editarNombre"],
+				$datos = array("doc_usuario" => $_POST["editarDocumento"],
+							   "usuario" => $_POST["editarUsuario"],
+							   "nombre" => $_POST["editarNombre"],
 							   "email" => $_POST["editarEmail"],
 							   "password" => $encriptar,
 							   "telefono" => $telefono,
 							   "perfil" => $_POST["editarPerfil"],
 							   "pais" => $pais,
 							   "codigo_pais" => $codigo_pais,
-							   "id_usuario" => $_POST["editarUsuario"]);
+							   "id_usuario" => $_POST["id_usuario"]);
 
 				$respuesta = ModeloUsuarios::mdlEditarUsuario($tabla, $datos);
 
@@ -604,7 +668,7 @@ Class ControladorUsuarios{
 							swal({
 									type:"error",
 								  	title: "¡ERROR!",
-								  	text: "¡El correo electrónico aún no ha sido verificado, por favor revise la bandeja de entrada o la carpeta SPAM de su correo electrónico para verificar la cuenta, o contáctese con nuestro soporte whatsapp: 3125698783 -  correo: admin@trading.com!",
+								  	text: "¡El correo electrónico aún no ha sido verificado, por favor revise la bandeja de entrada o la carpeta SPAM de su correo electrónico para verificar la cuenta, o contáctese con nosotros soporte@sportbit.com.co",
 								  	showConfirmButton: true,
 									confirmButtonText: "Cerrar"
 								  
@@ -626,7 +690,7 @@ Class ControladorUsuarios{
 						   swal({
 								   type:"warning",
 									 title: "¡Advertencia!",
-									 text: "¡Su cuenta se encuentra desactivada , contáctese con nuestro soporte whatsapp: 3125698783 -  correo: admin@trading.com!",
+									 text: "¡Su cuenta se encuentra desactivada , contáctese con nosotros soporte@sportbit.com.co",
 									 showConfirmButton: true,
 								   confirmButtonText: "Cerrar"
 								 

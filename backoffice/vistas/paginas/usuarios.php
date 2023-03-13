@@ -49,6 +49,8 @@ if ($usuario["perfil"] != "admin") {
 
 				<button class="btn btn-primary" data-toggle="modal" data-target="#modalRegistroUsuarioManual">Registrar Usuario</button>
 
+        <button type='button' class='btn btn-success btn-xs btnExcelUsuarios'><i class='fa fa-file-excel'> Descargar Excel</i></button>
+
 			  </div>
 
           <label for="selectFiltro" class="control-label" style="margin:1em">FILTRO</label>
@@ -175,12 +177,38 @@ EDITAR USUARIO
 	      <!-- Modal body -->
 	      <div class="modal-body">
 
-	      	<input type="hidden" id="editarUsuario" name="editarUsuario">
+        <input type="hidden" id="id_usuario" name="id_usuario">
+
+                <!-- ENTRADA PARA EL DOCUMENTO -->
+                <div class="form-group">
+
+                <label for="editarDocumento" class="control-label">Documento</label>
+
+                <div>
+
+                  <input type="text" class="form-control" id="editarDocumento" name="editarDocumento" required>
+
+                </div>
+
+                </div>
+
+                <!-- ENTRADA PARA EL USUARIO -->
+                <div class="form-group">
+
+                <label for="editarUsuario" class="control-label">Usuario</label>
+
+                <div>
+
+                  <input type="text" class="form-control" id="editarUsuario" name="editarUsuario" required>
+
+                </div>
+
+                </div>
 
               <!-- ENTRADA PARA EL NOMBRE -->
               <div class="form-group">
 
-                <label for="editarNombre" class="control-label">Usuario</label>
+                <label for="editarNombre" class="control-label">Nombre</label>
 
                 <div>
 
@@ -291,8 +319,6 @@ $editarUsuario->ctrEditarUsuario();
     </div>
   </div>
 </div>
-
-
 
 
 
