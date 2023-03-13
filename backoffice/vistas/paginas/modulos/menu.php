@@ -34,7 +34,7 @@
 
       <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
-      <?php if ($usuario["firma"] != null) : ?>
+      <?php if ($usuario["fecha_contrato"] != null) : ?>
 
         <?php
 
@@ -92,7 +92,7 @@
 
         <?php endif ?>
 
-      <?php if ($usuario["firma"] != null) : ?>
+      <?php if ($usuario["fecha_contrato"] != null) : ?>
 
       <!--=====================================
       Botón Campañas
@@ -403,7 +403,7 @@
         </li>
         <?php endif ?>
 
-        <?php if ($usuario["firma"] != null) : ?>
+        <?php if ($usuario["fecha_contrato"] != null) : ?>
 
           <?php if(!$inhabilitado_sin_cuenta): ?>
 

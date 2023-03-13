@@ -40,7 +40,6 @@ class TablaUltimosUsuariosRegistrados{
 				/*=============================================
 				SUSCRIPCIÓN
 				=============================================*/	
-				if($value["firma"]!=NULL){
 
 				if($value["operando"] != 0){	
 
@@ -50,9 +49,6 @@ class TablaUltimosUsuariosRegistrados{
 
 					$estado = "<h5><span class='badge badge-danger'>Sin Operar</span></h5>";
 				}
-			}else{
-				$estado = "<h5><span class='badge badge-warning'>Sin Contrato</span></h5>";
-			}
 
 
 				$datosJson	 .= '[

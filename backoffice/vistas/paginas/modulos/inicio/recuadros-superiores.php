@@ -195,7 +195,7 @@ $totalUsuariosSinOperar = 0;
 $totalUsuariosOperando = 0;
 $totalSinContrato=0;
 
-if ($usuario["estado"] != 0 && $usuario["firma"] != "") {
+if ($usuario["estado"] != 0 && $usuario["fecha_contrato"] != "") {
 
     $red = ControladorMultinivel::ctrMostrarRed("usuarios", "red_uninivel", "patrocinador_red", $usuario["enlace_afiliado"]);
 
@@ -221,7 +221,7 @@ if ($usuario["estado"] != 0 && $usuario["firma"] != "") {
     if ($usuario["perfil"] != "admin") {
 
         foreach ($red as $value) {
-			if($value["firma"]== null){
+			if($value["fecha_contrato"]== null){
 				++$totalSinContrato;
 			}
             if ($value["operando"] == 0) {
@@ -253,7 +253,7 @@ if ($usuario["estado"] != 0 && $usuario["firma"] != "") {
 }
 
 $totalRed = 0;
-if ($usuario["firma"] != null) {
+if ($usuario["fecha_contrato"] != null) {
     $totalRed = count($red);
 }
 

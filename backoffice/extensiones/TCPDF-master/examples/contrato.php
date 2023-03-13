@@ -17,7 +17,7 @@ $valor = $this->usuario;
 
 $respuesta = ControladorUsuarios::ctrMostrarUsuarios($item, $valor);
 
-if($respuesta["firma"] == null){
+if($respuesta["fecha_contrato"] == null){
 
 	echo '<script>
 		window.location = "'.$ruta.'/backoffice/perfil";
@@ -39,13 +39,13 @@ $pdf->AddPage();
 $html = <<<EOD
 
 <div style="text-align:justify">
-<h3>CONTRATO DE DISTRIBUCIÓN DE PRODUCTOS Y SERVICIOS DE TRADING COLOMBIA</h3>
+<h3>CONTRATO DE DISTRIBUCIÓN DE SERVICIOS DE TRADING COLOMBIA</h3>
 <p>
 Los suscritos a saber: TRADING COLOMBIA, sociedad comercial debidamente constituida por documento privado de Julio 1 de 2018, registrado en Cámara de Comercio el 1 de Julio de 2018, en libro 9, bajo el número 18147, con domicilio principal en la ciudad de Medellín, país Colombia, identificada con número de NIT.900.661.621-4, representada legalmente por PEPITO PEREZ, mayor de edad, vecino de Medellín, identificado con cédula de ciudadanía número 8.161.865, quien adelante y para todos los efectos del presente contrato se denominará EL FABRICANTE, y $respuesta[nombre], persona que acepta estos términos y condiciones, mayor de edad, actuando en nombre propio, quien en adelante y para todos los efectos del presente contrato se denominará EL DISTRIBUIDOR O VENDEDOR, hemos acordado celebrar el presente contrato de DISTRIBUCIÓN AL DETAL DE PRODUCTOS Y SERVICIOS, que se regirá por las siguientes partes y cláusulas:
 </p>
 <h4>DEFINICIONES Y ALCANCE DEL CONTRATO</h4>
 <p>
-Para efectos de la interpretación del presente contrato de DISTRIBUCIÓN, los términos relevante usados en el mismo están definidos en el documento de Términos y Condiciones el cual usted aceptó y estuvo de acuerdo al registrarse en la página web <a href="$ruta">http://www.cubelabcolombia.com/</a>; los términos y palabras no definidas en el documento de Términos y Condiciones serán interpretadas pos su significado legal y técnico conforme a lo preceptuado en las leyes de cada país.
+Para efectos de la interpretación del presente contrato de DISTRIBUCIÓN, los términos relevante usados en el mismo están definidos en el documento de Términos y Condiciones el cual usted aceptó y estuvo de acuerdo al registrarse en la página web <a href="$ruta">https://www.sportbit.com.co/backoffice/</a>; los términos y palabras no definidas en el documento de Términos y Condiciones serán interpretadas pos su significado legal y técnico conforme a lo preceptuado en las leyes de cada país.
 </p>
 <h4>ESTIPULACIONES Y ACUERDOS</h4>
 <p>
@@ -56,7 +56,7 @@ El DISTRIBUIDOR O VENDEDOR se obliga con el FABRICANTE a comprarle directamente 
 Para el cumplimiento y adecuado desarrollo del presente contrato, EL DISTRIBUIDOR tendrá a su cargo las siguientes obligaciones so pena de la terminación automática del presente contrato y el cobro de los prejuicios por parte del FABRICANTE:
 <ol>						
 	<li>
-	Promover la compra automática de los productos del FABRICANTE que se realiza a través de la oficina virtual de la página web <a href="$ruta/backoffice">http://www.cubelabcolombia.com/backoffice</a>
+	Promover la compra automática de los productos del FABRICANTE que se realiza a través de la oficina virtual de la página web <a href="$ruta/backoffice">https://www.sportbit.com.co/backoffice</a>
 	</li>
 	<li>
 	Llevar contabilidad de los negocios que celebre en nombre del FABRICANTE, para lo cual velará por el cumplimiento de todas las normas y deberes fiscales correspondiente a su país, siendo de su absoluta responsabilidad cualquier evasión, incumplimiento o actividad ilícita que se detectare.
@@ -67,7 +67,7 @@ Para el cumplimiento y adecuado desarrollo del presente contrato, EL DISTRIBUIDO
 
 Para el cumplimiento y adecuado desarrollo del presente contrato, EL FABRICANTE tendrá a su cargo las siguientes obligaciones so pena de la terminación automática del presente contrato y el cobro de los prejuicios por parte del DISTRIBUIDOR O VENDEDOR:
 <ol>						
-	<li>Activar al DISTRIBUIDOR O VENDEDOR al momento de firmar el contrato en la página web <a href="$ruta/backoffice">www.academyoflife.com/backoffice</a></li>
+	<li>Activar al DISTRIBUIDOR O VENDEDOR al momento de firmar el contrato en la página web <a href="$ruta/backoffice">www.sportbit.com.co/backoffice</a></li>
 	<li>Garantizar el uso de la oficina virtual BACKOFFICE en los términos y condiciones del presente contrato.</li>
 	<li>Capacitar al DISTRIBUIDOR O VENDEDOR en las características y especificaciones técnicas de los productos objeto de distribución, así como del sistema de distribución, ya sea por medio físico, digital o virtual.</li>
 	<li>Pagar oportunamente y en un término no superior a tres (3) días hábiles, al DISTRIBUIDOR O VENDEDOR su COMISIÓN el día que cumpla la fecha de las campañas finalizadas a través de su cuenta registrada.</li>
@@ -84,7 +84,7 @@ El presente contrato tendrá validez durante el periodo que el DISTRIBUIDOR O VE
 </p>
 <h4>PROPIEDAD INTELECTUAL</h4>
 <p>
-El DISTRIBUIDOR O VENDEDOR reconoce expresamente los derechos de autor y la propiedad intelectual del FABRICANTE sobre los productos y servicios ofrecidos en la página web <a href="$ruta">www.academyoflife.com</a> y <a href="$ruta/backoffice">http://www.cubelabcolombia.com/backoffice</a>, el sistema de distribución, los diseños virtuales, las marcas, nombres y enseñas comerciales, material publicitario, y cualquier otra clase de propiedad intelectual que pertenece al FABRICANTE.
+El DISTRIBUIDOR O VENDEDOR reconoce expresamente los derechos de autor y la propiedad intelectual del FABRICANTE sobre los productos y servicios ofrecidos en la página web <a href="$ruta">www.academyoflife.com</a> y <a href="$ruta/backoffice">https://www.sportbit.com.co/backoffice</a>, el sistema de distribución, los diseños virtuales, las marcas, nombres y enseñas comerciales, material publicitario, y cualquier otra clase de propiedad intelectual que pertenece al FABRICANTE.
 </p>
 <h4>LEY APLICABLE, JURISDICCIÓN</h4>
 <p>
@@ -116,7 +116,7 @@ EOD;
 
 $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
 
-$pdf->ImageSVG('@'.$respuesta["firma"], $x=15, $y=240, $w=50, $h='', $link='', $align='', $palign='', $border=0, $fitonpage=false);
+$pdf->ImageSVG('@'.$respuesta["doc_usuario"], $x=15, $y=240, $w=50, $h='', $link='', $align='', $palign='', $border=0, $fitonpage=false);
 
 $pdf->Output('contrato.pdf', 'I');
 

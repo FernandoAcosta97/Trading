@@ -1,4 +1,4 @@
-<?php if ($usuario["firma"] == null): ?>
+<?php if ($usuario["fecha_contrato"] == null): ?>
 
 	<?php  $ruta = ControladorGeneral::ctrRuta();  ?>
 
@@ -132,10 +132,10 @@
 						<input type="checkbox" id="aceptarTerminos">
 
 						<label for="aceptarTerminos">
-							<span></span> Yo acepto y firmo los <a href="#terminos" data-toggle="collapse">términos y condiciones</a>
+							<span></span> Yo acepto los <a href="#terminos" data-toggle="collapse">términos y condiciones</a>
 						</label>
 
-						<a href="#terminos" data-toggle="collapse"><span class="float-left float-xl-right text-info"><b>Ver y firmar términos y condiciones</b></span>
+						<a href="#terminos" data-toggle="collapse"><span class="float-left float-xl-right text-info"><b>Ver los términos y condiciones</b></span>
 						</a>
 
 					</div>
@@ -301,22 +301,18 @@
 				 		</div>
 				 	</div>
 
-				 	<div class="card-header">
+					 <div class="card-header">
 				 		<a class="collapsed card-link" data-toggle="collapse" href="#collapse10">
-				 			FIRMA Y FECHA DEL CONTRATO
+				 			FECHA DEL CONTRATO
 				 		</a>
 				 	</div>
+				 
 
 				 	<div id="collapse10" class="collapse" data-parent="#accordion">
 
 				 		<div class="card-body">
 
-				 			Si el DISTRIBUIDOR O VENDEDOR está de acuerdo con todas las partes este contrato se firma el <?php echo date('d/m/Y'); ?>
-
-				 			<div id="signatureparent" class="mb-4">
-							  <div id="signature"></div>
-							</div>
-							<button type="button" class="repetirFirma btn btn-default btn-sm">Repetir firma</button>
+				 			Si el DISTRIBUIDOR O VENDEDOR está de acuerdo con todas las partes este contrato se acepta el <?php echo date('d/m/Y'); ?>
 
 				 		</div>
 

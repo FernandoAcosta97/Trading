@@ -169,9 +169,9 @@ $(".suscribirse").click(function () {
   var tel = $("#inputMovil").val();
   var aceptarTerminos = $("#aceptarTerminos:checked").val();
 
-  if ($("#signatureparent").jSignature("isModified")) {
-    var firma = $("#signatureparent").jSignature("getData", "image/svg+xml");
-  }
+  // if ($("#signatureparent").jSignature("isModified")) {
+  //   var firma = $("#signatureparent").jSignature("getData", "image/svg+xml");
+  // }
 
   /*=============================================
    VALIDAR DOCUMENTO
@@ -298,17 +298,19 @@ $(".suscribirse").click(function () {
   /*=============================================
    VALIDAR FIRMA
    =============================================*/
-   if(!$("#signatureparent").jSignature("isModified")){
+  //  if(!$("#signatureparent").jSignature("isModified")){
 
-    $(".suscribirse").before(`
+  //   $(".suscribirse").before(`
 
-    <div class="alert alert-danger">No ha firmado el contrato</div>
+  //   <div class="alert alert-danger">No ha firmado el contrato</div>
 
-    `);
+  //   `);
 
-   return;
+  //  return;
 
-   }
+  //  }
+
+
   // if (
   //   doc_usuario == "" ||
   //   nombre == "" ||
@@ -330,7 +332,7 @@ $(".suscribirse").click(function () {
     datos.append("pais", pais);
     datos.append("codigo_pais", codigo_pais);
     datos.append("telefono_movil", telefono_movil);
-    datos.append("firma", firma[1]);
+    // datos.append("firma", firma[1]);
     datos.append("enlace_afiliado", enlace_afiliado);
     datos.append("patrocinador", patrocinador);
 

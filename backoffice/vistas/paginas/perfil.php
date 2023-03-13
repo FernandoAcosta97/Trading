@@ -27,12 +27,12 @@
 
       <div class="row">
 
-      <?php if($usuario["perfil"]!="admin" && $usuario["firma"]==null): ?>
+      <?php if($usuario["perfil"]!="admin" && $usuario["fecha_contrato"]==null): ?>
 
       <div class="alert alert-info alert-dismissible">
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
     <h5><i class="icon fas fa-exclamation-triangle"></i> Atención!</h5>
-    Recuerda que para recibir todos nuestros beneficios debes llenar los campos a continuación, aceptar y firmar el contrato.
+    Recuerda que para recibir todos nuestros beneficios debes llenar los campos a continuación, aceptar y el contrato.
     Puedes leer los términos y condiciones, y ver el plan de compensación.
     </div>
         

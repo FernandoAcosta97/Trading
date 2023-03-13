@@ -136,8 +136,6 @@ class TablaUsuarios{
 					$verificacion = "<button type='button' class='btn btn-success btn-sm btnVerificar' idUsuario='".$value["id_usuario"]."' verificacionUsuario='0'>Si</button>";
 				}
 
-				if($value["firma"]!=NULL){
-
 				if($value["operando"] == 0){
 
 					$operando = "<button type='button' class='btn btn-danger btn-sm btnOperar' idUsuario='".$value["id_usuario"]."' estadoUsuario='1'>No</button>";
@@ -146,14 +144,11 @@ class TablaUsuarios{
 
 					$operando = "<button type='button' class='btn btn-success btn-sm btnOperar' idUsuario='".$value["id_usuario"]."' estadoUsuario='0'>Si</button>";
 				}
-			}else{
-				$operando = "<button type='button' disabled class='btn btn-danger btn-sm'>No</button>";
-			}
 
 				$acciones = "<div class='btn-group'><button type='button' class='btn btn-primary btn-xs btnSoporte' idUsuario='".$value["id_usuario"]."'><i class='fa fa-envelope'></i></button><button class='btn btn-warning btn-xs btnEditarUsuario' idUsuario='".$value["id_usuario"]."' data-toggle='modal' data-target='#modalEditarUsuario'><i class='fa fa-pen' style='color:white'></i></button><button type='button' class='btn btn-info btn-xs btnVerUsuario' idUsuario='".$value["id_usuario"]."'><i class='fa fa-eye'></i></button><button type='button' class='btn btn-danger btn-xs btnEliminarUsuario' idUsuario='".$value["id_usuario"]."'><i class='fa fa-times'></i></button></div>";
 
 				$docUsuario = "n/a";
-				if($value["firma"]!=""){
+				if($value["fecha_contrato"]!=null){
 
 					$docUsuario = $value["doc_usuario"];
 
@@ -179,7 +174,7 @@ class TablaUsuarios{
 				       "'.$operando.'",
                        "'.$totalAfiliadosActivos.'", 
 					   "'.$value["patrocinador"].'", 
-					   "'.$ruta.$value["enlace_afiliado"].'", 
+					   "'.$value["enlace_afiliado"].'", 
 					   "'.$value["telefono_movil"].'",
 					   "'.$value["fecha"].'"
 

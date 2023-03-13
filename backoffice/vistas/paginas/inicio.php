@@ -53,7 +53,7 @@ $operando = 0;
 $sinOperar = 0;
 $totalRed = 0;
 
-if ($usuario["firma"] != "") {
+if ($usuario["fecha_contrato"] != "") {
 
     $red = ControladorMultinivel::ctrMostrarRed("usuarios", "red_uninivel", "patrocinador_red", $usuario["enlace_afiliado"]);
 

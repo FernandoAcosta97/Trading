@@ -217,7 +217,7 @@ include "paginas/modulos/menu.php";
 Páginas del sitio
 =============================================*/
 
-if($usuario["firma"]!=null){
+if($usuario["fecha_contrato"]!=null){
 	
 	$cuentas = ControladorCuentas::ctrMostrarCuentasAll("usuario", $usuario["id_usuario"]);
 

@@ -180,7 +180,7 @@ class AjaxUsuarios
 
         } else {
 
-            if ($validarPatrocinador["firma"] != null) {
+            if ($validarPatrocinador["fecha_contrato"] != null) {
 
                 $confimarPatrocinador = $validarPatrocinador["enlace_afiliado"];
 
@@ -487,7 +487,6 @@ if (isset($_POST["aceptar"])) {
     $activoRegistro->pais = $_POST["pais"];
     $activoRegistro->codigo_pais = $_POST["codigo_pais"];
     $activoRegistro->telefono_movil = $_POST["telefono_movil"];
-    $activoRegistro->firma = $_POST["firma"];
     $activoRegistro->patrocinador = $_POST["patrocinador"];
     $activoRegistro->ajaxSuscripcion();
 
