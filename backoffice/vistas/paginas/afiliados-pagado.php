@@ -1,5 +1,3 @@
-
-
 <div class="content-wrapper" style="min-height: 1058.31px;">
   
   <!-- Content Header (Page header) -->
@@ -8,12 +6,12 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>Inversiones sin liquidar</h1>
+          <h1>Bonos afiliados pagados</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="inicio">Inicio</a></li>
-            <li class="breadcrumb-item active"> Inversiones sin liquidar</li>
+            <li class="breadcrumb-item active">Bonos Afiliados Pagados</li>
           </ol>
         </div>
       </div>
@@ -25,13 +23,11 @@
     
     <div class="container-fluid">
 
-    <input type="hidden" value="<?php echo $usuario["id_usuario"]; ?>" id="id_usuario">
-
       <?php  
 
-      include "modulos/uninivel/analitica-sin-liquidar.php"; 
+      include "modulos/pagos-afiliados/analitica-pagos.php"; 
 
-      include "modulos/uninivel/tabla-inversiones-sin-liquidar.php"; 
+      include "modulos/pagos-afiliados/tabla-pagos-afiliados-pagados.php"; 
 
       ?>
 

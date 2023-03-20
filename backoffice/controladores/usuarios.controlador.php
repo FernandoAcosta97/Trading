@@ -76,7 +76,7 @@ Class ControladorUsuarios{
 
 		if(isset($_POST["registroUsuario"])){
 
-			$existe_usuario=ModeloUsuarios::mdlMostrarUsuarios("usuarios","usuario",$_POST["registroUsuario"]);
+			$existe_usuario=ModeloUsuarios::mdlMostrarUsuarios("usuarios","usuario",trim($_POST["registroUsuario"]));
 
 			if($existe_usuario==""){
 
@@ -90,16 +90,17 @@ Class ControladorUsuarios{
 
 				$encriptarEmail = md5($_POST["registroEmail"]);
 				$aleatorio = mt_rand(2, 999999999999);
+				$u=trim($_POST["registroUsuario"])."-".substr($aleatorio, -4);
 
 				$tabla = "usuarios";
 				$datos = array("perfil" => "usuario",
 				               "doc_usuario" => $aleatorio,
-							   "usuario" => $_POST["registroUsuario"],
+							   "usuario" => $u,
 							   "nombre" => $_POST["registroNombre"],
 							   "email" => $_POST["registroEmail"],
 							   "password" => $encriptar,
 							   "estado" => 1,
-							   "verificacion" => 0,
+							   "verificacion" => 1,
 							   "email_encriptado" => $encriptarEmail,
 							   "patrocinador" => $_POST["patrocinador"]); 
 
@@ -286,11 +287,13 @@ Class ControladorUsuarios{
 				date_default_timezone_set("America/Bogota");
 				$fecha  = getdate();
 				$fecha_contrato = $fecha["year"] . "-" . $fecha["mon"] . "-" . $fecha["mday"];
+				$aleatorio = mt_rand(2, 999999999999);
+				$u=trim($_POST["registroUsuario"])."-".substr($aleatorio, -4);
 
 				$tabla = "usuarios";
 				$datos = array("perfil" => "usuario",
 				               "doc_usuario" => $_POST["registroDoc"],
-							   "usuario" => $_POST["registroUsuario"],
+							   "usuario" => $u,
 							   "nombre" => $_POST["registroNombre"],
 							   "email" => $_POST["registroEmail"],
 							   "password" => $encriptar,
@@ -1835,6 +1838,7 @@ Class ControladorUsuarios{
 	
 				$nuevo_patrocinador = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $_POST["nuevoPatrocinador"]);
 
+
 			//Primero se eliminan las comisiones del antiguo patrocinador y hacia arriba en el árbol
 
 			$niveles = 5;
@@ -1844,7 +1848,7 @@ Class ControladorUsuarios{
 
 				$prueba_bonos = ControladorPagos::ctrPruebaBonos($_POST["cambioPatrocinador"], $_POST["nuevoPatrocinador"]);
 
-			while($patrocinador_antiguo["perfil"]!="admin" && $n < $niveles){
+			while(is_array($patrocinador_antiguo) && $patrocinador_antiguo["perfil"]!="admin" && $n < $niveles){
 
 			ControladorUsuarios::eliminarComisionesCambioPatrocinador($usuario_cambio, $patrocinador_antiguo);
 
@@ -1855,11 +1859,13 @@ Class ControladorUsuarios{
 
 			}
 		}
+	
 
 			//Segundo cambiamos el patrocinador en la red binaria para que se refleje en el árbol
 			$cambiar_patrocinador_binaria = ControladorPagos::ctrCambiarPatrocinadorBinaria($_POST["cambioPatrocinador"], $_POST["nuevoPatrocinador"]);
 
 			//Tercero pasamos las comisiones al nuevo patrocinador y hacia arriba en el árbol 
+             if(is_array($nuevo_patrocinador)){
 
 			if($nuevo_patrocinador["perfil"]!="admin"){
 
@@ -1869,7 +1875,7 @@ Class ControladorUsuarios{
 
 			$n = 0;
 
-			while($nuevo_patrocinador["perfil"]!="admin" && $n < $niveles){
+			while(is_array($patrocinador_antiguo) && $nuevo_patrocinador["perfil"]!="admin" && $n < $niveles){
 
 			ControladorUsuarios::registrarComisionesCambioPatrocinador($usuario_cambio, $nuevo_patrocinador, $n+1);
 
@@ -1880,6 +1886,7 @@ Class ControladorUsuarios{
 
 			}
 		}
+	}
 
 			// $cambiar_patrocinador_binaria="ok";
 
@@ -1900,7 +1907,7 @@ Class ControladorUsuarios{
 
 								if(result.value){
 
-									
+									window.location="cambiar-patrocinador";
 
 								}
 
@@ -1961,7 +1968,9 @@ Class ControladorUsuarios{
 
 
 
-		static public function registrarComisionesCambioPatrocinador($usuario_cambio, $nuevo_patrocinador, $n){
+	static public function registrarComisionesCambioPatrocinador($usuario_cambio, $nuevo_patrocinador, $n){
+
+		if($nuevo_patrocinador){
 
 			$pago_inversiones_usuario = ControladorPagos::ctrMostrarPagosInversionesxEstadoAll("id_usuario", $usuario_cambio["id_usuario"], "estado", 0);
 
@@ -2006,6 +2015,7 @@ Class ControladorUsuarios{
 				}
 			}
 		}
+	}
 
 		}
 

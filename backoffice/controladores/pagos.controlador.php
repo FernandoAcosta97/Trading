@@ -935,10 +935,10 @@ class ControladorPagos
 		$actualizar_usuario = ControladorUsuarios::ctrActualizarUsuario($usuario["id_usuario"], "patrocinador", $nuevoPatrocinador["enlace_afiliado"]);
 
         //Actualización red uninivel
-        $actualizar_uninivel = ControladorMultinivel::ctrActualizarUninivel($usuario["id_usuario"], $nuevoPatrocinador["enlace_afiliado"]);
+        $actualizar_uninivel = ControladorMultinivel::ctrActualizarUninivel("usuario_red",$usuario["id_usuario"], $nuevoPatrocinador["enlace_afiliado"]);
 
 		//Actualización árbol binario
-		$actualizar_binaria = ControladorMultinivel::ctrActualizarBinaria($usuario["id_usuario"], $binaria_nuevo_patrocinador["orden_binaria"],$nuevoPatrocinador["enlace_afiliado"]);
+		$actualizar_binaria = ControladorMultinivel::ctrActualizarBinaria("usuario_red", $usuario["id_usuario"], $binaria_nuevo_patrocinador["orden_binaria"],$nuevoPatrocinador["enlace_afiliado"]);
 
         if($actualizar_binaria=="ok" && $actualizar_uninivel) $respuesta="ok";
 
@@ -979,11 +979,12 @@ class ControladorPagos
     Registro de Pagos Bienvenida
     =============================================*/
 
-    public static function ctrRegistrarPagosBienvenida($id_usuario)
+    public static function ctrRegistrarPagosBienvenida($id_usuario, $id_campana)
     {
 
         $tabla = "pagos_bienvenida";
         $datos = array("id_usuario" => $id_usuario,
+        "id_campana" => $id_campana,
         "estado" => 0);
 
         return $respuesta = ModeloPagos::mdlRegistrarPagosBienvenida($tabla, $datos);   
@@ -1726,7 +1727,7 @@ class ControladorPagos
 
         $n_afiliados=array();
 
-        if($campana_recurrencia!="" && $patrocinador!=""){
+        if($campana_recurrencia!="" && $patrocinador!="" && $patrocinador["perfil"]!="admin"){
 
             $listaRecurrencia = json_decode($campana_recurrencia["nombre"], true);
 
@@ -1820,7 +1821,7 @@ class ControladorPagos
 			$existe_pago_bienvenida=ControladorPagos::ctrMostrarPagosBienvenida2("id_usuario",$usuario["id_usuario"],"estado",0);
 
 			if($existe_pago_bienvenida==""){
-				$pago_bienvenida=ControladorPagos::ctrRegistrarPagosBienvenida($usuario["id_usuario"]);
+				$pago_bienvenida=ControladorPagos::ctrRegistrarPagosBienvenida($usuario["id_usuario"], $bono_bienvenida["id"]);
 			}
 				
 		}

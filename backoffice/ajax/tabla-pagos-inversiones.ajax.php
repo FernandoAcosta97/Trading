@@ -87,6 +87,13 @@ class TablaPagos{
 
 		// }
 
+		$documento="xxx";
+		$nombre="Usuario Eliminado";
+		$pais="xxx";
+		$telefono="xxx";
+		$cuentaBancaria="";
+		$red="";
+
 		foreach ($pagos as $key => $value) {
 			
 			$comprobante=ControladorComprobantes::ctrMostrarComprobantes("id",$value["id_comprobante"]);
@@ -95,20 +102,30 @@ class TablaPagos{
 
   			$usuario = ControladorUsuarios::ctrMostrarUsuarios("doc_usuario", $comprobante[0] ["doc_usuario"]);
 
-			$cuentaBancaria = ControladorCuentas::ctrMostrarCuentasxEstado("usuario",$usuario["id_usuario"],"estado",1);
+			if(is_array($usuario)){
 
-			$red = ControladorMultinivel::ctrMostrarRedUninivel("red_uninivel", "patrocinador_red", $usuario["enlace_afiliado"]);
+				$documento=$usuario["doc_usuario"];
+				$nombre=$usuario["nombre"];
+				$pais=$usuario["pais"];
+				$telefono=$usuario["telefono_movil"];
 
-			if(count($red)>0){
-				foreach ($red as $key2 => $value2){
-					$usuarioRedOperando = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $value2["usuario_red"]);
-	
-					if($usuarioRedOperando["operando"]==1){
-						++$totalAfiliadosActivos;
+				$cuentaBancaria = ControladorCuentas::ctrMostrarCuentasxEstado("usuario",$usuario["id_usuario"],"estado",1);
+
+				$red = ControladorMultinivel::ctrMostrarRedUninivel("red_uninivel", "patrocinador_red", $usuario["enlace_afiliado"]);
+
+				if(count($red)>0){
+					foreach ($red as $key2 => $value2){
+						$usuarioRedOperando = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $value2["usuario_red"]);
+		
+						if($usuarioRedOperando["operando"]==1){
+							++$totalAfiliadosActivos;
+						}
+		
 					}
-	
 				}
+
 			}
+             
 
 			$campana_apalancamiento=ControladorCampanas::ctrMostrarCampanasxEstado("tipo", 4, "estado", 1);
 
@@ -150,10 +167,10 @@ class TablaPagos{
 					"'.$seleccionar.'",
 				    "'.$acciones.'",
 					"'.$value["id"].'",
-					"'.$usuario["doc_usuario"].'",
-					"'.$usuario["nombre"].'",
-					"'.$usuario["pais"].'",
-					"'.$usuario["telefono_movil"].'",
+					"'.$documento.'",
+					"'.$nombre.'",
+					"'.$pais.'",
+					"'.$telefono.'",
 					"'.$totalAfiliadosActivos.'",
 					"'.$entidad_cuenta.'",
 					"'.$numero_cuenta.'",

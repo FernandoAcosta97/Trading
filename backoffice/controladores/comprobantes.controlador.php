@@ -260,6 +260,20 @@ class ControladorComprobantes
 
     }
 
+    /*=============================================
+	Eliminar Comprobante
+	=============================================*/
+
+	static public function ctrEliminarComprobante($id){
+
+        $tabla="comprobantes";
+
+		$respuesta = ModeloComprobantes::mdlEliminarComprobante($tabla, $id);
+
+		return $respuesta;
+
+	}
+
 
     /*=============================================
     Mostrar Comprobantes x Estado excluyendo tipo publicidad

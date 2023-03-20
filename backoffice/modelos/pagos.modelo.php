@@ -139,9 +139,10 @@ class ModeloPagos
     public static function mdlRegistrarPagosBienvenida($tabla, $datos)
     {
         $con = Conexion::conectar();
-        $stmt = $con->prepare("INSERT INTO $tabla(id_usuario, estado) VALUES (:id_usuario, :estado)");
+        $stmt = $con->prepare("INSERT INTO $tabla(id_usuario, id_campana, estado) VALUES (:id_usuario, :id_campana, :estado)");
 
         $stmt->bindParam(":id_usuario", $datos["id_usuario"], PDO::PARAM_INT);
+        $stmt->bindParam(":id_campana", $datos["id_campana"], PDO::PARAM_INT);
         $stmt->bindParam(":estado", $datos["estado"], PDO::PARAM_INT);
 
         if ($stmt->execute()) {
@@ -700,7 +701,7 @@ class ModeloPagos
 
         if ($item != null && $valor !=null) {
 
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item");
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM pagos_inversiones INNER join usuarios on pagos_inversiones.id_usuario=usuarios.id_usuario WHERE usuarios.eliminado=0 AND pagos_inversiones.$item = :$item");
 
             $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
 
@@ -710,7 +711,7 @@ class ModeloPagos
 
         } else {
 
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM pagos_inversiones INNER join usuarios on pagos_inversiones.id_usuario=usuarios.id_usuario WHERE usuarios.eliminado=0");
 
             $stmt->execute();
 

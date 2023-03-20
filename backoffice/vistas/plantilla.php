@@ -277,6 +277,8 @@ if($usuario["fecha_contrato"]!=null){
 					$_GET["pagina"] == "pagos-inversiones" ||
 					$_GET["pagina"] == "pagos-recurrencia" ||
 					$_GET["pagina"] == "recurrencia-pagada" ||
+					$_GET["pagina"] == "afiliados-pagado" ||
+					$_GET["pagina"] == "bienvenida-pagados" ||
 					$_GET["pagina"] == "pagos-publicidad" ||
 					$_GET["pagina"] == "pagos-afiliados" ||
 					$_GET["pagina"] == "pagos-bienvenida" ||
@@ -342,6 +344,8 @@ if($usuario["fecha_contrato"]!=null){
 				$_GET["pagina"] == "pagos-bienvenida" ||
 				$_GET["pagina"] == "inversiones-pagadas" ||
 				$_GET["pagina"] == "recurrencia-pagada" ||
+				$_GET["pagina"] == "afiliados-pagado" ||
+				$_GET["pagina"] == "bienvenida-pagados" ||
 				$_GET["pagina"] == "pagos-extras" ||
 				$_GET["pagina"] == "extras-pagados" ||
 				$_GET["pagina"] == "ingresos-uninivel" ||

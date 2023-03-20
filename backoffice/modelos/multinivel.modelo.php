@@ -39,7 +39,7 @@ class ModeloMultinivel{
 
 		if($item != null && $valor != null){
 
-			$stmt = Conexion::conectar()->prepare("SELECT $tabla1.*, $tabla2.* FROM $tabla1 INNER JOIN $tabla2 ON $tabla1.patrocinador = $tabla2.patrocinador_red WHERE $item = :$item");	
+			$stmt = Conexion::conectar()->prepare("SELECT $tabla1.*, $tabla2.* FROM $tabla1 INNER JOIN $tabla2 ON $tabla1.patrocinador = $tabla2.patrocinador_red WHERE $item = :$item AND $tabla1.eliminado=0");	
 
 			$stmt -> bindParam(":".$item, $valor, PDO::PARAM_STR);
 
@@ -49,7 +49,7 @@ class ModeloMultinivel{
 
 		}else{
 
-			$stmt = Conexion::conectar()->prepare("SELECT $tabla1.*, $tabla2.* FROM $tabla1 INNER JOIN $tabla2 ON $tabla1.enlace_afiliado = $tabla2.patrocinador_red");
+			$stmt = Conexion::conectar()->prepare("SELECT $tabla1.*, $tabla2.* FROM $tabla1 INNER JOIN $tabla2 ON $tabla1.enlace_afiliado = $tabla2.patrocinador_red WHERE $tabla1.eliminado=0");
 
 			$stmt -> execute();
 
@@ -306,13 +306,13 @@ class ModeloMultinivel{
 	ACTUALIZAR BINARIA
 	=============================================*/
 
-	static public function mdlActualizarBinaria($tabla, $id_usuario, $derrame, $patrocinador){
+	static public function mdlActualizarBinaria($tabla, $item, $valor, $derrame, $patrocinador){
 
-		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET derrame_binaria =:derrame_binaria, patrocinador_red = :patrocinador_red WHERE usuario_red = :usuario_red");
+		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET derrame_binaria =:derrame_binaria, patrocinador_red = :patrocinador_red WHERE $item = :$item");
 
 		$stmt -> bindParam(":derrame_binaria", $derrame, PDO::PARAM_STR);
 		$stmt -> bindParam(":patrocinador_red", $patrocinador, PDO::PARAM_STR);
-		$stmt -> bindParam(":usuario_red", $id_usuario, PDO::PARAM_STR);
+		$stmt -> bindParam(":".$item, $valor, PDO::PARAM_STR);
 
 		if($stmt -> execute()){
 
@@ -335,12 +335,12 @@ class ModeloMultinivel{
 	ACTUALIZAR UNINIVEL
 	=============================================*/
 
-	static public function mdlActualizarUninivel($tabla, $id_usuario, $patrocinador){
+	static public function mdlActualizarUninivel($tabla, $item, $valor, $patrocinador){
 
-		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET patrocinador_red = :patrocinador_red WHERE usuario_red = :usuario_red");
+		$stmt = Conexion::conectar()->prepare("UPDATE $tabla SET patrocinador_red = :patrocinador_red WHERE $item = :$item");
 
 		$stmt -> bindParam(":patrocinador_red", $patrocinador, PDO::PARAM_STR);
-		$stmt -> bindParam(":usuario_red", $id_usuario, PDO::PARAM_STR);
+		$stmt -> bindParam(":".$item, $valor, PDO::PARAM_STR);
 
 		if($stmt -> execute()){
 

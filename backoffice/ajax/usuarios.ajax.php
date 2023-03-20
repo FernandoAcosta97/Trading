@@ -205,6 +205,12 @@ class AjaxUsuarios
             "firma" => $this->firma,
             "fecha_contrato" => $fecha);
 
+        $respuesta = "error";
+
+        $suscripcion=ControladorUsuarios::ctrIniciarSuscripcion($datos);
+
+        if($suscripcion=="ok"){
+
         $datosUninivel = array("usuario_red" => $this->id_usuario,
             "patrocinador_red" => $confimarPatrocinador);
 
@@ -215,12 +221,13 @@ class AjaxUsuarios
         $registroArbol = ControladorMultinivel::ctrRegistroBinaria($datosArbol);
         $registroPatrocinador = ControladorUsuarios::ctrActualizarUsuario($this->id_usuario, "patrocinador", $confimarPatrocinador);
 
-        $respuesta = "error";
-
         if($registroUninivel == "ok" && $registroArbol == "ok"){
             
-            $respuesta = ControladorUsuarios::ctrIniciarSuscripcion($datos);
+            $respuesta = "ok";
         }
+
+        }
+
         // $ruta = ControladorGeneral::ctrRuta();
         //$valorSuscripcion = ControladorGeneral::ctrValorSuscripcion();
         // $fecha = substr(date("c"), 0, -6)."Z";
@@ -350,7 +357,7 @@ class AjaxUsuarios
 
         foreach($redBinariaNivelUno as $key => $value){
 
-            $actualizar_red_binaria = ControladorMultinivel::ctrActualizarBinaria($value["usuario_red"], $derrameAdmin, $admin["enlace_afiliado"]);
+            $actualizar_red_binaria = ControladorMultinivel::ctrActualizarBinaria("id_binaria",$value["id_binaria"], $derrameAdmin, $admin["enlace_afiliado"]);
 
         }
 
@@ -358,7 +365,9 @@ class AjaxUsuarios
 
         foreach($redUninivel as $key => $value){
 
-            $actualizar_red_uninivel = ControladorMultinivel::ctrActualizarUninivel($value["usuario_red"], $admin["enlace_afiliado"]);
+            $actualizar_red_uninivel = ControladorMultinivel::ctrActualizarUninivel("id_uninivel",$value["id_uninivel"], $admin["enlace_afiliado"]);
+
+            $actualizar_usuario=ControladorUsuarios::ctrActualizarUsuario($value["usuario_red"], "patrocinador", $admin["enlace_afiliado"]);
 
         }
 

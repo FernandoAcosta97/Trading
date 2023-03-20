@@ -33,7 +33,7 @@ class TablaPagos{
 		$ruta = ControladorGeneral::ctrRuta();
 		$patrocinador = ControladorGeneral::ctrPatrocinador();
 
-		$pagos = ControladorPagos::ctrMostrarPagosRecurrenciaAfiliadosAll("estado", "1");
+		$pagos = ControladorPagos::ctrMostrarPagosBienvenidaAll("estado","1");
 
 
 		if(count($pagos) < 1 ){
@@ -48,48 +48,45 @@ class TablaPagos{
 
 	 	"data": [ ';
 
-		foreach ($pagos as $key => $value) {
+	 	// if(count($red) != 0){
 
-			$campana=ControladorCampanas::ctrMostrarCampanas("id",$value["id_campana"]);
+ 	
+		// 	$periodo_venta =0; 
+		
+		// 	$usuario = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", "43");
+
+			
+
+		// 		$fechaPago = date('Y-m-d');
+			
+
+		foreach ($pagos as $key => $value) {
 
   			$usuario = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $value["id_usuario"]);
 
-			$cuentaBancaria = ControladorCuentas::ctrMostrarCuentasxEstado("id",$value["id_cuenta"],"estado",1);
+			$cuenta = ControladorCuentas::ctrMostrarCuentasxEstado("id",$value["id_cuenta"],"estado",1);
 	
-			
-            $total = $value["valor"];
-
-			if($cuentaBancaria==""){
-                $numero_cuenta = "X";
-				$entidad_cuenta = "X";
-				$tipo_cuenta = "X";
-            }else{
-				$numero_cuenta = $cuentaBancaria["numero"];
-				$entidad_cuenta = $cuentaBancaria["entidad"];
-				$tipo_cuenta = $cuentaBancaria["tipo"];
-			}
+			// $campana=ControladorCampanas::ctrMostrarCampanas("id",$value["id_campana"]);
 
 			$acciones = "<h5><span class='badge badge-success'>Pago $".number_format($value["valor"])."</span></h5>";
-
-			$detalle="<div><button type='button' class='btn btn-success btn-xs btnVerRecurrencia' data-toggle='modal' data-target='#modalVerRecurrencia' idCampana='".$value["id_campana"]."'><i class='fa fa-eye'></i></button></div>";
-
 
 			$datosJson	 .= '[
 				    "'.($key+1).'",
 				    "'.$acciones.'",
-					"'.$detalle.'",
 					"'.$value["id"].'",
 					"'.$usuario["doc_usuario"].'",
 					"'.$usuario["nombre"].'",
 					"'.$usuario["pais"].'",
 					"'.$usuario["telefono_movil"].'",
-					"'.$entidad_cuenta.'",
-					"'.$numero_cuenta.'",
-					"'.$tipo_cuenta.'",
-					"'.$value["inversiones"].'",
-					"'.$value["fecha"].'"
+					"'.$cuenta["entidad"].'",
+					"'.$cuenta["numero"].'",
+					"'.$cuenta["tipo"].'",
+					"'.$value["fecha"].'",
+					"$ '.number_format($value["valor"]).'"
+
 			],';
 
+			$totalAfiliadosActivos=0;
 
 		}
 

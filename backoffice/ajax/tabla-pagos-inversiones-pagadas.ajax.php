@@ -99,15 +99,17 @@ class TablaPagos{
 
 			$cuenta = ControladorCuentas::ctrMostrarCuentas("id",$value["id_cuenta"]);
 
-			$campana_apalancamiento=ControladorCampanas::ctrMostrarCampanas("id", $value["id_apalancamiento"]);
-
 			$retorno_apalancamiento=0;
 			$ganancia_apalancamiento=0;
+
+			if($value["id_apalancamiento"]!=0){
+			$campana_apalancamiento=ControladorCampanas::ctrMostrarCampanas("id", $value["id_apalancamiento"]);
 		
-			if($campana_apalancamiento!=""){
+			if(is_array($campana_apalancamiento)){
 				$retorno_apalancamiento=$campana_apalancamiento["retorno"];
 				$ganancia_apalancamiento=($comprobante[0]['valor']*$campana_apalancamiento['retorno'])/100;
 			}
+		}
 		
 			$valor_mas_apalancamiento=$comprobante[0]['valor']+$ganancia_apalancamiento;
 		

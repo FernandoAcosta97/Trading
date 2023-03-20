@@ -377,11 +377,11 @@ class ControladorMultinivel{
 	ACTUALIZAR BINARIA
 	=============================================*/
 	
-	static public function ctrActualizarBinaria($id_usuario, $derrame, $patrocinador){
+	static public function ctrActualizarBinaria($item, $valor, $derrame, $patrocinador){
 
 		$tabla = "red_binaria";
 
-		$respuesta = ModeloMultinivel::mdlActualizarBinaria($tabla, $id_usuario, $derrame, $patrocinador);
+		$respuesta = ModeloMultinivel::mdlActualizarBinaria($tabla, $item, $valor, $derrame, $patrocinador);
 
 		return $respuesta;
 
@@ -392,11 +392,11 @@ class ControladorMultinivel{
 	ACTUALIZAR UNINIVEL
 	=============================================*/
 	
-	static public function ctrActualizarUninivel($id_usuario, $patrocinador){
+	static public function ctrActualizarUninivel($item, $valor, $patrocinador){
 
 		$tabla = "red_uninivel";
 
-		$respuesta = ModeloMultinivel::mdlActualizarUninivel($tabla, $id_usuario, $patrocinador);
+		$respuesta = ModeloMultinivel::mdlActualizarUninivel($tabla, $item, $valor, $patrocinador);
 
 		return $respuesta;
 

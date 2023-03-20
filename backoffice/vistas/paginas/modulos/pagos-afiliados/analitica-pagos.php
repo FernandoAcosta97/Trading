@@ -53,7 +53,7 @@ foreach ($pagos as $key => $value) {
 
 			</div>
 
-			<a href="pagos-recurrencia" class="small-box-footer">Más información <i class="fa fa-arrow-circle-right"></i></a>
+			<a href="pagos-afiliados" class="small-box-footer">Más información <i class="fa fa-arrow-circle-right"></i></a>
 
 		</div>
 
@@ -77,7 +77,7 @@ foreach ($pagos as $key => $value) {
 
 			</div>
 
-			<a href="recurrencia-pagada" class="small-box-footer">Más información <i class="fa fa-arrow-circle-right"></i></a>
+			<a href="afiliados-pagado" class="small-box-footer">Más información <i class="fa fa-arrow-circle-right"></i></a>
 			
 		</div>
 

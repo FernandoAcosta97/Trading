@@ -22,7 +22,7 @@ class ModeloCuentas{
 
 		}else{
 
-			$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
+			$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla INNER JOIN usuarios ON $tabla.usuario=usuarios.id_usuario WHERE usuarios.eliminado=0");
 
 			$stmt -> execute();
 
@@ -78,7 +78,7 @@ class ModeloCuentas{
 
 		}else{
 
-			$stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
+			$stmt = Conexion::conectar()->prepare("SELECT * FROM cuentas_bancarias INNER JOIN usuarios ON cuentas_bancarias.usuario=usuarios.id_usuario WHERE usuarios.eliminado=0");
 
 			$stmt -> execute();
 

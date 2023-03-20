@@ -171,21 +171,27 @@ class TablaComprobantes {
             $selectCampanas = $campana["nombre"];
         }
 
+        $documento="xxx";
+        $nombre="Usuario Eliminado";
+        if(is_array($usuarios)){
+            $documento=$usuarios[ 'doc_usuario' ];
+            $nombre=$usuarios[ 'nombre' ];
+        }
                 
-            $acciones = "<div class='btn-group'><button class='btn btn-warning btn-xs btnEditarComprobante' idComprobante='".$value["comprobanteId"]."' data-toggle='modal' data-target='#modalEditarComprobante'><i class='fa fa-pen' style='color:white'></i></button></div>";
+            $acciones = "<div class='btn-group'><button class='btn btn-warning btn-xs btnEditarComprobante' idComprobante='".$value["comprobanteId"]."' data-toggle='modal' data-target='#modalEditarComprobante'><i class='fa fa-pen' style='color:white'></i></button><button type='button' class='btn btn-danger btn-xs btnEliminarComprobante' idComprobante='".$value["comprobanteId"]."'><i class='fa fa-times'></i></button></div>";
 
             $datosJson .= '[
                 "'.$acciones.'",
                 "'.$foto.'",
                 "'.$estado.'",
                 "$ '.number_format($valor_total).' COP",
-                "'.$usuarios[ 'doc_usuario' ].'",
-                "'.$usuarios[ 'nombre' ].'",
+                "'.$documento.'",
+                "'.$nombre.'",
                 "'.$value[ 'fecha' ].'",
                 "'.$selectCampanas.'"
          ],';
 
-            }
+        }
 
 
 

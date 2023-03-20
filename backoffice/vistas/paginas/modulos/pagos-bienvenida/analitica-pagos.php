@@ -6,14 +6,9 @@ $pagos = ControladorPagos::ctrMostrarPagosBienvenida(null,null);
 
 foreach ($pagos as $key => $value) {
 
-	// $bonos_extras = ControladorPagos::ctrMostrarBonosExtrasAll("id_pago_extra",$value["id"]);
+	$campana=ControladorCampanas::ctrMostrarCampanas("id", $value["id_campana"]);
 
-	// foreach($bonos_extras as $key2 => $value2){
-	// 	$campana=ControladorCampanas::ctrMostrarCampanas("id",$value2["id_campana"]);
-	// 	$total = count($bonos_extras)*$campana["retorno"];
-
-	// }
-	$total=$value["valor"];
+	$total=$campana["retorno"];
 
 	if($value["estado"]==0){
 		$total_a_pagar+=$total;

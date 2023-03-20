@@ -8,14 +8,14 @@
 		
 		<h3 class="card-title p-3">
 			<i class="fas fa-table mr-1"></i>		
-			Tabla bonos recurrentes pagados
+			Tabla bonos afiliados pagados
 		</h3>
 
 	</div>
 
 	<div class="card-body">
 		
-		<table class="table table-bordered table-striped dt-responsive tabla-recurrencia-pagada" width="100%">
+		<table class="table table-bordered table-striped dt-responsive tabla-afiliados-pagado" width="100%">
 			
 			<thead>
 
@@ -32,7 +32,7 @@
 					<th>Entidad bancaria</th>				   
 					<th>Cuenta bancaria</th>					
 					<th>Tipo cuenta</th>
-					<th>Inversiones</th>
+					<th>Afiliados</th>
 					<th>Fecha pago</th>
 
 				</tr>   

@@ -109,10 +109,11 @@ class AjaxComprobantes{
 			//Registrar pagos afiliados
 			$pagos_afiliados=ControladorPagos::ctrRegistrarPagoAfiliados($usu, $valor, $comprobante);
 
+			//registrar pagos inversiones
 			$pago=ControladorPagos::ctrRegistrarPagos($usu["id_usuario"],$comprobante[0]["id"], $id_campana_apalancamiento);
 
-			$campana_recurrencia=ControladorCampanas::ctrMostrarCampanasxEstado("tipo", 5, "estado", 1);
 
+			$campana_recurrencia=ControladorCampanas::ctrMostrarCampanasxEstado("tipo", 5, "estado", 1);
 
 			if($campana_recurrencia!=""){
 				$t=0;
@@ -457,6 +458,31 @@ class AjaxComprobantes{
 
 	}
 
+
+
+	/*=============================================
+	Eliminar Comprobante
+	=============================================*/	
+	public $idComprobanteEliminar;
+
+	public function ajaxEliminarComprobante(){
+
+		$valor = $this->idComprobanteEliminar;
+
+		$comprobante = ControladorComprobantes::ctrMostrarComprobantes("id", $valor);
+
+		$respuesta="error";
+		
+		if($comprobante[0]["estado"]==0){
+			$respuesta = ControladorComprobantes::ctrEliminarComprobante($valor);
+		}
+
+
+
+		echo $respuesta;
+
+	}
+
 	/*=============================================
 	EDITAR COMPROBANTE
 	=============================================*/	
@@ -570,14 +596,14 @@ if(isset($_POST["idComprobanteEditar"])){
 }
 
 /*=============================================
-Eliminar Usuario
+Eliminar Comprobante
 =============================================*/	
 
-if(isset($_POST["idUsuarioEliminar"])){
+if(isset($_POST["idComprobanteEliminar"])){
 
-	$eliminarUsuario = new AjaxUsuarios();
-	$eliminarUsuario -> idUsuarioEliminar = $_POST["idUsuarioEliminar"];
-	$eliminarUsuario -> ajaxEliminarUsuario();
+	$eliminarComprobante = new AjaxComprobantes();
+	$eliminarComprobante -> idComprobanteEliminar = $_POST["idComprobanteEliminar"];
+	$eliminarComprobante -> ajaxEliminarComprobante();
 
 }
 

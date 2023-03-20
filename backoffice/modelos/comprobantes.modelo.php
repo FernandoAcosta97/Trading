@@ -602,6 +602,34 @@ class ModeloComprobantes
         $stmt = null;
     }
 
+
+
+    /*=============================================
+    Eliminar Comprobante
+    =============================================*/
+
+    public static function mdlEliminarComprobante($tabla, $id)
+    {
+
+        $stmt = Conexion::conectar()->prepare("DELETE FROM $tabla WHERE id = :id");
+
+        $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+
+            return "ok";
+        } else {
+
+            return print_r(Conexion::conectar()->errorInfo());
+        }
+
+        $stmt->close();
+
+        $stmt = null;
+    }
+
+
+
     /*=============================================
     registrar cuenta
     =============================================*/

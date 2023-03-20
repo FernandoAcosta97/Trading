@@ -7,6 +7,10 @@ $pagos = ControladorPagos::ctrMostrarPagos(null,null);
 
 foreach ($pagos as $key => $value) {
 
+	$usu=ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $value["id_usuario"]);
+
+	if(is_array($usu)){
+
 	$comprobante=ControladorComprobantes::ctrMostrarComprobantes("id",$value["id_comprobante"]);
 
 	$campana=ControladorCampanas::ctrMostrarCampanas("id",$comprobante[0]["campana"]);
@@ -32,7 +36,7 @@ foreach ($pagos as $key => $value) {
 	}else{
 		$total_pagos+=$retorno_total;
 	}
-
+	}
 
 
 }

@@ -211,7 +211,7 @@
             </a>
           </li>
 
-          <?php  if(!$inhabilitado_sin_cuenta): ?>
+      <?php  if(!$inhabilitado_sin_cuenta): ?>
        <!--=====================================
        Botón Comprobantes
        ======================================-->

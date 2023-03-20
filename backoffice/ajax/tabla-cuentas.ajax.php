@@ -25,6 +25,8 @@ class TablaCuentas
                 $usuario = null;
             }
         }
+
+
         $cuentas = ControladorCuentas::ctrMostrarCuentasAll("usuario", $valor);
         if(is_array($cuentas)){
 
@@ -37,7 +39,6 @@ class TablaCuentas
             }
 
         }
-
 
 
         $datosJson = '{"data":[';
@@ -64,8 +65,8 @@ class TablaCuentas
             $datosJson .= '[
                 "' . $acciones . '",
                 "' . $value["numero"] . '",
-                "' . $usuario["nombre"] . '",
-                "' . $usuario["doc_usuario"] . '",
+                "' . $nombre . '",
+                "' . $documento . '",
                 "' . $value["titular"] . '",
                 "' . $estado . '",
                 "' . $value["entidad"] . '",
@@ -102,8 +103,8 @@ class TablaCuentas
                 $datosJson .= '[
                   "' . $acciones . '",
                   "' . $value["numero"] . '",
-                  "' . $usuario["nombre"] . '",
-                  "' . $usuario["doc_usuario"] . '",
+                  "' . $value["nombre"] . '",
+                  "' . $value["doc_usuario"] . '",
                   "' . $value["titular"] . '",
                   "' . $estado . '",
                   "' . $value["entidad"] . '",

@@ -111,7 +111,7 @@
 					<div class="input-group-prepend">
 						<span class="p-2 bg-info rounded-left"><?php echo $ruta; ?></span>
 					</div>
-					<input type="text" class="form-control" id="inputAfiliado" value="<?php echo strtolower(str_replace(" ", "-", $usuario["usuario"])) . "-" . substr($usuario["doc_usuario"], -4) ?>" readonly>
+					<input type="text" class="form-control" id="inputAfiliado" value="<?php echo strtolower($usuario["usuario"])?>" readonly>
 				</div>
 
 			</div>
