@@ -473,7 +473,7 @@ class AjaxComprobantes{
 
 		$respuesta="error";
 		
-		if($comprobante[0]["estado"]==0){
+		if($comprobante[0]["estado"]==0 || $comprobante[0]["estado"]==2){
 			$respuesta = ControladorComprobantes::ctrEliminarComprobante($valor);
 		}
 
