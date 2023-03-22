@@ -123,6 +123,57 @@ class AjaxPagos{
 
 
 	/*=============================================
+	Cambiar estado pago Afiliados
+	=============================================*/	
+
+	public $idPagoAfiliados;
+
+	public function ajaxEstadoPagoAfiliados(){
+
+		$estado = 1;
+
+		$id = $this->idPagoAfiliados;
+
+		$pago = ControladorPagos::ctrMostrarPagosRecurrenciaAfiliados("id", $id);
+
+
+		if($pago["estado"]==0){
+
+		$usuario = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $pago["id_usuario"]);
+
+		$cuenta = ControladorCuentas::ctrMostrarCuentasxEstado("usuario",$usuario["id_usuario"],"estado",1);
+
+		$id_cuenta = $cuenta["id"];
+
+		$campana=ControladorCampanas::ctrMostrarCampanas("id", $pago["id_campana"]);
+
+		$listaRecurrencia = json_decode($campana["nombre"], true);
+
+		$total=0;
+
+		foreach ($listaRecurrencia as $key2 => $value2) {
+			if($pago["afiliados"]==$value2["afiliados"]){
+			 $total=$total+$value2["retorno"];
+			 break;
+			}
+		}
+
+		$datos = array("id" => $id,
+		"estado" => $estado,
+		"id_cuenta" => $cuenta["id"],
+	    "total" => $total);
+
+		return $respuesta = ControladorPagos::ctrActualizarPagoRecurrenciaAfiliados($datos);
+
+		}else{
+			echo "pagado";
+		}
+
+	}
+
+
+
+	/*=============================================
 	Cambiar estado pago publicidad
 	=============================================*/	
 
@@ -225,6 +276,46 @@ class AjaxPagos{
 	}
 
 
+
+	/*=============================================
+	Cambiar estado pago bienvenida
+	=============================================*/	
+
+	public $idPagoBienvenida;
+
+	public function ajaxEstadoPagoBienvenida(){
+
+		$estado = 1;
+
+		$id = $this->idPagoBienvenida;
+
+		$pago = ControladorPagos::ctrMostrarPagosBienvenida("id", $id);
+
+		if($pago["estado"]==0){
+
+		$cuenta = ControladorCuentas::ctrMostrarCuentasxEstado("usuario",$pago["id_usuario"],"estado",1);
+
+		$campana = ControladorCampanas::ctrMostrarCampanas("id", $pago["id_campana"]);
+
+		$valor=$campana["retorno"];
+
+		$id_cuenta = $cuenta["id"];
+
+		$datos = array("id" => $id,
+		"estado" => $estado,
+		"valor" => $valor,
+		"id_cuenta" => $cuenta["id"]);
+
+		return $respuesta = ControladorPagos::ctrActualizarPagoBienvenida($datos);
+
+		}else{
+			echo "pagado";
+		}
+
+	}
+
+
+
 	/*=============================================
 	Cambiar estado varios pagos
 	=============================================*/	
@@ -291,7 +382,7 @@ class AjaxPagos{
 				$usuario=ControladorUsuarios::ctrMostrarUsuarios("doc_usuario", $comprobante[0]["doc_usuario"]);
 
 				$id_usuario=$usuario["id_usuario"];
-		}else if($tipoPago=="bonos"){	
+		        }else if($tipoPago=="bonos"){	
 
 				$pago = ControladorPagos::ctrMostrarPagosExtras("id", $arrayPagos[$i]);
 
@@ -433,6 +524,19 @@ if(isset($_POST["idPagoRecurrencia"])){
 
 
 /*=============================================
+Cambiar estado pago recurrencia afiliados
+=============================================*/	
+
+if(isset($_POST["idPagoAfiliados"])){
+
+	$pagoAfiliados = new AjaxPagos();
+	$pagoAfiliados -> idPagoAfiliados = $_POST["idPagoAfiliados"];
+	$pagoAfiliados -> ajaxEstadoPagoAfiliados();
+
+}
+
+
+/*=============================================
 Cambiar estado pago publicidad
 =============================================*/	
 
@@ -454,6 +558,20 @@ if(isset($_POST["idPagoComision"])){
 	$pagoComision = new AjaxPagos();
 	$pagoComision -> idPagoComision = $_POST["idPagoComision"];
 	$pagoComision -> ajaxEstadoPagoComision();
+
+}
+
+
+
+/*=============================================
+Cambiar estado pago Bienvenida
+=============================================*/	
+
+if(isset($_POST["idPagoBienvenida"])){
+
+	$pagoBienvenida = new AjaxPagos();
+	$pagoBienvenida -> idPagoBienvenida = $_POST["idPagoBienvenida"];
+	$pagoBienvenida -> ajaxEstadoPagoBienvenida();
 
 }
 

@@ -12,6 +12,32 @@ if (isset($_GET["pagina"])) {
 	}
 }
 
+if (isset($_GET["pagina"])) {
+	if ($_GET["pagina"] == "reporte-pagos-inversiones"){
+		include "paginas/" . $_GET["pagina"] . ".php";
+	}
+}
+
+
+if (isset($_GET["pagina"])) {
+	if ($_GET["pagina"] == "reporte-pagos-extras"){
+		include "paginas/" . $_GET["pagina"] . ".php";
+	}
+}
+
+
+if (isset($_GET["pagina"])) {
+	if ($_GET["pagina"] == "reporte-pagos-bienvenida"){
+		include "paginas/" . $_GET["pagina"] . ".php";
+	}
+}
+
+if (isset($_GET["pagina"])) {
+	if ($_GET["pagina"] == "reporte-pagos-comisiones"){
+		include "paginas/" . $_GET["pagina"] . ".php";
+	}
+}
+
 session_start();
 
 $ruta = ControladorGeneral::ctrRuta();

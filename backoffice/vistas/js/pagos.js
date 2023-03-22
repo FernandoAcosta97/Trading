@@ -246,8 +246,55 @@ $(".tabla-pagar-comisiones tbody").on("click", "button.btnVerComisiones", functi
   });
 
 
+
+  $("#selectFiltro").on("change", function (){
+
+    seleccion = $(this).val();
+  
+    tabla = $(".tabla-pagar-inversiones");
+    tbody = $(".tabla-pagar-inversiones tbody");
+    tbody.empty();
+    tabla = tabla.dataTable().fnDestroy();
+  
+    tabla = $(".tabla-pagar-inversiones").DataTable({
+      ajax: "ajax/tabla-pagos-inversiones.ajax.php?filtro="+seleccion,
+      deferRender: true,
+      retrieve: true,
+      processing: true,
+      language: {
+        sProcessing: "Procesando...",
+        sLengthMenu: "Mostrar _MENU_ registros",
+        sZeroRecords: "No se encontraron resultados",
+        sEmptyTable: "Ningún dato disponible en esta tabla",
+        sInfo: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
+        sInfoEmpty: "Mostrando registros del 0 al 0 de un total de 0",
+        sInfoFiltered: "(filtrado de un total de _MAX_ registros)",
+        sInfoPostFix: "",
+        sSearch: "Buscar:",
+        sUrl: "",
+        sInfoThousands: ",",
+        sLoadingRecords: "Cargando...",
+        oPaginate: {
+          sFirst: "Primero",
+          sLast: "Último",
+          sNext: "Siguiente",
+          sPrevious: "Anterior",
+        },
+        oAria: {
+          sSortAscending: ": Activar para ordenar la columna de manera ascendente",
+          sSortDescending:
+            ": Activar para ordenar la columna de manera descendente",
+        },
+      },
+    });
+  
+  
+  });
+  
+  seleccion = $("#selectFiltro").val();
+  
   $(".tabla-pagar-inversiones").DataTable({
-    "ajax":"ajax/tabla-pagos-inversiones.ajax.php",
+    "ajax":"ajax/tabla-pagos-inversiones.ajax.php?filtro="+seleccion,
     "deferRender": true,
     "retrieve": true,
     "processing": true,
@@ -279,6 +326,44 @@ $(".tabla-pagar-comisiones tbody").on("click", "button.btnVerComisiones", functi
      }
   
   });
+
+
+  $(".tabla-pagar-extras").DataTable({
+    "ajax":"ajax/tabla-pagos-extras.ajax.php",
+    "deferRender": true,
+    "retrieve": true,
+    "processing": true,
+    "language": {
+  
+       "sProcessing":     "Procesando...",
+      "sLengthMenu":     "Mostrar _MENU_ registros",
+      "sZeroRecords":    "No se encontraron resultados",
+      "sEmptyTable":     "Ningún dato disponible en esta tabla",
+      "sInfo":           "Mostrando registros del _START_ al _END_ de un total de _TOTAL_",
+      "sInfoEmpty":      "Mostrando registros del 0 al 0 de un total de 0",
+      "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+      "sInfoPostFix":    "",
+      "sSearch":         "Buscar:",
+      "sUrl":            "",
+      "sInfoThousands":  ",",
+      "sLoadingRecords": "Cargando...",
+      "oPaginate": {
+        "sFirst":    "Primero",
+        "sLast":     "Último",
+        "sNext":     "Siguiente",
+        "sPrevious": "Anterior"
+      },
+      "oAria": {
+          "sSortAscending":  ": Activar para ordenar la columna de manera ascendente",
+          "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+      }
+  
+     }
+  
+  });
+
+
+
 
 
   $(".tabla-inversiones-sin-liquidar").DataTable({
@@ -808,6 +893,8 @@ $(".tabla-pagar-comisiones tbody").on("click", "button.btnVerComisiones", functi
   
   });
 
+  
+
 
   
  $(".tabla-pagar-inversiones tbody").on("click", "button.btnPagarInversion", function () {
@@ -887,6 +974,45 @@ $(".tabla-pagar-comisiones tbody").on("click", "button.btnVerComisiones", functi
 
 
 
+    $(".tabla-pagar-afiliados tbody").on("click", "button.btnPagarAfiliados", function () {
+
+        var idPagoAfiliados= $(this).attr("idPagoAfiliados");
+        
+        var datos = new FormData();
+        datos.append("idPagoAfiliados", idPagoAfiliados);
+        
+          $.ajax({
+        
+            url:"ajax/pagos.ajax.php",
+            method: "POST",
+            data: datos,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function(respuesta){
+        
+                if (respuesta == "ok") {
+        
+                  alerta("success", "¡El pago se ha realizado correctamente!", null, "pagos-afiliados", false);
+              
+                }else if(respuesta == "pagado"){
+        
+                  alerta("info", "¡Información!", "¡El pago ya se ha realizado!", "pagos-afiliados", false);
+        
+                }else{
+        
+                  alerta("error", "¡Ha ocurrido un error!", "¡Contacte con el administrador o vuelve a intentarlo mas tarde!", null, true);
+        
+                }
+        
+              }
+        
+          })
+          
+    });
+
+
+
     $(".tabla-pagar-publicidad tbody").on("click", "button.btnPagarPublicidad", function () {
 
       var idPagoPublicidad= $(this).attr("idPagoPublicidad");
@@ -963,6 +1089,44 @@ $(".tabla-pagar-comisiones tbody").on("click", "button.btnVerComisiones", functi
     });
 
 
+    $(".tabla-pagar-bienvenida tbody").on("click", "button.btnPagarBienvenida", function () {
+
+      var idPagoBienvenida= $(this).attr("idPagoBienvenida");
+    
+      var datos = new FormData();
+      datos.append("idPagoBienvenida", idPagoBienvenida);
+    
+        $.ajax({
+    
+        url:"ajax/pagos.ajax.php",
+        method: "POST",
+        data: datos,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function(respuesta){
+    
+            if (respuesta == "ok") {
+    
+              alerta("success", "¡El pago se ha realizado correctamente!", null, "pagos-bienvenida", false);
+          
+            }else if(respuesta == "pagado"){
+    
+              alerta("info", "¡Información!", "¡El pago ya se ha realizado!", "pagos-bienvenida", false);
+    
+            }else{
+    
+              alerta("error", "¡Ha ocurrido un error!", "¡Contacte con el administrador o vuelve a intentarlo mas tarde!", null, true);
+    
+            }
+    
+          }
+    
+        })
+      
+        });
+
+
 
 $(".btnPagos").click(function () {
 
@@ -979,7 +1143,7 @@ $(".btnPagos").click(function () {
       if(tipoPago == "bonos"){
         direccion="pagos-extras";
       }
-      if(tipoPago == "bonos"){
+      if(tipoPago == "publicidad"){
         direccion="publicidad";
       }
 
@@ -1545,3 +1709,36 @@ function alerta(tipo, titulo, mensaje, redireccion, cerrarClick){
 }
 
 }
+
+
+
+$(".btnExcelPagosInversiones").click(function(){
+
+  s = $("#selectFiltro").val();
+  if(s!="todas"){
+  window.location="index.php?pagina=reporte-pagos-inversiones&c="+s+"&excel=1";
+  }else{
+    window.location="index.php?pagina=reporte-pagos-inversiones&excel=1";
+  }
+
+})
+
+
+$(".btnExcelPagosExtras").click(function(){
+
+    window.location="index.php?pagina=reporte-pagos-extras&excel=1";
+  
+})
+
+$(".btnExcelPagosBienvenida").click(function(){
+
+  window.location="index.php?pagina=reporte-pagos-bienvenida&excel=1";
+
+})
+
+
+$(".btnExcelPagosComisiones").click(function(){
+
+  window.location="index.php?pagina=reporte-pagos-comisiones&excel=1";
+
+})

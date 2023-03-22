@@ -35,10 +35,23 @@ class TablaPagos{
 
 		$red = ControladorMultinivel::ctrMostrarUsuarioRed("red_binaria", null, null);
 
-		$pagos = ControladorPagos::ctrMostrarPagosExtrasAll("estado","0");
+		if(isset($_GET["filtro"])){
 
-		$periodo_comision = 0;
-		$periodo_venta = 0;
+			if($_GET["filtro"]=="todas"){
+
+				$pagos = ControladorPagos::ctrMostrarPagosExtrasAll("estado","0");
+
+			} else{
+				$id_campana=$_GET["filtro"];
+				$estado=0;
+				$pagos = ControladorPagos::ctrMostrarPagosExtrasxCampana($id_campana, $estado);
+			}
+
+		}else{
+			$pagos = ControladorPagos::ctrMostrarPagosExtrasAll("estado","0");
+		}
+
+
 		$totalAfiliadosActivos=0;
 
 		if(count($pagos) < 1 ){

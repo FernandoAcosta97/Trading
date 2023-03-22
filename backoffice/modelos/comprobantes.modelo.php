@@ -40,8 +40,8 @@ class ModeloComprobantes
     {
 
         if ($item != null && $valor != null) {
-            
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item ORDER BY 'fecha'");
+
+            $stmt = Conexion::conectar()->prepare("SELECT co.id, co.estado, co.valor, co.fecha, co.foto, co.campana, us.id_usuario, us.doc_usuario, us.estado as usu_estado FROM comprobantes as co INNER JOIN usuarios as us ON co.doc_usuario=us.doc_usuario WHERE co.$item = :$item AND us.eliminado=0 ORDER BY 'fecha'");
 
             $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
 
@@ -51,7 +51,7 @@ class ModeloComprobantes
 
         } else {
 
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla ORDER BY 'fecha'");
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM comprobantes as co INNER JOIN usuarios as us ON co.doc_usuario=us.doc_usuario WHERE us.eliminado=0 ORDER BY 'fecha'");
 
             $stmt->execute();
 
@@ -73,7 +73,7 @@ class ModeloComprobantes
 
         if ($item != null && $valor != null) {
             
-        $stmt = Conexion::conectar()->prepare("SELECT co.id as comprobanteId, co.foto, co.fecha, co.estado as estadoComprobante, co.valor, co.doc_usuario, co.campana, ca.id as campanaId, ca.retorno, ca.nombre, ca.tipo, ca.estado as estadoCampana FROM $tabla as co INNER JOIN $tabla2 as ca ON co.campana=ca.id WHERE $item = :$item AND $item2 = :$item2 ORDER BY 'fecha'");
+        $stmt = Conexion::conectar()->prepare("SELECT co.id as comprobanteId, co.foto, co.fecha, co.estado as estadoComprobante, co.valor, co.doc_usuario, co.campana, ca.id as campanaId, ca.retorno, ca.nombre, ca.tipo, ca.estado as estadoCampana FROM $tabla as co INNER JOIN $tabla2 as ca ON co.campana=ca.id INNER JOIN usuarios as us ON co.doc_usuario=us.doc_usuario WHERE us.eliminado=0 AND co.$item = :$item AND ca.$item2 = :$item2 ORDER BY 'fecha'");
 
         $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
 
@@ -85,7 +85,7 @@ class ModeloComprobantes
 
         }else{
             
-            $stmt = Conexion::conectar()->prepare("SELECT co.id as comprobanteId, co.foto, co.fecha, co.estado as estadoComprobante, co.valor, co.doc_usuario, co.campana, ca.id as campanaId, ca.retorno, ca.nombre, ca.tipo, ca.estado as estadoCampana FROM $tabla as co INNER JOIN $tabla2 as ca ON co.campana=ca.id WHERE $item2 = :$item2 ORDER BY 'fecha'");
+            $stmt = Conexion::conectar()->prepare("SELECT co.id as comprobanteId, co.foto, co.fecha, co.estado as estadoComprobante, co.valor, co.doc_usuario, co.campana, ca.id as campanaId, ca.retorno, ca.nombre, ca.tipo, ca.estado as estadoCampana FROM $tabla as co INNER JOIN $tabla2 as ca ON co.campana=ca.id INNER JOIN usuarios as us ON co.doc_usuario=us.doc_usuario WHERE us.eliminado=0 AND ca.$item2 = :$item2 ORDER BY 'fecha'");
         
             $stmt->bindParam(":" . $item2, $valor2, PDO::PARAM_STR);
         

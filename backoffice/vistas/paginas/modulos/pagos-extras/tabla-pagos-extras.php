@@ -19,6 +19,13 @@
 							 PAGAR SELECCIONADOS
 		    </button>
 
+			<div>
+
+				<button type='button' class='btn btn-success btn-xs btnExcelPagosExtras'><i class='fa fa-file-excel'> Descargar Excel</i></button>
+
+			</div>
+
+
 	</div>
 
 	<div class="card-body p3 seleccionarPagos">

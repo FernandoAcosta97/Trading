@@ -86,7 +86,7 @@ class TablaPagos{
 					"'.$entidad_cuenta.'",
 					"'.$numero_cuenta.'",
 					"'.$tipo_cuenta.'",
-					"'.$value["inversiones"].'",
+					"'.$value["afiliados"].'",
 					"'.$value["fecha"].'"
 			],';
 

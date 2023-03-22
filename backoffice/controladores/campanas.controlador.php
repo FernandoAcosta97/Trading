@@ -513,7 +513,7 @@ Class ControladorCampanas{
 	
 				}
 				
-			}else if($_POST["tipoCampanaEditar"]==2 || $_POST["tipoCampanaEditar"]==4 || $_POST["tipoCampanaEditar"]==5){
+			}else if($_POST["tipoCampanaEditar"]==2 || $_POST["tipoCampanaEditar"]==4 || $_POST["tipoCampanaEditar"]==5 || $_POST["tipoCampanaEditar"]==6 || $_POST["tipoCampanaEditar"]==7){
 
 				$n="Bono Extra";
 				$direccion="bonos-extras";
@@ -528,6 +528,18 @@ Class ControladorCampanas{
 
 					$n=$_POST["listaRecurrenciasEditar"];
 					$direccion="bonos-recurrencia";
+				} 
+
+				if($_POST["tipoCampanaEditar"]==6){
+
+					$n=$_POST["listaRecurrenciasEditar"];
+					$direccion="bonos-afiliados";
+				} 
+
+				if($_POST["tipoCampanaEditar"]==7){
+
+					$n="Bono Bienvenida";
+					$direccion="bonos-bienvenida";
 				} 
 
 				if(isset($_POST["editarRetorno"])){

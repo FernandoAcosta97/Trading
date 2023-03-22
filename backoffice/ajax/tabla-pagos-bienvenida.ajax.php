@@ -81,14 +81,14 @@ class TablaPagos{
 				$entidad_cuenta = "X";
 				$tipo_cuenta = "X";
 	
-				$acciones = "<div class='btn-group'><button class='btn btn-info' disabled>PAGAR</button><button type='button' class='btn btn-success btn-xs btnVerBonos' data-toggle='modal' data-target='#modalVerBonos' idPagoBono='".$value["id"]."'><i class='fa fa-eye'></i></button></div>";
+				$acciones = "<div class='btn-group'><button class='btn btn-info' disabled>PAGAR</button><button type='button' class='btn btn-success btn-xs btnVerBienvenida' data-toggle='modal' data-target='#modalVerBienvenida' idPagoBono='".$value["id"]."'><i class='fa fa-eye'></i></button></div>";
 				$seleccionar = "";
 			}else{
 				$numero_cuenta = $cuentaBancaria["numero"];
 				$entidad_cuenta = $cuentaBancaria["entidad"];
 				$tipo_cuenta = $cuentaBancaria["tipo"];
 	
-				$acciones = "<div class='btn-group'><button class='btn btn-info btnPagarExtra' idPagoExtra='".$value["id"]."'>PAGAR</button><button type='button' class='btn btn-success btn-xs btnVerBonos' data-toggle='modal' data-target='#modalVerBonos' idPagoBono='".$value["id"]."'><i class='fa fa-eye'></i></button></div>";
+				$acciones = "<div class='btn-group'><button class='btn btn-info btnPagarBienvenida' idPagoBienvenida='".$value["id"]."'>PAGAR</button><button type='button' class='btn btn-success btn-xs btnVerBienvenida' data-toggle='modal' data-target='#modalVerBienvenida' idPagoBienvenida='".$value["id"]."'><i class='fa fa-eye'></i></button></div>";
 
 				
 			$seleccionar = "<center><input type='checkbox' class='seleccionarPago' idPago='".$value["id"]."'></input></center>";

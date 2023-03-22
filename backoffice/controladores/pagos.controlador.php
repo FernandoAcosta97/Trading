@@ -1,7 +1,349 @@
 <?php
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
+
 class ControladorPagos
 {
+
+
+    public function ctrDescargarReporte(){
+
+        if(isset($_GET["excel"]) && $_GET["excel"]==1){
+
+            if(isset($_GET["c"])){
+                $pagos=ControladorPagos::ctrMostrarPagosInversionesxCampana($_GET["c"], "0");
+                $campana=ControladorCampanas::ctrMostrarCampanas("id", $_GET["c"]);
+            }else{
+                $pagos=ControladorPagos::ctrMostrarPagos(null,null);
+            }
+
+
+        $excel = new Spreadsheet();
+		$excel->getDefaultStyle()->getFont()->setName('Arial');
+		$excel->getDefaultStyle()->getFont()->setSize(12);
+        $hoja = $excel->getActiveSheet();
+        $hoja->setTitle("Pagos Inversiones");
+
+		$hoja->getColumnDimension("A")->setWidth(20);
+		$hoja->getStyle("A")->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_NUMBER);
+        $hoja->setCellValue("A1", "Documento");
+		$hoja->getColumnDimension("B")->setWidth(30);
+        $hoja->setCellValue("B1", "Usuario");
+		$hoja->getColumnDimension("C")->setWidth(30);
+        $hoja->setCellValue("C1", "Nombre");
+		$hoja->getColumnDimension("D")->setWidth(30);
+        $hoja->setCellValue("D1", "Correo");
+		$hoja->getColumnDimension("E")->setWidth(30);
+        $hoja->setCellValue("E1", "Pais");
+		$hoja->getColumnDimension("F")->setWidth(20);
+        $hoja->setCellValue("F1", "Télefono");
+		$hoja->getColumnDimension("G")->setWidth(30);
+        $hoja->setCellValue("G1", "Código Afiliado");
+        $hoja->getColumnDimension("H")->setWidth(30);
+        $hoja->setCellValue("H1", "Campaña");
+
+        $fila = 2;
+
+        foreach($pagos as $key => $value){
+
+            $us=ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $value["id_usuario"]);
+
+            if(!isset($_GET["c"])){
+                $comprobante=ControladorComprobantes::ctrMostrarComprobantes("id", $value["id_comprobante"]);
+                $campana=ControladorCampanas::ctrMostrarCampanas("id", $comprobante[0]["campana"]);
+            }
+
+            $hoja->setCellValue('A'.$fila, $us["doc_usuario"]);
+            $hoja->setCellValue('B'.$fila, $us["usuario"]);
+            $hoja->setCellValue('C'.$fila, $us["nombre"]);
+			$hoja->setCellValue('D'.$fila, $us["email"]);
+			$hoja->setCellValue('E'.$fila, $us["pais"]);
+			$hoja->setCellValue('F'.$fila, $us["telefono_movil"]);
+			$hoja->setCellValue('G'.$fila, $us["enlace_afiliado"]);
+            $hoja->setCellValue('H'.$fila, $campana["nombre"]);
+
+            $fila++;
+
+        }
+
+		ob_end_clean();
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        if(isset($_GET["c"])){
+            header('Content-Disposition: attachment;filename="pagos-inversiones-'.$campana["nombre"].'.xlsx"');
+        }else{
+            header('Content-Disposition: attachment;filename="pagos-inversiones.xlsx"');
+        }
+        header('Cache-Control: max-age=0');
+        
+        $writer = IOFactory::createWriter($excel, 'Xlsx');
+        $writer->save('php://output');
+        exit;
+    }
+
+
+    }
+
+
+
+public function ctrDescargarReportePagosExtras(){
+
+    if(isset($_GET["excel"]) && $_GET["excel"]==1){
+
+        $pagos=ControladorPagos::ctrMostrarPagosExtrasAll("estado","0");
+           
+
+        $excel = new Spreadsheet();
+		$excel->getDefaultStyle()->getFont()->setName('Arial');
+		$excel->getDefaultStyle()->getFont()->setSize(12);
+        $hoja = $excel->getActiveSheet();
+        $hoja->setTitle("Pagos Extras");
+
+		$hoja->getColumnDimension("A")->setWidth(20);
+		$hoja->getStyle("A")->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_NUMBER);
+        $hoja->setCellValue("A1", "Documento");
+		$hoja->getColumnDimension("B")->setWidth(30);
+        $hoja->setCellValue("B1", "Usuario");
+		$hoja->getColumnDimension("C")->setWidth(30);
+        $hoja->setCellValue("C1", "Nombre");
+		$hoja->getColumnDimension("D")->setWidth(30);
+        $hoja->setCellValue("D1", "Correo");
+		$hoja->getColumnDimension("E")->setWidth(30);
+        $hoja->setCellValue("E1", "Pais");
+		$hoja->getColumnDimension("F")->setWidth(20);
+        $hoja->setCellValue("F1", "Télefono");
+		$hoja->getColumnDimension("G")->setWidth(30);
+        $hoja->setCellValue("G1", "Código Afiliado");
+
+        $fila = 2;
+
+        foreach($pagos as $key => $value){
+
+            $us=ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $value["id_usuario"]);
+            
+            $hoja->setCellValue('A'.$fila, $us["doc_usuario"]);
+            $hoja->setCellValue('B'.$fila, $us["usuario"]);
+            $hoja->setCellValue('C'.$fila, $us["nombre"]);
+			$hoja->setCellValue('D'.$fila, $us["email"]);
+			$hoja->setCellValue('E'.$fila, $us["pais"]);
+			$hoja->setCellValue('F'.$fila, $us["telefono_movil"]);
+			$hoja->setCellValue('G'.$fila, $us["enlace_afiliado"]);
+
+            $fila++;
+
+        }
+
+		ob_end_clean();
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+
+        header('Content-Disposition: attachment;filename="pagos-extras.xlsx"');
+        
+        header('Cache-Control: max-age=0');
+        
+        $writer = IOFactory::createWriter($excel, 'Xlsx');
+        $writer->save('php://output');
+        exit;
+    }
+
+
+}
+
+
+
+public function ctrDescargarReportePagosBienvenida(){
+
+    if(isset($_GET["excel"]) && $_GET["excel"]==1){
+    
+        $pagos=ControladorPagos::ctrMostrarPagosBienvenidaAll("estado","0");
+               
+            $excel = new Spreadsheet();
+            $excel->getDefaultStyle()->getFont()->setName('Arial');
+            $excel->getDefaultStyle()->getFont()->setSize(12);
+            $hoja = $excel->getActiveSheet();
+            $hoja->setTitle("Pagos Bienvenida");
+    
+            $hoja->getColumnDimension("A")->setWidth(20);
+            $hoja->getStyle("A")->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_NUMBER);
+            $hoja->setCellValue("A1", "Documento");
+            $hoja->getColumnDimension("B")->setWidth(30);
+            $hoja->setCellValue("B1", "Usuario");
+            $hoja->getColumnDimension("C")->setWidth(30);
+            $hoja->setCellValue("C1", "Nombre");
+            $hoja->getColumnDimension("D")->setWidth(30);
+            $hoja->setCellValue("D1", "Correo");
+            $hoja->getColumnDimension("E")->setWidth(30);
+            $hoja->setCellValue("E1", "Pais");
+            $hoja->getColumnDimension("F")->setWidth(20);
+            $hoja->setCellValue("F1", "Télefono");
+            $hoja->getColumnDimension("G")->setWidth(30);
+            $hoja->setCellValue("G1", "Código Afiliado");
+    
+            $fila = 2;
+    
+            foreach($pagos as $key => $value){
+    
+                $us=ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $value["id_usuario"]);
+                
+                $hoja->setCellValue('A'.$fila, $us["doc_usuario"]);
+                $hoja->setCellValue('B'.$fila, $us["usuario"]);
+                $hoja->setCellValue('C'.$fila, $us["nombre"]);
+                $hoja->setCellValue('D'.$fila, $us["email"]);
+                $hoja->setCellValue('E'.$fila, $us["pais"]);
+                $hoja->setCellValue('F'.$fila, $us["telefono_movil"]);
+                $hoja->setCellValue('G'.$fila, $us["enlace_afiliado"]);
+    
+                $fila++;
+    
+            }
+    
+            ob_end_clean();
+    
+            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    
+            header('Content-Disposition: attachment;filename="pagos-bienvenida.xlsx"');
+            
+            header('Cache-Control: max-age=0');
+            
+            $writer = IOFactory::createWriter($excel, 'Xlsx');
+            $writer->save('php://output');
+            exit;
+        }
+    
+    
+    }
+
+
+    public function ctrDescargarReportePagosComisiones(){
+
+        if(isset($_GET["excel"]) && $_GET["excel"]==1){
+        
+            $pagos=ControladorPagos::ctrMostrarPagosComisionesAll("estado","0");
+                   
+                $excel = new Spreadsheet();
+                $excel->getDefaultStyle()->getFont()->setName('Arial');
+                $excel->getDefaultStyle()->getFont()->setSize(12);
+                $hoja = $excel->getActiveSheet();
+                $hoja->setTitle("Pagos Comisiones");
+        
+                $hoja->getColumnDimension("A")->setWidth(20);
+                $hoja->getStyle("A")->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_NUMBER);
+                $hoja->setCellValue("A1", "Documento");
+                $hoja->getColumnDimension("B")->setWidth(30);
+                $hoja->setCellValue("B1", "Usuario");
+                $hoja->getColumnDimension("C")->setWidth(30);
+                $hoja->setCellValue("C1", "Nombre");
+                $hoja->getColumnDimension("D")->setWidth(30);
+                $hoja->setCellValue("D1", "Correo");
+                $hoja->getColumnDimension("E")->setWidth(30);
+                $hoja->setCellValue("E1", "Pais");
+                $hoja->getColumnDimension("F")->setWidth(20);
+                $hoja->setCellValue("F1", "Télefono");
+                $hoja->getColumnDimension("G")->setWidth(30);
+                $hoja->setCellValue("G1", "Código Afiliado");
+        
+                $fila = 2;
+        
+                foreach($pagos as $key => $value){
+        
+                    $us=ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $value["id_usuario"]);
+                    
+                    $hoja->setCellValue('A'.$fila, $us["doc_usuario"]);
+                    $hoja->setCellValue('B'.$fila, $us["usuario"]);
+                    $hoja->setCellValue('C'.$fila, $us["nombre"]);
+                    $hoja->setCellValue('D'.$fila, $us["email"]);
+                    $hoja->setCellValue('E'.$fila, $us["pais"]);
+                    $hoja->setCellValue('F'.$fila, $us["telefono_movil"]);
+                    $hoja->setCellValue('G'.$fila, $us["enlace_afiliado"]);
+        
+                    $fila++;
+        
+                }
+        
+                ob_end_clean();
+        
+                header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        
+                header('Content-Disposition: attachment;filename="pagos-comisiones.xlsx"');
+                
+                header('Cache-Control: max-age=0');
+                
+                $writer = IOFactory::createWriter($excel, 'Xlsx');
+                $writer->save('php://output');
+                exit;
+            }
+        
+        
+    }
+
+
+
+public function ctrDescargarReportesPagosPlantilla($tipo_pago){
+
+    if(isset($_GET["excel"]) && $_GET["excel"]==1){
+    
+        $pagos=ControladorPagos::ctrMostrarPagosExtrasAll("estado","0");
+               
+            $excel = new Spreadsheet();
+            $excel->getDefaultStyle()->getFont()->setName('Arial');
+            $excel->getDefaultStyle()->getFont()->setSize(12);
+            $hoja = $excel->getActiveSheet();
+            $hoja->setTitle("Pagos Extras");
+    
+            $hoja->getColumnDimension("A")->setWidth(20);
+            $hoja->getStyle("A")->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_NUMBER);
+            $hoja->setCellValue("A1", "Documento");
+            $hoja->getColumnDimension("B")->setWidth(30);
+            $hoja->setCellValue("B1", "Usuario");
+            $hoja->getColumnDimension("C")->setWidth(30);
+            $hoja->setCellValue("C1", "Nombre");
+            $hoja->getColumnDimension("D")->setWidth(30);
+            $hoja->setCellValue("D1", "Correo");
+            $hoja->getColumnDimension("E")->setWidth(30);
+            $hoja->setCellValue("E1", "Pais");
+            $hoja->getColumnDimension("F")->setWidth(20);
+            $hoja->setCellValue("F1", "Télefono");
+            $hoja->getColumnDimension("G")->setWidth(30);
+            $hoja->setCellValue("G1", "Código Afiliado");
+    
+            $fila = 2;
+    
+            foreach($pagos as $key => $value){
+    
+                $us=ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $value["id_usuario"]);
+                
+                $hoja->setCellValue('A'.$fila, $us["doc_usuario"]);
+                $hoja->setCellValue('B'.$fila, $us["usuario"]);
+                $hoja->setCellValue('C'.$fila, $us["nombre"]);
+                $hoja->setCellValue('D'.$fila, $us["email"]);
+                $hoja->setCellValue('E'.$fila, $us["pais"]);
+                $hoja->setCellValue('F'.$fila, $us["telefono_movil"]);
+                $hoja->setCellValue('G'.$fila, $us["enlace_afiliado"]);
+    
+                $fila++;
+    
+            }
+    
+            ob_end_clean();
+    
+            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    
+            header('Content-Disposition: attachment;filename="pagos-extras.xlsx"');
+            
+            header('Cache-Control: max-age=0');
+            
+            $writer = IOFactory::createWriter($excel, 'Xlsx');
+            $writer->save('php://output');
+            exit;
+        }
+    
+    
+    }
+
  
     /*=============================================
     Registro de Pagos
@@ -1490,7 +1832,7 @@ class ControladorPagos
 
         $tabla = "pagos_bienvenida";
 
-        $respuesta = ModeloPagos::mdlMostrarPagosExtrasAll($tabla, $item, $valor);
+        $respuesta = ModeloPagos::mdlMostrarPagosBienvenidaAll($tabla, $item, $valor);
 
         return $respuesta;
 
@@ -1593,7 +1935,40 @@ class ControladorPagos
 
     }
 
-       /*=============================================
+
+    /*=============================================
+    Mostrar Pagos Inversiones x Campaña
+    =============================================*/
+
+    public static function ctrMostrarPagosInversionesxCampana($id_campana, $estado)
+    {
+
+        $tabla = "pagos_inversiones";
+
+        $respuesta = ModeloPagos::mdlMostrarPagosInversionesxCampana($tabla, $id_campana, $estado);
+
+        return $respuesta;
+
+    }
+
+
+    /*=============================================
+    Mostrar Pagos Extras x Campaña
+    =============================================*/
+
+    public static function ctrMostrarPagosExtrasxCampana($id_campana, $estado)
+    {
+
+        $tabla = "pagos_extras";
+
+        $respuesta = ModeloPagos::mdlMostrarPagosExtrasxCampana($tabla, $id_campana, $estado);
+
+        return $respuesta;
+
+    }
+
+
+    /*=============================================
     Mostrar Comprobantes x Estado
     =============================================*/
 
@@ -1704,6 +2079,22 @@ class ControladorPagos
 
 
     /*=============================================
+    Actualizar Pago Recurrencia Afiliados
+    =============================================*/
+
+    public static function ctrActualizarPagoRecurrenciaAfiliados($datos)
+    {
+
+        $tabla = "pagos_afiliados";
+
+        $respuesta = ModeloPagos::mdlActualizarPagoRecurrenciaAfiliados($tabla, $datos);
+
+        echo $respuesta;
+
+    }
+
+
+    /*=============================================
     Actualizar Pago Recurrencia Parametros
     =============================================*/
 
@@ -1713,6 +2104,22 @@ class ControladorPagos
         $tabla = "pagos_recurrencia";
 
         $respuesta = ModeloPagos::mdlActualizarPagoRecurrencia2($tabla, $item, $valor, $id);
+
+        echo $respuesta;
+
+    }
+
+
+    /*=============================================
+    Actualizar Estado Pago Bienvenida
+    =============================================*/
+
+    public static function ctrActualizarPagoBienvenida($datos)
+    {
+
+        $tabla = "pagos_bienvenida";
+
+        $respuesta = ModeloPagos::mdlActualizarPagoBienvenida($tabla, $datos);
 
         echo $respuesta;
 

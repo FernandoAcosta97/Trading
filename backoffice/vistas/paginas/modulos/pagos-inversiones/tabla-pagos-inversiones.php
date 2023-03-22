@@ -19,6 +19,34 @@
 							 PAGAR SELECCIONADOS
 		    </button>
 
+			<div>
+
+			<button type='button' class='btn btn-success btn-xs btnExcelPagosInversiones'><i class='fa fa-file-excel'> Descargar Excel</i></button>
+
+			</div>
+
+			<label for="selectFiltro" class="control-label" style="margin:1em">FILTRO CAMPAÑAS</label>
+
+			<div style="width:50%">
+            <select class="form-control form-select" id="selectFiltro">
+
+			<option value="todas" selected>TODAS</option>
+
+            <?php  
+			    $campanas=ControladorCampanas::ctrMostrarCampanasxTipoxEstadoAll("tipo",1,"estado",1);
+
+				foreach($campanas as $key => $value){
+
+                echo '<option value="'.$value["id"].'">'.$value["nombre"].'</option>';
+
+				}
+			  ?>
+             
+
+            </select>
+
+          </div>
+
 	</div>
 
 	<div class="card-body p-3 seleccionarPagos">

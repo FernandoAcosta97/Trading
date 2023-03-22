@@ -826,6 +826,38 @@ $(".tablaCampanasBonosExtras").on("click","button.btnEditarCampana",function(){
   })
 
 
+//EDITAR CAMPAÑA BONO EXTRA
+$(".tablaCampanasBonosBienvenida").on("click","button.btnEditarCampana",function(){
+
+	var idCampana = $(this).attr("idCampana");
+  
+	var datos = new FormData();
+	datos.append("idCampanaEditar",idCampana);
+  
+	$.ajax({
+  
+	 url:"ajax/campanas.ajax.php",
+	 method:"POST",
+	 data:datos,
+	 cache:false,
+	 contentType:false,
+	 processData:false,
+	 dataType:"json",
+	 success:function(respuesta){
+
+	  $("#idCampana").val(idCampana);
+	  $("#editarRetorno").val(respuesta["retorno"]);
+	  $("#editarFechaInicio").val(respuesta["fecha_inicio"]);
+	  $("#editarFechaFinal").val(respuesta["fecha_fin"]);
+	  $("#editarFechaRetorno").val(respuesta["fecha_retorno"]);
+	  
+	}
+  
+  });
+  
+  })
+
+
 //ELIMINAR CAMPAÑA INVERSION
  $("#tablaCampanas tbody").on("click", "button.btnEliminarCampana", function () {
 	var idCampana = $(this).attr("idCampana");
@@ -1478,10 +1510,10 @@ $(".formularioCrearRecurrenciaAfiliadosEditar").on("click", "button.quitarRecurr
 
 
 /*=============================================
-MODIFICAR LA CANTIDAD DE INVERSIONES
+MODIFICAR LA CANTIDAD DE AFILIADOS
 =============================================*/
 
-$(".formularioCrearRecurrenciaAfiliadosEditar").on("change", "input.nuevaCantidadInversionesEditar", function(){
+$(".formularioCrearRecurrenciaAfiliadosEditar").on("change", "input.nuevaCantidadAfiliadosEditar", function(){
 
 	listarRecurrenciasAfiliadosEditar();
 
@@ -1520,7 +1552,7 @@ function crearCamposRecurrenciaAfiliadosEditar(value){
 	
 		'<div class="col-xs-3">'+
 		  
-		   '<input type="number" class="form-control nuevaCantidadInversionesEditar" min="1" value="'+value["afiliados"]+'" required>'+
+		   '<input type="number" class="form-control nuevaCantidadAfiliadosEditar" min="1" value="'+value["afiliados"]+'" required>'+
 	
 		'</div>' +
 	

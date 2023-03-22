@@ -83,7 +83,7 @@ class TablaPagos{
 				$entidad_cuenta = $cuentaBancaria["entidad"];
 				$tipo_cuenta = $cuentaBancaria["tipo"];
 
-				$acciones = "<button class='btn btn-info btnPagarRecurrencia' idPagoRecurrencia='".$value["id"]."'>PAGAR</button>";
+				$acciones = "<button class='btn btn-info btnPagarAfiliados' idPagoAfiliados='".$value["id"]."'>PAGAR</button>";
 
 				$seleccionar = "<center><input type='checkbox' class='seleccionarPago' idPago='".$value["id"]."'></input></center>";
 			}

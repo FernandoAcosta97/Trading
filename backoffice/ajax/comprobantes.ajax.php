@@ -83,7 +83,7 @@ class AjaxComprobantes{
 
 		$bono_pagado = ControladorPagos::ctrMostrarPagosExtrasxComprobante("id_comprobante",$id,"estado",1);
 
-		if($inversion_pagada=="" && $bono_pagado=="" && $comision_pagada=="" && $comprobante[0]["estado"]!=$valor){
+		if($inversion_pagada=="" && $bono_pagado=="" && $comision_pagada==""){
 
         //Actualizar estado del comprobante
 		$respuesta = ModeloComprobantes::mdlActualizarComprobante($tabla, $id, $item, $valor);
@@ -347,6 +347,8 @@ class AjaxComprobantes{
 	}
 
    }else{
+	// $inversion_pagada=="" && $bono_pagado=="" && $comision_pagada=="" && $comprobante[0]["estado"]!=$valor
+	// echo $comprobante[0]["estado"];
 	echo '<script>
 
 	swal({
@@ -476,8 +478,6 @@ class AjaxComprobantes{
 		if($comprobante[0]["estado"]==0 || $comprobante[0]["estado"]==2){
 			$respuesta = ControladorComprobantes::ctrEliminarComprobante($valor);
 		}
-
-
 
 		echo $respuesta;
 

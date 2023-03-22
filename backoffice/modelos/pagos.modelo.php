@@ -297,6 +297,52 @@ class ModeloPagos
     }
 
 
+
+    /*=============================================
+    Mostrar Pagos Inversiones x Campaña
+    =============================================*/
+
+    public static function mdlMostrarPagosInversionesxCampana($tabla, $id_campana, $estado)
+    {
+
+        $stmt = Conexion::conectar()->prepare("SELECT pi.id, ca.id as id_campana, co.id as id_comprobante, us.id_usuario FROM $tabla as pi INNER JOIN comprobantes as co ON pi.id_comprobante=co.id INNER JOIN usuarios as us ON co.doc_usuario=us.doc_usuario INNER JOIN campanas as ca ON co.campana=ca.id WHERE ca.id = :id_campana AND pi.estado = :estado AND us.eliminado=0");
+
+        $stmt->bindParam(":id_campana", $id_campana, PDO::PARAM_STR);
+        $stmt->bindParam(":estado", $estado, PDO::PARAM_STR);
+
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+
+        $stmt->close();
+
+        $stmt = null;
+    }
+
+
+
+    /*=============================================
+    Mostrar Pagos Extras x Campaña
+    =============================================*/
+
+    public static function mdlMostrarPagosExtrasxCampana($tabla, $id_campana, $estado)
+    {
+
+        $stmt = Conexion::conectar()->prepare("SELECT * FROM pagos_extras as pe INNER JOIN bonos_extras as be ON pe.id=be.id_pago_extra INNER JOIN usuarios as us ON pe.id_usuario=us.id_usuario WHERE be.id_campana = :id_campana AND pe.estado = :estado AND us.eliminado=0");
+
+        $stmt->bindParam(":id_campana", $id_campana, PDO::PARAM_STR);
+        $stmt->bindParam(":estado", $estado, PDO::PARAM_STR);
+
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+
+        $stmt->close();
+
+        $stmt = null;
+    }
+
+
      /*=============================================
     Mostrar Pagos Publicidad
     =============================================*/
@@ -306,7 +352,7 @@ class ModeloPagos
 
         if ($item != null && $valor !=null) {
 
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item");
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM pagos_publicidad as pp INNER JOIN usuarios as us ON pp.id_usuario=us.id_usuario WHERE pp.$item = :$item AND us.eliminado=0");
 
             $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
 
@@ -316,7 +362,7 @@ class ModeloPagos
 
         } else {
 
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM pagos_publicidad as pp INNER JOIN usuarios as us ON pp.id_usuario=us.id_usuario WHERE us.eliminado=0");
 
             $stmt->execute();
 
@@ -625,7 +671,7 @@ class ModeloPagos
 
         if ($item != null && $valor !=null) {
 
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item AND id_usuario != 1 ");
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM pagos_bienvenida as pb INNER JOIN usuarios as us ON pb.id_usuario=us.id_usuario WHERE pb.$item = :$item AND us.eliminado=0");
 
             $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
 
@@ -635,7 +681,7 @@ class ModeloPagos
 
         } else {
 
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE id_usuario != 1");
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM pagos_bienvenida as pb INNER JOIN usuarios as us ON pb.id_usuario=us.id_usuario WHERE us.eliminado=0");
 
             $stmt->execute();
 
@@ -865,7 +911,7 @@ class ModeloPagos
 
         if ($item != null && $valor !=null) {
 
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item");
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM pagos_publicidad as pp INNER JOIN usuarios as us ON pp.id_usuario=us.id_usuario WHERE pp.$item = :$item AND us.eliminado=0");
 
             $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
 
@@ -875,7 +921,7 @@ class ModeloPagos
 
         } else {
 
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM pagos_publicidad as pp INNER JOIN usuarios as us ON pp.id_usuario=us.id_usuario WHERE us.eliminado=0");
 
             $stmt->execute();
 
@@ -898,7 +944,7 @@ class ModeloPagos
 
         if ($item != null && $valor !=null) {
 
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item");
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM pagos_comisiones INNER join usuarios on pagos_comisiones.id_usuario=usuarios.id_usuario WHERE usuarios.eliminado=0 AND pagos_comisiones.$item = :$item");
 
             $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
 
@@ -908,7 +954,7 @@ class ModeloPagos
 
         } else {
 
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM pagos_comisiones INNER join usuarios on pagos_comisiones.id_usuario=usuarios.id_usuario WHERE usuarios.eliminado=0");
 
             $stmt->execute();
 
@@ -930,7 +976,7 @@ class ModeloPagos
 
         if ($item != null && $valor !=null) {
 
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item");
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM comisiones as co INNER JOIN comprobantes as cm ON co.id_comprobante=cm.id INNER JOIN usuarios as us ON cm.doc_usuario=us.doc_usuario WHERE co.$item = :$item AND us.eliminado=0");
 
             $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
 
@@ -940,7 +986,7 @@ class ModeloPagos
 
         } else {
 
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM comisiones as co INNER JOIN comprobantes as cm ON co.id_comprobante=cm.id INNER JOIN usuarios as us ON cm.doc_usuario=us.doc_usuario WHERE us.eliminado=0");
 
             $stmt->execute();
 
@@ -1027,7 +1073,7 @@ class ModeloPagos
 
         if ($item != null && $valor !=null) {
 
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item");
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM pagos_bienvenida as pb INNER JOIN usuarios as us ON pb.id_usuario=us.id_usuario WHERE pb.$item = :$item AND us.eliminado=0");
 
             $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
 
@@ -1037,7 +1083,7 @@ class ModeloPagos
 
         } else {
 
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM pagos_bienvenida as pb INNER JOIN usuarios as us ON pb.id_usuario=us.id_usuario WHERE us.eliminado=0");
 
             $stmt->execute();
 
@@ -1523,6 +1569,35 @@ class ModeloPagos
 
 
     /*=============================================
+    Actualizar Pago Recurrencia Afiliados
+    =============================================*/
+
+    public static function mdlActualizarPagoRecurrenciaAfiliados($tabla, $datos)
+    {
+
+        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET estado = :estado, valor = :valor, id_cuenta = :id_cuenta WHERE id = :id");
+
+        $stmt->bindParam(":estado", $datos["estado"], PDO::PARAM_INT);
+        $stmt->bindParam(":valor", $datos["total"], PDO::PARAM_INT);
+        $stmt->bindParam(":id_cuenta", $datos["id_cuenta"], PDO::PARAM_INT);
+        $stmt->bindParam(":id", $datos["id"], PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+
+            return "ok";
+        } else {
+
+            return print_r(Conexion::conectar()->errorInfo());
+        }
+
+        $stmt->close();
+
+        $stmt = null;
+    }
+
+
+
+    /*=============================================
     Actualizar Pago Recurrencia Parametros
     =============================================*/
 
@@ -1656,6 +1731,35 @@ class ModeloPagos
 
         $stmt = null;
     }
+
+
+    /*=============================================
+    Actualizar Estado Pago Bienvenida
+    =============================================*/
+
+    public static function mdlActualizarPagoBienvenida($tabla, $datos)
+    {
+
+        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET estado = :estado, valor = :valor, id_cuenta = :id_cuenta WHERE id = :id");
+
+        $stmt->bindParam(":estado", $datos["estado"], PDO::PARAM_INT);
+        $stmt->bindParam(":valor", $datos["valor"], PDO::PARAM_INT);
+        $stmt->bindParam(":id_cuenta", $datos["id_cuenta"], PDO::PARAM_INT);
+        $stmt->bindParam(":id", $datos["id"], PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+
+            return "ok";
+        } else {
+
+            return print_r(Conexion::conectar()->errorInfo());
+        }
+
+        $stmt->close();
+
+        $stmt = null;
+    }
+
 
 
     /*=============================================

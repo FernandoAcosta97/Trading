@@ -65,7 +65,6 @@ class TablaUsuarios{
 			}
 
 
-
         }else{
 			$usuarios = ControladorUsuarios::ctrMostrarUsuarios($item, $valor);
         }

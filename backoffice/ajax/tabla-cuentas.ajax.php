@@ -45,6 +45,9 @@ class TablaCuentas
 
         if($usuario!=null){
 
+            $documento=$usuario["doc_usuario"];
+            $nombre=$usuario["nombre"];
+
                   //ESTADO CUENTAS
 
         foreach ($cuentas as $key => $value) {

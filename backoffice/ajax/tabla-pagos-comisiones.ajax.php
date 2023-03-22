@@ -78,6 +78,8 @@ class TablaPagos{
 
 			$comisiones = ControladorPagos::ctrMostrarComisionesAll("id_pago_comision",$value["id"]);
 
+			if(count($comisiones)>0){
+
 			$total = 0;
 			foreach($comisiones as $key2 => $value2){
            
@@ -143,6 +145,7 @@ class TablaPagos{
 
 			// $totalAfiliadosActivos=0;
 			$totalReferidosComisiones = 0;
+		}
 
 		}
 

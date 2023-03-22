@@ -115,20 +115,7 @@ INPUT MASK
 
 $("[data-mask]").inputmask();
 
-/*=============================================
-FIRMA VIRTUAL
-=============================================*/
-$("#signatureparent").jSignature({
-  color: "#333", // line color
-  lineWidth: 1, // Grosor de línea
-  // Ancho y alto área de la firma
-  idth: 320,
-  height: 100,
-});
 
-$(".repetirFirma").click(function () {
-  $("#signatureparent").jSignature("reset");
-});
 
 /*=============================================
 FUNCIÓN PARA GENERAR COOKIES

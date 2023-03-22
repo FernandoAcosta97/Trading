@@ -650,6 +650,8 @@ Class ControladorUsuarios{
 
 	public function ctrIngresoUsuario(){
 
+		$ruta = ControladorRuta::ctrRuta();
+
 		if(isset($_POST["ingresoEmail"])){
 
 			 if(preg_match('/^[^0-9][a-zA-Z0-9_-]+([.][a-zA-Z0-9_]+)*[@][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,4}$/', $_POST["ingresoEmail"]) && preg_match('/^[a-zA-Z0-9-.]+$/', $_POST["ingresoPassword"])){
@@ -662,6 +664,7 @@ Class ControladorUsuarios{
 
 			 	$respuesta = ModeloUsuarios::mdlMostrarUsuarios($tabla, $item, $valor);
 
+				if(is_array($respuesta)){
 			 	if($respuesta["email"] == $_POST["ingresoEmail"] && $respuesta["password"] == $encriptar){
 
 			 		if($respuesta["verificacion"] == 0){
@@ -713,7 +716,6 @@ Class ControladorUsuarios{
 			 			$_SESSION["validarSesion"] = "ok";
 			 			$_SESSION["id"] = $respuesta["id_usuario"];
 						
-			 			$ruta = ControladorRuta::ctrRuta();
 
 			 			echo '<script>
 					
@@ -744,6 +746,27 @@ Class ControladorUsuarios{
 					</script>';
 
 			 	}
+			}else{
+
+				echo'<script>
+
+						swal({
+								type:"error",
+							  	title: "¡ERROR!",
+							  	text: "¡El usuario no se encuentra registrado!",
+							  	showConfirmButton: true,
+								confirmButtonText: "Cerrar"
+							  
+						}).then(function(result){
+
+								if(result.value){   
+								    window.location="'.$ruta.'registro";
+								  } 
+						});
+
+					</script>';
+
+			}
 
 
 			 }else{
