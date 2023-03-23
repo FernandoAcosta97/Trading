@@ -779,7 +779,7 @@ class ModeloPagos
 
         if ($item != null && $valor !=null) {
 
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item");
+            $stmt = Conexion::conectar()->prepare("SELECT pr.estado, pr.id_campana, pr.inversiones, us.estado as us_estado FROM pagos_recurrencia as pr INNER JOIN usuarios as us ON pr.id_usuario=us.id_usuario WHERE $item = :$item AND us.eliminado=0");
 
             $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
 
@@ -789,7 +789,7 @@ class ModeloPagos
 
         } else {
 
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
+            $stmt = Conexion::conectar()->prepare("SELECT pr.estado, pr.id_campana, pr.inversiones, us.estado as us_estado FROM pagos_recurrencia as pr INNER JOIN usuarios as us ON pr.id_usuario=us.id_usuario WHERE us.eliminado=0");
 
             $stmt->execute();
 
@@ -812,7 +812,7 @@ class ModeloPagos
 
         if ($item != null && $valor !=null) {
 
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item");
+            $stmt = Conexion::conectar()->prepare("SELECT pa.estado, pa.id_campana, pa.afiliados, us.estado as us_estado FROM pagos_afiliados as pa INNER JOIN usuarios as us ON pa.id_usuario=us.id_usuario WHERE $item = :$item AND us.eliminado=0");
 
             $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
 
@@ -822,7 +822,7 @@ class ModeloPagos
 
         } else {
 
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
+            $stmt = Conexion::conectar()->prepare("SELECT pa.estado, pa.id_campana, pa.afiliados, us.estado as us_estado FROM pagos_afiliados as pa INNER JOIN usuarios as us ON pa.id_usuario=us.id_usuario WHERE us.eliminado=0");
 
             $stmt->execute();
 
@@ -844,7 +844,7 @@ class ModeloPagos
 
         if ($item != null && $valor !=null) {
 
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item");
+            $stmt = Conexion::conectar()->prepare("SELECT pr.estado, pr.id_campana, pr.inversiones, us.estado as us_estado FROM pagos_recurrencia as pr INNER JOIN usuarios as us ON pr.id_usuario=us.id_usuario WHERE pr.$item = :$item AND us.eliminado=0");
 
             $stmt->bindParam(":" . $item, $valor, PDO::PARAM_INT);
 
@@ -854,7 +854,7 @@ class ModeloPagos
 
         } else {
 
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla");
+            $stmt = Conexion::conectar()->prepare("SELECT pr.estado, pr.id_campana, pr.inversiones, us.estado as us_estado FROM pagos_recurrencia as pr INNER JOIN usuarios as us ON pr.id_usuario=us.id_usuario WHERE pr.$item = :$item AND us.eliminado=0");
 
             $stmt->execute();
 

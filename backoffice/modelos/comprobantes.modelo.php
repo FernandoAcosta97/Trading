@@ -51,7 +51,7 @@ class ModeloComprobantes
 
         } else {
 
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM comprobantes as co INNER JOIN usuarios as us ON co.doc_usuario=us.doc_usuario WHERE us.eliminado=0 ORDER BY 'fecha'");
+            $stmt = Conexion::conectar()->prepare("SELECT co.id, co.estado, co.valor, co.fecha, co.foto, co.campana, us.id_usuario, us.doc_usuario, us.estado as usu_estado FROM comprobantes as co INNER JOIN usuarios as us ON co.doc_usuario=us.doc_usuario WHERE us.eliminado=0 ORDER BY 'fecha'");
 
             $stmt->execute();
 

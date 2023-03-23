@@ -417,7 +417,7 @@ if ($usuario["operando"] == 1):?>
 			<div class="icon">
 				<i class="fas fa-comments"></i>
 			</div>
-			<a href="soporte" class="small-box-footer">Más información <i class="fas fa-arrow-circle-right"></i></a>
+			<a href="index.php?pagina=soporte&soporte=recibidos" class="small-box-footer">Más información <i class="fas fa-arrow-circle-right"></i></a>
 		</div>
 	</div>
 	<!-- ./col -->
