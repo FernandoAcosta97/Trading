@@ -114,6 +114,24 @@ class ModeloCampanas
     }
 
 
+    /*=============================================
+    Mostrar Campanas Inversion Con Pagos Pendientes
+    =============================================*/
+
+    public static function mdlMostrarCampanasInversionPagos()
+    {
+        $stmt = Conexion::conectar()->prepare("SELECT DISTINCT ca.id, ca.nombre FROM campanas as ca INNER JOIN comprobantes as co ON ca.id=co.campana INNER JOIN pagos_inversiones as pi ON co.id=pi.id_comprobante WHERE ca.estado=2 AND pi.estado=0");
+
+        $stmt->execute();
+
+        return $stmt->fetchAll();
+
+        $stmt->close();
+
+        $stmt = null;
+    }
+
+
 
     /*=============================================
     Mostrar Campanas x Tipo xEstado All

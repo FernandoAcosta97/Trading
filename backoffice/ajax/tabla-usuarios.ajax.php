@@ -3,6 +3,8 @@
 require_once "../controladores/general.controlador.php";
 require_once "../controladores/usuarios.controlador.php";
 require_once "../modelos/usuarios.modelo.php";
+require_once "../controladores/comprobantes.controlador.php";
+require_once "../modelos/comprobantes.modelo.php";
 require_once "../controladores/multinivel.controlador.php";
 require_once "../modelos/multinivel.modelo.php";
 
@@ -16,8 +18,13 @@ class TablaUsuarios{
 		$valor = null;
 		$totalAfiliadosActivos=0;
 		$valido = true;
+		//REQ01 - SE INICIALIZA VARIABLE EN 0 PARA ALMACENAR LOS REFERIDOS INACTIVOS
+		$totalAfiliadosInactivos=0;
+		//REQ01 - FIN
+		$totalC=0;
+		$afiliadosNecesarios = 0;
+		$contador=0;
 		
-
 		if(isset($_GET["filtro"])){
 
             if($_GET["filtro"]=="todos"){
@@ -84,6 +91,9 @@ class TablaUsuarios{
 		foreach ($usuarios as $key => $value) {
 			$valido = true;
 
+			$totalComprobantesUsuario = ControladorComprobantes::ctrMostrarComprobantesxEstado("doc_usuario",$value["doc_usuario"],"estado",1);
+			$totalC= count($totalComprobantesUsuario);
+
 			if($value["perfil"] != "admin"){
 
 				$red = ControladorMultinivel::ctrMostrarRedUninivel("red_uninivel", "patrocinador_red", $value["enlace_afiliado"]);
@@ -95,19 +105,81 @@ class TablaUsuarios{
 					if($usuarioRedOperando["operando"]==1){
 						++$totalAfiliadosActivos;
 					}
+					//REQ01 - INICIO - SE AGREGA ELSE PARA LLEVAR CONTADOR DE DE LOS AFILIADOS INACTIVOS - FERNANDO ACOSTA - 2023
+					else{
+						++$totalAfiliadosInactivos;
+					}
+					//REQ01 - FIN
 	
 				}
 			}
 
-			if($_GET["filtro"]=="referidos" && $totalAfiliadosActivos==0){
+			$totalRed = $totalAfiliadosActivos + $totalAfiliadosInactivos;
 
-                    $valido = false;
-			
-			}else if($_GET["filtro"]=="sin-referidos" && $totalAfiliadosActivos>0){
-				$valido = false;
+			if ($totalC > 1) {
+		
+			  $afiliadosNecesarios = $totalC - 1;
+		
 			}
 
-			if($valido){
+			// if($afiliadosNecesarios>0){
+
+			// 	if($_GET["filtro"]=="sin-referidos"){
+
+			// 		if(($totalC >= 6 && $totalAfiliadosActivos < 6) ||  $totalAfiliadosActivos < $afiliadosNecesarios){
+			// 			$valido = true;
+			// 		}
+						
+			// 	}else{						
+
+			// 		if($_GET["filtro"]=="referidos"){
+
+			// 			$valido = true;
+					
+			// 		}
+
+			// 	}
+
+				
+			// }else{
+
+			// if($_GET["filtro"]=="referidos" && $totalAfiliadosActivos==0){
+
+            //     $valido = false;
+			
+			// }else if($_GET["filtro"]=="sin-referidos" && $totalAfiliadosActivos>0){
+			// 	$valido = false;
+			// }
+
+			// }
+
+// print_r($afiliadosNecesarios);
+			if($_GET["filtro"]=="referidos"){
+
+				if($totalC<=1 || $totalAfiliadosActivos < $afiliadosNecesarios){
+					$valido = false;
+				}
+
+			}else if($_GET["filtro"]=="sin-referidos"){
+
+				if($totalAfiliadosActivos >= $afiliadosNecesarios){
+					$valido = false;
+				}
+
+			}
+
+
+			// if($_GET["filtro"]=="referidos" && $totalAfiliadosActivos==0){
+
+            //     $valido = false;
+			
+			// }else if($_GET["filtro"]=="sin-referidos" && $totalAfiliadosActivos>0){
+			// 	$valido = false;
+			// }
+
+
+			if($valido ){
+				$contador=$contador+1;
 				/*=============================================
 				ESTADO Y OPERANDO
 				=============================================*/	
@@ -146,6 +218,10 @@ class TablaUsuarios{
 
 				$acciones = "<div class='btn-group'><button type='button' class='btn btn-primary btn-xs btnSoporte' idUsuario='".$value["id_usuario"]."'><i class='fa fa-envelope'></i></button><button class='btn btn-warning btn-xs btnEditarUsuario' idUsuario='".$value["id_usuario"]."' data-toggle='modal' data-target='#modalEditarUsuario'><i class='fa fa-pen' style='color:white'></i></button><button type='button' class='btn btn-info btn-xs btnVerUsuario' idUsuario='".$value["id_usuario"]."'><i class='fa fa-eye'></i></button><button type='button' class='btn btn-danger btn-xs btnEliminarUsuario' idUsuario='".$value["id_usuario"]."'><i class='fa fa-times'></i></button></div>";
 
+				$botonAfiliadosInactivos="<button type='button' class='btn btn-warning btn-xs btnVerDetallesUsuarios' idUsuario='".$value["id_usuario"]."' tipo='inactivos' data-toggle='modal' data-target='#modalVerDetallesUsuarios'>".$totalAfiliadosInactivos."</button>";
+
+				$botonAfiliadosActivos="<button type='button' class='btn btn-success btn-xs btnVerDetallesUsuarios' idUsuario='".$value["id_usuario"]."' tipo='activos' data-toggle='modal' data-target='#modalVerDetallesUsuarios'>".$totalAfiliadosActivos."</button>";
+
 				$docUsuario = "n/a";
 				if($value["fecha_contrato"]!=null){
 
@@ -171,25 +247,43 @@ class TablaUsuarios{
 				       "'.$pais.'",
 				       "'.$estado.'",
 				       "'.$operando.'",
-                       "'.$totalAfiliadosActivos.'", 
 					   "'.$value["patrocinador"].'", 
 					   "'.$value["enlace_afiliado"].'", 
 					   "'.$value["telefono_movil"].'",
-					   "'.$value["fecha"].'"
+					   "'.$value["fecha"].'",
+					   "'.$botonAfiliadosInactivos.'",
+					   "'.$botonAfiliadosActivos.'",
+					   "'.($totalAfiliadosInactivos + $totalAfiliadosActivos).'",
+					   "'.$totalC.'"
 
 				],';
 
 			}
 		}
-			$totalAfiliadosActivos=0;
+		$totalAfiliadosActivos=0;
+		$totalAfiliadosInactivos=0;
+		$totalC=0;
+		$afiliadosNecesarios=0;
 
 		}
 
-		$datosJson = substr($datosJson, 0, -1);
+		if($contador==0){
 
-		$datosJson .= ']}';
+			echo '{ "data":[]}';
 
-		echo $datosJson;
+			return;
+
+		}else{
+
+			$datosJson = substr($datosJson, 0, -1);
+
+			$datosJson .= ']}';
+	
+			echo $datosJson;
+
+		}
+
+
 
 	}
 	// cierre metodo

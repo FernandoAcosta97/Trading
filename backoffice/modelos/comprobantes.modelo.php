@@ -182,7 +182,7 @@ class ModeloComprobantes
 
         if ($item != null && $valor != null && $item2 != null && $valor2 != null) {
 
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item AND $item2 = :$item2 limit 2");
+            $stmt = Conexion::conectar()->prepare("SELECT * FROM $tabla WHERE $item = :$item AND $item2 = :$item2");
 
             $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
             $stmt->bindParam(":" . $item2, $valor2, PDO::PARAM_STR);

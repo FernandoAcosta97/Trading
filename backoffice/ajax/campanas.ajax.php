@@ -6,6 +6,8 @@ require_once "../controladores/comprobantes.controlador.php";
 require_once "../modelos/comprobantes.modelo.php";
 require_once "../controladores/usuarios.controlador.php";
 require_once "../modelos/usuarios.modelo.php";
+require_once "../controladores/pagos.controlador.php";
+require_once "../modelos/pagos.modelo.php";
 
 class AjaxCampanas{
 
@@ -170,6 +172,23 @@ class AjaxCampanas{
 
 	}
 
+
+	/*=============================================
+    Eliminar Campana Bono Apalancamiento
+    =============================================*/	
+
+	public $idCampanaEliminarApalancamiento;
+
+	public function ajaxEliminarCampanaBonoApalancamiento(){
+
+		$valor = $this->idCampanaEliminarApalancamiento;
+
+		$respuesta = ControladorCampanas::ctrEliminarCampanaBonoApalancamiento($valor);
+
+		echo $respuesta;
+
+	}
+
 }
 
 /*=============================================
@@ -257,6 +276,19 @@ if(isset($_POST["idCampanaEliminarBono"])){
 	$eliminarCampana = new AjaxCampanas();
 	$eliminarCampana -> idCampanaEliminarBono = $_POST["idCampanaEliminarBono"];
 	$eliminarCampana -> ajaxEliminarCampanaBono();
+
+}
+
+
+/*=============================================
+Eliminar Campaña Bono Apalancamiento
+=============================================*/	
+
+if(isset($_POST["idCampanaEliminarApalancamiento"])){
+
+	$eliminarCampana = new AjaxCampanas();
+	$eliminarCampana -> idCampanaEliminarApalancamiento = $_POST["idCampanaEliminarApalancamiento"];
+	$eliminarCampana -> ajaxEliminarCampanaBonoApalancamiento();
 
 }
 

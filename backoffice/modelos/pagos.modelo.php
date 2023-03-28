@@ -747,7 +747,7 @@ class ModeloPagos
 
         if ($item != null && $valor !=null) {
 
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM pagos_inversiones INNER join usuarios on pagos_inversiones.id_usuario=usuarios.id_usuario WHERE usuarios.eliminado=0 AND pagos_inversiones.$item = :$item");
+            $stmt = Conexion::conectar()->prepare("SELECT pi.id, pi.id_usuario, pi.id_comprobante, pi.estado, pi.id_apalancamiento, pi.id_cuenta, pi.fecha FROM pagos_inversiones as pi INNER join usuarios as us on pi.id_usuario=us.id_usuario WHERE us.eliminado=0 AND pi.$item = :$item");
 
             $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
 

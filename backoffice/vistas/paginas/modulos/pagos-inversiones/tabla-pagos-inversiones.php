@@ -33,7 +33,7 @@
 			<option value="todas" selected>TODAS</option>
 
             <?php  
-			    $campanas=ControladorCampanas::ctrMostrarCampanasxTipoxEstadoAll("tipo",1,"estado",1);
+			    $campanas=ControladorCampanas::ctrMostrarCampanasInversionPagos();
 
 				foreach($campanas as $key => $value){
 

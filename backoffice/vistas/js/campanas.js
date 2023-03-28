@@ -667,6 +667,44 @@ $(".tablaCampanas").on("click","button.btnEditarCampana",function(){
 
 
 
+  //EDITAR CAMPAÑA APALANCAMIENTO
+$(".tablaCampanasBonosApalancamiento").on("click","button.btnEditarCampana",function(){
+
+	var idCampana = $(this).attr("idCampana");
+  
+	var datos = new FormData();
+	datos.append("idCampanaEditar",idCampana);
+  
+	$.ajax({
+  
+	 url:"ajax/campanas.ajax.php",
+	 method:"POST",
+	 data:datos,
+	 cache:false,
+	 contentType:false,
+	 processData:false,
+	 dataType:"json",
+	 success:function(respuesta){
+
+	  $("#idCampana").val(idCampana);
+	  if(respuesta["estado"]==2){
+		$("#editarRetorno").attr("readonly", "readonly");
+	  }else{
+		$("#editarRetorno").removeAttr("readonly");
+	  }
+	  $("#editarRetorno").val(respuesta["retorno"]);
+	  $("#editarFechaInicio").val(respuesta["fecha_inicio"]);
+	  $("#editarFechaFinal").val(respuesta["fecha_fin"]);
+	  $("#editarFechaRetorno").val(respuesta["fecha_retorno"]);
+	  
+	}
+  
+  });
+  
+  })
+
+
+
   //EDITAR CAMPAÑA RECURRENTE
 $(".tablaCampanasBonosRecurrencia").on("click","button.btnEditarCampana",function(){
 
@@ -969,7 +1007,69 @@ $(".tablaCampanasBonosBienvenida").on("click","button.btnEditarCampana",function
 					confirmButtonText: "Cerrar",
 				  }).then(function (result) {
 					if (result.value) {
-					//   window.location = "campanas";s
+					//   window.location = "campanas";
+					}
+				  });
+
+			}
+		  },
+		});
+	  }
+	});
+  });
+
+
+
+ //ELIMINAR CAMPAÑA Apalancamiento
+ $(".tablaCampanasBonosApalancamiento tbody").on("click", "button.btnEliminarCampana", function () {
+	var idCampana = $(this).attr("idCampana");
+	var datos = new FormData();
+	datos.append("idCampanaEliminarApalancamiento", idCampana);
+  
+	swal({
+	  title: "¿Está seguro de borrar la campaña?",
+	  text: "¡Si no lo está puede cancelar la acción!",
+	  type: "warning",
+	  showCancelButton: true,
+	  confirmButtonColor: "#3085d6",
+	  cancelButtonColor: "#d33",
+	  cancelButtonText: "Cancelar",
+	  confirmButtonText: "Si, borrar campaña!",
+	}).then((result) => {
+	  if (result.value) {
+		$.ajax({
+		  url: "ajax/campanas.ajax.php",
+		  method: "POST",
+		  data: datos,
+		  cache: false,
+		  contentType: false,
+		  processData: false,
+		  success: function (respuesta) {
+			if (respuesta == "ok") {
+
+			  swal({
+				type: "success",
+				title: "¡OK!",
+				text: "¡La campaña se ha eliminado correctamente!",
+				showConfirmButton: true,
+				confirmButtonText: "Cerrar",
+			  }).then(function (result) {
+				if (result.value) {
+				  window.location = "bonos-apalancamiento";
+				}
+			  });
+
+			}else if(respuesta == "error"){
+
+				swal({
+					type: "warning",
+					title: "¡ADVERTENCIA!",
+					text: "¡La campaña no se puede eliminar porque tiene registros de apalancamiento activos!",
+					showConfirmButton: true,
+					confirmButtonText: "Cerrar",
+				  }).then(function (result) {
+					if (result.value) {
+					//   window.location = "campanas";
 					}
 				  });
 

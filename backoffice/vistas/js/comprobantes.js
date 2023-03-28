@@ -751,6 +751,64 @@ $(".tablaComprobantes tbody").on("click", "button.btnEliminarComprobante", funct
 	  }
 	});
   });
+
+
+
+  $(".tablaComprobantesPublicidad tbody").on("click", "button.btnEliminarComprobante", function () {
+	var idComprobante = $(this).attr("idComprobante");
+	var datos = new FormData();
+	datos.append("idComprobanteEliminar", idComprobante);
+  
+	swal({
+	  title: "¿Está seguro de borrar el comprobante?",
+	  text: "¡Si no lo está puede cancelar la acción!",
+	  type: "warning",
+	  showCancelButton: true,
+	  confirmButtonColor: "#3085d6",
+	  cancelButtonColor: "#d33",
+	  cancelButtonText: "Cancelar",
+	  confirmButtonText: "Si, borrar comprobante!",
+	}).then((result) => {
+	  if (result.value) {
+		$.ajax({
+		  url: "ajax/comprobantes.ajax.php",
+		  method: "POST",
+		  data: datos,
+		  cache: false,
+		  contentType: false,
+		  processData: false,
+		  success: function (respuesta) {
+			if (respuesta == "ok") {
+			  swal({
+				type: "success",
+				title: "¡OK!",
+				text: "¡El comprobante se ha eliminado correctamente!",
+				showConfirmButton: true,
+				confirmButtonText: "Cerrar",
+			  }).then(function (result) {
+				if (result.value) {
+				  window.location = "comprobantes-publicidad";
+				}
+			  });
+			}else{
+				swal({
+					type: "error",
+					title: "¡Error!",
+					text: "¡El comprobante no se puede eliminar porque esta aprobado!",
+					showConfirmButton: true,
+					confirmButtonText: "Cerrar",
+				  }).then(function (result) {
+					if (result.value) {
+					//   window.location = "comprobantes";
+					}
+				  });
+
+			}
+		  },
+		});
+	  }
+	});
+  });
   
 
 

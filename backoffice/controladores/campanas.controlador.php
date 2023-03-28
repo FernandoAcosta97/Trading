@@ -329,6 +329,20 @@ Class ControladorCampanas{
 	}
 
 
+
+	/*=============================================
+	Mostrar Campanas Inversion Con Pagos Pendientes
+	=============================================*/
+
+	static public function ctrMostrarCampanasInversionPagos(){
+	
+		$respuesta = ModeloCampanas::mdlMostrarCampanasInversionPagos();
+
+		return $respuesta;
+		
+	}
+
+
 	/*=============================================
 	Mostrar Campañas Activas e Inactivas pero no finalizadas
 	=============================================*/
@@ -679,6 +693,31 @@ Class ControladorCampanas{
 		return $respuesta;
 
 	}
+
+
+
+	/*=============================================
+	Eliminar Campana Bono Apalancamiento
+	=============================================*/
+
+	static public function ctrEliminarCampanaBonoApalancamiento($id){
+
+		$tabla = "campanas";
+		$tabla2 = "pagos_inversiones";
+		$respuesta="error";
+
+		$total = ModeloPagos::mdlMostrarPagosInversionesxEstado($tabla2, "id_apalancamiento", $id, "estado", 1);
+		
+		if($total == ""){
+
+		$respuesta = ModeloCampanas::mdlEliminarCampana($tabla, $id);
+
+		}
+
+		return $respuesta;
+
+	}
+
 
 
 

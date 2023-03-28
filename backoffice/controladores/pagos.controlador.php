@@ -5,6 +5,9 @@ use PHPMailer\PHPMailer\Exception;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Style\Color;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
 
 class ControladorPagos
 {
@@ -28,47 +31,215 @@ class ControladorPagos
         $hoja = $excel->getActiveSheet();
         $hoja->setTitle("Pagos Inversiones");
 
-		$hoja->getColumnDimension("A")->setWidth(20);
-		$hoja->getStyle("A")->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_NUMBER);
-        $hoja->setCellValue("A1", "Documento");
-		$hoja->getColumnDimension("B")->setWidth(30);
-        $hoja->setCellValue("B1", "Usuario");
-		$hoja->getColumnDimension("C")->setWidth(30);
-        $hoja->setCellValue("C1", "Nombre");
+        $styleArrayTitulos = [
+            'font' => [
+                'bold' => true,
+            ],
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+            ],
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                ],
+            ],
+            'fill' => [
+                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                'startColor' => [
+                    'argb' => 'FFA4FFA4',
+                ],
+            ],
+        ];
+
+        $hoja->getStyle('A1')->applyFromArray($styleArrayTitulos);
+        $hoja->getStyle('B1')->applyFromArray($styleArrayTitulos);
+        $hoja->getStyle('C1')->applyFromArray($styleArrayTitulos);
+        $hoja->getStyle('D1')->applyFromArray($styleArrayTitulos);
+        $hoja->getStyle('E1')->applyFromArray($styleArrayTitulos);
+        $hoja->getStyle('F1')->applyFromArray($styleArrayTitulos);
+        $hoja->getStyle('G1')->applyFromArray($styleArrayTitulos);
+        $hoja->getStyle('H1')->applyFromArray($styleArrayTitulos);
+        $hoja->getStyle('I1')->applyFromArray($styleArrayTitulos);
+        $hoja->getStyle('J1')->applyFromArray($styleArrayTitulos);
+        $hoja->getStyle('K1')->applyFromArray($styleArrayTitulos);
+        $hoja->getStyle('L1')->applyFromArray($styleArrayTitulos);
+        $hoja->getStyle('M1')->applyFromArray($styleArrayTitulos);
+
+        $styleArray = [
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+            ],
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                ],
+            ],
+        ];
+
+        $n=count($pagos)+1;
+        
+        $hoja->getStyle('A2:M'.$n)->applyFromArray($styleArray);
+
+        // $hoja->getStyle('A1')->getFont()->setBold(true);
+        // $hoja->getStyle('B1')->getFont()->setBold(true);
+        // $hoja->getStyle('C1')->getFont()->setBold(true);
+        // $hoja->getStyle('D1')->getFont()->setBold(true);
+        // $hoja->getStyle('E1')->getFont()->setBold(true);
+        // $hoja->getStyle('F1')->getFont()->setBold(true);
+        // $hoja->getStyle('G1')->getFont()->setBold(true);
+        // $hoja->getStyle('H1')->getFont()->setBold(true);
+        // $hoja->getStyle('I1')->getFont()->setBold(true);
+        // $hoja->getStyle('J1')->getFont()->setBold(true);
+        // $hoja->getStyle('K1')->getFont()->setBold(true);
+        // $hoja->getStyle('L1')->getFont()->setBold(true);
+        // $hoja->getStyle('M1')->getFont()->setBold(true);
+        // $hoja->getStyle('N1')->getFont()->setBold(true);
+
+        // ffd0fdd7
+
+        $hoja->getColumnDimension("A")->setWidth(5);
+        $hoja->setCellValue("A1", "N°");
+
+        $hoja->getColumnDimension("B")->setWidth(30);
+        $hoja->setCellValue("B1", "CAMPAÑA");
+
+		$hoja->getColumnDimension("C")->setWidth(20);
+		$hoja->getStyle("C")->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_NUMBER);
+        $hoja->setCellValue("C1", "DOCUMENTO");
+
 		$hoja->getColumnDimension("D")->setWidth(30);
-        $hoja->setCellValue("D1", "Correo");
+        $hoja->setCellValue("D1", "NOMBRE");
+
 		$hoja->getColumnDimension("E")->setWidth(30);
-        $hoja->setCellValue("E1", "Pais");
+        $hoja->setCellValue("E1", "PAIS");
+
 		$hoja->getColumnDimension("F")->setWidth(20);
-        $hoja->setCellValue("F1", "Télefono");
-		$hoja->getColumnDimension("G")->setWidth(30);
-        $hoja->setCellValue("G1", "Código Afiliado");
-        $hoja->getColumnDimension("H")->setWidth(30);
-        $hoja->setCellValue("H1", "Campaña");
+        $hoja->setCellValue("F1", "TELEFONO");
+
+        $hoja->getColumnDimension("G")->setWidth(30);
+        $hoja->getStyle("G")->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+        $hoja->setCellValue("G1", "INVERSION");
+
+        $hoja->getColumnDimension("H")->setWidth(20);
+        $hoja->getStyle("H")->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_PERCENTAGE);
+        $hoja->setCellValue("H1", "APALANCAMIENTO");
+
+        $hoja->getColumnDimension("I")->setWidth(30);
+        $hoja->getStyle("I")->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+        $hoja->setCellValue("I1", "TOTAL + BONO");
+
+        $hoja->getColumnDimension("J")->setWidth(10);
+        $hoja->setCellValue("J1", "%");
+
+        $hoja->getColumnDimension("K")->setWidth(30);
+        $hoja->getStyle("K")->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+        $hoja->setCellValue("K1", "GANANCIA");
+
+        $hoja->getColumnDimension("L")->setWidth(30);
+        $hoja->getStyle("L")->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+        $hoja->setCellValue("L1", "TOTAL");
+
+        $hoja->getColumnDimension("M")->setWidth(20);
+        $hoja->setCellValue("M1", "FECHA");
+
+        $hoja->getColumnDimension("N")->setWidth(15);
 
         $fila = 2;
+        $totalApagar = 0;
+        $totalInversion = 0;
 
         foreach($pagos as $key => $value){
 
             $us=ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $value["id_usuario"]);
 
+            $comprobante=ControladorComprobantes::ctrMostrarComprobantes("id", $value["id_comprobante"]);
+
             if(!isset($_GET["c"])){
-                $comprobante=ControladorComprobantes::ctrMostrarComprobantes("id", $value["id_comprobante"]);
                 $campana=ControladorCampanas::ctrMostrarCampanas("id", $comprobante[0]["campana"]);
             }
 
-            $hoja->setCellValue('A'.$fila, $us["doc_usuario"]);
-            $hoja->setCellValue('B'.$fila, $us["usuario"]);
-            $hoja->setCellValue('C'.$fila, $us["nombre"]);
-			$hoja->setCellValue('D'.$fila, $us["email"]);
+            $porcentaje_apalancamiento=0;
+            $ganancia=0;
+            $ganancia_apalancamiento=0;
+
+            if($value["id_apalancamiento"]>0){
+                $apalancamiento=ControladorCampanas::ctrMostrarCampanas("id", $value["id_apalancamieto"]);
+
+                $porcentaje_apalancamiento=$apalancamiento["retorno"];
+
+                $ganancia_apalancamiento=($comprobante[0]['valor']*$apalancamiento['retorno'])/100;
+            }
+
+            $totalBono=$comprobante[0]["valor"]+$ganancia_apalancamiento;
+
+            $ganancia=($totalBono*$campana["retorno"])/100;
+
+            $total=$ganancia+$totalBono;
+            $totalApagar=$totalApagar+$total;
+            $totalInversion=$totalInversion+$comprobante[0]["valor"];
+
+            $hoja->setCellValue('A'.$fila, $key+1);
+            $hoja->setCellValue('B'.$fila, $campana["nombre"]);
+            $hoja->setCellValue('C'.$fila, $us["doc_usuario"]);
+            $hoja->setCellValue('D'.$fila, $us["nombre"]);
 			$hoja->setCellValue('E'.$fila, $us["pais"]);
 			$hoja->setCellValue('F'.$fila, $us["telefono_movil"]);
-			$hoja->setCellValue('G'.$fila, $us["enlace_afiliado"]);
-            $hoja->setCellValue('H'.$fila, $campana["nombre"]);
+			$hoja->setCellValue('G'.$fila, $comprobante[0]["valor"]);
+            $hoja->setCellValue('H'.$fila, $porcentaje_apalancamiento);
+            $hoja->setCellValue('I'.$fila, $totalBono);
+            $hoja->setCellValue('J'.$fila, $campana["retorno"]);
+            $hoja->setCellValue('K'.$fila, $ganancia);
+            $hoja->setCellValue('L'.$fila, $total);
+            $hoja->setCellValue('M'.$fila, $comprobante[0]["fecha"]);
 
             $fila++;
 
         }
+        // $hoja>getStyle('B3:B7')->getFill()
+        // ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+        // ->getStartColor()->setARGB('FFFF0000');
+        $styleArray2 = [
+            'font' => [
+                'bold' => true,
+            ],
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+            ],
+            'fill' => [
+                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                'startColor' => [
+                    'argb' => 'FFA4FFA4',
+                ],
+            ],
+        ];
+        $hoja->getStyle('L'.$n+1)->applyFromArray($styleArray2);
+        $hoja->setCellValue('L'.$n+1, $totalApagar);
+
+        $styleArray3 = [
+            'font' => [
+                'bold' => true,
+            ],
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+            ],
+            'fill' => [
+                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                'startColor' => [
+                    'argb' => 'FFFFFF00',
+                ],
+            ],
+        ];
+
+        if(isset($_GET["c"])){
+            $hoja->getStyle('M'.$n+1)->applyFromArray($styleArray3);
+            $hoja->setCellValue('M'.$n+1, $campana["fecha_retorno"]);
+
+            $hoja->getStyle('N'.$n+1)->applyFromArray($styleArray3);
+            $hoja->setCellValue('N'.$n+1, "FECHA PAGO");
+        }
+
+        $hoja->getStyle('G'.$n+1)->applyFromArray($styleArray2);
+        $hoja->setCellValue('G'.$n+1, $totalInversion);
 
 		ob_end_clean();
 

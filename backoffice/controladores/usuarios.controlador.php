@@ -6,6 +6,9 @@ use PHPMailer\PHPMailer\Exception;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Style\Color;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
 
 
 Class ControladorUsuarios{
@@ -20,7 +23,10 @@ Class ControladorUsuarios{
 		$excel->getDefaultStyle()->getFont()->setName('Arial');
 		$excel->getDefaultStyle()->getFont()->setSize(12);
         $hoja = $excel->getActiveSheet();
-        $hoja->setTitle("Usuarios");
+
+		$hoja->setTitle("Usuarios");
+
+		$hoja->getStyle('A1:B4')->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setARGB('FFFF0000');
 
 		$hoja->getColumnDimension("A")->setWidth(20);
 		$hoja->getStyle("A")->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_NUMBER);
@@ -271,6 +277,10 @@ Class ControladorUsuarios{
 
 		if(isset($_POST["registroUsuario"])){
 
+			$existe_usuario=ModeloUsuarios::mdlMostrarUsuarios("usuarios","doc_usuario",$_POST["registroDoc"]);
+
+			if($existe_usuario==""){
+
 			if(preg_match('/^[-_a-zA-ZñÑáéíóúÁÉÍÓÚ0-9._ ]+$/', $_POST["registroUsuario"]) && preg_match('/^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]+$/', $_POST["registroNombre"]) &&
 			   preg_match('/^[^0-9][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[@][a-zA-Z0-9_]+([.][a-zA-Z0-9_]+)*[.][a-zA-Z]{2,4}$/', $_POST["registroEmail"]) &&
 			    preg_match('/^[a-zA-Z0-9]+$/', $_POST["registroPassword"]) &&
@@ -409,6 +419,32 @@ Class ControladorUsuarios{
 
 
 			}
+		}else{
+
+			echo '<script>
+
+			swal({
+
+				type:"warning",
+				title: "¡Advertencia!",
+				text: "El número de documento ya se encuentra registrado",
+				showConfirmButton: true,
+				confirmButtonText: "Cerrar"
+
+			}).then(function(result){
+
+				if(result.value){
+
+					history.back();
+
+				}
+
+
+			});	
+
+		</script>';
+
+		}
 
 		}
 

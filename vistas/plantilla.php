@@ -3,9 +3,9 @@
 session_start();
 $ruta = ControladorRuta::ctrRuta(); 
 
-/*=============================================
-Enlace de afiliado 
-=============================================*/
+// /*=============================================
+// Enlace de afiliado 
+// =============================================*/
 // if(isset($_GET["pagina"])){
 
 //     $validarEnlace = ControladorUsuarios::ctrMostrarUsuarios("enlace_afiliado", $_GET["pagina"]);

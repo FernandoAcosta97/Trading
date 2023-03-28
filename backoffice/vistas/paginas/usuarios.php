@@ -125,11 +125,14 @@ if ($usuario["perfil"] != "admin") {
               <th>País</th>
               <th>Estado</th>
               <th>Operando</th>
-              <th>Afiliados activos</th>
               <th>Patrocinador</th>
               <th>Enlace Afiliado</th>
               <th>Telefono</th>
               <th>Última actualización</th>
+              <th>Afiliados Inoperantes</th>
+              <th>Afiliados Operantes</th>
+              <th>Total Afiliados</th>
+              <th>Total Inversiones</th>
             </tr>
           </thead>
           <tbody>
@@ -321,6 +324,59 @@ $editarUsuario->ctrEditarUsuario();
 </div>
 
 
+<!--=====================================
+VER DETALLES Usuarios
+======================================-->
+
+<!-- The Modal -->
+<div class="modal" id="modalVerDetallesUsuarios">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+    <div class="modal-header">
+        <h5 class="modal-title">Detalles Afiliados</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+      <table class="table table-bordered table-striped dt-responsive tabla-detalles-usuarios" width="100%">
+			
+			<thead>
+
+				<tr>
+
+					<th style="width:10px">#</th> 
+					<th>Documento</th>
+					<th>Nombre</th>
+					<th>País</th>
+					<th>Teléfono</th>
+          <th>Correo</th>
+
+				</tr>   
+
+			</thead>
+
+			<tbody>
+
+			</tbody>
+
+		</table>
+
+       
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+
+    </div>
+    
+  </div>
+  
+</div>
+
+
 
 <?php $ruta = ControladorGeneral::ctrRuta();?>
 <!--=====================================
@@ -492,3 +548,6 @@ REGISTRO USUARIO MANUAL
 
 
 </div>
+
+
+

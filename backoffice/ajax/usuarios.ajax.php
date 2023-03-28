@@ -164,6 +164,9 @@ class AjaxUsuarios
 
     public function ajaxSuscripcion()
     {
+        $usuario=ControladorUsuarios::ctrMostrarUsuarios("doc_usuario", $this->doc_usuario);
+
+        if($usuario==""){
         $patrocinador=$this->patrocinador;
 
         $usuarioPatrocinador = ControladorUsuarios::ctrMostrarUsuarios("enlace_afiliado", $patrocinador);
@@ -235,6 +238,7 @@ class AjaxUsuarios
         // $url = "http://localhost/www/trading/backoffice/index.php?pagina=perfil&id=".urlencode($valor);
 
         // echo $url;
+        }
     }
         echo $respuesta;
 
