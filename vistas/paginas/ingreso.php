@@ -13,11 +13,11 @@
 				<figure class="p-2 p-sm-5 p-lg-4 p-xl-5 text-center">
 				
 					<!-- <a href="<?php echo $ruta; ?>inicio"><img src="img/logo-positivo.png" class="img-fluid"></a> -->
-					<div class="d-flex justify-content-between">
-					<h2>TRADING COLOMBIA</h2>
+					<div class="d-flex justify-content-center">
+					<h2>SPORTBIT</h2>
                     </div>
 
-					<div class="d-flex justify-content-between">
+					<div class="d-flex justify-content-center">
 						<h4>Ingreso al sistema</h4>
 					</div>
 
@@ -36,7 +36,7 @@
 
 						?>
 
-						<input type="submit" class="form-control my-3 py-3 btn btn-info" value="Ingresar">
+						<input type="submit" class="form-control my-3 py-3 btn btn-success" value="Ingresar">
 
 						<p class="text-center pt-1">¿Aún no tienes una cuenta? | <a href="<?php echo $ruta; ?>registro">Regístrate</a></p>
 

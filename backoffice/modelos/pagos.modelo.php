@@ -352,7 +352,7 @@ class ModeloPagos
 
         if ($item != null && $valor !=null) {
 
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM pagos_publicidad as pp INNER JOIN usuarios as us ON pp.id_usuario=us.id_usuario WHERE pp.$item = :$item AND us.eliminado=0");
+            $stmt = Conexion::conectar()->prepare("SELECT pp.id, pp.id_usuario, pp.id_comprobante, pp.estado, pp.valor, pp.id_cuenta, pp.fecha FROM pagos_publicidad as pp INNER JOIN usuarios as us ON pp.id_usuario=us.id_usuario WHERE pp.$item = :$item AND us.eliminado=0");
 
             $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
 
@@ -362,7 +362,7 @@ class ModeloPagos
 
         } else {
 
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM pagos_publicidad as pp INNER JOIN usuarios as us ON pp.id_usuario=us.id_usuario WHERE us.eliminado=0");
+            $stmt = Conexion::conectar()->prepare("SELECT pp.id, pp.id_usuario, pp.id_comprobante, pp.estado, pp.valor, pp.id_cuenta, pp.fecha FROM pagos_publicidad as pp INNER JOIN usuarios as us ON pp.id_usuario=us.id_usuario WHERE us.eliminado=0");
 
             $stmt->execute();
 
@@ -671,7 +671,7 @@ class ModeloPagos
 
         if ($item != null && $valor !=null) {
 
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM pagos_bienvenida as pb INNER JOIN usuarios as us ON pb.id_usuario=us.id_usuario WHERE pb.$item = :$item AND us.eliminado=0");
+            $stmt = Conexion::conectar()->prepare("SELECT pb.id, pb.id_usuario, pb.estado, pb.valor, pb.id_cuenta, pb.id_campana, pb.fecha FROM pagos_bienvenida as pb INNER JOIN usuarios as us ON pb.id_usuario=us.id_usuario WHERE pb.$item = :$item AND us.eliminado=0");
 
             $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
 
@@ -681,7 +681,7 @@ class ModeloPagos
 
         } else {
 
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM pagos_bienvenida as pb INNER JOIN usuarios as us ON pb.id_usuario=us.id_usuario WHERE us.eliminado=0");
+            $stmt = Conexion::conectar()->prepare("SELECT pb.id, pb.id_usuario, pb.estado, pb.valor, pb.id_cuenta, pb.id_campana, pb.fecha FROM pagos_bienvenida as pb INNER JOIN usuarios as us ON pb.id_usuario=us.id_usuario WHERE us.eliminado=0");
 
             $stmt->execute();
 
@@ -844,7 +844,7 @@ class ModeloPagos
 
         if ($item != null && $valor !=null) {
 
-            $stmt = Conexion::conectar()->prepare("SELECT pr.estado, pr.id_campana, pr.inversiones, us.estado as us_estado FROM pagos_recurrencia as pr INNER JOIN usuarios as us ON pr.id_usuario=us.id_usuario WHERE pr.$item = :$item AND us.eliminado=0");
+            $stmt = Conexion::conectar()->prepare("SELECT pr.id, pr.id_usuario, pr.estado, pr.id_campana, pr.inversiones, us.estado as us_estado FROM pagos_recurrencia as pr INNER JOIN usuarios as us ON pr.id_usuario=us.id_usuario WHERE pr.$item = :$item AND us.eliminado=0");
 
             $stmt->bindParam(":" . $item, $valor, PDO::PARAM_INT);
 
@@ -854,7 +854,7 @@ class ModeloPagos
 
         } else {
 
-            $stmt = Conexion::conectar()->prepare("SELECT pr.estado, pr.id_campana, pr.inversiones, us.estado as us_estado FROM pagos_recurrencia as pr INNER JOIN usuarios as us ON pr.id_usuario=us.id_usuario WHERE pr.$item = :$item AND us.eliminado=0");
+            $stmt = Conexion::conectar()->prepare("SELECT pr.id, pr.id_usuario, pr.estado, pr.id_campana, pr.inversiones, us.estado as us_estado FROM pagos_recurrencia as pr INNER JOIN usuarios as us ON pr.id_usuario=us.id_usuario WHERE pr.$item = :$item AND us.eliminado=0");
 
             $stmt->execute();
 

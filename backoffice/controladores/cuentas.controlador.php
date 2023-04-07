@@ -1,5 +1,14 @@
 <?php
 
+// https://github.com/PHPMailer/PHPMailer
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
+use PhpOffice\PhpSpreadsheet\Style\Border;
+use PhpOffice\PhpSpreadsheet\Style\Color;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
 
 Class ControladorCuentas{
 
@@ -261,6 +270,127 @@ Class ControladorCuentas{
 
 
 	}
+
+
+	public function ctrDescargarReporte(){
+
+        if(isset($_GET["excel"]) && $_GET["excel"]==1){
+
+
+        $cuentas=ControladorCuentas::ctrMostrarCuentas(null, null);
+            
+        $excel = new Spreadsheet();
+		$excel->getDefaultStyle()->getFont()->setName('Arial');
+		$excel->getDefaultStyle()->getFont()->setSize(12);
+        $hoja = $excel->getActiveSheet();
+        $hoja->setTitle("Cuentas Bancarias");
+
+        $styleArrayTitulos = [
+            'font' => [
+                'bold' => true,
+            ],
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+            ],
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                ],
+            ],
+            'fill' => [
+                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                'startColor' => [
+                    'argb' => 'FFA4FFA4',
+                ],
+            ],
+        ];
+
+        $hoja->getStyle('A1')->applyFromArray($styleArrayTitulos);
+        $hoja->getStyle('B1')->applyFromArray($styleArrayTitulos);
+        $hoja->getStyle('C1')->applyFromArray($styleArrayTitulos);
+        $hoja->getStyle('D1')->applyFromArray($styleArrayTitulos);
+        $hoja->getStyle('E1')->applyFromArray($styleArrayTitulos);
+        $hoja->getStyle('F1')->applyFromArray($styleArrayTitulos);
+        $hoja->getStyle('G1')->applyFromArray($styleArrayTitulos);
+        $hoja->getStyle('H1')->applyFromArray($styleArrayTitulos);
+
+        $styleArray = [
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+            ],
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                ],
+            ],
+        ];
+
+        $n=count($cuentas)+1;
+        
+        $hoja->getStyle('A2:H'.$n)->applyFromArray($styleArray);
+
+        $hoja->getColumnDimension("A")->setWidth(5);
+        $hoja->setCellValue("A1", "N°");
+
+		$hoja->getColumnDimension("B")->setWidth(20);
+		$hoja->getStyle("B")->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_NUMBER);
+        $hoja->setCellValue("B1", "DOCUMENTO");
+
+		$hoja->getColumnDimension("C")->setWidth(30);
+        $hoja->setCellValue("C1", "NOMBRE");
+
+		$hoja->getColumnDimension("D")->setWidth(30);
+        $hoja->setCellValue("D1", "PAIS");
+
+		$hoja->getColumnDimension("E")->setWidth(20);
+        $hoja->setCellValue("E1", "ENTIDAD");
+
+        $hoja->getColumnDimension("F")->setWidth(30);
+        $hoja->getStyle("F")->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_NUMBER);
+        $hoja->setCellValue("F1", "# DE CUENTA");
+
+        $hoja->getColumnDimension("G")->setWidth(20);
+        $hoja->setCellValue("G1", "TIPO");
+
+        $hoja->getColumnDimension("H")->setWidth(20);
+        $hoja->setCellValue("H1", "FECHA");
+
+        $fila = 2;
+        $totalApagar = 0;
+        $totalInversion = 0;
+
+        foreach($cuentas as $key => $value){
+
+            $us=ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $value["id_usuario"]);
+
+            $hoja->setCellValue('A'.$fila, $key+1);
+            $hoja->setCellValue('B'.$fila, $us["doc_usuario"]);
+            $hoja->setCellValue('C'.$fila, $us["nombre"]);
+			$hoja->setCellValue('D'.$fila, $us["pais"]);
+			$hoja->setCellValue('E'.$fila, $value["entidad"]);
+			$hoja->setCellValue('F'.$fila, $value["numero"]);
+            $hoja->setCellValue('G'.$fila, $value["tipo"]);
+            $hoja->setCellValue('H'.$fila, $value["fecha"]);
+
+            $fila++;
+
+        }
+
+		ob_end_clean();
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+
+        header('Content-Disposition: attachment;filename="cuentas-bancarias.xlsx"');
+        
+        header('Cache-Control: max-age=0');
+        
+        $writer = IOFactory::createWriter($excel, 'Xlsx');
+        $writer->save('php://output');
+        exit;
+    }
+
+
+    }
 
 
 	

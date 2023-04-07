@@ -1020,6 +1020,12 @@ $(".btnExcelUsuarios").click(function(){
 
 })
 
+// $(".btnExcelUsuarios").click(function(){
+
+//   window.location="index.php?pagina=reportes-excel&t=usuarios";
+
+// })
+
 
 $(".tablaUsuarios tbody").on("click", "button.btnEliminarUsuario", function () {
   var idUsuario = $(this).attr("idUsuario");

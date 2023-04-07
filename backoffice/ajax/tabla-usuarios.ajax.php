@@ -218,9 +218,9 @@ class TablaUsuarios{
 
 				$acciones = "<div class='btn-group'><button type='button' class='btn btn-primary btn-xs btnSoporte' idUsuario='".$value["id_usuario"]."'><i class='fa fa-envelope'></i></button><button class='btn btn-warning btn-xs btnEditarUsuario' idUsuario='".$value["id_usuario"]."' data-toggle='modal' data-target='#modalEditarUsuario'><i class='fa fa-pen' style='color:white'></i></button><button type='button' class='btn btn-info btn-xs btnVerUsuario' idUsuario='".$value["id_usuario"]."'><i class='fa fa-eye'></i></button><button type='button' class='btn btn-danger btn-xs btnEliminarUsuario' idUsuario='".$value["id_usuario"]."'><i class='fa fa-times'></i></button></div>";
 
-				$botonAfiliadosInactivos="<button type='button' class='btn btn-warning btn-xs btnVerDetallesUsuarios' idUsuario='".$value["id_usuario"]."' tipo='inactivos' data-toggle='modal' data-target='#modalVerDetallesUsuarios'>".$totalAfiliadosInactivos."</button>";
+				$botonAfiliadosInactivos="<button type='button' class='btn btn-danger btn-xs btnVerDetallesUsuarios' idUsuario='".$value["id_usuario"]."' tipo='inactivos' data-toggle='modal' data-target='#modalVerDetallesUsuarios'><i class='fa fa-user'></i> ".$totalAfiliadosInactivos."</button>";
 
-				$botonAfiliadosActivos="<button type='button' class='btn btn-success btn-xs btnVerDetallesUsuarios' idUsuario='".$value["id_usuario"]."' tipo='activos' data-toggle='modal' data-target='#modalVerDetallesUsuarios'>".$totalAfiliadosActivos."</button>";
+				$botonAfiliadosActivos="<button type='button' class='btn btn-success btn-xs btnVerDetallesUsuarios' idUsuario='".$value["id_usuario"]."' tipo='activos' data-toggle='modal' data-target='#modalVerDetallesUsuarios'><i class='fa fa-user'></i> ".$totalAfiliadosActivos."</button>";
 
 				$docUsuario = "n/a";
 				if($value["fecha_contrato"]!=null){

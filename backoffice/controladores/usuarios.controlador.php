@@ -26,7 +26,52 @@ Class ControladorUsuarios{
 
 		$hoja->setTitle("Usuarios");
 
-		$hoja->getStyle('A1:B4')->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setARGB('FFFF0000');
+		$styleArrayTitulos = [
+            'font' => [
+                'bold' => true,
+            ],
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+            ],
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                ],
+            ],
+            'fill' => [
+                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                'startColor' => [
+                    'argb' => 'FFA4FFA4',
+                ],
+            ],
+        ];
+
+		$hoja->getStyle('A1')->applyFromArray($styleArrayTitulos);
+        $hoja->getStyle('B1')->applyFromArray($styleArrayTitulos);
+        $hoja->getStyle('C1')->applyFromArray($styleArrayTitulos);
+        $hoja->getStyle('D1')->applyFromArray($styleArrayTitulos);
+        $hoja->getStyle('E1')->applyFromArray($styleArrayTitulos);
+        $hoja->getStyle('F1')->applyFromArray($styleArrayTitulos);
+        $hoja->getStyle('G1')->applyFromArray($styleArrayTitulos);
+        $hoja->getStyle('H1')->applyFromArray($styleArrayTitulos);
+        $hoja->getStyle('I1')->applyFromArray($styleArrayTitulos);
+
+		$styleArray = [
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+            ],
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                ],
+            ],
+        ];
+
+		$n=count($usuarios)+1;
+
+		$hoja->getStyle('A2:I'.$n)->applyFromArray($styleArray);
+
+		// $hoja->getStyle('A1:I'.$n)->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setARGB('FFFF0000');
 
 		$hoja->getColumnDimension("A")->setWidth(20);
 		$hoja->getStyle("A")->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_NUMBER);
@@ -43,10 +88,34 @@ Class ControladorUsuarios{
         $hoja->setCellValue("F1", "Télefono");
 		$hoja->getColumnDimension("G")->setWidth(30);
         $hoja->setCellValue("G1", "Código Afiliado");
+		$hoja->getColumnDimension("H")->setWidth(30);
+        $hoja->setCellValue("H1", "Activos");
+		$hoja->getColumnDimension("I")->setWidth(30);
+        $hoja->setCellValue("I1", "Inactivos");
 
         $fila = 2;
+		$totalAfiliadosActivos=0;
+		$totalAfiliadosInactivos=0;
 
         foreach($usuarios as $key => $value){
+
+			$red = ControladorMultinivel::ctrMostrarRedUninivel("red_uninivel", "patrocinador_red", $value["enlace_afiliado"]);
+	
+			if(count($red)>0){
+			foreach ($red as $key2 => $value2){
+				$usuarioRedOperando = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $value2["usuario_red"]);
+
+				if($usuarioRedOperando["operando"]==1){
+					++$totalAfiliadosActivos;
+				}
+				//REQ01 - INICIO - SE AGREGA ELSE PARA LLEVAR CONTADOR DE DE LOS AFILIADOS INACTIVOS - FERNANDO ACOSTA - 2023
+				else{
+					++$totalAfiliadosInactivos;
+				}
+				//REQ01 - FIN
+
+			}
+		}
 
             $hoja->setCellValue('A'.$fila, $value["doc_usuario"]);
             $hoja->setCellValue('B'.$fila, $value["usuario"]);
@@ -55,8 +124,13 @@ Class ControladorUsuarios{
 			$hoja->setCellValue('E'.$fila, $value["pais"]);
 			$hoja->setCellValue('F'.$fila, $value["telefono_movil"]);
 			$hoja->setCellValue('G'.$fila, $value["enlace_afiliado"]);
+			$hoja->setCellValue('H'.$fila, $totalAfiliadosActivos);
+			$hoja->setCellValue('I'.$fila, $totalAfiliadosInactivos);
 
             $fila++;
+
+			$totalAfiliadosActivos=0;
+			$totalAfiliadosInactivos=0;
 
         }
 

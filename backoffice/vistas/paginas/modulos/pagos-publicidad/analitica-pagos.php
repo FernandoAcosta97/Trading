@@ -4,7 +4,7 @@
 $total_a_pagar = 0;
 $total_pagos = 0;
 $pagos = ControladorPagos::ctrMostrarPagosPublicidad(null,null);
-
+ 
 foreach ($pagos as $key => $value) {
 
 	$comprobante=ControladorComprobantes::ctrMostrarComprobantes("id",$value["id_comprobante"]);

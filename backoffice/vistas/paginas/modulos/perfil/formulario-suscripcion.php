@@ -182,7 +182,7 @@
 
 					<div class="card-body">
 
-						Los suscritos a saber: ACADEMY OF LIFE, sociedad comercial debidamente constituida por documento privado de Julio 1 de 2018, registrado en Cámara de Comercio el 1 de Julio de 2018, en libro 9, bajo el número 18147, con domicilio principal en la ciudad de Medellín, país Colombia, identificada con número de NIT.900.661.621-4, representada legalmente por PEPITO PEREZ, mayor de edad, vecino de Medellín, identificado con cédula de ciudadanía número 8.161.865, quien adelante y para todos los efectos del presente contrato se denominará EL FABRICANTE, y Alexander Pierce, persona que acepta estos términos y condiciones, mayor de edad, actuando en nombre propio, quien en adelante y para todos los efectos del presente contrato se denominará EL DISTRIBUIDOR O VENDEDOR, hemos acordado celebrar el presente contrato de DISTRIBUCIÓN AL DETAL DE PRODUCTOS Y SERVICIOS, que se regirá por las siguientes partes y cláusulas:
+						Los suscritos a saber: SPORTBIT, sociedad comercial debidamente constituida por documento privado de Julio 1 de 2018, registrado en Cámara de Comercio el 1 de Julio de 2018, en libro 9, bajo el número 18147, con domicilio principal en la ciudad de Medellín, país Colombia, identificada con número de NIT.900.661.621-4, representada legalmente por PEPITO PEREZ, mayor de edad, vecino de Medellín, identificado con cédula de ciudadanía número 8.161.865, quien adelante y para todos los efectos del presente contrato se denominará EL FABRICANTE, y Alexander Pierce, persona que acepta estos términos y condiciones, mayor de edad, actuando en nombre propio, quien en adelante y para todos los efectos del presente contrato se denominará EL DISTRIBUIDOR O VENDEDOR, hemos acordado celebrar el presente contrato de DISTRIBUCIÓN AL DETAL DE PRODUCTOS Y SERVICIOS, que se regirá por las siguientes partes y cláusulas:
 
 					</div>
 
@@ -200,7 +200,7 @@
 
 							Para efectos de la interpretación del presente contrato de DISTRIBUCIÓN, los términos relevante usados en el mismo
 							están definidos en el documento de Términos y Condiciones el cual usted aceptó y estuvo de acuerdo al registrarse en
-							la página web www.academyoflife.com; los términos y palabras no definidas en el documento de Términos y
+							la página web www.sportbit.com.co; los términos y palabras no definidas en el documento de Términos y
 							Condiciones serán interpretadas pos su significado legal y técnico conforme a lo preceptuado en las leyes de cada
 							país.
 
@@ -234,7 +234,7 @@
 				 		<div class="card-body">
 				 			Para el cumplimiento y adecuado desarrollo del presente contrato, EL DISTRIBUIDOR tendrá a su cargo las siguientes obligaciones so pena de la terminación automática del presente contrato y el cobro de los prejuicios por parte del FABRICANTE:
 				 			<ol>
-								<li>Promover la compra automática de los productos del FABRICANTE que se realiza a través de la oficina virtual de la página web www.academyoflife.com/backoffice</li>
+								<li>Promover la compra automática de los productos del FABRICANTE que se realiza a través de la oficina virtual de la página web www.sportbit.com.co/backoffice</li>
 								<li>Llevar contabilidad de los negocios que celebre en nombre del FABRICANTE, para lo cual velará por el cumplimiento de todas las normas y deberes fiscales correspondiente a su país, siendo de su absoluta responsabilidad cualquier evasión, incumplimiento o actividad ilícita que se detectare.</li>
 							</ol>
 				 		</div>
@@ -249,7 +249,7 @@
 				 		<div class="card-body">
 				 			Para el cumplimiento y adecuado desarrollo del presente contrato, EL FABRICANTE tendrá a su cargo las siguientes obligaciones so pena de la terminación automática del presente contrato y el cobro de los prejuicios por parte del DISTRIBUIDOR O VENDEDOR:
 				 			<ol>
-								<li>Activar al DISTRIBUIDOR O VENDEDOR todos los productos al momento de su primer abono de compra y suscripción en la página web www.academyoflife.com/backoffice</li>
+								<li>Activar al DISTRIBUIDOR O VENDEDOR todos los productos al momento de su primer abono de compra y suscripción en la página web www.sportbit.com.co/backoffice</li>
 								<li>Garantizar el uso de la oficina virtual BACKOFFICE en los términos y condiciones del presente contrato.</li>
 								<li>Capacitar al DISTRIBUIDOR O VENDEDOR en las características y especificaciones técnicas de los productos objeto de distribución, así como del sistema de distribución, ya sea por medio físico, digital o virtual.</li>
 								<li>Pagar oportunamente y en un término no superior a tres (3) días hábiles, al DISTRIBUIDOR O VENDEDOR su COMISIÓN el día que cumpla el mes vencido a su anterior suscripción a través de su cuenta de PayPal.</li>
@@ -288,7 +288,7 @@
 				 	</div>
 				 	<div id="collapse7" class="collapse" data-parent="#accordion">
 				 		<div class="card-body">
-				 			El DISTRIBUIDOR O VENDEDOR reconoce expresamente los derechos de autor y la propiedad intelectual del FABRICANTE sobre los productos y servicios ofrecidos en la página web www.academyoflife.com y www.academyoflife.com/backoffice, el sistema de distribución, los diseños virtuales, las marcas, nombres y enseñas comerciales, material publicitario, y cualquier otra clase de propiedad intelectual que pertenece al FABRICANTE.
+				 			El DISTRIBUIDOR O VENDEDOR reconoce expresamente los derechos de autor y la propiedad intelectual del FABRICANTE sobre los productos y servicios ofrecidos en la página web www.sportbit.com.co y www.sportbit.com.co/backoffice, el sistema de distribución, los diseños virtuales, las marcas, nombres y enseñas comerciales, material publicitario, y cualquier otra clase de propiedad intelectual que pertenece al FABRICANTE.
 				 		</div>
 				 	</div>
 
@@ -312,16 +312,15 @@
 				 		<div class="card-body">
 
 				 		<ul>
-							<li><b>NIVELES:</b> Es la posición en la que usted se encuentra de acuerdo al Plan de Compensación.</li>
-							<li><b>LÍNEA DESCENDIENTE:</b> Es la ubicación que toman las personas que usted o su equipo de trabajo han ingresado al sistema de Academy of Life. Estás líneas descendientes se organizan en una matriz de múltiplos de 4, es decir, la primera línea descendiente tiene 4 personas, la segunda línea descendiente tiene 16 personas, la tercera línea descendiente tiene 64 personas y la última línea tiene 256 personas.</li>
-							<li><b>BACKOFFICE:</b> Es la plataforma virtual que Academy of Life le ofrece para poder visualizar los productos que usted adquiere, administrar y cobrar sus comisiones, resolver inquietudes e informarse acerca del crecimiento de su equipo de trabajo.</li>
-							<li><b>EQUIPO DE TRABAJO:</b> Son las personas que ingresan a su línea descendiente de manera directa o indirecta.</li>
-							<li><b>INGRESO DIRECTO:</b> Es la venta que usted realiza a las personas para que se suscriban a Academy of Life</li>
-							<li><b>INGRESO POR DERRAME:</b> Este sucede cuando las personas que están en su línea descendiente venden la suscripción a Academy of Life</li>
-							<li><b>PATROCINADOR:</b> Es cuando una persona lo ingresa al sistema directamente, y en caso tal que no suceda así la empresa pasa a ser el patrocinador.</li>
-							<li><b>BALANCE GENERAL:</b> Es el total de ingresos económicos de las ventas que usted realiza como promotor de la empresa.</li>
-							<li><b>COMISIÓN:</b> Es el dinero que usted podrá cobrar por lo acordado en el plan de compensación mensualmente.</li>
-							<li><b>DÉBITO AUTOMÁTICO:</b> Es el dinero que será debitado automáticamente de su cuenta de PayPal para continuar con la suscripción mensual.</li>
+						 	<li><b>ACTIVACIÓN DE LA CUENTA DE USUARIO: </b> Proceso a través del cual el Operador habilita al jugador para poder participar en las apuestas. La verificación de los datos deberá ser realizada por el Operador mediante los procedimientos de verificación de titularidad implementados.</li>
+							<li><b>APUESTA PREMATCH: </b> Es cualquier transacción de apuesta radicada o realizada previo al inicio de un evento.</li>
+							<li><b>BONOS:</b> Aquellos entregados al apostador por parte del operador previo cumplimiento de las condiciones derivadas de la participación en una o varias apuestas o eventos. El bono se considera premio una vez se transfieran.</li>
+							<li><b>MEDIOS DE PAGO:</b> Medios habilitados por los agentes  que permiten a los apostadores  adquirir los créditos para la participación y por medio de los cuales se realizan los retiros de fondos correspondientes a premios ganados y apostados.</li>
+							<li><b>PLATAFORMA DE APUESTAS:</b> Infraestructura tecnológica (software y hardware) que constituye la interfaz principal entre el apostador y el agente. Forman parte de la Plataforma de apuestas.</li>
+							<li><b>PLATAFORMA VIRTUAL:</b> Se entiende o se refiere al sitio Web SPORT BIT</li>
+							<li><b>REGISTRO:</b> Proceso de suscripción ante el operador de servicio SPORT BIT, como usuario de las apuestas a las que este ofrece en sus tres verticales.</li>
+							<li><b>RESPONSABLE DEL TRATAMIENTO DE DATOS:</b> Persona natural o jurídica, pública o privada, que por sí misma o en asocio con otros, decida sobre la base de datos y/o el Tratamiento de los datos.</li>
+							<li><b>RECURRENCIA:</b> Se refiere a la cantidad de veces que un usuario debe de apostar  un valor recibido de bono para poderlo liberar en su saldo de créditos bonos. Los cuales aplica tanto para apuestas Ejemplo, si el usuario recibe $50.000 de bono con apuestas x4, entonces, debe de apostar 4 veces estas en diferentes apuestas y días de lunes a domingo.</li>
 				 		</ul>
 
 				 		</div>

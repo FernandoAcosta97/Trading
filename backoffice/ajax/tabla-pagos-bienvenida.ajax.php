@@ -68,13 +68,15 @@ class TablaPagos{
 
 			$cuentaBancaria = ControladorCuentas::ctrMostrarCuentasxEstado("usuario",$usuario["id_usuario"],"estado",1);
 
+			$campana = ControladorCampanas::ctrMostrarCampanas("id", $value["id_campana"]);
+
 			// $bonos_extras = ControladorPagos::ctrMostrarBonosExtrasAll("id_pago_extra",$value["id"]);
 
 			// $campana=ControladorCampanas::ctrMostrarCampanas("id",$bonos_extras[0]["id_campana"]);
 
             // $total = count($bonos_extras)*$campana["retorno"];
 			// $totalAfiliadosObtenidos=count($bonos_extras);
-			$total=0;
+			$total=$campana["retorno"];
 
 			if($cuentaBancaria==""){
 				$numero_cuenta = "X";
@@ -103,7 +105,6 @@ class TablaPagos{
 					"'.$usuario["nombre"].'",
 					"'.$usuario["pais"].'",
 					"'.$usuario["telefono_movil"].'",
-					"'.$totalAfiliadosObtenidos.'",
 					"'.$entidad_cuenta.'",
 					"'.$numero_cuenta.'",
 					"'.$tipo_cuenta.'",

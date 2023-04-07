@@ -30,6 +30,8 @@ require_once "modelos/soporte.modelo.php";
 require_once "controladores/notificaciones.controlador.php";
 require_once "modelos/notificaciones.modelo.php";
 
+require_once "controladores/reportes.controlador.php";
+
 // require_once "controladores/excel.php";
 require_once "extensiones/vendor/autoload.php";
 

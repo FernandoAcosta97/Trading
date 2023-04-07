@@ -42,7 +42,6 @@
 					<th>Nombre</th>
 					<th>País</th>
 					<th>Teléfono</th>
-					<th>Referidos obtenidos</th>
 					<th>Entidad Bancaria</th>
 					<th>Cuenta Bancaria</th>
 					<th>Tipo Cuenta</th>

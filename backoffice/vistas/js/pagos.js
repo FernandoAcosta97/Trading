@@ -1730,9 +1730,30 @@ $(".btnExcelPagosExtras").click(function(){
   
 })
 
+
+$(".btnExcelPagosRecurrencia").click(function(){
+
+  window.location="index.php?pagina=reporte-pagos-recurrencia&excel=1";
+
+})
+
+
+$(".btnExcelPagosAfiliados").click(function(){
+
+  window.location="index.php?pagina=reporte-pagos-afiliados&excel=1";
+
+})
+
 $(".btnExcelPagosBienvenida").click(function(){
 
   window.location="index.php?pagina=reporte-pagos-bienvenida&excel=1";
+
+})
+
+
+$(".btnExcelPagosPublicidad").click(function(){
+
+  window.location="index.php?pagina=reporte-pagos-publicidad&excel=1";
 
 })
 

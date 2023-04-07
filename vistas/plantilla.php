@@ -31,7 +31,7 @@ $ruta = ControladorRuta::ctrRuta();
 
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<title>Inversiones Trading</title>
+	<title>SPORTBIT</title>
 
 	<base href="vistas/">
 
@@ -221,9 +221,9 @@ if(isset($_GET["pagina"])){
 <div class="jumbotron bg-white w-100 text-center py-4 shadow-lg cookies">	
 
 	<p>Este sitio web utiliza cookies para garantizar que obtenga la mejor experiencia al navegar nuestro sitio.
-	<a href="<?php echo $ruta; ?>politicas-de-privacidad.pdf" target="_blank">Leer más</a>
+	<a href="<?php echo $ruta; ?>terminos-y-condiciones.pdf" target="_blank">Leer más</a>
 	</p>
-	<button class="btn btn-info btn-sm px-5">Ok</button>
+	<button class="btn btn-success btn-sm px-5">Ok</button>
 
 </div>
 

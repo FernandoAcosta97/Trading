@@ -423,4 +423,9 @@ $(".tablaCuentas tbody").on("click", "button.btnEliminarCuenta", function () {
 
 
 
+$(".btnExcelCuentas").click(function(){
+
+	 window.location="index.php?pagina=reporte-cuentas&excel=1";
+	
+  })
   

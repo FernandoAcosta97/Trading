@@ -12,11 +12,11 @@
 				
 					<!-- <a href="<?php echo $ruta; ?>inicio"><img src="img/logo-positivo.png" class="img-fluid px-5"></a> -->
 
-					<div class="d-flex justify-content-between">
-					<h2>TRADING COLOMBIA</h2>
+					<div class="d-flex justify-content-center">
+					<h2>SPORTBIT</h2>
                     </div>
 
-						<div class="d-flex justify-content-between">
+						<div class="d-flex justify-content-center">
 						
 						<h4>Regístrate al sistema</h4>
 
@@ -51,7 +51,7 @@
 							<input type="checkbox" id="politicas" class="form-check-input">
 
 								<label class="form-check-label" for="politicas">
-							Para registrarse debe aceptar nuestras <a href="<?php echo $ruta ?>politicas-de-privacidad.pdf" target="_blank">políticas de privacidad</a> <span></span>
+							Para registrarse debe aceptar nuestros <a href="<?php echo $ruta ?>terminos-y-condiciones.pdf" target="_blank">términos y condiciones</a> <span></span>
 							</label>
 
 						</div>
@@ -63,7 +63,7 @@
 
 						?>
 
-						<input type="submit" class="form-control my-3 py-3 btn btn-info" value="Registrarse">
+						<input type="submit" class="form-control my-3 py-3 btn btn-success" value="Registrarse">
 
 						<p class="text-center py-3">¿Ya tienes una cuenta? | <a href="<?php echo $ruta; ?>ingreso">Ingresar</a></p>
 

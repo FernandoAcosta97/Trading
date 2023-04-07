@@ -174,7 +174,7 @@
 
 							Para efectos de la interpretación del presente contrato de DISTRIBUCIÓN, los términos relevante usados en el mismo
 							están definidos en el documento de Términos y Condiciones el cual usted aceptó y estuvo de acuerdo al registrarse en
-							la página web www.academyoflife.com; los términos y palabras no definidas en el documento de Términos y
+							la página web www.sportbit.com.co; los términos y palabras no definidas en el documento de Términos y
 							Condiciones serán interpretadas pos su significado legal y técnico conforme a lo preceptuado en las leyes de cada
 							país.
 
@@ -286,7 +286,7 @@
 				 		<div class="card-body">
 
 				 		<ul>
-							<li><b>NIVELES:</b> Es la posición en la que usted se encuentra de acuerdo al Plan de Compensación.</li>
+							<li><b>ACTIVACIÓN DE LA CUENTA DE USUARIO: </b> Proceso a través del cual el Operador habilita al jugador para poder participar en las apuestas. La verificación de los datos deberá ser realizada por el Operador mediante los procedimientos de verificación de titularidad implementados.</li>
 							<li><b>LÍNEA DESCENDIENTE:</b> Es la ubicación que toman las personas que usted o su equipo de trabajo han ingresado al sistema de Academy of Life. Estás líneas descendientes se organizan en una matriz de múltiplos de 4, es decir, la primera línea descendiente tiene 4 personas, la segunda línea descendiente tiene 16 personas, la tercera línea descendiente tiene 64 personas y la última línea tiene 256 personas.</li>
 							<li><b>BACKOFFICE:</b> Es la plataforma virtual que Academy of Life le ofrece para poder visualizar los productos que usted adquiere, administrar y cobrar sus comisiones, resolver inquietudes e informarse acerca del crecimiento de su equipo de trabajo.</li>
 							<li><b>EQUIPO DE TRABAJO:</b> Son las personas que ingresan a su línea descendiente de manera directa o indirecta.</li>

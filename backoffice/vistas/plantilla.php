@@ -20,6 +20,12 @@ if (isset($_GET["pagina"])) {
 
 
 if (isset($_GET["pagina"])) {
+	if ($_GET["pagina"] == "reporte-cuentas"){
+		include "paginas/" . $_GET["pagina"] . ".php";
+	}
+}
+
+if (isset($_GET["pagina"])) {
 	if ($_GET["pagina"] == "reporte-pagos-extras"){
 		include "paginas/" . $_GET["pagina"] . ".php";
 	}
@@ -34,6 +40,34 @@ if (isset($_GET["pagina"])) {
 
 if (isset($_GET["pagina"])) {
 	if ($_GET["pagina"] == "reporte-pagos-comisiones"){
+		include "paginas/" . $_GET["pagina"] . ".php";
+	}
+}
+
+
+if (isset($_GET["pagina"])) {
+	if ($_GET["pagina"] == "reporte-pagos-publicidad"){
+		include "paginas/" . $_GET["pagina"] . ".php";
+	}
+}
+
+
+if (isset($_GET["pagina"])) {
+	if ($_GET["pagina"] == "reporte-pagos-recurrencia"){
+		include "paginas/" . $_GET["pagina"] . ".php";
+	}
+}
+
+
+if (isset($_GET["pagina"])) {
+	if ($_GET["pagina"] == "reporte-pagos-afiliados"){
+		include "paginas/" . $_GET["pagina"] . ".php";
+	}
+}
+
+
+if (isset($_GET["pagina"])) {
+	if ($_GET["pagina"] == "reportes-excel"){
 		include "paginas/" . $_GET["pagina"] . ".php";
 	}
 }
@@ -73,7 +107,7 @@ $usuario = ControladorUsuarios::ctrMostrarUsuarios($item, $valor);
 
   	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-  	<title>Backoffice | Inversiones</title>
+  	<title>Backoffice | SportBit</title>
 
   	<link rel="icon" href="vistas/img/plantilla/icono.png">
 

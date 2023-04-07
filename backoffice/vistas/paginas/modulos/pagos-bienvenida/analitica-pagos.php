@@ -3,12 +3,14 @@
 $total_a_pagar = 0;
 $total_pagos = 0;
 $pagos = ControladorPagos::ctrMostrarPagosBienvenida(null,null);
+$total=0;
 
 foreach ($pagos as $key => $value) {
 
 	$campana=ControladorCampanas::ctrMostrarCampanas("id", $value["id_campana"]);
 
-	$total=$campana["retorno"];
+	$total=$total+$campana["retorno"];
+
 
 	if($value["estado"]==0){
 		$total_a_pagar+=$total;
@@ -16,7 +18,9 @@ foreach ($pagos as $key => $value) {
 		$total_pagos+=$value["valor"];
 	}
 
+
 }
+
 
 
 

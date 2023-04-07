@@ -12,7 +12,6 @@ use PhpOffice\PhpSpreadsheet\Style\Fill;
 class ControladorPagos
 {
 
-
     public function ctrDescargarReporte(){
 
         if(isset($_GET["excel"]) && $_GET["excel"]==1){
@@ -260,35 +259,243 @@ class ControladorPagos
     }
 
 
+    public function ctrDescargarReportePagosPublicidad(){
+
+        if(isset($_GET["excel"]) && $_GET["excel"]==1){
+ 
+        $pagos=ControladorPagos::ctrMostrarPagosPublicidadAll("estado","0");
+
+        $excel = new Spreadsheet();
+		$excel->getDefaultStyle()->getFont()->setName('Arial');
+		$excel->getDefaultStyle()->getFont()->setSize(12);
+        $hoja = $excel->getActiveSheet();
+        $hoja->setTitle("Pagos Publicidad");
+
+        $styleArrayTitulos = [
+            'font' => [
+                'bold' => true,
+            ],
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+            ],
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                ],
+            ],
+            'fill' => [
+                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                'startColor' => [
+                    'argb' => 'FFA4FFA4',
+                ],
+            ],
+        ];
+
+        $hoja->getStyle('A1')->applyFromArray($styleArrayTitulos);
+        $hoja->getStyle('B1')->applyFromArray($styleArrayTitulos);
+        $hoja->getStyle('C1')->applyFromArray($styleArrayTitulos);
+        $hoja->getStyle('D1')->applyFromArray($styleArrayTitulos);
+        $hoja->getStyle('E1')->applyFromArray($styleArrayTitulos);
+        $hoja->getStyle('F1')->applyFromArray($styleArrayTitulos);
+        $hoja->getStyle('G1')->applyFromArray($styleArrayTitulos);
+        $hoja->getStyle('H1')->applyFromArray($styleArrayTitulos);
+
+        $styleArray = [
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+            ],
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                ],
+            ],
+        ];
+
+        $n=count($pagos)+1;
+        
+        $hoja->getStyle('A2:H'.$n)->applyFromArray($styleArray);
+
+        $hoja->getColumnDimension("A")->setWidth(5);
+        $hoja->setCellValue("A1", "N°");
+
+        $hoja->getColumnDimension("B")->setWidth(30);
+        $hoja->setCellValue("B1", "CAMPAÑA");
+
+		$hoja->getColumnDimension("C")->setWidth(20);
+		$hoja->getStyle("C")->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_NUMBER);
+        $hoja->setCellValue("C1", "DOCUMENTO");
+
+		$hoja->getColumnDimension("D")->setWidth(30);
+        $hoja->setCellValue("D1", "NOMBRE");
+
+		$hoja->getColumnDimension("E")->setWidth(30);
+        $hoja->setCellValue("E1", "PAIS");
+
+		$hoja->getColumnDimension("F")->setWidth(20);
+        $hoja->setCellValue("F1", "TELEFONO");
+
+        $hoja->getColumnDimension("G")->setWidth(30);
+        $hoja->getStyle("G")->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+        $hoja->setCellValue("G1", "TOTAL");
+
+        $hoja->getColumnDimension("H")->setWidth(20);
+        $hoja->setCellValue("H1", "FECHA");
+
+        // $hoja->getColumnDimension("J")->setWidth(15);
+
+        $fila = 2;
+        $totalApagar = 0;
+        $totalInversion = 0;
+
+        foreach($pagos as $key => $value){
+
+            $us=ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $value["id_usuario"]);
+
+            $comprobante=ControladorComprobantes::ctrMostrarComprobantes("id", $value["id_comprobante"]);
+
+            $campana=ControladorCampanas::ctrMostrarCampanas("id", $comprobante[0]["campana"]);
+
+            // $total=$ganancia+$totalBono;
+
+            $hoja->setCellValue('A'.$fila, $key+1);
+            $hoja->setCellValue('B'.$fila, $campana["nombre"]);
+            $hoja->setCellValue('C'.$fila, $us["doc_usuario"]);
+            $hoja->setCellValue('D'.$fila, $us["nombre"]);
+			$hoja->setCellValue('E'.$fila, $us["pais"]);
+			$hoja->setCellValue('F'.$fila, $us["telefono_movil"]);
+            $hoja->setCellValue('G'.$fila, $campana["retorno"]);
+            $hoja->setCellValue('H'.$fila, $value["fecha"]);
+
+            $fila++;
+
+        }
+        // $hoja>getStyle('B3:B7')->getFill()
+        // ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+        // ->getStartColor()->setARGB('FFFF0000');
+        $styleArray2 = [
+            'font' => [
+                'bold' => true,
+            ],
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+            ],
+            'fill' => [
+                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                'startColor' => [
+                    'argb' => 'FFA4FFA4',
+                ],
+            ],
+        ];
+        // $hoja->getStyle('I'.$n+1)->applyFromArray($styleArray2);
+        // $hoja->setCellValue('I'.$n+1, $totalApagar);
+
+        $styleArray3 = [
+            'font' => [
+                'bold' => true,
+            ],
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+            ],
+            'fill' => [
+                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                'startColor' => [
+                    'argb' => 'FFFFFF00',
+                ],
+            ],
+        ];
+
+        // $hoja->getStyle('G'.$n+1)->applyFromArray($styleArray2);
+        // $hoja->setCellValue('G'.$n+1, $total);
+
+		ob_end_clean();
+
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+
+        header('Content-Disposition: attachment;filename="pagos-publicidad.xlsx"');
+        header('Cache-Control: max-age=0');
+        
+        $writer = IOFactory::createWriter($excel, 'Xlsx');
+        $writer->save('php://output');
+        exit;
+    }
+
+
+    }
+
+
+
 
 public function ctrDescargarReportePagosExtras(){
 
     if(isset($_GET["excel"]) && $_GET["excel"]==1){
 
         $pagos=ControladorPagos::ctrMostrarPagosExtrasAll("estado","0");
-           
-
+    
         $excel = new Spreadsheet();
 		$excel->getDefaultStyle()->getFont()->setName('Arial');
 		$excel->getDefaultStyle()->getFont()->setSize(12);
         $hoja = $excel->getActiveSheet();
         $hoja->setTitle("Pagos Extras");
 
+        $styleArrayTitulos = [
+            'font' => [
+                'bold' => true,
+            ],
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+            ],
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                ],
+            ],
+            'fill' => [
+                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                'startColor' => [
+                    'argb' => 'FFA4FFA4',
+                ],
+            ],
+        ];
+
+        $hoja->getStyle('A1')->applyFromArray($styleArrayTitulos);
+        $hoja->getStyle('B1')->applyFromArray($styleArrayTitulos);
+        $hoja->getStyle('C1')->applyFromArray($styleArrayTitulos);
+        $hoja->getStyle('D1')->applyFromArray($styleArrayTitulos);
+        $hoja->getStyle('E1')->applyFromArray($styleArrayTitulos);
+        $hoja->getStyle('F1')->applyFromArray($styleArrayTitulos);
+        $hoja->getStyle('G1')->applyFromArray($styleArrayTitulos);
+
+        $styleArray = [
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+            ],
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                ],
+            ],
+        ];
+
+        $n=count($pagos)+1;
+        
+        $hoja->getStyle('A2:G'.$n)->applyFromArray($styleArray);
+
 		$hoja->getColumnDimension("A")->setWidth(20);
 		$hoja->getStyle("A")->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_NUMBER);
         $hoja->setCellValue("A1", "Documento");
 		$hoja->getColumnDimension("B")->setWidth(30);
-        $hoja->setCellValue("B1", "Usuario");
+        $hoja->setCellValue("B1", "Nombre");
 		$hoja->getColumnDimension("C")->setWidth(30);
-        $hoja->setCellValue("C1", "Nombre");
+        $hoja->setCellValue("C1", "Correo");
 		$hoja->getColumnDimension("D")->setWidth(30);
-        $hoja->setCellValue("D1", "Correo");
-		$hoja->getColumnDimension("E")->setWidth(30);
-        $hoja->setCellValue("E1", "Pais");
-		$hoja->getColumnDimension("F")->setWidth(20);
-        $hoja->setCellValue("F1", "Télefono");
-		$hoja->getColumnDimension("G")->setWidth(30);
-        $hoja->setCellValue("G1", "Código Afiliado");
+        $hoja->setCellValue("D1", "Pais");
+		$hoja->getColumnDimension("E")->setWidth(20);
+        $hoja->setCellValue("E1", "Télefono");
+		$hoja->getColumnDimension("F")->setWidth(30);
+        $hoja->setCellValue("F1", "Campaña");
+        $hoja->getColumnDimension("G")->setWidth(30);
+        $hoja->getStyle("G")->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+        $hoja->setCellValue("G1", "Total");
 
         $fila = 2;
 
@@ -297,12 +504,27 @@ public function ctrDescargarReportePagosExtras(){
             $us=ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $value["id_usuario"]);
             
             $hoja->setCellValue('A'.$fila, $us["doc_usuario"]);
-            $hoja->setCellValue('B'.$fila, $us["usuario"]);
-            $hoja->setCellValue('C'.$fila, $us["nombre"]);
-			$hoja->setCellValue('D'.$fila, $us["email"]);
-			$hoja->setCellValue('E'.$fila, $us["pais"]);
-			$hoja->setCellValue('F'.$fila, $us["telefono_movil"]);
-			$hoja->setCellValue('G'.$fila, $us["enlace_afiliado"]);
+            $hoja->setCellValue('B'.$fila, $us["nombre"]);
+            $hoja->setCellValue('C'.$fila, $us["email"]);
+			$hoja->setCellValue('D'.$fila, $us["pais"]);
+			$hoja->setCellValue('E'.$fila, $us["telefono_movil"]);
+
+            $bonos = ControladorPagos::ctrMostrarBonosExtrasAll("id_pago_extra",$value["id"]);
+
+            if(count($bonos)>0){
+
+            $total = 0;
+            foreach($bonos as $key2 => $value2){
+           
+                $ganancia=0;
+                $campana = ControladorCampanas::ctrMostrarCampanas("id",$value2["id_campana"]);
+
+                $total=$total+$campana["retorno"];
+            }
+        }
+
+            $hoja->setCellValue('F'.$fila, $campana["nombre"]);
+            $hoja->setCellValue('G'.$fila, $total);
 
             $fila++;
 
@@ -337,6 +559,50 @@ public function ctrDescargarReportePagosBienvenida(){
             $excel->getDefaultStyle()->getFont()->setSize(12);
             $hoja = $excel->getActiveSheet();
             $hoja->setTitle("Pagos Bienvenida");
+
+            $styleArrayTitulos = [
+                'font' => [
+                    'bold' => true,
+                ],
+                'alignment' => [
+                    'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+                ],
+                'borders' => [
+                    'allBorders' => [
+                        'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                    ],
+                ],
+                'fill' => [
+                    'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                    'startColor' => [
+                        'argb' => 'FFA4FFA4',
+                    ],
+                ],
+            ];
+
+            $hoja->getStyle('A1')->applyFromArray($styleArrayTitulos);
+            $hoja->getStyle('B1')->applyFromArray($styleArrayTitulos);
+            $hoja->getStyle('C1')->applyFromArray($styleArrayTitulos);
+            $hoja->getStyle('D1')->applyFromArray($styleArrayTitulos);
+            $hoja->getStyle('E1')->applyFromArray($styleArrayTitulos);
+            $hoja->getStyle('F1')->applyFromArray($styleArrayTitulos);
+            $hoja->getStyle('G1')->applyFromArray($styleArrayTitulos);
+            $hoja->getStyle('H1')->applyFromArray($styleArrayTitulos);
+
+            $styleArray = [
+                'alignment' => [
+                    'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+                ],
+                'borders' => [
+                    'allBorders' => [
+                        'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                    ],
+                ],
+            ];
+    
+            $n=count($pagos)+1;
+            
+            $hoja->getStyle('A2:H'.$n)->applyFromArray($styleArray);
     
             $hoja->getColumnDimension("A")->setWidth(20);
             $hoja->getStyle("A")->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_NUMBER);
@@ -352,13 +618,18 @@ public function ctrDescargarReportePagosBienvenida(){
             $hoja->getColumnDimension("F")->setWidth(20);
             $hoja->setCellValue("F1", "Télefono");
             $hoja->getColumnDimension("G")->setWidth(30);
-            $hoja->setCellValue("G1", "Código Afiliado");
+            $hoja->setCellValue("G1", "Campaña");
+            $hoja->getColumnDimension("H")->setWidth(30);
+            $hoja->getStyle("H")->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+            $hoja->setCellValue("H1", "Total");
     
             $fila = 2;
     
             foreach($pagos as $key => $value){
     
                 $us=ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $value["id_usuario"]);
+
+                $campana = ControladorCampanas::ctrMostrarCampanas("id",$value["id_campana"]);
                 
                 $hoja->setCellValue('A'.$fila, $us["doc_usuario"]);
                 $hoja->setCellValue('B'.$fila, $us["usuario"]);
@@ -366,7 +637,8 @@ public function ctrDescargarReportePagosBienvenida(){
                 $hoja->setCellValue('D'.$fila, $us["email"]);
                 $hoja->setCellValue('E'.$fila, $us["pais"]);
                 $hoja->setCellValue('F'.$fila, $us["telefono_movil"]);
-                $hoja->setCellValue('G'.$fila, $us["enlace_afiliado"]);
+                $hoja->setCellValue('G'.$fila, $campana["nombre"]);
+                $hoja->setCellValue('H'.$fila, $campana["retorno"]);
     
                 $fila++;
     
@@ -392,6 +664,8 @@ public function ctrDescargarReportePagosBienvenida(){
     public function ctrDescargarReportePagosComisiones(){
 
         if(isset($_GET["excel"]) && $_GET["excel"]==1){
+
+            $total=0;
         
             $pagos=ControladorPagos::ctrMostrarPagosComisionesAll("estado","0");
                    
@@ -400,22 +674,63 @@ public function ctrDescargarReportePagosBienvenida(){
                 $excel->getDefaultStyle()->getFont()->setSize(12);
                 $hoja = $excel->getActiveSheet();
                 $hoja->setTitle("Pagos Comisiones");
+
+                $styleArrayTitulos = [
+                    'font' => [
+                        'bold' => true,
+                    ],
+                    'alignment' => [
+                        'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+                    ],
+                    'borders' => [
+                        'allBorders' => [
+                            'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                        ],
+                    ],
+                    'fill' => [
+                        'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                        'startColor' => [
+                            'argb' => 'FFA4FFA4',
+                        ],
+                    ],
+                ];
+
+                $hoja->getStyle('A1')->applyFromArray($styleArrayTitulos);
+                $hoja->getStyle('B1')->applyFromArray($styleArrayTitulos);
+                $hoja->getStyle('C1')->applyFromArray($styleArrayTitulos);
+                $hoja->getStyle('D1')->applyFromArray($styleArrayTitulos);
+                $hoja->getStyle('E1')->applyFromArray($styleArrayTitulos);
+                $hoja->getStyle('F1')->applyFromArray($styleArrayTitulos);
+
+                $styleArray = [
+                    'alignment' => [
+                        'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+                    ],
+                    'borders' => [
+                        'allBorders' => [
+                            'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                        ],
+                    ],
+                ];
+
+                $n=count($pagos)+1;
         
+                $hoja->getStyle('A2:F'.$n)->applyFromArray($styleArray);
+
                 $hoja->getColumnDimension("A")->setWidth(20);
                 $hoja->getStyle("A")->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_NUMBER);
                 $hoja->setCellValue("A1", "Documento");
                 $hoja->getColumnDimension("B")->setWidth(30);
-                $hoja->setCellValue("B1", "Usuario");
+                $hoja->setCellValue("B1", "Nombre");
                 $hoja->getColumnDimension("C")->setWidth(30);
-                $hoja->setCellValue("C1", "Nombre");
+                $hoja->setCellValue("C1", "Correo");
                 $hoja->getColumnDimension("D")->setWidth(30);
-                $hoja->setCellValue("D1", "Correo");
-                $hoja->getColumnDimension("E")->setWidth(30);
-                $hoja->setCellValue("E1", "Pais");
-                $hoja->getColumnDimension("F")->setWidth(20);
-                $hoja->setCellValue("F1", "Télefono");
-                $hoja->getColumnDimension("G")->setWidth(30);
-                $hoja->setCellValue("G1", "Código Afiliado");
+                $hoja->setCellValue("D1", "Pais");
+                $hoja->getColumnDimension("E")->setWidth(20);
+                $hoja->setCellValue("E1", "Télefono");
+                $hoja->getColumnDimension("F")->setWidth(30);
+                $hoja->getStyle("F")->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+                $hoja->setCellValue("F1", "Total");
         
                 $fila = 2;
         
@@ -424,12 +739,43 @@ public function ctrDescargarReportePagosBienvenida(){
                     $us=ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $value["id_usuario"]);
                     
                     $hoja->setCellValue('A'.$fila, $us["doc_usuario"]);
-                    $hoja->setCellValue('B'.$fila, $us["usuario"]);
-                    $hoja->setCellValue('C'.$fila, $us["nombre"]);
-                    $hoja->setCellValue('D'.$fila, $us["email"]);
-                    $hoja->setCellValue('E'.$fila, $us["pais"]);
-                    $hoja->setCellValue('F'.$fila, $us["telefono_movil"]);
-                    $hoja->setCellValue('G'.$fila, $us["enlace_afiliado"]);
+                    $hoja->setCellValue('B'.$fila, $us["nombre"]);
+                    $hoja->setCellValue('C'.$fila, $us["email"]);
+                    $hoja->setCellValue('D'.$fila, $us["pais"]);
+                    $hoja->setCellValue('E'.$fila, $us["telefono_movil"]);
+
+                    $comisiones = ControladorPagos::ctrMostrarComisionesAll("id_pago_comision",$value["id"]);
+
+                    if(count($comisiones)>0){
+        
+                    $total = 0;
+                    foreach($comisiones as $key2 => $value2){
+                   
+                        $porcentaje=0;
+                        $ganancia=0;
+                        if($value2["nivel"]==1){
+                            $porcentaje=5;
+                        }
+                        if($value2["nivel"]==2){
+                            $porcentaje=4;
+                        }
+                        if($value2["nivel"]==3){
+                            $porcentaje=3;
+                        }
+                        if($value2["nivel"]==4){
+                            $porcentaje=2;
+                        }
+                        if($value2["nivel"]==5){
+                            $porcentaje=1;
+                        }
+                        $comprobante = ControladorComprobantes::ctrMostrarComprobantes("id",$value2["id_comprobante"]);
+        
+                        $ganancia = ($comprobante[0]["valor"]*$porcentaje)/100;
+                        $total=$total+$ganancia;
+                    }
+                }
+
+                    $hoja->setCellValue('F'.$fila, $total);
         
                     $fila++;
         
@@ -440,6 +786,244 @@ public function ctrDescargarReportePagosBienvenida(){
                 header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         
                 header('Content-Disposition: attachment;filename="pagos-comisiones.xlsx"');
+                
+                header('Cache-Control: max-age=0');
+                
+                $writer = IOFactory::createWriter($excel, 'Xlsx');
+                $writer->save('php://output');
+                exit;
+            }
+        
+        
+    }
+
+
+
+    public function ctrDescargarReportePagosAfiliados(){
+
+        if(isset($_GET["excel"]) && $_GET["excel"]==1){
+
+            $total=0;
+        
+            $pagos=ControladorPagos::ctrMostrarPagosRecurrenciaAfiliadosAll("estado","0");
+                   
+                $excel = new Spreadsheet();
+                $excel->getDefaultStyle()->getFont()->setName('Arial');
+                $excel->getDefaultStyle()->getFont()->setSize(12);
+                $hoja = $excel->getActiveSheet();
+                $hoja->setTitle("Pagos Afiliados");
+
+                $styleArrayTitulos = [
+                    'font' => [
+                        'bold' => true,
+                    ],
+                    'alignment' => [
+                        'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+                    ],
+                    'borders' => [
+                        'allBorders' => [
+                            'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                        ],
+                    ],
+                    'fill' => [
+                        'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                        'startColor' => [
+                            'argb' => 'FFA4FFA4',
+                        ],
+                    ],
+                ];
+
+                $hoja->getStyle('A1')->applyFromArray($styleArrayTitulos);
+                $hoja->getStyle('B1')->applyFromArray($styleArrayTitulos);
+                $hoja->getStyle('C1')->applyFromArray($styleArrayTitulos);
+                $hoja->getStyle('D1')->applyFromArray($styleArrayTitulos);
+                $hoja->getStyle('E1')->applyFromArray($styleArrayTitulos);
+                $hoja->getStyle('F1')->applyFromArray($styleArrayTitulos);
+
+                $styleArray = [
+                    'alignment' => [
+                        'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+                    ],
+                    'borders' => [
+                        'allBorders' => [
+                            'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                        ],
+                    ],
+                ];
+
+                $n=count($pagos)+1;
+        
+                $hoja->getStyle('A2:F'.$n)->applyFromArray($styleArray);
+
+                $hoja->getColumnDimension("A")->setWidth(20);
+                $hoja->getStyle("A")->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_NUMBER);
+                $hoja->setCellValue("A1", "Documento");
+                $hoja->getColumnDimension("B")->setWidth(30);
+                $hoja->setCellValue("B1", "Nombre");
+                $hoja->getColumnDimension("C")->setWidth(30);
+                $hoja->setCellValue("C1", "Correo");
+                $hoja->getColumnDimension("D")->setWidth(30);
+                $hoja->setCellValue("D1", "Pais");
+                $hoja->getColumnDimension("E")->setWidth(20);
+                $hoja->setCellValue("E1", "Télefono");
+                $hoja->getColumnDimension("F")->setWidth(30);
+                $hoja->getStyle("F")->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+                $hoja->setCellValue("F1", "Total");
+        
+                $fila = 2;
+        
+                foreach($pagos as $key => $value){
+
+                    $total=0;
+        
+                    $us=ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $value["id_usuario"]);
+
+                    $campana=ControladorCampanas::ctrMostrarCampanas("id", $value["id_campana"]);
+
+                    $listaRecurrencia = json_decode($campana["nombre"], true);
+
+                    foreach ($listaRecurrencia as $key2 => $value2) {
+                        if($value["afiliados"]==$value2["afiliados"]){
+                         $total=$total+$value2["retorno"];
+                         break;
+                        }
+                    }
+                    
+                    $hoja->setCellValue('A'.$fila, $us["doc_usuario"]);
+                    $hoja->setCellValue('B'.$fila, $us["nombre"]);
+                    $hoja->setCellValue('C'.$fila, $us["email"]);
+                    $hoja->setCellValue('D'.$fila, $us["pais"]);
+                    $hoja->setCellValue('E'.$fila, $us["telefono_movil"]);
+                    $hoja->setCellValue('F'.$fila, $total);
+        
+                    $fila++;
+        
+                }
+        
+                ob_end_clean();
+        
+                header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        
+                header('Content-Disposition: attachment;filename="pagos-afiliados.xlsx"');
+                
+                header('Cache-Control: max-age=0');
+                
+                $writer = IOFactory::createWriter($excel, 'Xlsx');
+                $writer->save('php://output');
+                exit;
+            }
+        
+        
+    }
+
+
+
+    public function ctrDescargarReportePagosRecurrencia(){
+
+        if(isset($_GET["excel"]) && $_GET["excel"]==1){
+
+            $total=0;
+        
+            $pagos=ControladorPagos::ctrMostrarPagosRecurrenciaAll("estado","0");
+                   
+                $excel = new Spreadsheet();
+                $excel->getDefaultStyle()->getFont()->setName('Arial');
+                $excel->getDefaultStyle()->getFont()->setSize(12);
+                $hoja = $excel->getActiveSheet();
+                $hoja->setTitle("Pagos Recurrencia");
+
+                $styleArrayTitulos = [
+                    'font' => [
+                        'bold' => true,
+                    ],
+                    'alignment' => [
+                        'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+                    ],
+                    'borders' => [
+                        'allBorders' => [
+                            'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                        ],
+                    ],
+                    'fill' => [
+                        'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
+                        'startColor' => [
+                            'argb' => 'FFA4FFA4',
+                        ],
+                    ],
+                ];
+
+                $hoja->getStyle('A1')->applyFromArray($styleArrayTitulos);
+                $hoja->getStyle('B1')->applyFromArray($styleArrayTitulos);
+                $hoja->getStyle('C1')->applyFromArray($styleArrayTitulos);
+                $hoja->getStyle('D1')->applyFromArray($styleArrayTitulos);
+                $hoja->getStyle('E1')->applyFromArray($styleArrayTitulos);
+                $hoja->getStyle('F1')->applyFromArray($styleArrayTitulos);
+
+                $styleArray = [
+                    'alignment' => [
+                        'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+                    ],
+                    'borders' => [
+                        'allBorders' => [
+                            'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                        ],
+                    ],
+                ];
+
+                $n=count($pagos)+1;
+        
+                $hoja->getStyle('A2:F'.$n)->applyFromArray($styleArray);
+
+                $hoja->getColumnDimension("A")->setWidth(20);
+                $hoja->getStyle("A")->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_NUMBER);
+                $hoja->setCellValue("A1", "Documento");
+                $hoja->getColumnDimension("B")->setWidth(30);
+                $hoja->setCellValue("B1", "Nombre");
+                $hoja->getColumnDimension("C")->setWidth(30);
+                $hoja->setCellValue("C1", "Correo");
+                $hoja->getColumnDimension("D")->setWidth(30);
+                $hoja->setCellValue("D1", "Pais");
+                $hoja->getColumnDimension("E")->setWidth(20);
+                $hoja->setCellValue("E1", "Télefono");
+                $hoja->getColumnDimension("F")->setWidth(30);
+                $hoja->getStyle("F")->getNumberFormat()->setFormatCode(NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
+                $hoja->setCellValue("F1", "Total");
+        
+                $fila = 2;
+        
+                foreach($pagos as $key => $value){
+
+                    $total=0;
+        
+                    $us=ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $value["id_usuario"]);
+
+                    $campana=ControladorCampanas::ctrMostrarCampanas("id", $value["id_campana"]);
+
+                    $listaRecurrencia = json_decode($campana["nombre"], true);
+
+                    foreach ($listaRecurrencia as $key2 => $value2) {
+                        if($value["inversiones"]==$value2["inversiones"]){
+                         $total=$total+$value2["retorno"];
+                         break;
+                        }
+                    }
+                    
+                    $hoja->setCellValue('A'.$fila, $us["doc_usuario"]);
+                    $hoja->setCellValue('B'.$fila, $us["nombre"]);
+                    $hoja->setCellValue('C'.$fila, $us["email"]);
+                    $hoja->setCellValue('D'.$fila, $us["pais"]);
+                    $hoja->setCellValue('E'.$fila, $us["telefono_movil"]);
+                    $hoja->setCellValue('F'.$fila, $total);
+        
+                    $fila++;
+        
+                }
+        
+                ob_end_clean();
+        
+                header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        
+                header('Content-Disposition: attachment;filename="pagos-recurrencia.xlsx"');
                 
                 header('Cache-Control: max-age=0');
                 

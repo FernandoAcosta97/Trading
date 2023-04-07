@@ -2,7 +2,7 @@
   <!-- Brand Logo -->
   <a href="inicio" class="brand-link">
     <img src="vistas/img/plantilla/icono.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-    <span class="brand-text font-weight-light">Inversiones Trading</span>
+    <span class="brand-text font-weight-light">Sport Bit</span>
   </a>
 
   <!-- Sidebar -->
