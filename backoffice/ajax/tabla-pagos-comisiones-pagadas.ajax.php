@@ -38,6 +38,7 @@ class TablaPagos{
 		$periodo_comision = 0;
 		$periodo_venta = 0;
 		$totalAfiliadosActivos=0;
+		$totalReferidosComisiones=0;
 
 		if(count($pagos) < 1 ){
 
@@ -72,6 +73,8 @@ class TablaPagos{
 		
 
 			$comisiones = ControladorPagos::ctrMostrarComisionesAll("id_pago_comision",$value["id"]);
+
+			$totalReferidosComisiones = count($comisiones);
 
 			$total = 0;
 
@@ -124,7 +127,7 @@ class TablaPagos{
 					"'.$usuario["nombre"].'",
 					"'.$usuario["pais"].'",
 					"'.$usuario["telefono_movil"].'",
-					"'.$totalAfiliadosActivos.'",
+					"'.$totalReferidosComisiones.'",
 					"'.$entidad_cuenta.'",
 					"'.$numero_cuenta.'",
 					"'.$tipo_cuenta.'",
@@ -133,6 +136,7 @@ class TablaPagos{
 			],';
 
 			$totalAfiliadosActivos=0;
+			$totalReferidosComisiones=0;
 
 		}
 

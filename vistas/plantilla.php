@@ -85,9 +85,6 @@ $ruta = ControladorRuta::ctrRuta();
 
 <?php 
 
-
-
-
 if(isset($_GET["pagina"])){
 
 	/*=============================================
