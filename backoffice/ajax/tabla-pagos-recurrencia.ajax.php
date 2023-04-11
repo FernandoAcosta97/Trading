@@ -76,7 +76,6 @@ class TablaPagos{
 				$seleccionar = "<center><input type='checkbox' class='seleccionarPago' idPago='".$value["id"]."'></input></center>";
 			}
 
-
 			$listaRecurrencia = json_decode($campana["nombre"], true);
 
 			foreach ($listaRecurrencia as $key2 => $value2) {
@@ -85,8 +84,6 @@ class TablaPagos{
 				 break;
 				}
 			}
-
-
 
 			$datosJson	 .= '[
 				    "'.($key+1).'",

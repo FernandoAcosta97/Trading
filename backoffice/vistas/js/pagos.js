@@ -1144,7 +1144,7 @@ $(".btnPagos").click(function () {
         direccion="pagos-extras";
       }
       if(tipoPago == "publicidad"){
-        direccion="publicidad";
+        direccion="pagos-publicidad";
       }
 
       if(idsPagos!=""){

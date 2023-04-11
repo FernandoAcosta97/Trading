@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-03-2023 a las 02:09:11
+-- Tiempo de generación: 11-04-2023 a las 05:18:36
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 8.2.0
 
@@ -35,6 +35,13 @@ CREATE TABLE `afiliados_recurrentes` (
   `fecha` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `afiliados_recurrentes`
+--
+
+INSERT INTO `afiliados_recurrentes` (`id`, `id_pago_afiliados`, `id_usuario`, `id_comprobante`, `fecha`) VALUES
+(1, 1, 102, 3, '2023-04-07 20:43:26');
+
 -- --------------------------------------------------------
 
 --
@@ -44,10 +51,17 @@ CREATE TABLE `afiliados_recurrentes` (
 CREATE TABLE `bonos_extras` (
   `id` bigint(20) NOT NULL,
   `id_pago_extra` bigint(20) NOT NULL,
-  `id_usuario` int(11) NOT NULL,
-  `id_comprobante` int(11) NOT NULL,
+  `id_usuario` bigint(20) NOT NULL,
+  `id_comprobante` bigint(20) NOT NULL,
   `id_campana` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `bonos_extras`
+--
+
+INSERT INTO `bonos_extras` (`id`, `id_pago_extra`, `id_usuario`, `id_comprobante`, `id_campana`) VALUES
+(2, 2, 102, 3, 13);
 
 -- --------------------------------------------------------
 
@@ -56,7 +70,7 @@ CREATE TABLE `bonos_extras` (
 --
 
 CREATE TABLE `campanas` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+  `id` int(11) NOT NULL,
   `nombre` text NOT NULL,
   `retorno` float NOT NULL,
   `estado` int(11) NOT NULL,
@@ -72,11 +86,14 @@ CREATE TABLE `campanas` (
 --
 
 INSERT INTO `campanas` (`id`, `nombre`, `retorno`, `estado`, `tipo`, `cupos`, `fecha_inicio`, `fecha_fin`, `fecha_retorno`) VALUES
-(8, 'stake', 10, 1, 1, 100, '2023-03-01 17:20:00', '2023-03-31 17:20:00', '2023-04-03'),
-(9, 'Bono Extra', 5000, 1, 2, 0, '2023-03-01 18:10:00', '2023-03-31 18:10:00', '2023-04-03'),
-(10, '[{\"inversiones\":\"1\",\"retorno\":\"1000\"}]', 0, 1, 5, 0, '2023-03-01 18:10:00', '2023-03-31 18:10:00', '2023-04-03'),
-(11, 'Bono Bienvenida', 8000, 1, 7, 0, '2023-03-01 18:11:00', '2023-03-31 18:11:00', '2023-04-03'),
-(12, 'Bono Apalancamiento', 10, 1, 4, 0, '2023-03-01 18:11:00', '2023-03-31 18:11:00', '2023-04-03');
+(1, 'stake1', 10, 1, 1, 100, '2023-03-09 15:17:00', '2023-04-28 15:17:00', '2023-05-05'),
+(7, 'publicidad1', 5000, 1, 3, 100, '2023-03-14 11:40:00', '2023-04-27 11:40:00', '2023-05-06'),
+(8, 'stake2', 10, 2, 1, 100, '2023-03-01 12:27:00', '2023-03-30 12:27:00', '2023-04-06'),
+(9, 'Bono Apalancamiento', 10, 1, 4, 0, '2023-03-14 19:36:00', '2023-04-27 19:36:00', '2023-05-06'),
+(10, '[{\"afiliados\":\"1\",\"retorno\":\"1000\"},{\"afiliados\":\"2\",\"retorno\":\"2000\"}]', 0, 1, 6, 0, '2023-03-22 19:37:00', '2023-04-28 19:37:00', '2023-05-06'),
+(11, 'Bono Bienvenida', 5000, 1, 7, 0, '2023-03-13 19:38:00', '2023-04-27 19:38:00', '2023-05-06'),
+(12, '[{\"inversiones\":\"1\",\"retorno\":\"5000\"}]', 0, 1, 5, 0, '2023-03-21 19:38:00', '2023-04-28 19:38:00', '2023-05-06'),
+(13, 'Bono Extra', 1000, 1, 2, 0, '2023-02-21 20:23:00', '2023-04-28 20:23:00', '2023-05-06');
 
 -- --------------------------------------------------------
 
@@ -107,6 +124,13 @@ CREATE TABLE `comisiones` (
   `nivel` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `comisiones`
+--
+
+INSERT INTO `comisiones` (`id`, `id_pago_comision`, `id_comprobante`, `nivel`) VALUES
+(5, 4, 3, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -114,7 +138,7 @@ CREATE TABLE `comisiones` (
 --
 
 CREATE TABLE `comprobantes` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+  `id` bigint(20) NOT NULL,
   `foto` text NOT NULL,
   `fecha` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `estado` int(11) NOT NULL,
@@ -128,8 +152,20 @@ CREATE TABLE `comprobantes` (
 --
 
 INSERT INTO `comprobantes` (`id`, `foto`, `fecha`, `estado`, `valor`, `doc_usuario`, `campana`) VALUES
-(1, 'vistas/img/comprobantes/32707/390.png', '2023-03-20 22:44:40', 1, 100000, 32707, 8),
-(2, 'vistas/img/comprobantes/32707/640.png', '2023-03-20 22:44:41', 1, 50000, 32707, 8);
+(1, 'vistas/img/comprobantes/9844161/903.png', '2023-03-23 20:19:17', 1, 100000, 9844161, 1),
+(2, 'vistas/img/comprobantes/9844161/301.png', '2023-03-23 20:19:18', 1, 150000, 9844161, 1),
+(3, '', '2023-04-07 20:43:26', 1, 100000, 5345435, 1),
+(4, '', '2023-03-24 03:05:04', 0, 50000, 5345435, 1),
+(5, '', '2023-04-07 20:43:23', 0, 120000, 5345435, 1),
+(8, 'vistas/img/comprobantes/9844161/111.png', '2023-04-07 01:23:53', 1, 50000, 9844161, 8),
+(9, '', '2023-03-27 23:44:23', 1, 50000, 9844161, 1),
+(10, 'vistas/img/comprobantes/9844161/557.png', '2023-03-28 00:21:44', 1, 150000, 9844161, 1),
+(11, 'vistas/img/comprobantes/5345435/644.png', '2023-04-07 20:43:24', 0, 5000, 5345435, 1),
+(12, 'vistas/img/comprobantes/9844161/176.png', '2023-04-07 01:42:26', 1, 0, 9844161, 7),
+(13, 'vistas/img/comprobantes/165416/724.png', '2023-04-07 01:54:30', 1, 100000, 165416, 1),
+(14, 'vistas/img/comprobantes/9844161/521.png', '2023-04-07 20:42:05', 1, 100000, 9844161, 1),
+(15, 'vistas/img/comprobantes/9844161/778.jpg', '2023-04-09 21:04:40', 2, 155650, 9844161, 1),
+(16, 'vistas/img/comprobantes/9844161/315.png', '2023-04-10 01:22:48', 2, 100, 9844161, 1);
 
 -- --------------------------------------------------------
 
@@ -155,8 +191,9 @@ CREATE TABLE `cuentas_bancarias` (
 --
 
 INSERT INTO `cuentas_bancarias` (`id`, `numero`, `usuario`, `tipo_documento`, `titular`, `nombre_titular`, `entidad`, `estado`, `tipo`, `fecha`) VALUES
-(2, '34234234', 96, 'cedula de ciudadania', 324233, 'nombre titular', 'davivienda', 1, 'ahorros', '2023-03-20 22:41:45'),
-(3, '312321', 94, 'cedula de ciudadania', 2131232, 'nombre', 'bancolombia', 1, 'ahorros', '2023-03-20 23:30:48');
+(1, '2312313', 101, 'cedula de ciudadania', 213123, 'nombre titular', 'davivienda', 1, 'ahorros', '2023-03-23 20:18:44'),
+(2, '324', 102, 'cedula de ciudadania', 324, 'nombre titular', 'davivienda', 1, 'corriente', '2023-03-24 05:20:33'),
+(3, '165611', 106, 'cedula de ciudadania', 165165, 'nombre titular', 'davivienda', 1, 'ahorros', '2023-04-07 01:53:27');
 
 -- --------------------------------------------------------
 
@@ -190,14 +227,11 @@ CREATE TABLE `notificaciones` (
 --
 
 INSERT INTO `notificaciones` (`id`, `tipo`, `id_usuario`, `id_detalle`, `visualizacion`, `fecha`) VALUES
-(7, 'red', 1, 93, 0, '2023-03-20 20:38:33'),
-(8, 'red', 93, 94, 0, '2023-03-20 20:53:33'),
-(9, 'red', 93, 95, 0, '2023-03-20 20:55:25'),
-(10, 'red', 93, 96, 0, '2023-03-20 20:55:51'),
-(11, 'red', 93, 97, 0, '2023-03-20 20:56:16'),
-(12, 'red', 93, 98, 0, '2023-03-20 20:58:39'),
-(13, 'red', 96, 99, 0, '2023-03-20 21:01:03'),
-(14, 'red', 1, 100, 0, '2023-03-20 21:24:11');
+(1, 'red', 1, 101, 0, '2023-03-23 19:18:29'),
+(2, 'red', 101, 102, 0, '2023-03-23 19:19:13'),
+(3, 'red', 101, 103, 0, '2023-03-23 20:16:24'),
+(4, 'red', 1, 104, 0, '2023-03-24 02:23:17'),
+(5, 'red', 1, 106, 0, '2023-04-07 01:52:30');
 
 -- --------------------------------------------------------
 
@@ -206,7 +240,7 @@ INSERT INTO `notificaciones` (`id`, `tipo`, `id_usuario`, `id_detalle`, `visuali
 --
 
 CREATE TABLE `pagos_afiliados` (
-  `id` int(11) NOT NULL,
+  `id` bigint(20) NOT NULL,
   `id_usuario` bigint(20) NOT NULL,
   `valor` int(11) NOT NULL,
   `estado` int(11) NOT NULL DEFAULT 0,
@@ -215,6 +249,13 @@ CREATE TABLE `pagos_afiliados` (
   `id_campana` bigint(20) NOT NULL,
   `fecha` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `pagos_afiliados`
+--
+
+INSERT INTO `pagos_afiliados` (`id`, `id_usuario`, `valor`, `estado`, `id_cuenta`, `afiliados`, `id_campana`, `fecha`) VALUES
+(1, 101, 0, 0, 0, 1, 10, '2023-04-07 20:43:26');
 
 -- --------------------------------------------------------
 
@@ -232,6 +273,14 @@ CREATE TABLE `pagos_bienvenida` (
   `fecha` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `pagos_bienvenida`
+--
+
+INSERT INTO `pagos_bienvenida` (`id`, `id_usuario`, `estado`, `valor`, `id_cuenta`, `id_campana`, `fecha`) VALUES
+(1, 106, 0, 5000, 3, 11, '2023-04-07 20:15:02'),
+(2, 102, 0, 0, 0, 11, '2023-04-07 20:43:26');
+
 -- --------------------------------------------------------
 
 --
@@ -246,6 +295,13 @@ CREATE TABLE `pagos_comisiones` (
   `id_cuenta` int(11) NOT NULL,
   `fecha` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Volcado de datos para la tabla `pagos_comisiones`
+--
+
+INSERT INTO `pagos_comisiones` (`id`, `id_usuario`, `valor`, `estado`, `id_cuenta`, `fecha`) VALUES
+(4, 101, 0, 0, 0, '2023-04-07 20:43:26');
 
 -- --------------------------------------------------------
 
@@ -262,6 +318,13 @@ CREATE TABLE `pagos_extras` (
   `id_cuenta` int(11) NOT NULL,
   `fecha` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `pagos_extras`
+--
+
+INSERT INTO `pagos_extras` (`id`, `id_usuario`, `estado`, `referidos_obtenidos`, `valor`, `id_cuenta`, `fecha`) VALUES
+(2, 101, 0, 0, 0, 0, '2023-04-07 20:43:26');
 
 -- --------------------------------------------------------
 
@@ -284,8 +347,14 @@ CREATE TABLE `pagos_inversiones` (
 --
 
 INSERT INTO `pagos_inversiones` (`id`, `id_usuario`, `id_comprobante`, `id_apalancamiento`, `estado`, `id_cuenta`, `fecha`) VALUES
-(1, 96, 1, 0, 1, 2, '2023-03-20 22:45:00'),
-(2, 96, 2, 0, 0, 0, '2023-03-20 22:44:41');
+(1, 101, 1, 0, 1, 1, '2023-04-10 04:39:16'),
+(2, 101, 2, 0, 1, 1, '2023-04-10 21:45:14'),
+(6, 101, 9, 0, 1, 1, '2023-04-10 21:45:14'),
+(7, 101, 10, 0, 1, 1, '2023-04-10 21:45:14'),
+(8, 101, 8, 0, 1, 1, '2023-04-10 21:45:14'),
+(12, 106, 13, 0, 1, 3, '2023-04-10 21:45:14'),
+(13, 101, 14, 9, 1, 1, '2023-04-10 21:45:14'),
+(14, 102, 3, 9, 1, 2, '2023-04-10 21:45:14');
 
 -- --------------------------------------------------------
 
@@ -303,6 +372,13 @@ CREATE TABLE `pagos_publicidad` (
   `fecha` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `pagos_publicidad`
+--
+
+INSERT INTO `pagos_publicidad` (`id`, `id_usuario`, `id_comprobante`, `valor`, `estado`, `id_cuenta`, `fecha`) VALUES
+(2, 101, 12, 0, 0, 1, '2023-04-10 21:47:50');
+
 -- --------------------------------------------------------
 
 --
@@ -319,6 +395,13 @@ CREATE TABLE `pagos_recurrencia` (
   `id_campana` bigint(20) NOT NULL,
   `fecha` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `pagos_recurrencia`
+--
+
+INSERT INTO `pagos_recurrencia` (`id`, `id_usuario`, `valor`, `estado`, `id_cuenta`, `inversiones`, `id_campana`, `fecha`) VALUES
+(1, 102, 5000, 1, 2, 1, 12, '2023-04-10 22:33:44');
 
 -- --------------------------------------------------------
 
@@ -344,7 +427,7 @@ CREATE TABLE `pagos_uninivel` (
 
 CREATE TABLE `red_binaria` (
   `id_binaria` int(11) NOT NULL,
-  `usuario_red` int(11) NOT NULL,
+  `usuario_red` bigint(20) NOT NULL,
   `orden_binaria` int(11) NOT NULL,
   `derrame_binaria` int(11) NOT NULL,
   `patrocinador_red` text DEFAULT NULL,
@@ -356,12 +439,12 @@ CREATE TABLE `red_binaria` (
 --
 
 INSERT INTO `red_binaria` (`id_binaria`, `usuario_red`, `orden_binaria`, `derrame_binaria`, `patrocinador_red`, `fecha_binaria`) VALUES
-(1, 1, 1, 0, 'admin-trading', '2023-03-20 00:53:00'),
-(69, 94, 3, 1, 'admin-trading', '2023-03-20 21:53:20'),
-(70, 95, 4, 1, 'admin-trading', '2023-03-20 22:46:29'),
-(72, 97, 6, 1, 'admin-trading', '2023-03-20 21:53:20'),
-(73, 98, 7, 1, 'admin-trading', '2023-03-20 21:53:20'),
-(74, 99, 8, 1, 'admin-trading', '2023-03-20 22:46:29');
+(1, 1, 1, 0, 'admin-trading', '2023-03-23 17:08:34'),
+(77, 101, 2, 1, 'admin-trading', '2023-03-23 19:18:29'),
+(78, 102, 3, 2, 'prueba-4161', '2023-04-11 02:23:07'),
+(79, 103, 4, 2, 'prueba-4161', '2023-04-11 02:23:07'),
+(80, 104, 5, 3, 'pedro-5435', '2023-04-11 02:54:57'),
+(81, 106, 6, 2, 'prueba-4161', '2023-04-11 02:54:57');
 
 -- --------------------------------------------------------
 
@@ -371,7 +454,7 @@ INSERT INTO `red_binaria` (`id_binaria`, `usuario_red`, `orden_binaria`, `derram
 
 CREATE TABLE `red_uninivel` (
   `id_uninivel` int(11) NOT NULL,
-  `usuario_red` int(11) NOT NULL,
+  `usuario_red` bigint(20) NOT NULL,
   `patrocinador_red` text DEFAULT NULL,
   `fecha_uninivel` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
@@ -381,12 +464,12 @@ CREATE TABLE `red_uninivel` (
 --
 
 INSERT INTO `red_uninivel` (`id_uninivel`, `usuario_red`, `patrocinador_red`, `fecha_uninivel`) VALUES
-(1, 1, 'admin-trading', '2022-11-16 03:31:13'),
-(82, 94, 'admin-trading', '2023-03-20 21:53:20'),
-(83, 95, 'admin-trading', '2023-03-20 22:46:30'),
-(85, 97, 'admin-trading', '2023-03-20 21:53:20'),
-(86, 98, 'admin-trading', '2023-03-20 21:53:20'),
-(87, 99, 'admin-trading', '2023-03-20 22:46:30');
+(1, 1, 'admin-trading', '2023-03-23 17:09:48'),
+(90, 101, 'admin-trading', '2023-03-23 19:18:29'),
+(91, 102, 'prueba-4161', '2023-03-24 02:56:42'),
+(92, 103, 'prueba-4161', '2023-03-23 20:16:23'),
+(93, 104, 'pedro-5435', '2023-03-24 02:57:30'),
+(95, 106, 'prueba-4161', '2023-04-11 01:16:16');
 
 -- --------------------------------------------------------
 
@@ -406,13 +489,6 @@ CREATE TABLE `soporte` (
   `fecha_soporte` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
---
--- Volcado de datos para la tabla `soporte`
---
-
-INSERT INTO `soporte` (`id_soporte`, `remitente`, `receptor`, `asunto`, `mensaje`, `adjuntos`, `tipo`, `papelera`, `fecha_soporte`) VALUES
-(3, 1, 91, 'prueba', '<p>fdsfdf</p>', '[\"vistas\\/img\\/tickets\\/1\\/822.png\",\"vistas\\/img\\/tickets\\/1\\/898.png\"]', 'enviado', NULL, '2023-03-20 02:27:20');
-
 -- --------------------------------------------------------
 
 --
@@ -420,7 +496,7 @@ INSERT INTO `soporte` (`id_soporte`, `remitente`, `receptor`, `asunto`, `mensaje
 --
 
 CREATE TABLE `usuarios` (
-  `id_usuario` bigint(20) UNSIGNED NOT NULL,
+  `id_usuario` bigint(20) NOT NULL,
   `doc_usuario` bigint(20) NOT NULL,
   `perfil` text NOT NULL,
   `usuario` text NOT NULL,
@@ -450,14 +526,13 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id_usuario`, `doc_usuario`, `perfil`, `usuario`, `nombre`, `email`, `password`, `estado`, `operando`, `ciclo_pago`, `vencimiento`, `verificacion`, `email_encriptado`, `foto`, `enlace_afiliado`, `patrocinador`, `pais`, `codigo_pais`, `telefono_movil`, `firma`, `fecha_contrato`, `fecha`, `eliminado`) VALUES
-(1, 1, 'admin', 'Administrador', 'Administrador', 'admin@trading.com', '$2a$07$asxx54ahjppf45sd87a5auGZEtGHuyZwm.Ur.FJvWLCql3nmsMbXy', 1, 0, NULL, '2019-10-07', 1, NULL, 'vistas/img/usuarios/1/434.jpg', 'admin-trading', NULL, NULL, NULL, '+57 (321)85749', 'firma', '2023-01-01', '2019-09-27 19:13:02', 0),
-(96, 32707, 'usuario', 'Ford-', 'Fernando Guzman Perez', 'fernando@gmail.com', '$2a$07$asxx54ahjppf45sd87a5auFL5K1.Cmt9ZheoVVuudOi5BCi10qWly', 1, 1, NULL, NULL, 1, '5c9da67f026979f60685dc07efc1be3c', NULL, 'ford-2707', 'admin-trading', 'Israel', 'IL', '+972 (123) 123-1231', NULL, '2023-03-20', '2023-03-20 20:55:51', 1),
-(97, 90532, 'usuario', 'pedro-', 'pedro pablo', 'pedro@gmail.com', '$2a$07$asxx54ahjppf45sd87a5auFL5K1.Cmt9ZheoVVuudOi5BCi10qWly', 1, 0, NULL, NULL, 1, 'c3b7f393410fe6185ba5d966a213a38f', NULL, 'pedro-0532', 'admin-trading', 'Colombia', 'CO', '+57 (123) 123-1231', NULL, '2023-03-20', '2023-03-20 20:56:16', 0),
-(95, 324111, 'usuario', 'G20-', 'German Hernandez', 'g20@gmail.com', '$2a$07$asxx54ahjppf45sd87a5auFL5K1.Cmt9ZheoVVuudOi5BCi10qWly', 1, 0, NULL, NULL, 1, '71afdcdc3be4a849f1bb28592ddd7829', NULL, 'g20-4111', 'admin-trading', 'Israel', 'IL', '+972 (312) 312-3123', NULL, '2023-03-20', '2023-03-20 20:55:24', 0),
-(99, 3243083, 'usuario', 'kkk-2184', 'jjj', 'kk@gmail.com', '$2a$07$asxx54ahjppf45sd87a5auFL5K1.Cmt9ZheoVVuudOi5BCi10qWly', 1, 0, NULL, NULL, 1, '089997d94e3b73aac3839d9543dd0ca2', NULL, 'kkk-3083', 'admin-trading', 'Israel', 'IL', '+972 (123) 123-1231', NULL, '2023-03-20', '2023-03-20 21:01:02', 0),
-(94, 35435345, 'usuario', 'prueba-', 'prueba', 'prueba@gmail.com', '$2a$07$asxx54ahjppf45sd87a5auFL5K1.Cmt9ZheoVVuudOi5BCi10qWly', 1, 0, NULL, NULL, 1, 'c81b5136bcd10b4390108c979ed28ee6', NULL, 'prueba-5345', 'admin-trading', 'Israel', 'IL', '+972 (312) 312-3123', NULL, '2023-03-20', '2023-03-20 20:53:32', 0),
-(98, 90324324, 'usuario', 'prueba2-', 'prueba dos', 'prueba2@gmail.com', '$2a$07$asxx54ahjppf45sd87a5auFL5K1.Cmt9ZheoVVuudOi5BCi10qWly', 1, 0, NULL, NULL, 1, '489dff475d3a6f73dee71c2361aad42e', NULL, 'prueba2-4324', 'admin-trading', 'Israel', 'IL', '+972 (312) 312-3123', NULL, '2023-03-20', '2023-03-20 20:58:39', 0),
-(100, 345032452, 'usuario', 'pepe-3947', 'pepe', 'pepe@gmail.com', '$2a$07$asxx54ahjppf45sd87a5auFL5K1.Cmt9ZheoVVuudOi5BCi10qWly', 1, 0, NULL, NULL, 1, '6b0becddecd5a06042b3f8078c97f2e0', NULL, 'pepe-2452', 'admin-trading', 'Albania', 'AL', '+355 (123) 131-2312', NULL, '2023-03-20', '2023-03-20 21:24:11', 1);
+(1, 1, 'admin', 'Admin', 'Administrador', 'admin@trading.com', '$2a$07$asxx54ahjppf45sd87a5auGZEtGHuyZwm.Ur.FJvWLCql3nmsMbXy', 1, 0, NULL, NULL, 1, NULL, 'vistas/img/usuarios/1/434.jpg', 'admin-trading', NULL, NULL, NULL, NULL, 'firma', '2023-03-01', '2023-03-23 17:08:03', 0),
+(106, 165416, 'usuario', 'Guillermo-3867', 'Guillermo Galeano', 'guillermo@gmail.com', '$2a$07$asxx54ahjppf45sd87a5auFL5K1.Cmt9ZheoVVuudOi5BCi10qWly', 1, 1, NULL, NULL, 1, 'a99d8f8cdc755cdb2150c23b8f50f77a', NULL, 'guillermo-5416', 'admin-trading', 'Israel', 'IL', '+972 (123) 123-1231', NULL, '2023-04-06', '2023-04-07 01:52:30', 0),
+(102, 5345435, 'usuario', 'pedro-1166', 'pedro pablo', 'pedro@gmail.com', '$2a$07$asxx54ahjppf45sd87a5auFL5K1.Cmt9ZheoVVuudOi5BCi10qWly', 1, 1, NULL, NULL, 1, 'c3b7f393410fe6185ba5d966a213a38f', NULL, 'pedro-5435', 'prueba-4161', 'Colombia', 'CO', '+57 (312) 312-3123', NULL, '2023-03-23', '2023-03-23 19:19:13', 0),
+(101, 9844161, 'usuario', 'prueba-8229', 'prueba', 'prueba@gmail.com', '$2a$07$asxx54ahjppf45sd87a5auFL5K1.Cmt9ZheoVVuudOi5BCi10qWly', 1, 1, NULL, NULL, 1, 'c81b5136bcd10b4390108c979ed28ee6', NULL, 'prueba-4161', 'admin-trading', 'Colombia', 'CO', '+57 (123) 123-1231', NULL, '2023-03-23', '2023-03-23 19:18:29', 0),
+(104, 32423423, 'usuario', 'Ford-2146', 'ford', 'ford@gmail.com', '$2a$07$asxx54ahjppf45sd87a5auFL5K1.Cmt9ZheoVVuudOi5BCi10qWly', 1, 0, NULL, NULL, 1, 'd9d54b4cccdde0e775e467e0dbd0e9bf', NULL, 'ford-3423', 'pedro-5435', 'Colombia', 'CO', '+57 (123) 123-1231', NULL, '2023-03-23', '2023-03-24 02:23:17', 0),
+(103, 631561651, 'usuario', 'pepe-2319', 'pepeliano', 'pepe@gmail.com', '$2a$07$asxx54ahjppf45sd87a5auFL5K1.Cmt9ZheoVVuudOi5BCi10qWly', 1, 0, NULL, NULL, 1, '6b0becddecd5a06042b3f8078c97f2e0', NULL, 'pepe-1651', 'prueba-4161', 'Colombia', 'CO', '+57 (123) 121-2312', NULL, '2023-03-23', '2023-03-23 20:16:23', 0),
+(105, 26992667097, 'usuario', 'Miguel-7097', 'Miguel Torres', 'miguel@gmail.com', '$2a$07$asxx54ahjppf45sd87a5auFL5K1.Cmt9ZheoVVuudOi5BCi10qWly', 1, 0, NULL, NULL, 1, 'c952ec83eabde595820603a3ca9d7f54', NULL, NULL, 'admin-trading', NULL, NULL, NULL, NULL, NULL, '2023-04-01 15:16:30', 0);
 
 -- --------------------------------------------------------
 
@@ -485,13 +560,20 @@ CREATE TABLE `videos` (
 -- Indices de la tabla `afiliados_recurrentes`
 --
 ALTER TABLE `afiliados_recurrentes`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_usuario` (`id_usuario`),
+  ADD KEY `id_pago_afiliados` (`id_pago_afiliados`),
+  ADD KEY `id_comprobante` (`id_comprobante`);
 
 --
 -- Indices de la tabla `bonos_extras`
 --
 ALTER TABLE `bonos_extras`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_pago_extra` (`id_pago_extra`),
+  ADD KEY `id_comprobante` (`id_comprobante`),
+  ADD KEY `id_campana` (`id_campana`),
+  ADD KEY `id_usuario` (`id_usuario`);
 
 --
 -- Indices de la tabla `campanas`
@@ -627,19 +709,19 @@ ALTER TABLE `videos`
 -- AUTO_INCREMENT de la tabla `afiliados_recurrentes`
 --
 ALTER TABLE `afiliados_recurrentes`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `bonos_extras`
 --
 ALTER TABLE `bonos_extras`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `campanas`
 --
 ALTER TABLE `campanas`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `categorias`
@@ -651,13 +733,13 @@ ALTER TABLE `categorias`
 -- AUTO_INCREMENT de la tabla `comisiones`
 --
 ALTER TABLE `comisiones`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `comprobantes`
 --
 ALTER TABLE `comprobantes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `cuentas_bancarias`
@@ -675,49 +757,49 @@ ALTER TABLE `niveles_comision`
 -- AUTO_INCREMENT de la tabla `notificaciones`
 --
 ALTER TABLE `notificaciones`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `pagos_afiliados`
 --
 ALTER TABLE `pagos_afiliados`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `pagos_bienvenida`
 --
 ALTER TABLE `pagos_bienvenida`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `pagos_comisiones`
 --
 ALTER TABLE `pagos_comisiones`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `pagos_extras`
 --
 ALTER TABLE `pagos_extras`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `pagos_inversiones`
 --
 ALTER TABLE `pagos_inversiones`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `pagos_publicidad`
 --
 ALTER TABLE `pagos_publicidad`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `pagos_recurrencia`
 --
 ALTER TABLE `pagos_recurrencia`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `pagos_uninivel`
@@ -729,25 +811,25 @@ ALTER TABLE `pagos_uninivel`
 -- AUTO_INCREMENT de la tabla `red_binaria`
 --
 ALTER TABLE `red_binaria`
-  MODIFY `id_binaria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
+  MODIFY `id_binaria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=84;
 
 --
 -- AUTO_INCREMENT de la tabla `red_uninivel`
 --
 ALTER TABLE `red_uninivel`
-  MODIFY `id_uninivel` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=90;
+  MODIFY `id_uninivel` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96;
 
 --
 -- AUTO_INCREMENT de la tabla `soporte`
 --
 ALTER TABLE `soporte`
-  MODIFY `id_soporte` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_soporte` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
+  MODIFY `id_usuario` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=107;
 
 --
 -- AUTO_INCREMENT de la tabla `videos`
@@ -760,10 +842,39 @@ ALTER TABLE `videos`
 --
 
 --
+-- Filtros para la tabla `afiliados_recurrentes`
+--
+ALTER TABLE `afiliados_recurrentes`
+  ADD CONSTRAINT `afiliados_recurrentes_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `afiliados_recurrentes_ibfk_2` FOREIGN KEY (`id_pago_afiliados`) REFERENCES `pagos_afiliados` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `afiliados_recurrentes_ibfk_3` FOREIGN KEY (`id_comprobante`) REFERENCES `comprobantes` (`id`) ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `bonos_extras`
+--
+ALTER TABLE `bonos_extras`
+  ADD CONSTRAINT `bonos_extras_ibfk_1` FOREIGN KEY (`id_pago_extra`) REFERENCES `pagos_extras` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `bonos_extras_ibfk_2` FOREIGN KEY (`id_comprobante`) REFERENCES `comprobantes` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `bonos_extras_ibfk_3` FOREIGN KEY (`id_campana`) REFERENCES `campanas` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `bonos_extras_ibfk_4` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id_usuario`) ON UPDATE CASCADE;
+
+--
 -- Filtros para la tabla `comprobantes`
 --
 ALTER TABLE `comprobantes`
   ADD CONSTRAINT `comprobantes_ibfk_1` FOREIGN KEY (`doc_usuario`) REFERENCES `usuarios` (`doc_usuario`) ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `red_binaria`
+--
+ALTER TABLE `red_binaria`
+  ADD CONSTRAINT `red_binaria_ibfk_1` FOREIGN KEY (`usuario_red`) REFERENCES `usuarios` (`id_usuario`) ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `red_uninivel`
+--
+ALTER TABLE `red_uninivel`
+  ADD CONSTRAINT `red_uninivel_ibfk_1` FOREIGN KEY (`usuario_red`) REFERENCES `usuarios` (`id_usuario`) ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

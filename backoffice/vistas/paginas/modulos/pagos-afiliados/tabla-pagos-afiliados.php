@@ -20,10 +20,9 @@
 		    </button>
 
 			<div>
-
-			<button type='button' class='btn btn-success btn-xs btnExcelPagosAfiliados'><i class='fa fa-file-excel'> Descargar Excel</i></button>
-
+			<button type='button' class='btn btn-success btn-xs btnExcelPagosAfiliados'><i class='fa fa-file-excel'> Descargar Excel</i></button>	
 			</div>
+
 
 	</div>
 

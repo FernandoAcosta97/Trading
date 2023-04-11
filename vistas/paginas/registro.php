@@ -13,7 +13,7 @@
 					<!-- <a href="<?php echo $ruta; ?>inicio"><img src="img/logo-positivo.png" class="img-fluid px-5"></a> -->
 
 					<div class="d-flex justify-content-center">
-					<h2>SPORTBIT</h2>
+					<h2>SPORT BIT</h2>
                     </div>
 
 						<div class="d-flex justify-content-center">

@@ -392,7 +392,7 @@ REGISTRAR COMPROBANTE
 
                 <div>
 
-                  <input type="number" class="form-control" id="registrarValor" name="registrarValor" placeholder="Valor comprobante" required>
+                  <input type="number" class="form-control" id="registrarValor" name="registrarValor" placeholder="Valor comprobante" min="1000" required>
 
                 </div>
 

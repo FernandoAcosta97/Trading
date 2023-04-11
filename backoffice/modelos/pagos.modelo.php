@@ -779,7 +779,7 @@ class ModeloPagos
 
         if ($item != null && $valor !=null) {
 
-            $stmt = Conexion::conectar()->prepare("SELECT pr.estado, pr.id_campana, pr.inversiones, us.estado as us_estado FROM pagos_recurrencia as pr INNER JOIN usuarios as us ON pr.id_usuario=us.id_usuario WHERE $item = :$item AND us.eliminado=0");
+            $stmt = Conexion::conectar()->prepare("SELECT pr.id_usuario, pr.estado, pr.id_campana, pr.id_cuenta, pr.valor, pr.inversiones, us.estado as us_estado FROM pagos_recurrencia as pr INNER JOIN usuarios as us ON pr.id_usuario=us.id_usuario WHERE $item = :$item AND us.eliminado=0");
 
             $stmt->bindParam(":" . $item, $valor, PDO::PARAM_STR);
 
@@ -789,7 +789,7 @@ class ModeloPagos
 
         } else {
 
-            $stmt = Conexion::conectar()->prepare("SELECT pr.estado, pr.id_campana, pr.inversiones, us.estado as us_estado FROM pagos_recurrencia as pr INNER JOIN usuarios as us ON pr.id_usuario=us.id_usuario WHERE us.eliminado=0");
+            $stmt = Conexion::conectar()->prepare("SELECT pr.id_usuario, pr.estado, pr.id_campana, pr.id_cuenta, pr.valor, pr.inversiones, us.estado as us_estado FROM pagos_recurrencia as pr INNER JOIN usuarios as us ON pr.id_usuario=us.id_usuario WHERE us.eliminado=0");
 
             $stmt->execute();
 
@@ -844,7 +844,7 @@ class ModeloPagos
 
         if ($item != null && $valor !=null) {
 
-            $stmt = Conexion::conectar()->prepare("SELECT pr.id, pr.id_usuario, pr.estado, pr.id_campana, pr.inversiones, us.estado as us_estado FROM pagos_recurrencia as pr INNER JOIN usuarios as us ON pr.id_usuario=us.id_usuario WHERE pr.$item = :$item AND us.eliminado=0");
+            $stmt = Conexion::conectar()->prepare("SELECT pr.id, pr.id_usuario, pr.id_cuenta, pr.estado, pr.valor, pr.fecha,pr.id_campana, pr.inversiones, us.estado as us_estado FROM pagos_recurrencia as pr INNER JOIN usuarios as us ON pr.id_usuario=us.id_usuario WHERE pr.$item = :$item AND us.eliminado=0");
 
             $stmt->bindParam(":" . $item, $valor, PDO::PARAM_INT);
 
@@ -854,7 +854,7 @@ class ModeloPagos
 
         } else {
 
-            $stmt = Conexion::conectar()->prepare("SELECT pr.id, pr.id_usuario, pr.estado, pr.id_campana, pr.inversiones, us.estado as us_estado FROM pagos_recurrencia as pr INNER JOIN usuarios as us ON pr.id_usuario=us.id_usuario WHERE pr.$item = :$item AND us.eliminado=0");
+            $stmt = Conexion::conectar()->prepare("SELECT pr.id, pr.id_usuario, pr.id_cuenta, pr.estado, pr.valor, pr.fecha, pr.id_campana, pr.inversiones, us.estado as us_estado FROM pagos_recurrencia as pr INNER JOIN usuarios as us ON pr.id_usuario=us.id_usuario WHERE pr.$item = :$item AND us.eliminado=0");
 
             $stmt->execute();
 
@@ -1518,10 +1518,11 @@ class ModeloPagos
     public static function mdlActualizarPagoInversion($tabla, $datos)
     {
 
-        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET estado = :estado, id_cuenta = :id_cuenta WHERE id = :id");
+        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET estado = :estado, id_cuenta = :id_cuenta, fecha = :fecha WHERE id = :id");
 
         $stmt->bindParam(":estado", $datos["estado"], PDO::PARAM_INT);
         $stmt->bindParam(":id_cuenta", $datos["id_cuenta"], PDO::PARAM_INT);
+        $stmt->bindParam(":fecha", $datos["fecha"], PDO::PARAM_STR);
         $stmt->bindParam(":id", $datos["id"], PDO::PARAM_INT);
 
         if ($stmt->execute()) {
@@ -1546,11 +1547,12 @@ class ModeloPagos
     public static function mdlActualizarPagoRecurrencia($tabla, $datos)
     {
 
-        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET estado = :estado, valor = :valor, id_cuenta = :id_cuenta WHERE id = :id");
+        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET estado = :estado, valor = :valor, id_cuenta = :id_cuenta, fecha = :fecha WHERE id = :id");
 
         $stmt->bindParam(":estado", $datos["estado"], PDO::PARAM_INT);
         $stmt->bindParam(":valor", $datos["total"], PDO::PARAM_INT);
         $stmt->bindParam(":id_cuenta", $datos["id_cuenta"], PDO::PARAM_INT);
+        $stmt->bindParam(":fecha", $datos["fecha"], PDO::PARAM_STR);
         $stmt->bindParam(":id", $datos["id"], PDO::PARAM_INT);
 
         if ($stmt->execute()) {
@@ -1575,11 +1577,12 @@ class ModeloPagos
     public static function mdlActualizarPagoRecurrenciaAfiliados($tabla, $datos)
     {
 
-        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET estado = :estado, valor = :valor, id_cuenta = :id_cuenta WHERE id = :id");
+        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET estado = :estado, valor = :valor, id_cuenta, fecha = :fecha  = :id_cuenta WHERE id = :id");
 
         $stmt->bindParam(":estado", $datos["estado"], PDO::PARAM_INT);
         $stmt->bindParam(":valor", $datos["total"], PDO::PARAM_INT);
         $stmt->bindParam(":id_cuenta", $datos["id_cuenta"], PDO::PARAM_INT);
+        $stmt->bindParam(":fecha", $datos["fecha"], PDO::PARAM_STR);
         $stmt->bindParam(":id", $datos["id"], PDO::PARAM_INT);
 
         if ($stmt->execute()) {
@@ -1659,11 +1662,12 @@ class ModeloPagos
     public static function mdlActualizarPagoPublicidad($tabla, $datos)
     {
 
-        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET estado = :estado, valor = :valor, id_cuenta = :id_cuenta WHERE id = :id");
+        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET estado = :estado, valor = :valor, id_cuenta = :id_cuenta, fecha = :fecha WHERE id = :id");
 
         $stmt->bindParam(":estado", $datos["estado"], PDO::PARAM_INT);
         $stmt->bindParam(":valor", $datos["valor"], PDO::PARAM_STR);
         $stmt->bindParam(":id_cuenta", $datos["id_cuenta"], PDO::PARAM_INT);
+        $stmt->bindParam(":fecha", $datos["fecha"], PDO::PARAM_STR);
         $stmt->bindParam(":id", $datos["id"], PDO::PARAM_INT);
 
         if ($stmt->execute()) {
@@ -1712,11 +1716,12 @@ class ModeloPagos
 
     public static function mdlActualizarPagoComision($tabla, $datos)
     {
-        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET estado = :estado, valor = :valor, id_cuenta = :id_cuenta WHERE id = :id");
+        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET estado = :estado, valor = :valor, id_cuenta = :id_cuenta, fecha = :fecha WHERE id = :id");
 
         $stmt->bindParam(":estado", $datos["estado"], PDO::PARAM_INT);
         $stmt->bindParam(":valor", $datos["valor"], PDO::PARAM_INT);
         $stmt->bindParam(":id_cuenta", $datos["id_cuenta"], PDO::PARAM_INT);
+        $stmt->bindParam(":fecha", $datos["fecha"], PDO::PARAM_STR);
         $stmt->bindParam(":id", $datos["id"], PDO::PARAM_INT);
 
         if ($stmt->execute()) {
@@ -1740,11 +1745,12 @@ class ModeloPagos
     public static function mdlActualizarPagoBienvenida($tabla, $datos)
     {
 
-        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET estado = :estado, valor = :valor, id_cuenta = :id_cuenta WHERE id = :id");
+        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET estado = :estado, valor = :valor, id_cuenta = :id_cuenta, fecha = :fecha WHERE id = :id");
 
         $stmt->bindParam(":estado", $datos["estado"], PDO::PARAM_INT);
         $stmt->bindParam(":valor", $datos["valor"], PDO::PARAM_INT);
         $stmt->bindParam(":id_cuenta", $datos["id_cuenta"], PDO::PARAM_INT);
+        $stmt->bindParam(":fecha", $datos["fecha"], PDO::PARAM_STR);
         $stmt->bindParam(":id", $datos["id"], PDO::PARAM_INT);
 
         if ($stmt->execute()) {
@@ -1797,29 +1803,32 @@ class ModeloPagos
 
         if($datos["tipoPago"]=="comisiones" || $datos["tipoPago"]=="publicidad" ){
 
-        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET valor = :valor, estado = :estado, id_cuenta = :id_cuenta WHERE id = :id");
+        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET valor = :valor, estado = :estado, id_cuenta = :id_cuenta, fecha = :fecha WHERE id = :id");
 
         $stmt->bindParam(":valor", $datos["valor"], PDO::PARAM_INT);
         $stmt->bindParam(":estado", $datos["estado"], PDO::PARAM_INT);
         $stmt->bindParam(":id_cuenta", $datos["id_cuenta"], PDO::PARAM_INT);
+        $stmt->bindParam(":fecha", $datos["fecha"], PDO::PARAM_STR);
         $stmt->bindParam(":id", $datos["id"], PDO::PARAM_INT);
 
         }else if($datos["tipoPago"]=="inversiones"){
 
-        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET estado = :estado, id_cuenta = :id_cuenta WHERE id = :id");
+        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET estado = :estado, id_cuenta = :id_cuenta, fecha = :fecha WHERE id = :id");
 
         $stmt->bindParam(":estado", $datos["estado"], PDO::PARAM_INT);
         $stmt->bindParam(":id_cuenta", $datos["id_cuenta"], PDO::PARAM_INT);
+        $stmt->bindParam(":fecha", $datos["fecha"], PDO::PARAM_STR);
         $stmt->bindParam(":id", $datos["id"], PDO::PARAM_INT);
 
      }else if($datos["tipoPago"]=="bonos"){
 
-        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET valor = :valor, estado = :estado, referidos_obtenidos = :referidos_obtenidos, id_cuenta = :id_cuenta WHERE id = :id");
+        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET valor = :valor, estado = :estado, referidos_obtenidos = :referidos_obtenidos, id_cuenta, fecha = :fecha = :id_cuenta WHERE id = :id");
 
         $stmt->bindParam(":valor", $datos["valor"], PDO::PARAM_INT);
         $stmt->bindParam(":estado", $datos["estado"], PDO::PARAM_INT);
         $stmt->bindParam(":referidos_obtenidos", $datos["referidos_obtenidos"], PDO::PARAM_INT);
         $stmt->bindParam(":id_cuenta", $datos["id_cuenta"], PDO::PARAM_INT);
+        $stmt->bindParam(":fecha", $datos["fecha"], PDO::PARAM_STR);
         $stmt->bindParam(":id", $datos["id"], PDO::PARAM_INT);
 
      }
@@ -1845,12 +1854,13 @@ class ModeloPagos
     public static function mdlActualizarPagoExtra($tabla, $datos)
     {
 
-        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET estado = :estado, valor = :valor, referidos_obtenidos = :referidos_obtenidos, id_cuenta = :id_cuenta WHERE id = :id");
+        $stmt = Conexion::conectar()->prepare("UPDATE $tabla SET estado = :estado, valor = :valor, referidos_obtenidos = :referidos_obtenidos, id_cuenta = :id_cuenta, fecha = :fecha WHERE id = :id");
 
         $stmt->bindParam(":estado", $datos["estado"], PDO::PARAM_INT);
         $stmt->bindParam(":valor", $datos["valor"], PDO::PARAM_INT);
         $stmt->bindParam(":referidos_obtenidos", $datos["referidos_obtenidos"], PDO::PARAM_INT);
         $stmt->bindParam(":id_cuenta", $datos["id_cuenta"], PDO::PARAM_INT);
+        $stmt->bindParam(":fecha", $datos["fecha"], PDO::PARAM_STR);
         $stmt->bindParam(":id", $datos["id"], PDO::PARAM_INT);
 
         if ($stmt->execute()) {

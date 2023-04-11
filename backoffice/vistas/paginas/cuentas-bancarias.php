@@ -46,7 +46,14 @@ $cuentas = ControladorCuentas::ctrMostrarCuentasAll($item, $valor);
 
         <h3 class="card-title">Cuentas bancarias registradas</h3>
 
+        <?php 
+			if($usuario["perfil"]=="admin"):?>
+
         <button type='button' class='btn btn-success btn-xs btnExcelCuentas'><i class='fa fa-file-excel'> Descargar Excel</i></button>
+
+        <?php
+			endif
+			?>
 
         <?php if($usuario["perfil"]!="admin" && !$cuentas):?>
 

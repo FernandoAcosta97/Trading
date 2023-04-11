@@ -56,9 +56,13 @@ class AjaxPagos{
 
 		$id_cuenta = $cuenta["id"];
 
+		date_default_timezone_set('America/Bogota');
+		$fecha_actual = date('Y-m-d H:i:s');
+
 		$datos = array("id" => $id,
 		"estado" => $estado,
-		"id_cuenta" => $cuenta["id"]);
+		"id_cuenta" => $cuenta["id"],
+	    "fecha" => $fecha_actual);
 
 		return $respuesta = ControladorPagos::ctrActualizarPagoInversion($datos);
 
@@ -84,8 +88,6 @@ class AjaxPagos{
 
 		$pago = ControladorPagos::ctrMostrarPagosRecurrencia("id", $id);
 
-		
-
 		if($pago["estado"]==0){
 
 		$usuario = ControladorUsuarios::ctrMostrarUsuarios("id_usuario", $pago["id_usuario"]);
@@ -107,10 +109,14 @@ class AjaxPagos{
 			}
 		}
 
+		date_default_timezone_set('America/Bogota');
+		$fecha_actual = date('Y-m-d H:i:s');
+
 		$datos = array("id" => $id,
 		"estado" => $estado,
 		"id_cuenta" => $cuenta["id"],
-	    "total" => $total);
+	    "total" => $total,
+	    "fecha" => $fecha_actual);
 
 		return $respuesta = ControladorPagos::ctrActualizarPagoRecurrencia($datos);
 
@@ -158,10 +164,14 @@ class AjaxPagos{
 			}
 		}
 
+		date_default_timezone_set('America/Bogota');
+		$fecha_actual = date('Y-m-d H:i:s');
+
 		$datos = array("id" => $id,
 		"estado" => $estado,
 		"id_cuenta" => $cuenta["id"],
-	    "total" => $total);
+	    "total" => $total,
+	    "fecha" => $fecha_actual);
 
 		return $respuesta = ControladorPagos::ctrActualizarPagoRecurrenciaAfiliados($datos);
 
@@ -201,10 +211,14 @@ class AjaxPagos{
 
 		$total=$campana["retorno"];
 
+		date_default_timezone_set('America/Bogota');
+		$fecha_actual = date('Y-m-d H:i:s');
+
 		$datos = array("id" => $id,
 		"estado" => $estado,
 		"valor" => $total,
-		"id_cuenta" => $cuenta["id"]);
+		"id_cuenta" => $cuenta["id"],
+	    "fecha" => $fecha_actual);
 
 		return $respuesta = ControladorPagos::ctrActualizarPagoPublicidad($datos);
 
@@ -262,10 +276,14 @@ class AjaxPagos{
 			$total=$total+$ganancia;
 		}
 
+		date_default_timezone_set('America/Bogota');
+		$fecha_actual = date('Y-m-d H:i:s');
+
 		$datos = array("id" => $id,
 	                   "estado" => $estado,
 					   "valor" => $total,
-					   "id_cuenta" => $cuenta["id"]);
+					   "id_cuenta" => $cuenta["id"],
+					   "fecha" => $fecha_actual);
 
 		return $respuesta = ControladorPagos::ctrActualizarPagoComision($datos);
 
@@ -301,10 +319,14 @@ class AjaxPagos{
 
 		$id_cuenta = $cuenta["id"];
 
+		date_default_timezone_set('America/Bogota');
+		$fecha_actual = date('Y-m-d H:i:s');
+
 		$datos = array("id" => $id,
 		"estado" => $estado,
 		"valor" => $valor,
-		"id_cuenta" => $cuenta["id"]);
+		"id_cuenta" => $cuenta["id"],
+	    "fecha" => $fecha_actual);
 
 		return $respuesta = ControladorPagos::ctrActualizarPagoBienvenida($datos);
 
@@ -329,6 +351,9 @@ class AjaxPagos{
 		$tipoPago=$this->tipoPago;
 		$total = 0;
 		$referidos_obtenidos = 0;
+
+		date_default_timezone_set('America/Bogota');
+		$fecha_actual = date('Y-m-d H:i:s');
 
 		$arrayPagos = explode(",", $this->idsPagos);
 
@@ -407,7 +432,8 @@ class AjaxPagos{
 						   "valor" => $total,
 						   "id_cuenta" => $cuenta["id"],
 						   "tipoPago" => $tipoPago,
-						   "referidos_obtenidos" => $referidos_obtenidos);
+						   "referidos_obtenidos" => $referidos_obtenidos,
+						   "fecha" => $fecha_actual);
 
 			$respuesta = ControladorPagos::ctrActualizarPagos($datos);
 			$total=0;
@@ -453,11 +479,15 @@ class AjaxPagos{
 
 			$cuenta = ControladorCuentas::ctrMostrarCuentasxEstado("usuario",$id_usuario,"estado",1);
 
+			date_default_timezone_set('America/Bogota');
+			$fecha_actual = date('Y-m-d H:i:s');
+
 		$datos = array("id" => $id,
 		"estado" => $estado,
 		"valor" => $total,
 		"id_cuenta" => $cuenta["id"],
-		"referidos_obtenidos" => $referidos_obtenidos);
+		"referidos_obtenidos" => $referidos_obtenidos,
+	    "fecha" => $fecha_actual);
 
 		return $respuesta = ControladorPagos::ctrActualizarPagoExtra($datos);
 
